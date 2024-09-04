@@ -1,0 +1,3318 @@
+openapi: 3.0.3
+info:
+  title: E-com-v2 - OpenAPI 3.0
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: https://github.com/DavyHaYehoudi/e-com-v2
+servers:
+  - url: http://localhost:5555/api/v1
+tags:
+  - name: auth
+  - name: customer
+  - name: order
+  - name: order-item
+  - name: product
+  - name: collection
+  - name: category
+  - name: tag
+  - name: gift-card
+  - name: promotion
+  - name: code-promo
+  - name: review
+  - name: cash-back
+  - name: delivery
+paths:
+  /auth/open-session:
+    post:
+      tags:
+        - auth
+      summary: Open a session
+      description: The user provides his email to log in. The API returns a secret OTP (One Time Password) to this email that the user must return.
+      requestBody:
+        description: Provide the email to which you want to receive the authentication OTP.
+        content:
+          application/json:
+            schema:
+                required:
+                  - email
+                type: object
+                properties:
+                  email:
+                    type: string
+                    example: john@example.com
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+  /auth/send-verify-otp:
+    post:
+      tags:
+        - auth
+      summary: OTP verification
+      description: The user returns the secret OTP (One Time Password) received by email. If the verification is done, a token is returned.
+      requestBody:
+        description: Provide the secret OTP
+        content:
+          application/json:
+            schema:
+                required:
+                  - email
+                  - otp
+                type: object
+                properties:
+                  email:
+                    type: string
+                    example: john@example.com
+                  otp:
+                    type: string
+                    example: 710933
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: The secret OTP provided is invalid.
+  /customer/{customerId}/profile:
+    get:
+      tags:
+        - customer
+      summary: Show the profile customer.
+      description: Show the profile customer.
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: '#/components/schemas/CustomerProfileGET'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+        '404':
+          description: Not found - The customer doesn't exist.
+      security:
+        - api_key: []
+    patch:
+      tags:
+        - customer
+      summary: Update an existent profile customer.
+      description: Update an existent profile customer.
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: '#/components/schemas/CustomerProfilePATCH'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+        '404':
+          description: Not found - The customer doesn't exist.
+      security:
+        - api_key: []
+  /customer/{customerId}/profile/avatar:
+    get:
+      tags:
+        - customer
+      summary: Show the avatar customer.
+      description: Show the avatar customer.
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: '#/components/schemas/CustomerProfileAvatarGET'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+        '404':
+          description: Not found - The customer doesn't exist.
+      security:
+        - api_key: []
+    put:
+      tags:
+        - customer
+      summary: Update an existent profile customer.
+      description: Update an existent profile customer.
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: '#/components/schemas/CustomerProfileAvatarPUT'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+        '404':
+          description: Not found - The customer doesn't exist.
+      security:
+        - api_key: []
+  /customer/{customerId}/cart:
+    get:
+      tags:
+        - customer
+      summary: Show the cart customer.
+      description: Show the cart customer.
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: '#/components/schemas/CustomerCartGET'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+        '404':
+          description: Not found - The customer doesn't exist.
+      security:
+        - api_key: []
+    patch:
+      tags:
+        - customer
+      summary: Update an existent cart customer.
+      description: Update an existent cart customer.
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: '#/components/schemas/CustomerCartPATCH'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+        '404':
+          description: Not found - The customer doesn't exist.
+      security:
+        - api_key: []
+  /customer/{customerId}/wishlist:
+    get:
+      tags:
+        - customer
+      summary: Show the wishlist customer.
+      description: Show the wishlist customer.
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: '#/components/schemas/CustomerWishlistGET'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+        '404':
+          description: Not found - The customer doesn't exist.
+      security:
+        - api_key: []
+    patch:
+      tags:
+        - customer
+      summary: Update an existent wishlist customer.
+      description: Update an existent wishlist customer.
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: '#/components/schemas/CustomerWishlistPATCH'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+        '404':
+          description: Not found - The customer doesn't exist.
+      security:
+        - api_key: []
+  /customer/{customerId}/addresses:
+    get:
+      tags:
+        - customer
+      summary: Show the shipping/billing address customer.
+      description: Show the shipping/billing address customer.
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer.
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: type
+          in: query
+          description: shipping or billing.
+          required: true
+          schema:
+            type: string
+            example: shipping
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: '#/components/schemas/CustomerAddressGET'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+        '404':
+          description: Not found - The customer or the query type doesn't exist.
+      security:
+        - api_key: []
+    post:
+      tags:
+        - customer
+      summary: Add a shipping/billing address customer.
+      description: Add a shipping/billing address customer.
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer.
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: type
+          in: query
+          description: shipping or billing.
+          required: true
+          schema:
+            type: string
+            example: billing
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerAddressPOST'      
+        '401':
+          description: Unauthorized - Customer is not authenticated
+        '404':
+          description: Not found - The customer or the query type doesn't exist.
+      security:
+        - api_key: []
+    patch:
+      tags:
+        - customer
+      summary: Update an existent shipping/billing address customer.
+      description: Update an existent shipping/billing address customer.
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer.
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: type
+          in: query
+          description: shipping or billing.
+          required: true
+          schema:
+            type: string
+            example: billing
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: '#/components/schemas/CustomerAddressPATCH'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+        '404':
+          description: Not found - The customer or the query type doesn't exist.
+      security:
+        - api_key: []
+  /admin/customers:
+    get:
+      tags:
+        - customer
+      summary: Finds all customers.
+      description: Finds all customers.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerAllAdminGET'       
+        '403':
+          description: Unauthorized - Admin is not authenticated
+      security:
+        - api_key: []
+  /admin/customers/{customerId}:
+    get:
+      tags:
+        - customer
+      summary: Finds one customer.
+      description: Finds one customer.
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/CustomerOneAdminGET'       
+        '403':
+          description: Unauthorized - Admin is not authenticated
+      security:
+        - api_key: []
+    patch:
+      tags:
+        - customer
+      summary: Update an existing customer.
+      description: Update an existing customer.
+      parameters:
+        - name: customerId
+          in: path
+          description: ID of the customer to update.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: update an existent customer in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerOneAdminPATCH'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The customer doesn't exist.
+      security:
+        - api_key: []
+  /orders:
+    get:
+      tags:
+        - order
+      summary: Finds all customer orders.
+      description: Finds all customer orders.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderAllCustomerGET'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
+    post:
+      tags:
+        - order
+      summary: Purchase an order.
+      description: Purchase an order.
+      requestBody:
+        description: Create a new order in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderPOST'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderOneCustomerGET'          
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
+  /orders/{orderId}:
+    get:
+      tags:
+        - order
+      summary: Show the customer order.
+      description: Show the customer order.
+      parameters:
+        - name:  orderId
+          in: path
+          description: Id of the order.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: '#/components/schemas/OrderOneCustomerGET'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
+  /orders/{orderId}/tracking:
+    get:
+      tags:
+        - order
+      summary: Finds all tracking for one order.
+      description: Finds all tracking for one order.
+      parameters:
+        - name: orderId
+          in: path
+          description: Id of the order.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderTrackingGET'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
+    post:
+      tags:
+        - order
+      summary: Create a tracking.
+      description: Create a tracking.
+      parameters:
+        - name: orderId
+          in: path
+          description: Id of the order.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Create a new tracking in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderTrackingPOST'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderTrackingGET'          
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
+  /orders/{orderId}/messages:
+    get:
+      tags:
+        - order
+      summary: Finds all messages for one order.
+      description: Finds all messages for one order.
+      parameters:
+        - name: orderId
+          in: path
+          description: Id of the order.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderMessageGET'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
+    post:
+      tags:
+        - order
+      summary: Add a message.
+      description: Add a message.
+      parameters:
+        - name: orderId
+          in: path
+          description: Id of the order.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Create a new message in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderMessagePOST'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderMessageGET'          
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
+  /orders/{orderId}/messages/{messageId}:
+    patch:
+      tags:
+        - order
+      summary: Update an existing message.
+      description: Update an existing message by id.
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of order that contains the message.
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: messageId
+          in: path
+          description: ID of message that needs to be updated.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: update an existent message in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderMessagePATCH'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - order
+      summary: Delete a message.
+      description: Delete a message.
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of order that contains the message.
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: messageId
+          in: path
+          description: ID of message that needs to be updated.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Successful operation
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
+  /admin/orders:
+    get:
+      tags:
+        - order
+      summary: Finds all orders.
+      description: Finds all orders.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderAllAdminGET'       
+        '403':
+          description: Unauthorized - Admin is not authenticated
+      security:
+        - api_key: []
+  /admin/orders/{orderId}:
+    get:
+      tags:
+        - order
+      summary: Show the customer order.
+      description: Show the customer order.
+      parameters:
+        - name:  orderId
+          in: path
+          description: Id of the order.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: '#/components/schemas/OrderOneAdminGET'       
+        '403':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
+    patch:
+      tags:
+        - order
+      summary: Update an existing order.
+      description: Update an existing order by id.
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of order that needs to be updated.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: update an existent order in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderAdminPATCH'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The order doesn't exist.
+      security:
+        - api_key: []
+  /admin/{orderId}/order-item:
+    get:
+      tags:
+        - order-item
+      summary: Finds all order-item from one order.
+      description: Finds all order-item from one order.
+      parameters:
+        - name: orderId
+          in: path
+          description: Id of the order-item.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderItemGET'       
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The order doesn't exist.
+      security:
+        - api_key: []
+  /admin/{orderId}/order-item/{orderItemId}:
+    patch:
+      tags:
+        - order-item
+      summary: Update an existent order-item.
+      description: Update an existent order-item.
+      parameters:
+        - name: orderId
+          in: path
+          description: Id of the order.
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: orderItemId
+          in: path
+          description: Id of the order-item.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: '#/components/schemas/OrderItemPATCH'       
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The order or the order-item doesn't exist.
+      security:
+        - api_key: []
+  /products:
+    get:
+      tags:
+        - product
+      summary: Finds all products.
+      description: Finds all products.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductAllGET' 
+  /products/{productId}:
+    get:
+      tags:
+        - product
+      summary: Finds one product.
+      description: Finds one product.
+      parameters:
+        - name: productId
+          in: path
+          description: Id of the product.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/ProductOneGET' 
+  /admin/products:
+    post:
+      tags:
+        - product
+      summary: Add a new product.
+      description: Add a new product.
+      requestBody:
+        description: Create a new product in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductPOST'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductOneGET'          
+        '403':
+          description: Unauthorized - Admin is not authenticated
+      security:
+        - api_key: []
+  /admin/products/{productId}:
+    patch:
+      tags:
+        - product
+      summary: Update an existing product.
+      description: Update an existing product by id.
+      parameters:
+        - name: productId
+          in: path
+          description: ID of product that needs to be updated.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: update an existent product in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductPATCH'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The product doesn't exist.
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - product
+      summary: Delete a product.
+      description: Delete a product.
+      parameters:
+        - name: productId
+          in: path
+          description: product id to delete.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The product doesn't exist.
+      security:
+        - api_key: []
+  /collections:
+    get:
+      tags:
+        - collection
+      summary: Finds all collections.
+      description: Finds all collections.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CollectionGET'          
+  /admin/collections:
+    post:
+      tags:
+        - collection
+      summary: Add a new collection.
+      description: Add a new collection. The label must be unique.
+      requestBody:
+        description: Create a new collection in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionPOST'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionGET'          
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '409':
+          description: Conflict - The label is not unique.
+      security:
+        - api_key: []
+  /admin/collections/{collectionId}:
+    patch:
+      tags:
+        - collection
+      summary: Update an existing collection.
+      description: Update an existing collection by id.
+      parameters:
+        - name: collectionId
+          in: path
+          description: ID of collection that needs to be updated.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: update an existent collection in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionPATCH'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The collection doesn't exist.
+        '409':
+          description: Conflict - The label is not unique.
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - collection
+      summary: Delete a collection.
+      description: Delete a collection.
+      parameters:
+        - name: collectionId
+          in: path
+          description: Collection id to delete.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The collection doesn't exist.
+      security:
+        - api_key: []
+  /categories:
+    get:
+      tags:
+        - category
+      summary: Finds all categories.
+      description: Finds all categories.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CategoryGET'          
+  /admin/categories:
+    post:
+      tags:
+        - category
+      summary: Add a new category.
+      description: Add a new category. The label must be unique. A category must be attached to a parent collection.
+      requestBody:
+        description: Create a new category in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryPOST'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryGET'          
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '409':
+          description: Conflict - The label is not unique.
+      security:
+        - api_key: []
+  /admin/categories/{categoryId}:
+    patch:
+      tags:
+        - category
+      summary: Update an existing category.
+      description: Update an existing category by id.
+      parameters:
+        - name: categoryId
+          in: path
+          description: ID of category that needs to be updated.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: update an existent category in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryPATCH'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The category doesn't exist.
+        '409':
+          description: Conflict - The label is not unique.
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - category
+      summary: Delete a category.
+      description: Delete a category.
+      parameters:
+        - name: categoryId
+          in: path
+          description: Category id to delete.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The category doesn't exist.
+      security:
+        - api_key: []
+  /tags:
+    get:
+      tags:
+        - tag
+      summary: Finds all tag.
+      description: Finds all tags.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TagGET'          
+  /admin/tags:
+    post:
+      tags:
+        - tag
+      summary: Add a new tag.
+      description: Add a new tag. The label must be unique.
+      requestBody:
+        description: Create a new tag in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagPOST'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagGET'          
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '409':
+          description: Conflict - The label is not unique.
+      security:
+        - api_key: []
+  /admin/tags/{tagId}:
+    delete:
+      tags:
+        - tag
+      summary: Delete a tag.
+      description: Delete a tag.
+      parameters:
+        - name: tagId
+          in: path
+          description: Tag id to delete.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The tag doesn't exist.
+      security:
+        - api_key: []
+  /gift-cards:
+    get:
+      tags:
+        - gift-card
+      summary: Finds all customer gift-cards.
+      description: Finds all customer gift-cards.
+      parameters:
+        - name: customerId
+          in: query
+          description: customerId
+          required: true
+          schema:
+            type: string
+            example: 098752345
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GiftCardGET'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+        '404':
+          description: Not found - The customer doesn't exist.
+      security:
+        - api_key: []
+  /admin/gift-cards:
+    get:
+      tags:
+        - gift-card
+      summary: Finds all customers gift-cards.
+      description: Finds all customers gift-cards.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GiftCardGET'       
+        '403':
+          description: Unauthorized - Admin is not authenticated
+      security:
+        - api_key: []
+    post:
+      tags:
+        - gift-card
+      summary: Offer a gift card to a customer.
+      description: Offer a gift card to a customer.
+      requestBody:
+        description: Create a new gift-card in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GiftCardPOST'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GiftCardAdminGET'          
+        '403':
+          description: Unauthorized - Admin is not authenticated
+      security:
+        - api_key: []
+  /admin/gift-cards/{giftCardId}:
+    delete:
+      tags:
+        - gift-card
+      summary: Delete a gift-card.
+      description: Delete a gift-card.
+      parameters:
+        - name: giftCardId
+          in: path
+          description: Giftcard id to delete.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The gift card doesn't exist.
+      security:
+        - api_key: []
+  /admin/gift-cards/{giftCardId}/usages:
+    get:
+      tags:
+        - gift-card
+      summary: Show all uses of a customer's gift card.
+      description: Show all uses of a customer's gift card.
+      parameters:
+        - name: giftCardId
+          in: path
+          description: giftCardId
+          required: true
+          schema:
+            type: string
+            example: 092837452
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GiftCardUsageGET'       
+        '403':
+          description: Unauthorized - Admin is not authenticated
+      security:
+        - api_key: []
+  /gift-cards/{giftCardId}/usages:
+    get:
+      tags:
+        - gift-card
+      summary: Show all uses of a customer's gift card.
+      description: Show all uses of a customer's gift card.
+      parameters:
+        - name: giftCardId
+          in: path
+          description: giftCardId
+          required: true
+          schema:
+            type: string
+            example: 092837452
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GiftCardUsageGET'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
+  /promotions:
+    get:
+      tags:
+        - promotion
+      summary: Finds all promotions.
+      description: Finds all promotions.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PromotionGET'          
+  /admin/promotions:
+    post:
+      tags:
+        - promotion
+      summary: Add a new promotion.
+      description: Add a new promotion.
+      requestBody:
+        description: Create a new promotion in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PromotionPOST'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromotionGET'          
+        '403':
+          description: Unauthorized - Admin is not authenticated
+      security:
+        - api_key: []
+  /admin/promotions/{promotionId}:
+    patch:
+      tags:
+        - promotion
+      summary: Update an existing promotion.
+      description: Update an existing promotion by id.
+      parameters:
+        - name: promotionId
+          in: path
+          description: ID of promotion that needs to be updated.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: update an existent promotion in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PromotionPATCH'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The promotion doesn't exist.
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - promotion
+      summary: Delete a promotion.
+      description: Delete a promotion.
+      parameters:
+        - name: promotionId
+          in: path
+          description: Tag id to promotion.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The promotion doesn't exist.
+      security:
+        - api_key: []
+  /code-promos/verify-code:
+    get:
+      tags:
+        - code-promo
+      summary: Check the code.
+      description: This route checks one promotional code. If the code is verified then the reduction on the total price of the cart applies with the percentage returned by the API.
+      parameters:
+        - name: code
+          in: query
+          description: code promo
+          required: true
+          schema:
+            type: string
+            example: Bonjour-15
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: The code promo provided is invalid.
+  /admin/code-promos:
+    get:
+      tags:
+        - code-promo
+      summary: Finds all code-promos.
+      description: Finds all code-promos.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CodePromo'          
+        '403':
+          description: Unauthorized - Admin is not authenticated
+      security:
+        - api_key: []
+    post:
+      tags:
+        - code-promo
+      summary: Add a new code-promo.
+      description: Add a new code-promo. The code must be unique.
+      requestBody:
+        description: Create a new code-promo in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CodePromo'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CodePromo'          
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '409':
+          description: Conflict - The code is not unique.
+      security:
+        - api_key: []
+  /admin/code-promos/{codePromoId}:
+    delete:
+      tags:
+        - code-promo
+      summary: Delete a code-promo.
+      description: Delete a code-promo.
+      parameters:
+        - name: codePromoId
+          in: path
+          description: Code-promo id to delete.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The code promo doesn't exist.
+      security:
+        - api_key: []
+  /review:
+    get:
+      tags:
+        - review
+      summary: Finds all reviews.
+      description: Finds all reviews.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReviewGET'      
+  /reviews:
+    post:
+      tags:
+        - review
+      summary: Add a new review.
+      description: Add a new review.
+      parameters:
+        - name: customerId
+          in: query
+          description: ID of customer who wants to create a review.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Create a new review in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewPOST'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewGETbeforeValidation'          
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
+  /reviews/{reviewId}:
+    get:
+      tags:
+        - review
+      summary: Show the customer review.
+      description: Show the customer review.
+      parameters:
+        - name: reviewId
+          in: path
+          description: Id of the review written by the customer.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: '#/components/schemas/ReviewGET'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+        '404':
+          description: Not found - The review doesn't exist.
+      security:
+        - api_key: []
+    patch:
+      tags:
+        - review
+      summary: Update an existent customer review.
+      description: Update an existent customer review.
+      parameters:
+        - name: customerId
+          in: query
+          description: Id of the customer who wrote the review.
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: reviewId
+          in: path
+          description: Id of the review written by the customer.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: '#/components/schemas/ReviewPATCH'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+        '404':
+          description: Not found - The customer or the review doesn't exist.
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - review
+      summary: Delete a customer review.
+      description: Delete a customer review.
+      parameters:
+        - name: customerId
+          in: query
+          description: Id of the customer who wrote the review.
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: reviewId
+          in: path
+          description: Id of the review written by the customer.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: successful operation
+        '401':
+          description: Unauthorized - Customer is not authenticated
+        '404':
+          description: Not found - The customer or the review doesn't exist.
+      security:
+        - api_key: []
+  /admin/reviews/{reviewId}:
+    patch:
+      tags:
+        - review
+      summary: Validate an existing review.
+      description: Validate an existing review by id.
+      parameters:
+        - name: reviewId
+          in: path
+          description: ID of the review to validate.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: validate an existent review in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewAdminPATCH'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The review doesn't exist.
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - review
+      summary: Delete a customer review.
+      description: Delete a customer review.
+      parameters:
+        - name: reviewId
+          in: path
+          description: Id of the review written by the customer.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: successful operation
+        '401':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The review doesn't exist.
+      security:
+        - api_key: []
+  /cash-back-history:
+    get:
+      tags:
+        - cash-back
+      summary: Show the customer cash back.
+      description: Show the customer cash back.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CashBackGET'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
+  /admin/cash-back/{customerId}:
+    patch:
+      tags:
+        - cash-back
+      summary: Credit or debit a customer's cashback account.
+      description: Credit or debit a customer's cashback account by id.
+      parameters:
+        - name: customerId
+          in: path
+          description: ID of customer to whom the cash back belong needs to be updated.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: update an existent cash back in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CashBackAdminPATCH'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The customer doesn't exist.
+      security:
+        - api_key: []
+  /deliveries:
+    get:
+      tags:
+        - delivery
+      summary: Show all delivery services.
+      description: Show all delivery services.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeliveryGET'  
+  /admin/deliveries:
+    post:
+      tags:
+        - delivery
+      summary: Add a new delivery.
+      description: Add a new delivery.
+      requestBody:
+        description: Create a new delivery in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeliveryPOST'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryGET'          
+        '403':
+          description: Unauthorized - Admin is not authenticated
+      security:
+        - api_key: []
+  /admin/deliveries/{deliveryId}:
+    patch:
+      tags:
+        - delivery
+      summary: Update an existing delivery.
+      description: Update an existing delivery by id.
+      parameters:
+        - name: deliveryId
+          in: path
+          description: ID of delivery that needs to be updated.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: update an existent delivery in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeliveryPATCH'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The delivery doesn't exist.
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - delivery
+      summary: Delete a delivery.
+      description: Delete a delivery.
+      parameters:
+        - name: deliveryId
+          in: path
+          description: Delivery id to delivery.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The delivery doesn't exist.
+      security:
+        - api_key: []
+
+components:
+  schemas:
+    CustomerProfileGET:
+      type: object
+      properties:
+        role:
+          type: string
+          example: customer
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Doe
+        email:
+          type: string
+          example: john-doe@example.com
+        phone:
+          type: string
+          example: 006897654891
+        email_marketing_consent:
+          type: boolean
+          example: true
+        birthday:
+          type: string
+          example: 25-09-2001
+        orders_count:
+          type: integer
+          example: 4
+        is_active:
+          type: boolean
+          example: true
+    CustomerProfilePATCH:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: other firstname
+        last_name:
+          type: string
+          example: other lastname
+        email:
+          type: string
+          example: other-email@example.com
+        phone:
+          type: string
+          example: 006897654891
+        email_marketing_consent:
+          type: boolean
+          example: false
+        birthday:
+          type: string
+          example: 01-01-1998
+    CustomerProfileAvatarGET:
+      type: object
+      properties:
+        url: 
+          type: string
+          example: https/server-storage/url
+    CustomerProfileAvatarPUT:
+      type: object
+      properties:
+        url: 
+          type: string
+          example: new-https/server-storage/url
+    CustomerCartGET:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              product_variant_id:
+                type: string
+                example: 02983475
+              quantity:
+                type: integer
+                example: 2
+              adding_date:
+                type: string
+                example: 2024-08-31
+        gift_card_id:
+          type: array
+          items:
+            type: string
+            example: 11293847
+    CustomerCartPATCH:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              product_variant_id:
+                type: string
+                example: 11111123
+              quantity:
+                type: integer
+                example: 1
+              adding_date:
+                type: string
+                example: 2024-08-31
+    CustomerWishlistGET:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              product_variant_id:
+                type: string
+                example: 109587888
+        gift_card_id:
+          type: array
+          items:
+            type: string
+            example: 11293847
+    CustomerWishlistPATCH:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              product_variant_id:
+                type: string
+                example: 109444444
+    CustomerAddressGET:
+      type: object
+      properties:
+        company:
+          type: string
+          example: name company
+        email:
+          type: string
+          example: john@example.com
+        phone:
+          type: string
+          example: 0798765432
+        street_number:
+          type: string
+          example: 2 BIS
+        address1:
+          type: string
+          example: rue de la Paix
+        address2:
+          type: string
+          example: appartement C12
+        city:
+          type: string
+          example: Paris 
+        postal_code:
+          type: integer
+          example: 75016
+        country:
+          type: string
+          example: France
+        createdAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z,
+        updatedAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+    CustomerAddressPOST:
+      type: object
+      properties:
+        company:
+          type: string
+          example: name company
+        email:
+          type: string
+          example: john@example.com
+        phone:
+          type: string
+          example: 0798765432
+        street_number:
+          type: string
+          example: 2 BIS
+        address1:
+          type: string
+          example: rue de la Paix
+        address2:
+          type: string
+          example: appartement C12
+        city:
+          type: string
+          example: Paris 
+        postal_code:
+          type: integer
+          example: 75016
+        country:
+          type: string
+          example: France
+      required:
+        - email
+        - street_number
+        - address1
+        - city
+        - postal_code
+    CustomerAddressPATCH:
+      type: object
+      properties:
+        company:
+          type: string
+          example: new name
+        email:
+          type: string
+          example: new@example.com
+        phone:
+          type: string
+          example: 0798765432
+        street_number:
+          type: string
+          example: 2 BIS
+        address1:
+          type: string
+          example: rue de la Paix
+        address2:
+          type: string
+          example: appartement C12
+        city:
+          type: string
+          example: Paris 
+        postal_code:
+          type: integer
+          example: 75016
+        country:
+          type: string
+          example: France
+    CustomerAllAdminGET:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Doe
+        email:
+          type: string
+          example: john-doe@example.com
+        orders_count:
+          type: integer
+          example: 4
+        is_active:
+          type: boolean
+          example: true
+    CustomerOneAdminGET:
+      type: object
+      properties:
+        role:
+          type: string
+          example: customer
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Doe
+        email:
+          type: string
+          example: john-doe@example.com
+        avatar:
+          type: string
+          example: url:https/server-storage/url
+        phone:
+          type: string
+          example: 006897654891
+        email_marketing_consent:
+          type: boolean
+          example: true
+        birthday:
+          type: string
+          example: 25-09-2001
+        orders_count:
+          type: integer
+          example: 4
+        is_active:
+          type: boolean
+          example: true
+        notes_admin:
+          type: string
+          example: Client parrainé par Kate Smooth, bon contact par mail.
+        createdAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z,
+        updatedAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+    CustomerOneAdminPATCH:
+      type: object
+      properties:
+        role:
+          type: string
+          example: admin
+        is_active:
+          type: boolean
+          example: true
+        notes_admin:
+          type: string
+          example: Nouveau commentaire sur le client.
+    OrderPOST:
+      type: object
+      properties:
+        customer_id:
+          type: string
+          example: 309485729
+        payment_method_id:
+          type: string
+          example: 3
+        order_git_card_id:
+          type: string
+          example: 7809BJQ0
+        code_promo_id:
+          type: string
+          example: 85203852
+        total_price:
+          type: integer
+          example: 75
+        shipping_price:
+          type: integer
+          example: 4.99
+        order_address_shipping_id:
+          type: string
+          example: 20938475
+        order_address_billing_id:
+          type: string
+          example: 6662234
+        shipping_method_id:
+          type: string
+          example: 1
+        cash-back_earned:
+          type: integer
+          example: 8
+      required:
+        - customer_id
+        - payment_method_id
+        - total_price
+        - shipping_price
+        - order_address_shipping_id
+        - order_address_billing_id
+        - shipping_method_id
+    OrderOneCustomerGET:
+      type: object
+      properties:
+        customer_id:
+          type: string
+          example: 309485729
+        order_status_id:
+          type: string
+          example: 0
+        payment_status_id:
+          type: string
+          example: 0
+        payment_method_id:
+          type: string
+          example: 3
+        orderNumber:
+          type: integer
+          example: 20957IKLH
+        order_git_card_id:
+          type: string
+          example: 7
+        code_promo_id:
+          type: string
+          example: 85203852
+        total_price:
+          type: integer
+          example: 75
+        shipping_price:
+          type: integer
+          example: 4.99
+        order_address_shipping_id:
+          type: string
+          example: 20938475
+        order_address_billing_id:
+          type: string
+          example: 6662234
+        shipping_method_id:
+          type: string
+          example: 1
+        cash-back_earned:
+          type: integer
+          example: 8
+        createdAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+        updatedAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+    OrderAllCustomerGET:
+      type: object
+      properties:
+        order_status_id:
+          type: string
+          example: 1
+        payment_status_id:
+          type: string
+          example: 2
+        orderNumber:
+          type: integer
+          example: 20957IKLH
+        total_price:
+          type: integer
+          example: 75
+    OrderTrackingGET:
+      type: object
+      properties:
+        order_id:
+          type: string
+          example: 4093857
+        tracking_number:
+          type: string
+          example: OPM90Yvb34
+        sender:
+          type: string
+          example: admin
+        date_sending:
+          type: string
+          example: 08-03-2025
+        createdAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+    OrderTrackingPOST:
+      type: object
+      properties:
+        order_id:
+          type: string
+          example: 4093857
+        tracking_number:
+          type: string
+          example: OPM90Yvb34
+        sender:
+          type: string
+          example: admin
+        date_sending:
+          type: string
+          example: 08-03-2025
+      required:
+        - order_id
+        - tracking_number
+        - sender
+        - date_sending
+    OrderMessageGET:
+      type: object
+      properties:
+        order_id:
+          type: string
+          example: 02938457
+        sender:
+          type: string
+          example: customer
+        body:
+          type: string
+          example: J'ai bien réceptionné votre colis.
+        timestamp:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+    OrderMessagePOST:
+      type: object
+      properties:
+        order_id:
+          type: string
+          example: 02938457
+        sender:
+          type: string
+          example: customer
+        body:
+          type: string
+          example: J'ai bien réceptionné votre colis.
+      required:
+        - order_id
+        - sender
+        - body
+    OrderMessagePATCH:
+      type: object
+      properties:
+        body:
+          type: string
+          example: J'ai bien reçu le retour, merci.
+    OrderOneAdminGET:
+      type: object
+      properties:
+        customer_id:
+          type: string
+          example: 309485729
+        order_status_id:
+          type: string
+          example: 1
+        payment_status_id:
+          type: string
+          example: 2
+        payment_method_id:
+          type: string
+          example: 3
+        orderNumber:
+          type: integer
+          example: 20957IKLH
+        notes_admin:
+          type: string
+          example: Discussion avec le client sur un éventuel retour.
+        order_git_card_id:
+          type: string
+          example: 7
+        code_promo_id:
+          type: string
+          example: 85203852
+        total_price:
+          type: integer
+          example: 75
+        shipping_price:
+          type: integer
+          example: 4.99
+        order_address_shipping_id:
+          type: string
+          example: 20938475
+        order_address_billing_id:
+          type: string
+          example: 6662234
+        shipping_method_id:
+          type: string
+          example: 1
+        cash-back_earned:
+          type: integer
+          example: 8
+        createdAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+        updatedAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+    OrderAllAdminGET:
+      type: object
+      properties:
+        customer_id:
+          type: string
+          example: 309485729
+        order_status_id:
+          type: string
+          example: 1
+        payment_status_id:
+          type: string
+          example: 2
+        orderNumber:
+          type: integer
+          example: 20957IKLH
+        total_price:
+          type: integer
+          example: 75
+    OrderAdminPATCH:
+      type: object
+      properties:
+        order_status_id:
+          type: string
+          example: 2
+    OrderItemGET:
+      type: object
+      properties:
+        order_id: 
+          type: string
+          example: 58254325
+        product_id:
+          type: string
+          example: 52345234
+        customer_id:
+          type: string
+          example: 6979876
+        article_number:
+          type: integer
+          example: 2
+        price_before_discount:
+          type: integer
+          example: 68
+        price_after_discount:
+          type: integer
+          example: 60
+        exchange_number:
+          type: integer
+          nullable: true
+          example: null
+        exchange_at:
+          type: string
+          nullable: true
+          example: null
+        refund_number:
+          type: integer
+          nullable: true
+          example: null
+        refund_at:
+          type: string
+          nullable: true
+          example: null
+        refund_amount:
+          type: integer
+          nullable: true
+          example: null
+    OrderItemPATCH:
+      type: object
+      properties:
+        exchange_number:
+          type: integer
+          example: 1
+        exchange_at:
+          type: string
+          example: 30-12-2025
+        refund_number:
+          type: integer
+          example: 1
+        refund_at:
+          type: string
+          example: 30-12-2025
+        refund_amount:
+          type: integer
+          example: 25
+    ProductAllGET:
+      type: object
+      properties:
+        name: 
+          type: string
+          example: Bracelet
+        is_new:
+          type: boolean
+          example: false
+        is_published:
+          type: boolean
+          example: true
+        is_star:
+          type: boolean
+          example: false
+        is_archived:
+          type: boolean
+          example: false
+        image_hero:
+            type: string
+            example: https://example.com/image1.jpg
+        is_promotion:
+          type: boolean
+          example: true
+    ProductOneGET:
+      type: object
+      properties:
+        name: 
+          type: string
+          example: Bracelet
+        SKU:
+          type: string
+          example: 029348752LIK98
+        parent_product_id: 
+          type: string
+          example: 20843572039857
+        description:
+          type: string
+          example: Bracelet fait main.
+        weight:
+          type: integer
+          example: 250
+        continue_selling: 
+          type: boolean
+          example: true
+        quantity_in_stock:
+          type: integer
+          example: 4
+        price:
+          type: integer
+          example: 45
+        compare_at_price: 
+          type: integer
+          example: 50
+        is_new:
+          type: boolean
+          example: false
+        is_published:
+          type: boolean
+          example: true
+        is_star:
+          type: boolean
+          example: false
+        is_archived:
+          type: boolean
+          example: false
+        attributes:
+          type: array
+          items:
+            type: object
+            properties:
+              attribute:
+                type: string
+                example: size
+              attribute_value:
+                type: string
+                example: M
+          example:
+              - attribute: size
+                attribute_value: M
+              - attribute: color
+                attribute_value: blue
+              - attribute: material
+                attribute_value: gold
+        images:
+            type: array
+            items:
+              type: object
+              properties:
+                url:
+                  type: string
+                  example: "https://example.com/image1.jpg"
+                is_main:
+                  type: boolean
+                  example: true
+                is_hero:
+                  type: boolean
+                  example: false
+            example:
+              - url: https://example.com/image1.jpg
+                is_main: true
+                is_hero: false
+              - url: https://example.com/image2.jpg
+                is_main: false
+                is_hero: true
+              - url: https://example.com/image3.jpg
+                is_main: false
+                is_hero: false
+        categories:
+          type: array
+          items:
+            type: string
+          example: 
+            - 7778325
+            - 8882343
+        tags:
+          type: array
+          items:
+            type: string
+          example: 
+            - 0000334
+            - 1234545
+        createdAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+        updatedAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+    ProductPOST:
+      type: object
+      properties:
+        name: 
+          type: string
+          example: Bracelet
+        SKU:
+          type: string
+          example: 029348752LIK98
+        parent_product_id: 
+          type: string
+          example: 20843572039857
+        description:
+          type: string
+          example: Bracelet fait main.
+        weight:
+          type: integer
+          example: 250
+        continue_selling: 
+          type: boolean
+          example: true
+        quantity_in_stock:
+          type: integer
+          example: 4
+        price:
+          type: integer
+          example: 45
+        compare_at_price: 
+          type: integer
+          example: 50
+        is_new:
+          type: boolean
+          example: false
+        attributes:
+          type: array
+          items:
+            type: object
+            properties:
+              attribute:
+                type: string
+                example: size
+              attribute_value:
+                type: string
+                example: M
+          example:
+              - attribute: size
+                attribute_value: M
+              - attribute: color
+                attribute_value: blue
+              - attribute: material
+                attribute_value: gold
+        images:
+            type: array
+            items:
+              type: object
+              properties:
+                url:
+                  type: string
+                  example: "https://example.com/image1.jpg"
+                is_main:
+                  type: boolean
+                  example: true
+                is_hero:
+                  type: boolean
+                  example: false
+            example:
+              - url: https://example.com/image1.jpg
+                is_main: true
+                is_hero: false
+              - url: https://example.com/image2.jpg
+                is_main: false
+                is_hero: true
+              - url: https://example.com/image3.jpg
+                is_main: false
+                is_hero: false
+        categories:
+          type: array
+          items:
+            type: string
+          example: 
+            - 7778325
+            - 8882343
+        tags:
+          type: array
+          items:
+            type: string
+          example: 
+            - 0000334
+            - 1234545
+      required:
+        - name
+        - weigth
+        - price
+        - images
+        - categories
+    ProductPATCH:
+      type: object
+      properties:
+        name: 
+          type: string
+          example: Bracelet
+        SKU:
+          type: string
+          example: 029348752LIK98
+        description:
+          type: string
+          example: Bracelet fait main.
+        weight:
+          type: integer
+          example: 250
+        continue_selling: 
+          type: boolean
+          example: true
+        quantity_in_stock:
+          type: integer
+          example: 6
+        price:
+          type: integer
+          example: 40
+        compare_at_price: 
+          type: integer
+          nullable: true
+          example: null
+        is_new:
+          type: boolean
+          example: true
+        categories:
+          type: array
+          items:
+            type: string
+          example: 
+            - 7778325
+        tags:
+          type: array
+          items:
+            type: string
+          example: 
+            - 0000334
+            - 1234545
+            - 0987545
+            - 1123442
+    CollectionGET:
+      type: object
+      properties:
+        label:
+          type: string
+          example: Printemps 2025
+        image:
+          type: string
+          example: https/server-storage/url
+        is_star:
+          type: boolean
+          example: false
+        is_archived:
+          type: boolean
+          example: false
+    CollectionPOST:
+      required:
+        - label
+        - image
+      type: object
+      properties:
+        label:
+          type: string
+          example: Printemps 2025
+        image:
+          type: string
+          example: https/server-storage/url
+    CollectionPATCH:
+      type: object
+      properties:
+        image:
+          type: string
+          example: https/server-storage/new-url
+        is_star:
+          type: boolean
+          example: true
+    CategoryGET:
+      type: object
+      properties:
+        label:
+          type: string
+          example: Bracelet
+        image:
+          type: string
+          example: https/server-storage/url
+        parent_collection_id: 
+          type: string
+          example: 8102934
+        is_archived:
+          type: boolean
+          example: false
+    CategoryPOST:
+      required:
+        - label
+        - image
+        - parent_collection_id
+      type: object
+      properties:
+        label:
+          type: string
+          example: Bracelet
+        image:
+          type: string
+          example: https/server-storage/url
+        parent_collection_id: 
+          type: string
+          example: 8102934
+    CategoryPATCH:
+      type: object
+      properties:
+        image:
+          type: string
+          example: https/server-storage/new-url
+        is_archived:
+          type: boolean
+          example: true
+    TagGET:
+      type: object
+      properties:
+        label:
+          type: string
+          example: Elégance
+    TagPOST:
+      required:
+        - label
+      type: object
+      properties:
+        label:
+          type: string
+          example: Elégance
+    GiftCardGET:
+      type: object
+      properties:
+        first_holder_id:
+          type: string
+          example: 098754838475987
+        code:
+          type: string
+          example: 09hdf987BSK987
+        initial_value:
+          type: integer
+          example: 50
+        balance:
+          type: integer
+          example: 30
+        is_issued_by_admin:
+          type: boolean
+          example: false
+        expiration_date:
+          type: string
+          example: 08/08/2025
+        orderId:
+          type: string
+          example: 98702-495
+        createdAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+        updatedAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+    GiftCardPOST:
+      type: object
+      properties:
+        first_holder_id:
+          type: string
+          example: 098754838475987
+        code:
+          type: string
+          example: 09hdf987BSK987
+        initial_value:
+          type: integer
+          example: 50
+        expiration_date:
+          type: string
+          example: 08/08/2025
+      required:
+        - first_holder_id
+        - code
+        - initial_value
+        - expiration_date
+    GiftCardUsageGET:
+      type: object
+      properties:
+        gift_card_id:
+          type: string
+          example: 0098qere0987
+        used_by_customer_id:
+          type: string
+          example: 7jf49875j
+        amount_used:
+          type: integer
+          example: 20
+        used_at:
+          type: string
+          example: 05/06/2025
+    GiftCardAdminGET:
+      type: object
+      properties:
+        first_holder_id:
+          type: string
+          example: 098754838475987
+        code:
+          type: string
+          example: 09hdf987BSK987
+        initial_value:
+          type: integer
+          example: 50
+        balance:
+          type: integer
+          example: 50
+        is_issued_by_admin:
+          type: boolean
+          example: true
+        expiration_date:
+          type: string
+          example: 08/08/2025
+        orderId:
+          type: string
+          example: 98702-495
+        createdAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+        updatedAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+    PromotionGET:
+      type: object
+      properties:
+        description:
+          type: string
+          example: 2 produits achetés, 1 offert !
+        start-date:
+          type: string
+          example: 01/01/2025
+        end-date:
+          type: string
+          example: 01/02/2025
+        is_stackable:
+          type: boolean
+          example: false
+        buy_X:
+          type: integer
+          example: 2
+        get_Y:
+          type: integer
+          example: 1
+    PromotionPOST:
+      type: object
+      properties:
+        description:
+          type: string
+          example: Profitez d'une remise de 15% sur toute la catégorie des bracelets !
+        start-date:
+          type: string
+          example: 01/01/2025
+        end-date:
+          type: string
+          example: 01/02/2025
+        is_stackable:
+          type: boolean
+          example: false
+        promotion_percentage:
+            type: string
+            example: 15
+      required:
+        - start-date
+        - end-date
+        - is_stackable
+      oneOf:
+        - required:
+            - promotion_percentage
+          properties:
+            promotion_percentage:
+              type: string
+              example: 15
+        - required:
+            - buy_X
+            - get_Y
+          properties:
+            buy_X:
+              type: integer
+              example: 2
+            get_Y:
+              type: integer
+              example: 1
+    PromotionPATCH:
+      type: object
+      properties:
+        description:
+          type: string
+          example: Profitez d'une remise de 20% sur toute la catégorie des bracelets !
+        start-date:
+          type: string
+          example: 01/01/2025
+        end-date:
+          type: string
+          example: 01/02/2025
+        is_stackable:
+          type: boolean
+          example: true
+      required:
+        - start-date
+        - end-date
+        - is_stackable
+      oneOf:
+        - required:
+            - promotion_percentage
+          properties:
+            promotion_percentage:
+              type: string
+              example: 20
+        - required:
+            - buy_X
+            - get_Y
+          properties:
+            buy_X:
+              type: integer
+              example: 1
+            get_Y:
+              type: integer
+              example: 1
+    CodePromo:
+      required:
+        - code
+        - start-date
+        - end-date
+        - discount_percentage
+      type: object
+      properties:
+        code:
+          type: string
+          example: Bonjour-10
+        start-date:
+          type: string
+          example: 01/01/2025
+        end-date:
+          type: string
+          example: 01/02/2025
+        discount_percentage:
+          type: integer
+          example: 10
+    ReviewGET:
+      type: object
+      properties:
+        order_id:
+          type: string
+          example: 102938475
+        product_variant_id: 
+          type: string
+          example: 0928374958
+        review_text:
+          type: string
+          example: Super product !
+        rating:
+          type: integer
+          example: 5
+        is_validate_by_admin:
+          type: boolean
+          example: true
+        createdAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+        updatedAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+    ReviewGETbeforeValidation:
+      type: object
+      properties:
+        order_id:
+          type: string
+          example: 102938475
+        product_variant_id: 
+          type: string
+          example: 0928374958
+        review_text:
+          type: string
+          example: Super product !
+        rating:
+          type: integer
+          example: 5
+        is_validate_by_admin:
+          type: boolean
+          example: false
+        createdAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+        updatedAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+    ReviewPOST:
+      type: object
+      properties:
+        order_id:
+          type: string
+          example: 102938475
+        product_variant_id: 
+          type: string
+          example: 0928374958
+        review_text:
+          type: string
+          example: Super product !
+        rating:
+          type: integer
+          example: 5
+      required:
+        - order_id
+        - product_variant_id
+        - review_text
+    ReviewPATCH:
+      type: object
+      properties:
+        review_text:
+          type: string
+          example: Super product and super service !
+    ReviewAdminPATCH:
+      type: object
+      properties:
+        is_validate_by_admin:
+          type: boolean
+          example: true
+    CashBackGET:
+      type: object
+      properties:
+        customer_id:
+          type: string
+          example: 098754838475987
+        total_earned:
+          type: integer
+          example: 35
+        total_spent:
+          type: integer
+          example: 5
+        cash-back_earned_for-this-transaction:
+          type: integer
+          example: 10
+        cash-back_spent_for-this-transaction:
+          type: integer
+          example: 0
+        date_transaction:
+          type: string
+          example: 10/03/2025
+        orderId:
+          type: string
+          example: 98702-495
+        reason:
+          type: string
+          example: Order
+    CashBackAdminPATCH:
+      type: object
+      properties:
+        customer_id:
+          type: string
+          example: 098754838475987
+        cash-back_earned_for-this-transaction:
+          type: integer
+          example: 20
+        cash-back_spent_for-this-transaction:
+          type: integer
+          example: 0
+        date_transaction:
+          type: string
+          example: 10/03/2025
+        reason:
+          type: string
+          example: Review
+        reviewId:
+          type: string
+          example: 98702-495
+    DeliveryGET:
+      type: object
+      properties:
+        name:
+          type: string
+          example: colissimo
+        icon_url:
+          type: string
+          example: https/server-storage/url
+        is_active: 
+          type: boolean
+          example: true
+        estimated_days:
+          type: integer
+          example: 3
+        rates:
+          type: array
+          items:
+            type: object
+            properties:
+              min_weight:
+                type: number
+                format: float
+                description: Minimum weight for this rate in kilograms
+                example: 0.0
+              max_weight:
+                type: number
+                format: float
+                description: Maximum weight for this rate in kilograms
+                example: 5.0
+              price:
+                type: number
+                format: float
+                description: Price for the delivery in euros
+                example: 7.99
+    DeliveryPOST:
+      type: object
+      properties:
+        name:
+          type: string
+          example: colissimo
+        icon_url:
+          type: string
+          example: https/server-storage/url
+        estimated_days:
+          type: integer
+          example: 3
+        rates:
+          type: array
+          items:
+            type: object
+            properties:
+              min_weight:
+                type: number
+                format: float
+                description: Minimum weight for this rate in kilograms
+                example: 0.0
+              max_weight:
+                type: number
+                format: float
+                description: Maximum weight for this rate in kilograms
+                example: 5.0
+              price:
+                type: number
+                format: float
+                description: Price for the delivery in euros
+                example: 7.99
+      required:
+        - name
+        - estimated_days
+        - rates
+    DeliveryPATCH:
+      type: object
+      properties:
+        name:
+          type: string
+          example: chronopost
+        icon_url:
+          type: string
+          example: https/server-storage/url
+        is_active: 
+          type: boolean
+          example: true
+        estimated_days:
+          type: integer
+          example: 1
+        rates:
+          type: array
+          items:
+            type: object
+            properties:
+              min_weight:
+                type: number
+                format: float
+                description: Minimum weight for this rate in kilograms
+                example: 0.0
+              max_weight:
+                type: number
+                format: float
+                description: Maximum weight for this rate in kilograms
+                example: 4.25
+              price:
+                type: number
+                format: float
+                description: Price for the delivery in euros
+                example: 10.99
+      required:
+        - name
+        - estimated_days
+        - rates
+
+
+
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
