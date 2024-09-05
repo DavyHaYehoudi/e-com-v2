@@ -5,5 +5,5 @@ CREATE TABLE IF NOT EXISTS shipping_method (
     icon_url VARCHAR(255),                        -- URL de l'image représentant l'icône du service de livraison
     shipping_method_settings_id INT,              -- Référence aux paramètres spécifiques de la méthode de livraison
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Date de création de la méthode de livraison
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,  -- Date de dernière mise à jour
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  -- Date de dernière mise à jour
 );

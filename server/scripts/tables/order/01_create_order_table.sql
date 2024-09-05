@@ -16,5 +16,5 @@ CREATE TABLE IF NOT EXISTS `order` (
     cashback_earned DECIMAL(10, 2),                           -- Montant de cashback gagné pour cette commande
     cashback_spent DECIMAL(10, 2),                            -- Montant de cashback dépensé pour cette commande
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,           -- Date de création de la commande
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,  -- Date de mise à jour de la commande
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  -- Date de mise à jour de la commande
 );

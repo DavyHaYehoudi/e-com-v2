@@ -88,7 +88,7 @@ FOREIGN KEY (product_id) REFERENCES `product`(id)
 ON DELETE SET NULL;
 
 ALTER TABLE wishlist
-ADD CONSTRAINT fk_product_cart
+ADD CONSTRAINT fk_product_wishlist
 FOREIGN KEY (product_id) REFERENCES `product`(id)
 ON DELETE SET NULL;
 
@@ -147,7 +147,7 @@ ON DELETE CASCADE;
 ALTER TABLE category
 ADD CONSTRAINT fk_category_parent_collection
 FOREIGN KEY (parent_collection_id) REFERENCES `collection`(id)
-ON DELETE SET NULL;
+ON DELETE CASCADE;
 
 /* ********************* ORDER ********************* */
 ALTER TABLE `order`
@@ -172,8 +172,8 @@ ON DELETE CASCADE;
 
 ALTER TABLE `order`
 ADD CONSTRAINT fk_order_gift_card
-FOREIGN KEY (order_gift_card_id) REFERENCES gift_card(id)
-ON DELETE SET NULL;
+FOREIGN KEY (order_gift_card_id) REFERENCES order_gift_card(id)
+ON DELETE CASCADE;
 
 ALTER TABLE `order`
 ADD CONSTRAINT fk_order_code_promo
@@ -203,6 +203,11 @@ ON DELETE CASCADE;
 ALTER TABLE `order_tracking`
 ADD CONSTRAINT fk_order_tracking_order
 FOREIGN KEY (order_id) REFERENCES `order`(id)
+ON DELETE CASCADE;
+
+ALTER TABLE `order_gift_card`
+ADD CONSTRAINT fk_order_gift_card_usage
+FOREIGN KEY (gift_card_usage_id) REFERENCES `gift_card_usage`(id)
 ON DELETE CASCADE;
 
 /* ********************* ORDER-ITEM ********************* */
@@ -287,7 +292,7 @@ ON DELETE CASCADE;
 ALTER TABLE `shipping_method`
 ADD CONSTRAINT fk_shipping_method_settings
 FOREIGN KEY (shipping_method_settings_id) REFERENCES `shipping_method_settings`(id)
-ON DELETE SET NULL;
+ON DELETE CASCADE;
 
 ALTER TABLE `shipping_method_settings`
 ADD CONSTRAINT fk_shipping_method_settings_tarifs
