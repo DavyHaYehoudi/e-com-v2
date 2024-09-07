@@ -1,19 +1,21 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import * as authService from "../services/authService.js";
 import { generateSixDigitCode } from "../utils/digit_code.js";
+import { authRequestSchema } from "../dto/auth.dto.js";
 
 // Ouvrir une session d'authentification (envoyer un OTP)
-export const authOpenSession = async (req: Request, res: Response) => {
-  const { email } = req.body;
-
+export const authOpenSession = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const customer = await authService.handleCustomerAuth(email);
+    authRequestSchema.pick({ email: true }).parse(req.body);
+    const { email } = req.body;
 
-    // Générer un code d'authentification à 6 chiffres
+    const customer = await authService.handleCustomerAuth(email);
     const authCode = generateSixDigitCode();
     console.log("Generated 6-digit code:", authCode);
-
-    // Stocker le code d'authentification dans la table 'authentication'
     await authService.storeAuthCode(email, authCode);
 
     // (Optionnel) Envoi du code par email ici...
@@ -23,28 +25,22 @@ export const authOpenSession = async (req: Request, res: Response) => {
       customer,
     });
   } catch (error: any) {
-    res.status(500).json({
-      message: "Error handling authentication",
-      error: error.message,
-    });
+    next(error);
   }
 };
 
 // Vérifier le code OTP
-export const authVerifyOTP = async (req: Request, res: Response) => {
-  const { email, otp } = req.body;
-
+export const authVerifyOTP = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
+    authRequestSchema.parse(req.body);
+    const { email, otp } = req.body;
     const result = await authService.verifyAuthCode(email, otp);
-    if (result) {
-      res.status(200).json({ token: result.token, customer: result.customer });
-    } else {
-      res.status(403).json({ error: "The secret OTP provided is invalid." });
-    }
+    res.status(200).json({ token: result.token, customer: result.customer });
   } catch (error: any) {
-    res.status(500).json({
-      message: "Error verifying OTP",
-      error: error.message,
-    });
+    next(error);
   }
 };

@@ -78,6 +78,8 @@ paths:
                 properties:
                   token:
                     type: string
+                  customer:
+                    $ref: '#/components/schemas/CustomerProfileGET'
         '403':
           description: Forbidden
           content:
