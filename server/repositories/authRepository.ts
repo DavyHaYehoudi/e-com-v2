@@ -1,4 +1,7 @@
+//authRepository.ts
 import { query } from "../config/req.js";
+import { AuthRow } from "../types/auth.js";
+
 
 // Insérer le code d'authentification
 export const storeAuthCode = async (
@@ -20,6 +23,8 @@ export const verifyAuthCode = async (email: string, otp: string) => {
     SELECT * FROM authentication 
     WHERE email = ? AND digit_code = ? AND expires_at > NOW()
   `;
+  
   const rows = await query(sql, [email, otp]);
-  return rows?.length > 0;
+  const authRows = rows as AuthRow[];
+  return authRows?.length > 0;
 };

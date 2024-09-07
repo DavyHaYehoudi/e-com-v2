@@ -1,3 +1,4 @@
+//req.ts
 import mysql from 'mysql2/promise';
 import { environment } from '../types/environment.js';
 
@@ -11,6 +12,8 @@ const pool = mysql.createPool({
 
 // Exécuter une requête SQL et retourner les résultats
 export const query = async (sql: string, params: any[] = []) => {
-  const [rows] = await pool.execute<any[]>(sql, params); // Spécifie que rows est un tableau
+  const [rows] = await pool.execute(sql, params);
   return rows;
 };
+
+

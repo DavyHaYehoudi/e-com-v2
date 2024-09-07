@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import { environment } from "../types/environment.js";
 
-// Générer un JWT
 export const generateToken = (
   customerId: number,
   email: string,
@@ -15,13 +14,3 @@ export const generateToken = (
   return token;
 };
 
-// Vérifier un JWT
-export const verifyToken = (token: string) => {
-  try {
-    const decoded = jwt.verify(token, environment.JWT_SECRET);
-    return decoded;
-  } catch (err) {
-    console.error("Invalid token", err);
-    return null;
-  }
-};

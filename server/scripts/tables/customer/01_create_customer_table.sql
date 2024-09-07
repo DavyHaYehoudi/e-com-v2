@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS customer (
     customer_address_shipping_id INT,                  -- Référence à la table customer_address_shipping
     customer_address_billing_id INT,                   -- Référence à la table customer_address_billing
     phone VARCHAR(20),                                -- Numéro de téléphone
-    avatar_url VARCHAR(255),                          -- URL de l'avatar
+    avatar_url VARCHAR(255) DEFAULT 'https/server-storage/url',                          -- URL de l'avatar
     notes_admin TEXT,                                -- Notes ou commentaires
     email_marketing_consent BOOLEAN DEFAULT FALSE,    -- Consentement pour le marketing par email
     orders_count INT DEFAULT 0,                       -- Nombre de commandes passées

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ZodError } from "zod";
-import { AppError } from "./CustomErrors.js";
+import { AppError } from "../exceptions/CustomErrors.js";
 
 const errorHandler = (
   err: any,
