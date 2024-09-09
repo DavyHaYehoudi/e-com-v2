@@ -13,7 +13,6 @@ export const authOpenSession = async (
     authRequestSchema.pick({ email: true }).parse(req.body);
     const { email } = req.body;
 
-    const customer = await authService.handleCustomerAuth(email);
     const authCode = generateSixDigitCode();
     console.log("Generated 6-digit code:", authCode);
     await authService.storeAuthCode(email, authCode);
@@ -22,7 +21,6 @@ export const authOpenSession = async (
 
     res.status(200).json({
       message: "Authentication code sent",
-      customer,
     });
   } catch (error: any) {
     next(error);
@@ -39,7 +37,7 @@ export const authVerifyOTP = async (
     authRequestSchema.parse(req.body);
     const { email, otp } = req.body;
     const result = await authService.verifyAuthCode(email, otp);
-    res.status(200).json({ token: result.token, customer: result.customer });
+    res.status(200).json({ token: result.token });
   } catch (error: any) {
     next(error);
   }

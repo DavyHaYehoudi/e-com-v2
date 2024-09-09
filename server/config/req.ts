@@ -11,9 +11,17 @@ const pool = mysql.createPool({
 });
 
 // Exécuter une requête SQL et retourner les résultats
-export const query = async (sql: string, params: any[] = []) => {
-  const [rows] = await pool.execute(sql, params);
+// export const query = async (sql: string, params: any[] = []) => {
+//   const [rows] = await pool.execute(sql, params);
+//   return rows;
+// };
+
+import { RowDataPacket, ResultSetHeader } from 'mysql2';
+
+export const query = async <T extends RowDataPacket[] | ResultSetHeader>(
+  sql: string,
+  params: any[] = []
+): Promise<T> => {
+  const [rows] = await pool.execute<T>(sql, params);
   return rows;
 };
-
-

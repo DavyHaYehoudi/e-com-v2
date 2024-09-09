@@ -17,21 +17,13 @@ export const verifyAuthCode = async (email: string, otp: string) => {
     throw new ForbiddenError("Invalid OTP or email");
   }
 
-  const customer = await customerRepository.getCustomerByEmail(email);
-
+  let customer = await customerRepository.getCustomerByEmail(email);
   if (!customer) {
-    throw new NotFoundError("Customer not found");
+    await customerRepository.addCustomer(email);
+    customer = await customerRepository.getCustomerByEmail(email);
   }
 
   // Générer le token JWT
   const token = generateToken(customer.id, customer.email, customer.role);
   return { token, customer };
-};
-
-// Vérifier l'existence d'un customer ou en créer un
-export const handleCustomerAuth = async (email: string) => {
-  const customer = await customerRepository.getCustomerByEmail(email);
-  if (!customer) {
-    await customerRepository.addCustomer(email);
-  }
 };

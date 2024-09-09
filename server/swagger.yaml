@@ -43,7 +43,7 @@ paths:
                     example: john@example.com
         required: true
       responses:
-        '200':
+        '201':
           description: Successful operation
   /auth/send-verify-otp:
     post:
@@ -69,7 +69,7 @@ paths:
                     example: 710933
         required: true
       responses:
-        '200':
+        '201':
           description: Successful operation
           content:
             application/json:
@@ -78,8 +78,6 @@ paths:
                 properties:
                   token:
                     type: string
-                  customer:
-                    $ref: '#/components/schemas/CustomerProfileGET'
         '403':
           description: Forbidden
           content:
@@ -121,7 +119,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CustomerProfilePATCH' 
       responses:
-        '200':
+        '204':
           description: successful operation
         '400':
           description: Bad Request - Invalid content
@@ -156,7 +154,7 @@ paths:
       summary: Update an existent profile customer.
       description: Update an existent profile customer.
       responses:
-        '200':
+        '204':
           description: successful operation
           content:
             application/json:
@@ -187,13 +185,13 @@ paths:
           description: Not found - The customer doesn't exist.
       security:
         - api_key: []
-    patch:
+    put:
       tags:
         - customer
       summary: Update an existent cart customer.
       description: Update an existent cart customer.
       responses:
-        '200':
+        '204':
           description: successful operation
           content:
             application/json:
@@ -226,13 +224,13 @@ paths:
           description: Not found - The customer doesn't exist.
       security:
         - api_key: []
-    patch:
+    put:
       tags:
         - customer
       summary: Update an existent wishlist customer.
       description: Update an existent wishlist customer.
       responses:
-        '200':
+        '204':
           description: successful operation
           content:
             application/json:
@@ -311,7 +309,7 @@ paths:
             type: string
             example: billing
       responses:
-        '200':
+        '204':
           description: successful operation
           content:
             application/json:
@@ -829,7 +827,7 @@ paths:
             type: integer
             format: int64
       responses:
-        '200':
+        '204':
           description: successful operation
           content:
             application/json:
@@ -1636,7 +1634,7 @@ paths:
             type: integer
             format: int64
       responses:
-        '200':
+        '204':
           description: successful operation
           content:
             application/json:

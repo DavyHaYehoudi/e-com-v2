@@ -1,4 +1,6 @@
-export interface CustomerRow {
+import { RowDataPacket } from "mysql2";
+
+export interface CustomerRow extends RowDataPacket {
   id: number;
   role: string;
   email: string;
@@ -13,5 +15,3 @@ export interface CustomerRow {
   created_at: Date;
   updated_at: Date;
 }
-
-

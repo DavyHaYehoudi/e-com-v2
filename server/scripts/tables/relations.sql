@@ -218,8 +218,13 @@ FOREIGN KEY (product_id) REFERENCES `product`(id)
 ON DELETE CASCADE;
 
 /* ********************* PRODUCT ********************* */
-ALTER TABLE `product`
-ADD CONSTRAINT fk_product_parent
+ALTER TABLE `product_variant`
+ADD CONSTRAINT fk_product_id
+FOREIGN KEY (product_id) REFERENCES `product`(id)
+ON DELETE SET NULL;
+
+ALTER TABLE `product_variant`
+ADD CONSTRAINT fk_parent_product_id
 FOREIGN KEY (parent_product_id) REFERENCES `product`(id)
 ON DELETE SET NULL;
 

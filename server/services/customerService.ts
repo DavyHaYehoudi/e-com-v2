@@ -11,10 +11,10 @@ export const addCustomer = async (email: string) => {
 };
 // Récupérer le panier du customer
 export const getCustomerCart = async (customerId: number) => {
-  return await customerRepository.getCustomerCartFromDb(customerId);
+  return await customerRepository.getCustomerCart(customerId);
 };
 
 // Mettre à jour ou créer le panier du customer
 export const updateCustomerCart = async (customerId: number, cartData: CartInput) => {
-  return await customerRepository.createOrUpdateCartInDb(customerId, cartData);
+  return await customerRepository.updateCustomerCart(customerId, cartData);
 };
