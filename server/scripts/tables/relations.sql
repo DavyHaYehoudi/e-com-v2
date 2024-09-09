@@ -2,17 +2,17 @@
 /* ********************* CASH-BACK ********************* */
 ALTER TABLE cashback_customer
 ADD CONSTRAINT fk_cashback_customer
-FOREIGN KEY (customer_id) REFERENCES customer(id)
+FOREIGN KEY (customer_id) REFERENCES `customer`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE cash_back_transaction
 ADD CONSTRAINT fk_cash_back_transaction_customer
-FOREIGN KEY (customer_id) REFERENCES customer(id)
+FOREIGN KEY (customer_id) REFERENCES `customer`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE cash_back_transaction
 ADD CONSTRAINT fk_cash_back_transaction_reason
-FOREIGN KEY (cash_back_reason_id) REFERENCES cash_back_reason(id)
+FOREIGN KEY (cash_back_reason_id) REFERENCES `cash_back_reason`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE cash_back_transaction
@@ -22,28 +22,28 @@ ON DELETE SET NULL;
 
 ALTER TABLE cash_back_transaction
 ADD CONSTRAINT fk_cash_back_transaction_review
-FOREIGN KEY (review_id) REFERENCES review(id)
+FOREIGN KEY (review_id) REFERENCES `review`(id)
 ON DELETE SET NULL;
 
 /* ********************* PROMOTION ********************* */
 ALTER TABLE promotion_category
 ADD CONSTRAINT fk_promotion_category_promotion
-FOREIGN KEY (promotion_id) REFERENCES promotion(id)
+FOREIGN KEY (promotion_id) REFERENCES `promotion`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE promotion_category
 ADD CONSTRAINT fk_promotion_category_category
-FOREIGN KEY (category_id) REFERENCES category(id)
+FOREIGN KEY (category_id) REFERENCES `category`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE promotion_collection
 ADD CONSTRAINT fk_promotion_collection_promotion
-FOREIGN KEY (promotion_id) REFERENCES promotion(id)
+FOREIGN KEY (promotion_id) REFERENCES `promotion`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE promotion_collection
 ADD CONSTRAINT fk_promotion_collection_collection
-FOREIGN KEY (collection_id) REFERENCES collection(id)
+FOREIGN KEY (collection_id) REFERENCES `collection`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE `promotion_product`
@@ -62,50 +62,51 @@ FOREIGN KEY (promotion_type_id) REFERENCES `promotion_type`(id)
 ON DELETE CASCADE;
 
 /* ********************* CUSTOMER ********************* */
-ALTER TABLE customer
-ADD CONSTRAINT fk_customer_address_shipping
-FOREIGN KEY (customer_address_shipping_id) REFERENCES customer_address_shipping(id)
-ON DELETE SET NULL;
-
-ALTER TABLE customer
-ADD CONSTRAINT fk_customer_address_billing
-FOREIGN KEY (customer_address_billing_id) REFERENCES customer_address_billing(id)
-ON DELETE SET NULL;
-
-ALTER TABLE customer
-ADD CONSTRAINT fk_customer_cart
-FOREIGN KEY (cart_id) REFERENCES cart(id)
-ON DELETE SET NULL;
-
-ALTER TABLE customer
-ADD CONSTRAINT fk_customer_wishlist
-FOREIGN KEY (wishlist_id) REFERENCES wishlist(id)
-ON DELETE SET NULL;
-
 ALTER TABLE cart
+ADD CONSTRAINT fk_customer_id
+FOREIGN KEY (customer_id) REFERENCES `customer`(id)
+ON DELETE SET NULL;
+
+ALTER TABLE cart_item
 ADD CONSTRAINT fk_product_cart
 FOREIGN KEY (product_id) REFERENCES `product`(id)
 ON DELETE SET NULL;
 
+ALTER TABLE cart_item
+ADD CONSTRAINT fk_cart_item
+FOREIGN KEY (cart_id) REFERENCES `cart`(id)
+ON DELETE SET NULL;
+
 ALTER TABLE wishlist
+ADD CONSTRAINT fk_customer
+FOREIGN KEY (customer_id) REFERENCES `customer`(id)
+ON DELETE SET NULL;
+
+ALTER TABLE wishlist_item
 ADD CONSTRAINT fk_product_wishlist
 FOREIGN KEY (product_id) REFERENCES `product`(id)
 ON DELETE SET NULL;
 
-ALTER TABLE customer
-ADD CONSTRAINT fk_customer_address_shipping
-FOREIGN KEY (customer_address_shipping_id) REFERENCES customer_address_shipping(id)
+ALTER TABLE wishlist_item
+ADD CONSTRAINT fk_wishlist_item
+FOREIGN KEY (wishlist_id) REFERENCES `wishlist`(id)
 ON DELETE SET NULL;
 
-ALTER TABLE customer
-ADD CONSTRAINT fk_customer_address_billing
-FOREIGN KEY (customer_address_billing_id) REFERENCES customer_address_billing(id)
+ALTER TABLE customer_address_shipping
+ADD CONSTRAINT fk_customer_id_address_shipping
+FOREIGN KEY (customer_id) REFERENCES `customer`(id)
 ON DELETE SET NULL;
+
+ALTER TABLE customer_address_billing
+ADD CONSTRAINT fk_customer_id_address_billing
+FOREIGN KEY (customer_id) REFERENCES `customer`(id)
+ON DELETE SET NULL;
+
 
 /* ********************* GIFT-CARD ********************* */
 ALTER TABLE gift_card
 ADD CONSTRAINT fk_gift_card_first_holder
-FOREIGN KEY (first_holder_id) REFERENCES customer(id)
+FOREIGN KEY (first_holder_id) REFERENCES `customer`(id)
 ON DELETE SET NULL;
 
 ALTER TABLE gift_card
@@ -115,32 +116,22 @@ ON DELETE SET NULL;
 
 ALTER TABLE cart_gift_card
 ADD CONSTRAINT fk_cart
-FOREIGN KEY (cart_id) REFERENCES cart(id)
-ON DELETE SET NULL;
-
-ALTER TABLE cart_gift_card
-ADD CONSTRAINT fk_cart_gift_card
-FOREIGN KEY (gift_card_id) REFERENCES gift_card(id)
+FOREIGN KEY (cart_id) REFERENCES `cart`(id)
 ON DELETE SET NULL;
 
 ALTER TABLE wishlist_gift_card
 ADD CONSTRAINT fk_wishlist
-FOREIGN KEY (wishlist_id) REFERENCES wishlist(id)
-ON DELETE SET NULL;
-
-ALTER TABLE wishlist_gift_card
-ADD CONSTRAINT fk_wishlist_gift_card
-FOREIGN KEY (gift_card_id) REFERENCES gift_card(id)
+FOREIGN KEY (wishlist_id) REFERENCES `wishlist`(id)
 ON DELETE SET NULL;
 
 ALTER TABLE gift_card_usage
 ADD CONSTRAINT fk_gift_card_usage_gift_card
-FOREIGN KEY (gift_card_id) REFERENCES gift_card(id)
+FOREIGN KEY (gift_card_id) REFERENCES `gift_card`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE gift_card_usage
 ADD CONSTRAINT fk_gift_card_usage_customer
-FOREIGN KEY (used_by_customer_id) REFERENCES customer(id)
+FOREIGN KEY (used_by_customer_id) REFERENCES `customer`(id)
 ON DELETE CASCADE;
 
 /* ********************* CATEGORY ********************* */
@@ -152,47 +143,47 @@ ON DELETE CASCADE;
 /* ********************* ORDER ********************* */
 ALTER TABLE `order`
 ADD CONSTRAINT fk_order_customer
-FOREIGN KEY (customer_id) REFERENCES customer(id)
+FOREIGN KEY (customer_id) REFERENCES `customer`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE `order`
 ADD CONSTRAINT fk_order_order_status
-FOREIGN KEY (order_status_id) REFERENCES order_status(id)
+FOREIGN KEY (order_status_id) REFERENCES `order_status`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE `order`
 ADD CONSTRAINT fk_order_payment_status
-FOREIGN KEY (payment_status_id) REFERENCES payment_status(id)
+FOREIGN KEY (payment_status_id) REFERENCES `payment_status`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE `order`
 ADD CONSTRAINT fk_order_payment_method
-FOREIGN KEY (payment_method_id) REFERENCES payment_method(id)
+FOREIGN KEY (payment_method_id) REFERENCES `payment_method`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE `order`
 ADD CONSTRAINT fk_order_gift_card
-FOREIGN KEY (order_gift_card_id) REFERENCES order_gift_card(id)
+FOREIGN KEY (order_gift_card_id) REFERENCES `order_gift_card`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE `order`
 ADD CONSTRAINT fk_order_code_promo
-FOREIGN KEY (code_promo_id) REFERENCES code_promo(id)
+FOREIGN KEY (code_promo_id) REFERENCES `code_promo`(id)
 ON DELETE SET NULL;
 
 ALTER TABLE `order`
 ADD CONSTRAINT fk_order_shipping_method
-FOREIGN KEY (shipping_method_id) REFERENCES shipping_method(id)
+FOREIGN KEY (shipping_method_id) REFERENCES `shipping_method`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE `order`
 ADD CONSTRAINT fk_order_address_shipping
-FOREIGN KEY (order_address_shipping_id) REFERENCES order_address_shipping(id)
+FOREIGN KEY (order_address_shipping_id) REFERENCES `order_address_shipping`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE `order`
 ADD CONSTRAINT fk_order_address_billing
-FOREIGN KEY (order_address_billing_id) REFERENCES order_address_billing(id)
+FOREIGN KEY (order_address_billing_id) REFERENCES `order_address_billing`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE `order_message`
@@ -298,3 +289,10 @@ ALTER TABLE `shipping_method_settings`
 ADD CONSTRAINT fk_shipping_method_settings_tarifs
 FOREIGN KEY (shipping_method_tarifs_id) REFERENCES `shipping_method_tarifs`(id)
 ON DELETE CASCADE;
+
+
+/* ********************* NOTES-ADMIN ********************* */
+ALTER TABLE notes_admin
+ADD CONSTRAINT fk_notes_admin_customer_id
+FOREIGN KEY (customer_id) REFERENCES `customer`(id)
+ON DELETE SET NULL;

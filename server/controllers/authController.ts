@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import * as authService from "../services/authService.js";
 import { generateSixDigitCode } from "../utils/digit_code.js";
-import { authRequestSchema } from "../dto/auth.dto.js";
+import { authRequestSchema } from "../dto/auth/auth.dto.js";
 
 // Ouvrir une session d'authentification (envoyer un OTP)
 export const authOpenSession = async (

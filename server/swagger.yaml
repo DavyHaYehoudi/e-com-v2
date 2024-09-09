@@ -90,20 +90,12 @@ paths:
                   error:
                     type: string
                     example: The secret OTP provided is invalid.
-  /customer/{customerId}/profile:
+  /customer/profile:
     get:
       tags:
         - customer
       summary: Show the profile customer.
       description: Show the profile customer.
-      parameters:
-        - name: customerId
-          in: path
-          description: Id of the customer.
-          required: true
-          schema:
-            type: integer
-            format: int64
       responses:
         '200':
           description: successful operation
@@ -122,41 +114,29 @@ paths:
         - customer
       summary: Update an existent profile customer.
       description: Update an existent profile customer.
-      parameters:
-        - name: customerId
-          in: path
-          description: Id of the customer.
-          required: true
-          schema:
-            type: integer
-            format: int64
+      requestBody:
+        description: Fields to update with new values.
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerProfilePATCH' 
       responses:
         '200':
           description: successful operation
-          content:
-            application/json:
-              schema: 
-               $ref: '#/components/schemas/CustomerProfilePATCH'       
+        '400':
+          description: Bad Request - Invalid content
         '401':
           description: Unauthorized - Customer is not authenticated
         '404':
           description: Not found - The customer doesn't exist.
       security:
         - api_key: []
-  /customer/{customerId}/profile/avatar:
+  /customer/profile/avatar:
     get:
       tags:
         - customer
       summary: Show the avatar customer.
       description: Show the avatar customer.
-      parameters:
-        - name: customerId
-          in: path
-          description: Id of the customer.
-          required: true
-          schema:
-            type: integer
-            format: int64
       responses:
         '200':
           description: successful operation
@@ -175,14 +155,6 @@ paths:
         - customer
       summary: Update an existent profile customer.
       description: Update an existent profile customer.
-      parameters:
-        - name: customerId
-          in: path
-          description: Id of the customer.
-          required: true
-          schema:
-            type: integer
-            format: int64
       responses:
         '200':
           description: successful operation
@@ -196,20 +168,12 @@ paths:
           description: Not found - The customer doesn't exist.
       security:
         - api_key: []
-  /customer/{customerId}/cart:
+  /customer/cart:
     get:
       tags:
         - customer
       summary: Show the cart customer.
       description: Show the cart customer.
-      parameters:
-        - name: customerId
-          in: path
-          description: Id of the customer.
-          required: true
-          schema:
-            type: integer
-            format: int64
       responses:
         '200':
           description: successful operation
@@ -228,14 +192,6 @@ paths:
         - customer
       summary: Update an existent cart customer.
       description: Update an existent cart customer.
-      parameters:
-        - name: customerId
-          in: path
-          description: Id of the customer.
-          required: true
-          schema:
-            type: integer
-            format: int64
       responses:
         '200':
           description: successful operation
@@ -243,26 +199,20 @@ paths:
             application/json:
               schema: 
                $ref: '#/components/schemas/CustomerCartPATCH'       
+        '400':
+          description: Bad Request - Invalid content
         '401':
           description: Unauthorized - Customer is not authenticated
         '404':
           description: Not found - The customer doesn't exist.
       security:
         - api_key: []
-  /customer/{customerId}/wishlist:
+  /customer/wishlist:
     get:
       tags:
         - customer
       summary: Show the wishlist customer.
       description: Show the wishlist customer.
-      parameters:
-        - name: customerId
-          in: path
-          description: Id of the customer.
-          required: true
-          schema:
-            type: integer
-            format: int64
       responses:
         '200':
           description: successful operation
@@ -281,14 +231,6 @@ paths:
         - customer
       summary: Update an existent wishlist customer.
       description: Update an existent wishlist customer.
-      parameters:
-        - name: customerId
-          in: path
-          description: Id of the customer.
-          required: true
-          schema:
-            type: integer
-            format: int64
       responses:
         '200':
           description: successful operation
@@ -302,20 +244,13 @@ paths:
           description: Not found - The customer doesn't exist.
       security:
         - api_key: []
-  /customer/{customerId}/addresses:
+  /customer/addresses:
     get:
       tags:
         - customer
       summary: Show the shipping/billing address customer.
       description: Show the shipping/billing address customer.
       parameters:
-        - name: customerId
-          in: path
-          description: Id of the customer.
-          required: true
-          schema:
-            type: integer
-            format: int64
         - name: type
           in: query
           description: shipping or billing.
@@ -342,13 +277,6 @@ paths:
       summary: Add a shipping/billing address customer.
       description: Add a shipping/billing address customer.
       parameters:
-        - name: customerId
-          in: path
-          description: Id of the customer.
-          required: true
-          schema:
-            type: integer
-            format: int64
         - name: type
           in: query
           description: shipping or billing.
@@ -375,13 +303,6 @@ paths:
       summary: Update an existent shipping/billing address customer.
       description: Update an existent shipping/billing address customer.
       parameters:
-        - name: customerId
-          in: path
-          description: Id of the customer.
-          required: true
-          schema:
-            type: integer
-            format: int64
         - name: type
           in: query
           description: shipping or billing.
@@ -465,6 +386,70 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CustomerOneAdminPATCH'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The customer doesn't exist.
+      security:
+        - api_key: []
+  /admin/customers/{customerId}/notes:
+    get:
+      tags:
+        - customer
+      summary: Finds notes on the customer.
+      description: Finds notes on the customer.
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notes:
+                    type: string
+                    example: Les notes de l'admin   
+        '403':
+          description: Unauthorized - Admin is not authenticated
+      security:
+        - api_key: []
+    put:
+      tags:
+        - customer
+      summary: Update an existing note customer.
+      description: Update an existing note customer.
+      parameters:
+        - name: customerId
+          in: path
+          description: ID of the note customer to update.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: update an existent note customer in the store
+        content:
+          application/json:
+            schema:
+                required:
+                  - notes
+                type: object
+                properties:
+                  notes:
+                    type: string
+                    example: De nouvelles notes de l'admin
         required: true
       responses:
         '204':
@@ -1958,8 +1943,8 @@ components:
           items:
             type: object
             properties:
-              product_variant_id:
-                type: string
+              product_id:
+                type: integer
                 example: 02983475
               quantity:
                 type: integer
@@ -1967,11 +1952,20 @@ components:
               adding_date:
                 type: string
                 example: 2024-08-31
-        gift_card_id:
+        gift_cards:
           type: array
           items:
-            type: string
-            example: 11293847
+            type: object
+            properties: 
+              quantity:
+                type: integer
+                example: 1
+              amount: 
+                type: integer
+                example: 75
+              adding_date:
+                type: string
+                example: "2024-06-10"
     CustomerCartPATCH:
       type: object
       properties:
@@ -1980,8 +1974,8 @@ components:
           items:
             type: object
             properties:
-              product_variant_id:
-                type: string
+              product_id:
+                type: integer
                 example: 11111123
               quantity:
                 type: integer
@@ -1989,6 +1983,13 @@ components:
               adding_date:
                 type: string
                 example: 2024-08-31
+        gift_cards:
+          type: array
+          items: 
+            type: string
+          example: []
+            
+
     CustomerWishlistGET:
       type: object
       properties:
@@ -1997,7 +1998,7 @@ components:
           items:
             type: object
             properties:
-              product_variant_id:
+              product_id:
                 type: string
                 example: 109587888
         gift_card_id:
@@ -2013,7 +2014,7 @@ components:
           items:
             type: object
             properties:
-              product_variant_id:
+              product_id:
                 type: string
                 example: 109444444
     CustomerAddressGET:
@@ -3079,7 +3080,7 @@ components:
         order_id:
           type: string
           example: 102938475
-        product_variant_id: 
+        product_id: 
           type: string
           example: 0928374958
         review_text:
@@ -3103,7 +3104,7 @@ components:
         order_id:
           type: string
           example: 102938475
-        product_variant_id: 
+        product_id: 
           type: string
           example: 0928374958
         review_text:
@@ -3127,7 +3128,7 @@ components:
         order_id:
           type: string
           example: 102938475
-        product_variant_id: 
+        product_id: 
           type: string
           example: 0928374958
         review_text:
@@ -3138,7 +3139,7 @@ components:
           example: 5
       required:
         - order_id
-        - product_variant_id
+        - product_id
         - review_text
     ReviewPATCH:
       type: object

@@ -1,6 +1,6 @@
 //authRepository.ts
 import { query } from "../config/req.js";
-import { AuthRow } from "../types/auth.js";
+import { AuthRow } from "../types/auth/auth.js";
 
 
 // Insérer le code d'authentification

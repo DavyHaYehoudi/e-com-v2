@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { environment } from "../types/environment.js"; 
-import { CustomJwtPayload } from "../types/auth.js";
+import { CustomJwtPayload } from "../types/auth/auth.js";
 
 export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
   const token = req.header('Authorization')?.split(' ')[1]; // Extraire le token du header "Authorization: Bearer <token>"
