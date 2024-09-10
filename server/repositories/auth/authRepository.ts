@@ -1,9 +1,9 @@
 //authRepository.ts
-import { query } from "../config/req.js";
-import { AuthRow } from "../types/auth/auth.js";
+import { query } from "../../config/req.js";
+import { AuthRow } from "../../types/auth/auth.js";
 
 // Insérer le code d'authentification
-export const storeAuthCode = async (
+export const storeAuthCodeRepository = async (
   email: string,
   authCode: string,
   expiresAt: Date
@@ -17,7 +17,7 @@ export const storeAuthCode = async (
 };
 
 // Vérifier l'authentification (email + code + expiration)
-export const verifyAuthCode = async (email: string, otp: string) => {
+export const verifyAuthCodeRepository = async (email: string, otp: string) => {
   const sql = `
     SELECT * FROM authentication 
     WHERE email = ? AND digit_code = ? AND expires_at > NOW()

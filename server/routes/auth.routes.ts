@@ -1,10 +1,10 @@
 import express from "express";
 import {
-  authOpenSession,
-  authVerifyOTP,
-} from "../controllers/authController.js";
+  authOpenSessionController,
+  authVerifyOTPController,
+} from "../controllers/auth/authController.js";
 const router = express.Router();
 
-router.post("/open-session", authOpenSession);
-router.post("/send-verify-otp", authVerifyOTP);
+router.post("/open-session", authOpenSessionController);
+router.post("/send-verify-otp", authVerifyOTPController);
 export default router;

@@ -1,60 +1,19 @@
-//customerRepository.ts
-import { query } from "../config/req.js";
+import { query } from "../../config/req.js";
 import { ResultSetHeader } from "mysql2";
-import { CustomerRow } from "../types/customer/customer.js";
-import { CartGiftCardRow, CartItemRow, CartRow } from "../types/customer/cart.js";
+import {
+  CartGiftCardRow,
+  CartItemRow,
+  CartRow,
+} from "../../types/customer/cart.js";
 import {
   beginTransaction,
   commitTransaction,
   rollbackTransaction,
-} from "../utils/transaction.js";
-import { CartInput } from "../dto/customer/cart.dto.js";
+} from "../../utils/transaction.js";
+import { CartInput } from "../../dto/customer/cart.dto.js";
 
-// Récupérer les données du customer par email pour l'ouverture de session
-export const getCustomerByEmail = async (email: string) => {
-  const sql = `SELECT * FROM customer WHERE email = ?`;
-  const rows = await query<CustomerRow[]>(sql, [email]);
-  const customers = rows;
-  return customers[0] || null;
-};
-// Créer un customer
-export const addCustomer = async (email: string) => {
-    const sql = `INSERT INTO customer (email) VALUES (?)`;
-    const result = await query<ResultSetHeader>(sql, [email]);
-    if (result.affectedRows > 0) {
-      return result.insertId;
-    } else {
-      throw new Error("L'insertion du client a échoué.");
-    }
-  };
-// Récupérer les données d'un customer
-export const getCustomerById = async (customerId: number) => {
-  const sql = `
-      SELECT *
-      FROM customer 
-      WHERE id = ?`;
-
-  const rows = await query<CustomerRow[]>(sql, [customerId]);
-  const customers = rows;
-  return customers[0] || null;
-};
-// Mettre à jour un customer
-export const updateCustomer = async (
-  customerId: number,
-  updatedFields: Record<string, any>
-) => {
-  const fields = Object.keys(updatedFields)
-    .map((field) => `${field} = ?`)
-    .join(", ");
-  const values = Object.values(updatedFields);
-
-  const sql = `UPDATE customer SET ${fields} WHERE id = ?`;
-  const result = (await query<ResultSetHeader>(sql, [...values, customerId])) ;
-
-  return result;
-};
 // Récupérer le panier du customer
-export const getCustomerCart = async (customerId: number) => {
+export const getCustomerCartRepository = async (customerId: number) => {
   const cartSql = `SELECT * FROM cart WHERE customer_id = ?`;
   const cart = (await query(cartSql, [customerId])) as CartRow[];
 
@@ -63,10 +22,8 @@ export const getCustomerCart = async (customerId: number) => {
   const cartItemsSql = `SELECT * FROM cart_item WHERE cart_id = ?`;
   const giftCardsSql = `SELECT * FROM cart_gift_card WHERE cart_id = ?`;
 
-  const cartItems = (await query<CartItemRow[]>(cartItemsSql, [cart[0].id]));
-  const giftCards = (await query<CartGiftCardRow[]>(giftCardsSql, [
-    cart[0].id,
-  ]));
+  const cartItems = await query<CartItemRow[]>(cartItemsSql, [cart[0].id]);
+  const giftCards = await query<CartGiftCardRow[]>(giftCardsSql, [cart[0].id]);
 
   return {
     cart: cart[0],
@@ -75,7 +32,7 @@ export const getCustomerCart = async (customerId: number) => {
   };
 };
 // Créer ou mettre à jour le panier du customer
-export const updateCustomerCart = async (
+export const updateCustomerCartRepository = async (
   customerId: number,
   cartData: CartInput
 ) => {
@@ -103,9 +60,10 @@ export const updateCustomerCart = async (
       await query(`DELETE FROM cart_gift_card WHERE cart_id = ?`, [cartId]);
     } else {
       // Créer un nouveau panier
-      const result = await query<ResultSetHeader>(`INSERT INTO cart (customer_id) VALUES (?)`, [
-        customerId,
-      ]);
+      const result = await query<ResultSetHeader>(
+        `INSERT INTO cart (customer_id) VALUES (?)`,
+        [customerId]
+      );
       cartId = result.insertId; // 'insertId' existe dans 'ResultSetHeader'
     }
 

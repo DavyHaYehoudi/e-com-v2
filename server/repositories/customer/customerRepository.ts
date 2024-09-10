@@ -1,0 +1,48 @@
+//customerRepository.ts
+import { query } from "../../config/req.js";
+import { ResultSetHeader } from "mysql2";
+import { CustomerRow } from "../../types/customer/customer.js";
+
+// Récupérer les données du customer par email pour l'ouverture de session
+export const getCustomerByEmailRepository = async (email: string) => {
+  const sql = `SELECT * FROM customer WHERE email = ?`;
+  const rows = await query<CustomerRow[]>(sql, [email]);
+  const customers = rows;
+  return customers[0] || null;
+};
+// Créer un customer
+export const addCustomerRepository = async (email: string) => {
+  const sql = `INSERT INTO customer (email) VALUES (?)`;
+  const result = await query<ResultSetHeader>(sql, [email]);
+  if (result.affectedRows > 0) {
+    return result.insertId;
+  } else {
+    throw new Error("L'insertion du client a échoué.");
+  }
+};
+// Récupérer les données d'un customer
+export const getCustomerByIdRepository = async (customerId: number) => {
+  const sql = `
+      SELECT *
+      FROM customer 
+      WHERE id = ?`;
+
+  const rows = await query<CustomerRow[]>(sql, [customerId]);
+  const customers = rows;
+  return customers[0] || null;
+};
+// Mettre à jour un customer
+export const updateCustomerRepository = async (
+  customerId: number,
+  updatedFields: Record<string, any>
+) => {
+  const fields = Object.keys(updatedFields)
+    .map((field) => `${field} = ?`)
+    .join(", ");
+  const values = Object.values(updatedFields);
+
+  const sql = `UPDATE customer SET ${fields} WHERE id = ?`;
+  const result = await query<ResultSetHeader>(sql, [...values, customerId]);
+
+  return result;
+};
