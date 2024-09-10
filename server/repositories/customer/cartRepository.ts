@@ -15,7 +15,7 @@ import { CartInput } from "../../dto/customer/cart.dto.js";
 // Récupérer le panier du customer
 export const getCustomerCartRepository = async (customerId: number) => {
   const cartSql = `SELECT * FROM cart WHERE customer_id = ?`;
-  const cart = (await query(cartSql, [customerId])) as CartRow[];
+  const cart = (await query<CartRow[]>(cartSql, [customerId]));
 
   if (cart.length === 0) return null;
 
