@@ -1,6 +1,6 @@
 import { RowDataPacket } from "mysql2";
 
-export interface CustomerRow extends RowDataPacket {
+export interface ProfileRow extends RowDataPacket {
   id: number;
   role: string;
   email: string;

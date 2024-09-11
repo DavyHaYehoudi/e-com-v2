@@ -31,5 +31,5 @@ export const WishlistInputSchema = z.object({
   gift_cards: z.array(GiftCardSchema),
 });
 
-// Type des données entrantes validées avec Zod
 export type WishlistInput = z.infer<typeof WishlistInputSchema>;
+ 

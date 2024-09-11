@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   getCustomerProfileController,
   updateCustomerProfileController,
-} from "../controllers/customer/customerController.js";
+} from "../controllers/customer/profileController.js";
 import { verifyToken } from "../middlewares/authMiddleware.js";
 import {
   getCustomerCartController,

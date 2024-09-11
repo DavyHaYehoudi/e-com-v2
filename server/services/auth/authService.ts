@@ -1,4 +1,4 @@
-import * as customerRepository from "../../repositories/customer/customerRepository.js";
+import * as profileRepository from "../../repositories/customer/profileRepository.js";
 import { addMinutes } from "date-fns";
 import * as authRepository from "../../repositories/auth/authRepository.js";
 import { generateToken } from "../../utils/jwt.js";
@@ -17,10 +17,10 @@ export const verifyAuthCodeService = async (email: string, otp: string) => {
     throw new ForbiddenError("Invalid OTP or email");
   }
 
-  let customer = await customerRepository.getCustomerByEmailRepository(email);
+  let customer = await profileRepository.getCustomerByEmailRepository(email);
   if (!customer) {
-    await customerRepository.addCustomerRepository(email);
-    customer = await customerRepository.getCustomerByEmailRepository(email);
+    await profileRepository.addprofileRepository(email);
+    customer = await profileRepository.getCustomerByEmailRepository(email);
   }
 
   // Générer le token JWT

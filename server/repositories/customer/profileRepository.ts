@@ -1,17 +1,17 @@
-//customerRepository.ts
+//profileRepository.ts
 import { query } from "../../config/req.js";
 import { ResultSetHeader } from "mysql2";
-import { CustomerRow } from "../../types/customer/customer.js";
+import { ProfileRow } from "../../types/customer/profile.js";
 
 // Récupérer les données du customer par email pour l'ouverture de session
 export const getCustomerByEmailRepository = async (email: string) => {
   const sql = `SELECT * FROM customer WHERE email = ?`;
-  const rows = await query<CustomerRow[]>(sql, [email]);
+  const rows = await query<ProfileRow[]>(sql, [email]);
   const customers = rows;
   return customers[0] || null;
 };
 // Créer un customer
-export const addCustomerRepository = async (email: string) => {
+export const addprofileRepository = async (email: string) => {
   const sql = `INSERT INTO customer (email) VALUES (?)`;
   const result = await query<ResultSetHeader>(sql, [email]);
   if (result.affectedRows > 0) {
@@ -27,12 +27,12 @@ export const getCustomerByIdRepository = async (customerId: number) => {
       FROM customer 
       WHERE id = ?`;
 
-  const rows = await query<CustomerRow[]>(sql, [customerId]);
+  const rows = await query<ProfileRow[]>(sql, [customerId]);
   const customers = rows;
   return customers[0] || null;
 };
 // Mettre à jour un customer
-export const updateCustomerRepository = async (
+export const updateprofileRepository = async (
   customerId: number,
   updatedFields: Record<string, any>
 ) => {
