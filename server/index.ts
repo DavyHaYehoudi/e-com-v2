@@ -4,6 +4,9 @@ import { checkConnection } from "./database/check-connection.js";
 import errorHandler from "./middlewares/errorMiddleware.js";
 import authRoutes from "./routes/auth.routes.js";
 import customerRoutes from "./routes/customer.routes.js";
+import { adminAccess } from "./middlewares/adminAccessMiddleware.js";
+import profileRoutes from "./routes/admin/customer/profile.routes.js";
+import { verifyToken } from "./middlewares/authMiddleware.js";
 
 const app: Express = express();
 const port = environment.PORT;
@@ -14,8 +17,8 @@ checkConnection();
 app.use("/api/auth", authRoutes);
 app.use("/api/customer", customerRoutes);
 
-// Routes pour les admins (authentifiés + rôle admin)
-// app.use("/api/admin", adminRoutes);
+// Admin routes
+app.use("/api/admin/customers", verifyToken, adminAccess, profileRoutes);
 
 app.use(errorHandler);
 

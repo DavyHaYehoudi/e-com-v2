@@ -19,6 +19,7 @@ import {
 
 const router = Router();
 
+// customer
 router.patch("/profile", verifyToken, updateCustomerProfileController);
 router.get("/profile", verifyToken, getCustomerProfileController);
 router.get("/cart", verifyToken, getCustomerCartController);
@@ -27,5 +28,6 @@ router.get("/wishlist", verifyToken, getCustomerWishlistController);
 router.put("/wishlist", verifyToken, updateCustomerWishlistController);
 router.get("/address", verifyToken, getCustomerAddressController);
 router.put("/address", verifyToken, updateCustomerAddressController);
+
 
 export default router;

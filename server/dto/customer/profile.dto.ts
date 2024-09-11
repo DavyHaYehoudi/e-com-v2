@@ -32,3 +32,5 @@ export const updateCustomerProfileSchema = z
       .optional(),
   })
   .strict();
+
+  export type ProfileInput = z.infer<typeof updateCustomerProfileSchema>;

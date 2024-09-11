@@ -19,7 +19,7 @@ export const verifyAuthCodeService = async (email: string, otp: string) => {
 
   let customer = await profileRepository.getCustomerByEmailRepository(email);
   if (!customer) {
-    await profileRepository.addprofileRepository(email);
+    await profileRepository.addProfileRepository(email);
     customer = await profileRepository.getCustomerByEmailRepository(email);
   }
 

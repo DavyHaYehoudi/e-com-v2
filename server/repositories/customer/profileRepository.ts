@@ -11,7 +11,7 @@ export const getCustomerByEmailRepository = async (email: string) => {
   return customers[0] || null;
 };
 // Créer un customer
-export const addprofileRepository = async (email: string) => {
+export const addProfileRepository = async (email: string) => {
   const sql = `INSERT INTO customer (email) VALUES (?)`;
   const result = await query<ResultSetHeader>(sql, [email]);
   if (result.affectedRows > 0) {
@@ -32,7 +32,7 @@ export const getCustomerByIdRepository = async (customerId: number) => {
   return customers[0] || null;
 };
 // Mettre à jour un customer
-export const updateprofileRepository = async (
+export const updateProfileRepository = async (
   customerId: number,
   updatedFields: Record<string, any>
 ) => {
@@ -45,4 +45,11 @@ export const updateprofileRepository = async (
   const result = await query<ResultSetHeader>(sql, [...values, customerId]);
 
   return result;
+};
+// Admin Récupérer tous les profils customers
+export const getAllCustomersRepository = async () => {
+  const sql = `SELECT * FROM customer`;
+  const rows = await query<ProfileRow[]>(sql);
+  const customers = rows;
+  return customers;
 };
