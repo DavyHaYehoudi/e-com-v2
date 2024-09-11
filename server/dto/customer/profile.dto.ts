@@ -9,7 +9,10 @@ const MAX_BIRTHDAY_DATE = new Date(); // Aujourd'hui
 const isValidBirthdayInRange = (dateString: string) => {
   const parsedDate = parseISO(dateString);
   if (!isValid(parsedDate)) return false;
-  return isAfter(parsedDate, MIN_BIRTHDAY_DATE) && isBefore(parsedDate, MAX_BIRTHDAY_DATE);
+  return (
+    isAfter(parsedDate, MIN_BIRTHDAY_DATE) &&
+    isBefore(parsedDate, MAX_BIRTHDAY_DATE)
+  );
 };
 
 export const updateCustomerProfileSchema = z
@@ -33,4 +36,11 @@ export const updateCustomerProfileSchema = z
   })
   .strict();
 
-  export type ProfileInput = z.infer<typeof updateCustomerProfileSchema>;
+export type ProfileInput = z.infer<typeof updateCustomerProfileSchema>;
+
+export const updateAnyCustomerProfileSchema = z.object({
+  is_active: z.boolean().optional(),
+});
+export type ProfileInputReservedAdmin = z.infer<
+  typeof updateAnyCustomerProfileSchema
+>;

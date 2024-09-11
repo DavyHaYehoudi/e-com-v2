@@ -46,10 +46,36 @@ export const updateProfileRepository = async (
 
   return result;
 };
-// Admin Récupérer tous les profils customers
+// Admin - Récupérer tous les profils customers
 export const getAllCustomersRepository = async () => {
   const sql = `SELECT * FROM customer`;
   const rows = await query<ProfileRow[]>(sql);
   const customers = rows;
   return customers;
+};
+// Admin - Récupérer les données de n'importe quel customer
+export const getAnyCustomerByIdRepository = async (customerId: number) => {
+  const sql = `
+      SELECT *
+      FROM customer 
+      WHERE id = ?`;
+
+  const rows = await query<ProfileRow[]>(sql, [customerId]);
+  const customers = rows;
+  return customers[0] || null;
+};
+//Admin - Mettre à jour un customer (désactiver)
+export const updateAnyProfileRepository = async (
+  customerId: number,
+  updatedFields: Record<string, any>
+) => {
+  const fields = Object.keys(updatedFields)
+    .map((field) => `${field} = ?`)
+    .join(", ");
+  const values = Object.values(updatedFields);
+
+  const sql = `UPDATE customer SET ${fields} WHERE id = ?`;
+  const result = await query<ResultSetHeader>(sql, [...values, customerId]);
+
+  return result;
 };
