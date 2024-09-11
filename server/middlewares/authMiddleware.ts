@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { environment } from "../types/environment.js"; 
+import { environment } from "../environment.js"; 
 import { CustomJwtPayload } from "../types/auth/auth.js";
 
 export const verifyToken = (req: Request, res: Response, next: NextFunction) => {

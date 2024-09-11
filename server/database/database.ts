@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
-import { environment } from '../types/environment.js';
+import { environment } from '../environment.js';
 
 dotenv.config();
 

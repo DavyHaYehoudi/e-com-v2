@@ -42,10 +42,9 @@ export const updateProfileRepository = async (
   const values = Object.values(updatedFields);
 
   const sql = `UPDATE customer SET ${fields} WHERE id = ?`;
-  const result = await query<ResultSetHeader>(sql, [...values, customerId]);
-
-  return result;
+  await query(sql, [...values, customerId]);
 };
+
 // Admin - Récupérer tous les profils customers
 export const getAllCustomersRepository = async () => {
   const sql = `SELECT * FROM customer`;
@@ -73,9 +72,6 @@ export const updateAnyProfileRepository = async (
     .map((field) => `${field} = ?`)
     .join(", ");
   const values = Object.values(updatedFields);
-
   const sql = `UPDATE customer SET ${fields} WHERE id = ?`;
-  const result = await query<ResultSetHeader>(sql, [...values, customerId]);
-
-  return result;
+  await query(sql, [...values, customerId]);
 };

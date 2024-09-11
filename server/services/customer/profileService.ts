@@ -19,6 +19,7 @@ export const updateCustomerProfileService = async (
 export const getAllCustomersProfileService = async () => {
   return await profileRepository.getAllCustomersRepository();
 };
+
 // Admin - Récupérer les données de n'importe quel customer
 export const getAnyCustomerByIdService = async (customerId: number) => {
   return await profileRepository.getAnyCustomerByIdRepository(customerId);

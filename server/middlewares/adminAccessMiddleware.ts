@@ -7,8 +7,6 @@ export const adminAccess = (
   next: NextFunction
 ) => {
   const user = req.user;
-  console.log("user:", user);
-
   if (!user || typeof user !== "object" || user.role !== "admin") {
     return res
       .status(403)

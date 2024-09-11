@@ -1,7 +1,7 @@
 //req.ts
 import mysql from "mysql2/promise";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
-import { environment } from "../types/environment.js";
+import { environment } from "../environment.js";
 
 // Création du pool de connexions MySQL
 const pool = mysql.createPool({

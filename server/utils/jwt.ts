@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { environment } from "../types/environment.js";
+import { environment } from "../environment.js";
 
 export const generateToken = (
   customerId: number,
