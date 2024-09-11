@@ -12,6 +12,10 @@ import {
   getCustomerWishlistController,
   updateCustomerWishlistController,
 } from "../controllers/customer/wishlistController.js";
+import {
+  getCustomerAddressController,
+  updateCustomerAddressController,
+} from "../controllers/customer/addressController.js";
 
 const router = Router();
 
@@ -21,5 +25,7 @@ router.get("/cart", verifyToken, getCustomerCartController);
 router.put("/cart", verifyToken, updateCustomerCartController);
 router.get("/wishlist", verifyToken, getCustomerWishlistController);
 router.put("/wishlist", verifyToken, updateCustomerWishlistController);
+router.get("/address", verifyToken, getCustomerAddressController);
+router.put("/address", verifyToken, updateCustomerAddressController);
 
 export default router;

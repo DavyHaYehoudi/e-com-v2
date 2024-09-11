@@ -10,7 +10,9 @@ export const addressSchema = z.object({
   city: z.string(),
   postal_code: z.string().max(20),
   country: z.string().default('France'),
-  type: z.enum(['shipping', 'billing']) 
 });
+
+// Schéma spécifique pour valider seulement le type
+export const addressTypeSchema = z.enum(['shipping', 'billing']);
 
 export type AddressInput = z.infer<typeof addressSchema>;

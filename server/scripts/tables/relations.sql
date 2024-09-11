@@ -92,16 +92,10 @@ ADD CONSTRAINT fk_wishlist_item
 FOREIGN KEY (wishlist_id) REFERENCES `wishlist`(id)
 ON DELETE SET NULL;
 
-ALTER TABLE customer_address_shipping
-ADD CONSTRAINT fk_customer_id_address_shipping
+ALTER TABLE customer_address
+ADD  CONSTRAINT fk_customer_id_address
 FOREIGN KEY (customer_id) REFERENCES `customer`(id)
 ON DELETE SET NULL;
-
-ALTER TABLE customer_address_billing
-ADD CONSTRAINT fk_customer_id_address_billing
-FOREIGN KEY (customer_id) REFERENCES `customer`(id)
-ON DELETE SET NULL;
-
 
 /* ********************* GIFT-CARD ********************* */
 ALTER TABLE gift_card
