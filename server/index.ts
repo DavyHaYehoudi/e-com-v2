@@ -4,14 +4,19 @@ import { checkConnection } from "./database/check-connection.js";
 import errorHandler from "./middlewares/errorMiddleware.js";
 import { verifyToken } from "./middlewares/authMiddleware.js";
 import { adminAccess } from "./middlewares/adminAccessMiddleware.js";
+// Public routes
 import authRoutes from "./routes/freeAccess/auth.routes.js";
-import customerRoutes from "./routes/customer/customer.routes.js";
-import profileRoutes from "./routes/admin/customer/profile.routes.js";
 import collectionRoutes from "./routes/freeAccess/collection.routes.js";
 import categoryRoutes from "./routes/freeAccess/category.routes.js";
+import tagRoutes from "./routes/freeAccess/tag.routes.js";
+// Customer routes
+import customerRoutes from "./routes/customer/customer.routes.js";
+// Admin routes
+import profileRoutes from "./routes/admin/customer/profile.routes.js";
 import notesAdminRoutes from "./routes/admin/customer/notesAdmin.routes.js";
 import collectionAdminRoutes from "./routes/admin/collection/collection.routes.js";
 import categoryAdminRoutes from "./routes/admin/category/category.routes.js";
+import tagAdminRoutes from "./routes/admin/tag/tag.routes.js";
 
 const app: Express = express();
 const port = environment.PORT;
@@ -23,6 +28,7 @@ checkConnection();
 app.use("/api/auth", authRoutes);
 app.use("/api/collections", collectionRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/tags", tagRoutes);
 
 // Customer routes
 app.use("/api/customer", customerRoutes);
@@ -37,6 +43,7 @@ app.use(
   collectionAdminRoutes
 );
 app.use("/api/admin/categories", verifyToken, adminAccess, categoryAdminRoutes);
+app.use("/api/admin/tags", verifyToken, adminAccess, tagAdminRoutes);
 
 app.use(errorHandler);
 
