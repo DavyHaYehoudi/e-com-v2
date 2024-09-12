@@ -2,7 +2,10 @@ import { ResultSetHeader } from "mysql2";
 import { query } from "../../config/req.js";
 import { CreateCollectionDTO } from "../../dto/collection/collection.dto.js";
 import { CollectionRow } from "../../types/collection/collection.js";
-import { NotFoundError } from "../../exceptions/CustomErrors.js";
+import {
+  DuplicateEntryError,
+  NotFoundError,
+} from "../../exceptions/CustomErrors.js";
 
 export const getAllCollectionsRepository = async () => {
   const sql = `SELECT * FROM collection`;
@@ -16,11 +19,19 @@ export const createCollectionRepository = async (
         INSERT INTO collection (name, image_url, is_star)
         VALUES (?, ?, ?)
       `;
-  await query(sql, [
-    collectionData.name,
-    collectionData.image_url,
-    collectionData.is_star,
-  ]);
+  try {
+    await query(sql, [
+      collectionData.name,
+      collectionData.image_url,
+      collectionData.is_star,
+    ]);
+  } catch (error: any) {
+    if (error.code === "ER_DUP_ENTRY") {
+      throw new DuplicateEntryError(
+        `Collection name '${collectionData.name}' already exists`
+      );
+    }
+  }
 };
 
 export const updateCollectionRepository = async (
@@ -32,11 +43,18 @@ export const updateCollectionRepository = async (
     .join(", ");
   const values = Object.values(updatedFields);
   const sql = `UPDATE collection SET ${fields} WHERE id = ?`;
-  const result = await query<ResultSetHeader>(sql, [...values, collectionId]);
+  try {
+    const result = await query<ResultSetHeader>(sql, [...values, collectionId]);
 
-  // Vérification si une collection a été mise à jour
-  if (result.affectedRows === 0) {
-    throw new NotFoundError(`Collection with ID ${collectionId} not found`);
+    if (result.affectedRows === 0) {
+      throw new NotFoundError(`Collection with ID ${collectionId} not found`);
+    }
+  } catch (error: any) {
+    if (error.code === "ER_DUP_ENTRY") {
+      throw new DuplicateEntryError(
+        `Collection name '${updatedFields.name}' already exists`
+      );
+    }
   }
 };
 

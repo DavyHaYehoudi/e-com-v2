@@ -7,13 +7,11 @@ export class AppError extends Error {
     Error.captureStackTrace(this, this.constructor);
   }
 }
-
 export class BadRequestError extends AppError {
   constructor(message = "Bad Request") {
     super(message, 400);
   }
 }
-
 export class UnauthorizedError extends AppError {
   constructor(message = "Unauthorized") {
     super(message, 401);
@@ -29,7 +27,11 @@ export class NotFoundError extends AppError {
     super(message, 404);
   }
 }
-
+export class DuplicateEntryError extends AppError {
+  constructor(message = "Duplicate Entry") {
+    super(message, 409);
+  }
+}
 export class InternalServerError extends AppError {
   constructor(message = "Internal Server Error") {
     super(message, 500);

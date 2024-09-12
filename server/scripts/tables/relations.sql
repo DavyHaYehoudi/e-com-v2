@@ -128,11 +128,22 @@ ADD CONSTRAINT fk_gift_card_usage_customer
 FOREIGN KEY (used_by_customer_id) REFERENCES `customer`(id)
 ON DELETE CASCADE;
 
+/* ********************* COLLECTION ********************* */
+ALTER TABLE collection
+ADD CONSTRAINT unique_collection_name UNIQUE (name);
+
 /* ********************* CATEGORY ********************* */
 ALTER TABLE category
 ADD CONSTRAINT fk_category_parent_collection
 FOREIGN KEY (parent_collection_id) REFERENCES `collection`(id)
 ON DELETE CASCADE;
+
+ALTER TABLE category
+ADD CONSTRAINT unique_category_name UNIQUE (name);
+
+/* ********************* TAG ********************* */
+ALTER TABLE tag
+ADD CONSTRAINT unique_tag_name UNIQUE (name);
 
 /* ********************* ORDER ********************* */
 ALTER TABLE `order`
