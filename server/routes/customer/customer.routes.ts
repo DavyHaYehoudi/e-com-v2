@@ -2,20 +2,20 @@ import { Router } from "express";
 import {
   getCustomerProfileController,
   updateCustomerProfileController,
-} from "../controllers/customer/profileController.js";
-import { verifyToken } from "../middlewares/authMiddleware.js";
+} from "../../controllers/customer/profileController.js";
+import { verifyToken } from "../../middlewares/authMiddleware.js";
 import {
   getCustomerCartController,
   updateCustomerCartController,
-} from "../controllers/customer/cartController.js";
+} from "../../controllers/customer/cartController.js";
 import {
   getCustomerWishlistController,
   updateCustomerWishlistController,
-} from "../controllers/customer/wishlistController.js";
+} from "../../controllers/customer/wishlistController.js";
 import {
   getCustomerAddressController,
   updateCustomerAddressController,
-} from "../controllers/customer/addressController.js";
+} from "../../controllers/customer/addressController.js";
 
 const router = Router();
 

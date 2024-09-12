@@ -32,6 +32,7 @@ export const createCollectionRepository = async (
         `Collection label '${collectionData.label}' already exists`
       );
     }
+    throw error;
   }
 };
 
@@ -39,7 +40,6 @@ export const updateCollectionRepository = async (
   collectionId: number,
   updatedFields: Record<string, any>
 ) => {
-  console.log("updatedFields:", updatedFields);
   const fields = Object.keys(updatedFields)
     .map((field) => `${field} = ?`)
     .join(", ");
@@ -57,6 +57,7 @@ export const updateCollectionRepository = async (
         `Collection label '${updatedFields.label}' already exists`
       );
     }
+    throw error;
   }
 };
 

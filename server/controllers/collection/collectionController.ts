@@ -13,9 +13,6 @@ export const getAllCollectionsController = async (
 ) => {
   try {
     const collections = await collectionService.getAllCollectionsService();
-    if (!collections) {
-      return res.status(404).json({ error: "Collections not found" });
-    }
     res.json(collections);
   } catch (error) {
     next(error);
