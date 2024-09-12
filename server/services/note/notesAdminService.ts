@@ -1,4 +1,4 @@
-import { NotesAdminInputSchema } from "../../dto/note/notesAdmin.dto.js";
+import { NotesAdminInputDTO } from "../../dto/note/notesAdmin.dto.js";
 import * as notesAdminRepository from "../../repositories/note/notesAdminRepository.js";
 
 // Admin - Récupérer les notes sur un customer
@@ -8,7 +8,7 @@ export const getNotesAdminService = async (customerId: number) => {
 //Admin - Mettre à jour les notes d'un customer
 export const updateNotesAdminService = async (
   customerId: number,
-  notesAdminData: NotesAdminInputSchema
+  notesAdminData: NotesAdminInputDTO
 ) => {
   const isNotesAdmin = await notesAdminRepository.getNotesAdminRepository(
     customerId

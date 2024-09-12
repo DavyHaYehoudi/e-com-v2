@@ -21,7 +21,7 @@ export const updateNotesAdminRepository = async (
       SET notes_admin = ?
       WHERE customer_id = ? 
     `;
-  await query(sql, [notesAdminData, customerId]);
+  await query(sql, [notesAdminData.notes_admin, customerId]);
 };
 
 export const createNotesAdminRepository = async (

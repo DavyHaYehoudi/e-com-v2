@@ -10,7 +10,7 @@ import {
   commitTransaction,
   rollbackTransaction,
 } from "../../utils/transaction.js";
-import { WishlistInput } from "../../dto/customer/wishlist.dto.js";
+import { WishlistInputDTO } from "../../dto/customer/wishlist.dto.js";
 
 // Récupérer la wishlist du customer
 export const getCustomerWishlistRepository = async (customerId: number) => {
@@ -38,10 +38,9 @@ export const getCustomerWishlistRepository = async (customerId: number) => {
 // Créer ou mettre à jour la wishlist du customer
 export const updateCustomerWishlistRepository = async (
   customerId: number,
-  wishlistData: WishlistInput
+  wishlistData: WishlistInputDTO
 ) => {
   let wishlistId: number;
-
   await beginTransaction();
   try {
     // Vérifier si une wishlist existe déjà pour le customer
@@ -60,8 +59,8 @@ export const updateCustomerWishlistRepository = async (
       );
 
       // Supprimer les anciennes données des items et gift cards avant la mise à jour
-      await query(`DELETE FROM wishlist_item WHERE cart_id = ?`, [wishlistId]);
-      await query(`DELETE FROM wishlist_gift_card WHERE cart_id = ?`, [
+      await query(`DELETE FROM wishlist_item WHERE wishlist_id = ?`, [wishlistId]);
+      await query(`DELETE FROM wishlist_gift_card WHERE wishlist_id = ?`, [
         wishlistId,
       ]);
     } else {

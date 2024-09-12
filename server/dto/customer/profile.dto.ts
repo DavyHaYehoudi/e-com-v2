@@ -36,11 +36,11 @@ export const updateCustomerProfileSchema = z
   })
   .strict();
 
-export type ProfileInput = z.infer<typeof updateCustomerProfileSchema>;
+export type ProfileInputDTO = z.infer<typeof updateCustomerProfileSchema>;
 
 export const updateAnyCustomerProfileSchema = z.object({
   is_active: z.boolean().optional(),
 });
-export type ProfileInputReservedAdmin = z.infer<
+export type ProfileInputReservedAdminDTO = z.infer<
   typeof updateAnyCustomerProfileSchema
 >;

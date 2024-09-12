@@ -1,5 +1,5 @@
 import * as cartRepository from "../../repositories/customer/cartRepository.js";
-import { CartInput } from "../../types/customer/cart.js";
+import { CartInputDTO } from "../../types/customer/cart.js";
 
 // Récupérer le panier du customer
 export const getCustomerCartService = async (customerId: number) => {
@@ -9,7 +9,7 @@ export const getCustomerCartService = async (customerId: number) => {
 // Mettre à jour ou créer le panier du customer
 export const updateCustomerCartService = async (
   customerId: number,
-  cartData: CartInput
+  cartData: CartInputDTO
 ) => {
   return await cartRepository.updateCustomerCartRepository(
     customerId,

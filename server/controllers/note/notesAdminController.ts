@@ -27,7 +27,7 @@ export const updateNotesAdminController = async (
   res: Response,
   next: NextFunction
 ) => {
-  try {
+  try {    
     const customerId = parseInt(req.params.customerId);
     const validatedData = updateNotesAdminSchema.parse(req.body);
     await notesAdminService.updateNotesAdminService(

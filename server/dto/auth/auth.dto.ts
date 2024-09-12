@@ -5,4 +5,4 @@ export const authRequestSchema = z.object({
   otp: z.string().length(6), // Valide que le OTP est une chaîne de 6 caractères
 });
 
-export type AuthRequest = z.infer<typeof authRequestSchema>;
+export type AuthRequestDTO = z.infer<typeof authRequestSchema>;

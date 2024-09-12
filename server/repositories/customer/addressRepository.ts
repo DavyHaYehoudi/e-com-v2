@@ -1,5 +1,5 @@
 import { query } from "../../config/req.js";
-import { AddressInput } from "../../dto/customer/address.dto.js";
+import { AddressInputDTO } from "../../dto/customer/address.dto.js";
 import { AddressRow } from "../../types/customer/address.js";
 
 export const getCustomerAddressRepository = async (
@@ -15,7 +15,7 @@ export const getCustomerAddressRepository = async (
 export const updateCustomerAddressRepository = async (
   customerId: number,
   type: string,
-  addressData: AddressInput
+  addressData: AddressInputDTO
 ) => {
   const sql = `
       UPDATE customer_address
@@ -40,7 +40,7 @@ export const updateCustomerAddressRepository = async (
 export const createCustomerAddressRepository = async (
   customerId: number,
   type: string,
-  addressData: AddressInput
+  addressData: AddressInputDTO
 ) => {
   const sql = `
       INSERT INTO customer_address (company, email, phone, street_number, address1, address2, city, postal_code, country, customer_id, type)

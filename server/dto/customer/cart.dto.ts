@@ -28,4 +28,4 @@ export const CartInputSchema = z.object({
 });
 
 // Type des données entrantes validées avec Zod
-export type CartInput = z.infer<typeof CartInputSchema>;
+export type CartInputDTO = z.infer<typeof CartInputSchema>;

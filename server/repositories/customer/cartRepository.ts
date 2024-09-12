@@ -10,7 +10,7 @@ import {
   commitTransaction,
   rollbackTransaction,
 } from "../../utils/transaction.js";
-import { CartInput } from "../../dto/customer/cart.dto.js";
+import { CartInputDTO } from "../../dto/customer/cart.dto.js";
 
 // Récupérer le panier du customer
 export const getCustomerCartRepository = async (customerId: number) => {
@@ -34,7 +34,7 @@ export const getCustomerCartRepository = async (customerId: number) => {
 // Créer ou mettre à jour le panier du customer
 export const updateCustomerCartRepository = async (
   customerId: number,
-  cartData: CartInput
+  cartData: CartInputDTO
 ) => {
   let cartId: number;
 

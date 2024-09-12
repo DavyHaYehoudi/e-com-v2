@@ -15,4 +15,4 @@ export const addressSchema = z.object({
 // Schéma spécifique pour valider seulement le type
 export const addressTypeSchema = z.enum(['shipping', 'billing']);
 
-export type AddressInput = z.infer<typeof addressSchema>;
+export type AddressInputDTO = z.infer<typeof addressSchema>;

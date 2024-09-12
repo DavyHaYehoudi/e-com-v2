@@ -5,6 +5,6 @@ export const updateNotesAdminSchema = z.object({
     notes_admin: z.string()
   });
 
-export type NotesAdminInputSchema = z.infer<
+export type NotesAdminInputDTO = z.infer<
   typeof updateNotesAdminSchema
 >;

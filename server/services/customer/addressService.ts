@@ -1,4 +1,4 @@
-import { AddressInput } from "../../dto/customer/address.dto.js";
+import { AddressInputDTO } from "../../dto/customer/address.dto.js";
 import * as addressRepository from "../../repositories/customer/addressRepository.js";
 
 // Récupérer l' adresse shipping/billing du customer
@@ -13,7 +13,7 @@ export const getCustomerAddressService = async (
 export const updateCustomerAddressService = async (
   customerId: number,
   type: string,
-  addressData: AddressInput
+  addressData: AddressInputDTO
 ) => {
   const isAddress = await addressRepository.getCustomerAddressRepository(
     customerId,

@@ -1,5 +1,5 @@
 import * as wishlistRepository from "../../repositories/customer/wishlistRepository.js";
-import { WishlistInput } from "../../types/customer/wishlist.js";
+import { WishlistInputDTO } from "../../types/customer/wishlist.js";
 
 // Récupérer la wishlist du customer
 export const getCustomerWishlistService = async (customerId: number) => {
@@ -9,7 +9,7 @@ export const getCustomerWishlistService = async (customerId: number) => {
 // Mettre à jour ou créer la wishlist du customer
 export const updateCustomerWishlistService = async (
   customerId: number,
-  cartData: WishlistInput
+  cartData: WishlistInputDTO
 ) => {
   return await wishlistRepository.updateCustomerWishlistRepository(
     customerId,

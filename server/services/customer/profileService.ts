@@ -1,6 +1,6 @@
 import {
-  ProfileInput,
-  ProfileInputReservedAdmin,
+  ProfileInputDTO,
+  ProfileInputReservedAdminDTO,
 } from "../../dto/customer/profile.dto.js";
 import * as profileRepository from "../../repositories/customer/profileRepository.js";
 
@@ -11,7 +11,7 @@ export const getCustomerProfileService = async (customerId: number) => {
 // Mettre à jour ou créer le profil du customer
 export const updateCustomerProfileService = async (
   customerId: number,
-  profileData: ProfileInput
+  profileData: ProfileInputDTO
 ) => {
   await profileRepository.updateProfileRepository(customerId, profileData);
 };
@@ -27,7 +27,7 @@ export const getAnyCustomerByIdService = async (customerId: number) => {
 //Admin - Mettre à jour un customer (désactiver)
 export const updateAnyCustomerProfileService = async (
   customerId: number,
-  profileData: ProfileInputReservedAdmin
+  profileData: ProfileInputReservedAdminDTO
 ) => {
   await profileRepository.updateAnyProfileRepository(customerId, profileData);
 };

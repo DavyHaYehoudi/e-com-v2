@@ -43,8 +43,6 @@ export const getAllCustomersProfileController = async (
   next: NextFunction
 ) => {
   try {
-    console.log("on y entre");
-
     const customers = await profileService.getAllCustomersProfileService();
     res.status(200).json(customers);
   } catch (error) {

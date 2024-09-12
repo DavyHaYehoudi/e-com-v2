@@ -31,5 +31,5 @@ export const WishlistInputSchema = z.object({
   gift_cards: z.array(GiftCardSchema),
 });
 
-export type WishlistInput = z.infer<typeof WishlistInputSchema>;
+export type WishlistInputDTO = z.infer<typeof WishlistInputSchema>;
  
