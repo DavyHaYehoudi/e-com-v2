@@ -6,6 +6,7 @@ import {
 } from "../../dto/customer/profile.dto.js";
 import { CustomJwtPayload } from "../../types/auth/auth.js";
 import * as profileService from "../../services/customer/profileService.js";
+import { NotFoundError } from "../../exceptions/CustomErrors.js";
 
 export const getCustomerProfileController = async (
   req: Request,
@@ -60,7 +61,7 @@ export const getAnyCustomerByIdController = async (
     const customerId = parseInt(req.params.customerId);
     const customer = await profileService.getAnyCustomerByIdService(customerId);
     if (!customer) {
-      return res.status(404).json({ error: "Customer not found" });
+      throw new NotFoundError("Customer not found" );
     }
     res.status(200).json(customer);
   } catch (error) {

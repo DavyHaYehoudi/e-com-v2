@@ -2,6 +2,7 @@
 import { query } from "../../config/req.js";
 import { ResultSetHeader } from "mysql2";
 import { ProfileRow } from "../../types/customer/profile.js";
+import { NotFoundError } from "../../exceptions/CustomErrors.js";
 
 // Récupérer les données du customer par email pour l'ouverture de session
 export const getCustomerByEmailRepository = async (email: string) => {
@@ -73,5 +74,9 @@ export const updateAnyProfileRepository = async (
     .join(", ");
   const values = Object.values(updatedFields);
   const sql = `UPDATE customer SET ${fields} WHERE id = ?`;
-  await query(sql, [...values, customerId]);
+
+  const result = await query<ResultSetHeader>(sql, [...values, customerId]);
+  if (result.affectedRows === 0) {
+    throw new NotFoundError(`Customer with ID ${customerId} not found`);
+  }
 };
