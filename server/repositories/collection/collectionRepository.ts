@@ -14,18 +14,26 @@ export const getAllCollectionsRepository = async () => {
 };
 export const createCollectionRepository = async (
   collectionData: CreateCollectionDTO
-) => {
+): Promise<CollectionRow> => {
   const sql = `
         INSERT INTO collection (label, image_url, is_star, is_archived)
         VALUES (?, ?, ?, ?)
       `;
   try {
-    await query(sql, [
+    const result = await query<ResultSetHeader>(sql, [
       collectionData.label,
       collectionData.image_url,
       collectionData.is_star,
       collectionData.is_archived,
     ]);
+    const newCollectionId = result.insertId;
+    const sqlSelect = `
+         SELECT * FROM collection WHERE id =?
+       `;
+    const [newCollection] = await query<CollectionRow[]>(sqlSelect, [
+      newCollectionId,
+    ]);
+    return newCollection;
   } catch (error: any) {
     if (error.code === "ER_DUP_ENTRY") {
       throw new DuplicateEntryError(

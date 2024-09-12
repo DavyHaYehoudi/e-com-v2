@@ -24,8 +24,8 @@ export const createTagController = async (
 ) => {
   try {
     const tagData = createTagSchema.parse(req.body);
-    await tagService.createTagService(tagData);
-    res.status(201).json();
+    const newTag = await tagService.createTagService(tagData);
+    res.status(201).json(newTag);
   } catch (error) {
     console.error(error);
     next(error);

@@ -15,7 +15,7 @@ export const getAllCategoriesRepository = async () => {
 };
 export const createCategoryRepository = async (
   categoryData: CreateCategoryDTO
-) => {
+): Promise<CategoryRow> => {
   const collectionId = categoryData.parent_collection_id;
   const sql1 = `SELECT * FROM collection WHERE id = ?`;
   const isCollectionExists = await query<CollectionRow[]>(sql1, [collectionId]);
@@ -27,12 +27,18 @@ export const createCategoryRepository = async (
         VALUES (?, ?, ?, ?)
       `;
   try {
-    await query(sql2, [
+    const result = await query<ResultSetHeader>(sql2, [
       categoryData.label,
       categoryData.image_url,
       categoryData.parent_collection_id,
       categoryData.is_archived,
     ]);
+    const newCategoryId = result.insertId;
+    const sql3 = `
+     SELECT * FROM category WHERE id =?
+   `;
+    const [newCategory] = await query<CategoryRow[]>(sql3, [newCategoryId]);
+    return newCategory;
   } catch (error: any) {
     if (error.code === "ER_DUP_ENTRY") {
       throw new DuplicateEntryError(

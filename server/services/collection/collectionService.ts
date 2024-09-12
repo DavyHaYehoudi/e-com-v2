@@ -1,6 +1,4 @@
-import {
-  CreateCollectionDTO,
-} from "../../dto/collection/collection.dto";
+import { CreateCollectionDTO } from "../../dto/collection/collection.dto";
 import * as collectionService from "../../repositories/collection/collectionRepository.js";
 
 // Récupérer toutes les informations sur la collection
@@ -12,7 +10,10 @@ export const getAllCollectionsService = async () => {
 export const createCollectionService = async (
   collectionData: CreateCollectionDTO
 ) => {
-  await collectionService.createCollectionRepository(collectionData);
+  const newCollection = await collectionService.createCollectionRepository(
+    collectionData
+  );
+  return newCollection;
 };
 
 // Mettre à jour les informations de la collection

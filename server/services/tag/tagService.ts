@@ -8,7 +8,8 @@ export const getAllTagsService = async () => {
 
 // Créer un nouveau tag
 export const createTagService = async (tagData: CreateTagDTO) => {
-  await tagService.createTagRepository(tagData);
+  const newTag = await tagService.createTagRepository(tagData);
+  return newTag;
 };
 
 // Supprimer un tag

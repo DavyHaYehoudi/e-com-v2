@@ -27,8 +27,10 @@ export const createCategoryController = async (
 ) => {
   try {
     const categoryData = createCategorySchema.parse(req.body);
-    await categoryService.createCategoryService(categoryData);
-    res.status(201).json();
+    const newCategory = await categoryService.createCategoryService(
+      categoryData
+    );
+    res.status(201).json(newCategory);
   } catch (error) {
     console.error(error);
     next(error);

@@ -1,6 +1,9 @@
 import { ResultSetHeader } from "mysql2";
 import { query } from "../../config/req.js";
-import { NotFoundError } from "../../exceptions/CustomErrors.js";
+import {
+  DuplicateEntryError,
+  NotFoundError,
+} from "../../exceptions/CustomErrors.js";
 import { CreateTagDTO } from "../../dto/tag/tag.dto.js";
 import { TagRow } from "../../types/tag/tag.js";
 
@@ -9,12 +12,29 @@ export const getAllTagsRepository = async () => {
   const results = await query<TagRow[]>(sql);
   return results;
 };
-export const createTagRepository = async (tagData: CreateTagDTO) => {
+export const createTagRepository = async (
+  tagData: CreateTagDTO
+): Promise<TagRow> => {
   const sql = `
     INSERT INTO tag (label)
     VALUES (?)
   `;
-  await query(sql, [tagData.label]);
+  try {
+    const result = await query<ResultSetHeader>(sql, [tagData.label]);
+    const newTagId = result.insertId;
+    const sqlSelect = `
+     SELECT * FROM tag WHERE id = ?
+   `;
+    const [newTag] = await query<TagRow[]>(sqlSelect, [newTagId]);
+    return newTag;
+  } catch (error: any) {
+    if (error.code === "ER_DUP_ENTRY") {
+      throw new DuplicateEntryError(
+        `Tag label '${tagData.label}' already exists`
+      );
+    }
+    throw error;
+  }
 };
 
 export const deleteTagRepository = async (tagId: number) => {

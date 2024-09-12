@@ -27,8 +27,10 @@ export const createCollectionController = async (
 ) => {
   try {
     const collectionData = createCollectionSchema.parse(req.body);
-    await collectionService.createCollectionService(collectionData);
-    res.status(201).json();
+    const newCollection = await collectionService.createCollectionService(
+      collectionData
+    );
+    res.status(201).json(newCollection);
   } catch (error) {
     console.error(error);
     next(error);
