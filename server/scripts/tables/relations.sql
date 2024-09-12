@@ -130,7 +130,7 @@ ON DELETE CASCADE;
 
 /* ********************* COLLECTION ********************* */
 ALTER TABLE collection
-ADD CONSTRAINT unique_collection_name UNIQUE (name);
+ADD CONSTRAINT unique_collection_label UNIQUE (label);
 
 /* ********************* CATEGORY ********************* */
 ALTER TABLE category
@@ -139,11 +139,11 @@ FOREIGN KEY (parent_collection_id) REFERENCES `collection`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE category
-ADD CONSTRAINT unique_category_name UNIQUE (name);
+ADD CONSTRAINT unique_category_label UNIQUE (label);
 
 /* ********************* TAG ********************* */
 ALTER TABLE tag
-ADD CONSTRAINT unique_tag_name UNIQUE (name);
+ADD CONSTRAINT unique_tag_label UNIQUE (label);
 
 /* ********************* ORDER ********************* */
 ALTER TABLE `order`

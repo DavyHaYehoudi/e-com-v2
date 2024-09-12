@@ -16,19 +16,20 @@ export const createCollectionRepository = async (
   collectionData: CreateCollectionDTO
 ) => {
   const sql = `
-        INSERT INTO collection (name, image_url, is_star)
-        VALUES (?, ?, ?)
+        INSERT INTO collection (label, image_url, is_star, is_archived)
+        VALUES (?, ?, ?, ?)
       `;
   try {
     await query(sql, [
-      collectionData.name,
+      collectionData.label,
       collectionData.image_url,
       collectionData.is_star,
+      collectionData.is_archived,
     ]);
   } catch (error: any) {
     if (error.code === "ER_DUP_ENTRY") {
       throw new DuplicateEntryError(
-        `Collection name '${collectionData.name}' already exists`
+        `Collection label '${collectionData.label}' already exists`
       );
     }
   }
@@ -38,6 +39,7 @@ export const updateCollectionRepository = async (
   collectionId: number,
   updatedFields: Record<string, any>
 ) => {
+  console.log("updatedFields:", updatedFields);
   const fields = Object.keys(updatedFields)
     .map((field) => `${field} = ?`)
     .join(", ");
@@ -52,7 +54,7 @@ export const updateCollectionRepository = async (
   } catch (error: any) {
     if (error.code === "ER_DUP_ENTRY") {
       throw new DuplicateEntryError(
-        `Collection name '${updatedFields.name}' already exists`
+        `Collection label '${updatedFields.label}' already exists`
       );
     }
   }
