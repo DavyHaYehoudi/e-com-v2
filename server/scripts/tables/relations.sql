@@ -270,3 +270,7 @@ ALTER TABLE notes_admin
 ADD CONSTRAINT fk_notes_admin_customer_id
 FOREIGN KEY (customer_id) REFERENCES `customer`(id)
 ON DELETE SET NULL;
+
+/* ********************* CODE-PROMO ********************* */
+ALTER TABLE code_promo
+ADD CONSTRAINT unique_code_promo_code UNIQUE (code);
