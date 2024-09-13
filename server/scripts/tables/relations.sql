@@ -26,26 +26,6 @@ FOREIGN KEY (review_id) REFERENCES `review`(id)
 ON DELETE SET NULL;
 
 /* ********************* PROMOTION ********************* */
-ALTER TABLE promotion_category
-ADD CONSTRAINT fk_promotion_category_promotion
-FOREIGN KEY (promotion_id) REFERENCES `promotion`(id)
-ON DELETE CASCADE;
-
-ALTER TABLE promotion_category
-ADD CONSTRAINT fk_promotion_category_category
-FOREIGN KEY (category_id) REFERENCES `category`(id)
-ON DELETE CASCADE;
-
-ALTER TABLE promotion_collection
-ADD CONSTRAINT fk_promotion_collection_promotion
-FOREIGN KEY (promotion_id) REFERENCES `promotion`(id)
-ON DELETE CASCADE;
-
-ALTER TABLE promotion_collection
-ADD CONSTRAINT fk_promotion_collection_collection
-FOREIGN KEY (collection_id) REFERENCES `collection`(id)
-ON DELETE CASCADE;
-
 ALTER TABLE `promotion_product`
 ADD CONSTRAINT fk_promotion_product_product
 FOREIGN KEY (product_id) REFERENCES `product`(id)

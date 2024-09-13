@@ -16,14 +16,15 @@ export const createCollectionRepository = async (
   collectionData: CreateCollectionDTO
 ): Promise<CollectionRow> => {
   const sql = `
-        INSERT INTO collection (label, image_url, is_star, is_archived)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO collection (label, image_url, is_star, promotion_percentage, is_archived)
+        VALUES (?, ?, ?, ?, ?)
       `;
   try {
     const result = await query<ResultSetHeader>(sql, [
       collectionData.label,
       collectionData.image_url,
       collectionData.is_star,
+      collectionData.promotion_percentage,
       collectionData.is_archived,
     ]);
     const newCollectionId = result.insertId;
