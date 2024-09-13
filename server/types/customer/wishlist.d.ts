@@ -12,7 +12,6 @@ export interface WishlistItemRow extends RowDataPacket {
   wishlist_id: number;
   product_id: number;
   quantity: number;
-  adding_date: string;
 }
 
 export interface WishlistGiftCardRow extends RowDataPacket {
@@ -20,7 +19,6 @@ export interface WishlistGiftCardRow extends RowDataPacket {
   wishlist_id: number;
   quantity: number;
   amount: number;
-  adding_date: string;
 }
 
 export interface WishlistInput {
@@ -31,11 +29,9 @@ export interface WishlistInput {
 export interface WishlistItemInput {
   product_id: number;
   quantity: number;
-  adding_date: string;
 }
 
 export interface WishlistGiftCardInput {
   amount: number;
   quantity: number;
-  adding_date: string;
 }

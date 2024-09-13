@@ -12,7 +12,6 @@ export interface CartItemRow extends RowDataPacket {
   cart_id: number;
   product_id: number;
   quantity: number;
-  adding_date: string;
 }
 
 export interface CartGiftCardRow extends RowDataPacket {
@@ -20,7 +19,6 @@ export interface CartGiftCardRow extends RowDataPacket {
   cart_id: number;
   quantity: number;
   amount: number;
-  adding_date: string;
 }
 
 export interface CartInput {
@@ -31,11 +29,9 @@ export interface CartInput {
 export interface CartItemInput {
   product_id: number;
   quantity: number;
-  adding_date: string;
 }
 
 export interface CartGiftCardInput {
   amount: number;
   quantity: number;
-  adding_date: string;
 }

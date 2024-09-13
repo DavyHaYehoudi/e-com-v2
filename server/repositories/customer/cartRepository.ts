@@ -64,22 +64,22 @@ export const updateCustomerCartRepository = async (
         `INSERT INTO cart (customer_id) VALUES (?)`,
         [customerId]
       );
-      cartId = result.insertId; // 'insertId' existe dans 'ResultSetHeader'
+      cartId = result.insertId;
     }
 
     // Insérer les items dans cart_item
     for (const item of cartData.items) {
       await query(
-        `INSERT INTO cart_item (cart_id, product_id, quantity, adding_date) VALUES (?, ?, ?, ?)`,
-        [cartId, item.product_id, item.quantity, item.adding_date]
+        `INSERT INTO cart_item (cart_id, product_id, quantity) VALUES (?, ?, ?)`,
+        [cartId, item.product_id, item.quantity]
       );
     }
 
     // Insérer les gift cards dans cart_gift_cards
     for (const giftCard of cartData.gift_cards) {
       await query(
-        `INSERT INTO cart_gift_card (cart_id, quantity, amount, adding_date) VALUES (?, ?, ?, ?)`,
-        [cartId, giftCard.quantity, giftCard.amount, giftCard.adding_date]
+        `INSERT INTO cart_gift_card (cart_id, quantity, amount) VALUES (?, ?, ?)`,
+        [cartId, giftCard.quantity, giftCard.amount]
       );
     }
 

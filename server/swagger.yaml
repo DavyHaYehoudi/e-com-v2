@@ -1782,7 +1782,7 @@ paths:
       summary: Add a new discount.
       description: Add a new discount.
       parameters:
-        - name: type
+        - name: targetTable
           in: query
           description: collection or category or product.
           required: true
@@ -1802,11 +1802,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DiscountGET'          
+                $ref: '#/components/schemas/DiscountGET'    
+        '400':
+          description: Bad Request - The query table doesn't exist.
         '403':
           description: Unauthorized - Admin is not authenticated
         '404':
-          description: Not found - The target reference (target_id) doesn't exist.
+          description: Not Found - The target reference (target_id) doesn't exist.
       security:
         - api_key: []
   /admin/discounts/{discountId}:
@@ -1913,9 +1915,6 @@ components:
               quantity:
                 type: integer
                 example: 2
-              adding_date:
-                type: string
-                example: 2024-08-31
         gift_cards:
           type: array
           items:
@@ -1927,9 +1926,6 @@ components:
               amount: 
                 type: integer
                 example: 75
-              adding_date:
-                type: string
-                example: "2024-06-10"
     CustomerCartPUT:
       type: object
       properties:
@@ -1944,9 +1940,6 @@ components:
               quantity:
                 type: integer
                 example: 1
-              adding_date:
-                type: string
-                example: 2024-08-31
         gift_cards:
           type: array
           items: 
@@ -1966,9 +1959,6 @@ components:
               quantity:
                 type: integer
                 example: 2
-              adding_date:
-                type: string
-                example: 2024-08-31
         gift_cards:
           type: array
           items:
@@ -1980,9 +1970,6 @@ components:
               amount: 
                 type: integer
                 example: 75
-              adding_date:
-                type: string
-                example: "2024-06-10"
     CustomerWishlistPUT:
       type: object
       properties:
@@ -1997,9 +1984,6 @@ components:
               quantity:
                 type: integer
                 example: 1
-              adding_date:
-                type: string
-                example: 2024-08-31
         gift_cards:
           type: array
           items: 
@@ -3128,7 +3112,7 @@ components:
         target_id:
           type: integer
           example: 6
-        target_type:
+        target_table:
           type: string
           example: product
         discount_percentage:

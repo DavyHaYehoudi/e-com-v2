@@ -59,7 +59,9 @@ export const updateCustomerWishlistRepository = async (
       );
 
       // Supprimer les anciennes données des items et gift cards avant la mise à jour
-      await query(`DELETE FROM wishlist_item WHERE wishlist_id = ?`, [wishlistId]);
+      await query(`DELETE FROM wishlist_item WHERE wishlist_id = ?`, [
+        wishlistId,
+      ]);
       await query(`DELETE FROM wishlist_gift_card WHERE wishlist_id = ?`, [
         wishlistId,
       ]);
@@ -69,22 +71,22 @@ export const updateCustomerWishlistRepository = async (
         `INSERT INTO wishlist (customer_id) VALUES (?)`,
         [customerId]
       );
-      wishlistId = result.insertId; // 'insertId' existe dans 'ResultSetHeader'
+      wishlistId = result.insertId;
     }
 
     // Insérer les items dans wishlist_item
     for (const item of wishlistData.items) {
       await query(
-        `INSERT INTO wishlist_item (wishlist_id, product_id, quantity, adding_date) VALUES (?, ?, ?, ?)`,
-        [wishlistId, item.product_id, item.quantity, item.adding_date]
+        `INSERT INTO wishlist_item (wishlist_id, product_id, quantity) VALUES (?, ?, ?)`,
+        [wishlistId, item.product_id, item.quantity]
       );
     }
 
     // Insérer les gift cards dans cart_gift_cards
     for (const giftCard of wishlistData.gift_cards) {
       await query(
-        `INSERT INTO wishlist_gift_card (wishlist_id, quantity, amount, adding_date) VALUES (?, ?, ?, ?)`,
-        [wishlistId, giftCard.quantity, giftCard.amount, giftCard.adding_date]
+        `INSERT INTO wishlist_gift_card (wishlist_id, quantity, amount) VALUES (?, ?, ?)`,
+        [wishlistId, giftCard.quantity, giftCard.amount]
       );
     }
 
