@@ -25,22 +25,6 @@ ADD CONSTRAINT fk_cash_back_transaction_review
 FOREIGN KEY (review_id) REFERENCES `review`(id)
 ON DELETE SET NULL;
 
-/* ********************* PROMOTION ********************* */
-ALTER TABLE `promotion_product`
-ADD CONSTRAINT fk_promotion_product_product
-FOREIGN KEY (product_id) REFERENCES `product`(id)
-ON DELETE CASCADE;
-
-ALTER TABLE `promotion_product`
-ADD CONSTRAINT fk_promotion_product_promotion
-FOREIGN KEY (promotion_id) REFERENCES `promotion`(id)
-ON DELETE CASCADE;
-
-ALTER TABLE `promotion`
-ADD CONSTRAINT fk_promotion_promotion_type
-FOREIGN KEY (promotion_type_id) REFERENCES `promotion_type`(id)
-ON DELETE CASCADE;
-
 /* ********************* CUSTOMER ********************* */
 ALTER TABLE cart
 ADD CONSTRAINT fk_customer_id

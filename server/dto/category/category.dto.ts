@@ -5,7 +5,6 @@ export const createCategorySchema = z.object({
   label: z.string().min(1, { message: "Le nom de la catégorie est requis." }),
   image_url: z.string(),
   parent_collection_id: z.number(),
-  promotion_percentage: z.number().nullable().optional(),
   is_archived: z.boolean().optional(),
 });
 
@@ -14,7 +13,6 @@ export const updateCategorySchema = z.object({
   label: z.string().min(1, { message: "Le nom de la catégorie est requis." }).optional(),
   image_url: z.string().optional(),
   parent_collection_id: z.number().optional(),
-  promotion_percentage: z.number().nullable().optional(),
   is_archived: z.boolean().optional(),
 });
 

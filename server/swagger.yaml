@@ -17,7 +17,7 @@ tags:
   - name: category
   - name: tag
   - name: gift-card
-  - name: promotion
+  - name: discount
   - name: code-promo
   - name: review
   - name: cash-back
@@ -1337,97 +1337,6 @@ paths:
           description: Unauthorized - Customer is not authenticated
       security:
         - api_key: []
-  /promotions:
-    get:
-      tags:
-        - promotion
-      summary: Finds all promotions.
-      description: Finds all promotions.
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PromotionGET'          
-  /admin/promotions:
-    post:
-      tags:
-        - promotion
-      summary: Add a new promotion.
-      description: Add a new promotion.
-      requestBody:
-        description: Create a new promotion in the store
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PromotionPOST'
-        required: true
-      responses:
-        '201':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PromotionGET'          
-        '403':
-          description: Unauthorized - Admin is not authenticated
-      security:
-        - api_key: []
-  /admin/promotions/{promotionId}:
-    patch:
-      tags:
-        - promotion
-      summary: Update an existing promotion.
-      description: Update an existing promotion by id.
-      parameters:
-        - name: promotionId
-          in: path
-          description: ID of promotion that needs to be updated.
-          required: true
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        description: update an existent promotion in the store
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PromotionPATCH'
-        required: true
-      responses:
-        '204':
-          description: Successful operation
-        '403':
-          description: Unauthorized - Admin is not authenticated
-        '404':
-          description: Not found - The promotion doesn't exist.
-      security:
-        - api_key: []
-    delete:
-      tags:
-        - promotion
-      summary: Delete a promotion.
-      description: Delete a promotion.
-      parameters:
-        - name: promotionId
-          in: path
-          description: Tag id to promotion.
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '204':
-          description: Successful operation
-        '403':
-          description: Unauthorized - Admin is not authenticated
-        '404':
-          description: Not found - The promotion doesn't exist.
-      security:
-        - api_key: []
   /code-promos/verify-code:
     get:
       tags:
@@ -1851,6 +1760,79 @@ paths:
           description: Not found - The delivery doesn't exist.
       security:
         - api_key: []
+  /discounts:
+    get:
+      tags:
+        - discount
+      summary: Finds all discounts.
+      description: Finds all discounts.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DiscountGET'       
+  /admin/discounts:
+    post:
+      tags:
+        - discount
+      summary: Add a new discount.
+      description: Add a new discount.
+      parameters:
+        - name: type
+          in: query
+          description: collection or category or product.
+          required: true
+          schema:
+            type: string
+            example: product
+      requestBody:
+        description: Create a new discount in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiscountPOST'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscountGET'          
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The target reference (target_id) doesn't exist.
+      security:
+        - api_key: []
+  /admin/discounts/{discountId}:
+    delete:
+      tags:
+        - discount
+      summary: Delete a discount.
+      description: Delete a discount.
+      parameters:
+        - name: discountId
+          in: path
+          description: Discount id to delete.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The discount doesn't exist.
+      security:
+        - api_key: []
+
 
 components:
   schemas:
@@ -2110,9 +2092,6 @@ components:
     CustomerOneAdminPATCH:
       type: object
       properties:
-        role:
-          type: string
-          example: admin
         is_active:
           type: boolean
           example: true
@@ -2704,7 +2683,7 @@ components:
         label:
           type: string
           example: Printemps 2025
-        image:
+        image_url:
           type: string
           example: https/server-storage/url
         is_star:
@@ -2722,13 +2701,13 @@ components:
         label:
           type: string
           example: Printemps 2025
-        image:
+        image_url:
           type: string
           example: https/server-storage/url
     CollectionPATCH:
       type: object
       properties:
-        image:
+        image_url:
           type: string
           example: https/server-storage/new-url
         is_star:
@@ -2740,7 +2719,7 @@ components:
         label:
           type: string
           example: Bracelet
-        image:
+        image_url:
           type: string
           example: https/server-storage/url
         parent_collection_id: 
@@ -2759,7 +2738,7 @@ components:
         label:
           type: string
           example: Bracelet
-        image:
+        image_url:
           type: string
           example: https/server-storage/url
         parent_collection_id: 
@@ -2768,7 +2747,7 @@ components:
     CategoryPATCH:
       type: object
       properties:
-        image:
+        image_url:
           type: string
           example: https/server-storage/new-url
         is_archived:
@@ -2883,102 +2862,6 @@ components:
         updatedAt:
           type: string
           example: 2024-03-21T17:50:38.100Z
-    PromotionGET:
-      type: object
-      properties:
-        description:
-          type: string
-          example: 2 produits achetés, 1 offert !
-        start-date:
-          type: string
-          example: 01/01/2025
-        end-date:
-          type: string
-          example: 01/02/2025
-        is_stackable:
-          type: boolean
-          example: false
-        buy_X:
-          type: integer
-          example: 2
-        get_Y:
-          type: integer
-          example: 1
-    PromotionPOST:
-      type: object
-      properties:
-        description:
-          type: string
-          example: Profitez d'une remise de 15% sur toute la catégorie des bracelets !
-        start-date:
-          type: string
-          example: 01/01/2025
-        end-date:
-          type: string
-          example: 01/02/2025
-        is_stackable:
-          type: boolean
-          example: false
-        promotion_percentage:
-            type: string
-            example: 15
-      required:
-        - start-date
-        - end-date
-        - is_stackable
-      oneOf:
-        - required:
-            - promotion_percentage
-          properties:
-            promotion_percentage:
-              type: string
-              example: 15
-        - required:
-            - buy_X
-            - get_Y
-          properties:
-            buy_X:
-              type: integer
-              example: 2
-            get_Y:
-              type: integer
-              example: 1
-    PromotionPATCH:
-      type: object
-      properties:
-        description:
-          type: string
-          example: Profitez d'une remise de 20% sur toute la catégorie des bracelets !
-        start-date:
-          type: string
-          example: 01/01/2025
-        end-date:
-          type: string
-          example: 01/02/2025
-        is_stackable:
-          type: boolean
-          example: true
-      required:
-        - start-date
-        - end-date
-        - is_stackable
-      oneOf:
-        - required:
-            - promotion_percentage
-          properties:
-            promotion_percentage:
-              type: string
-              example: 20
-        - required:
-            - buy_X
-            - get_Y
-          properties:
-            buy_X:
-              type: integer
-              example: 1
-            get_Y:
-              type: integer
-              example: 1
     CodePromo:
       required:
         - code
@@ -3236,8 +3119,49 @@ components:
         - name
         - estimated_days
         - rates
-
-
+    DiscountGET:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 4
+        target_id:
+          type: integer
+          example: 6
+        target_type:
+          type: string
+          example: product
+        discount_percentage:
+          type: number
+          format: float
+          example: 15
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+    DiscountPOST:
+      type: object
+      properties:
+        target_id:
+          type: integer
+          example: 6
+        discount_percentage:
+          type: number
+          format: float
+          example: 15
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+      required:
+        - target_id
+        - discount_percentage
+        - start_date
+        - end_date
 
   securitySchemes:
     api_key:
