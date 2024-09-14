@@ -20,7 +20,6 @@ tags:
   - name: discount
   - name: code-promo
   - name: review
-  - name: cash-back
   - name: delivery
 paths:
   /auth/open-session:
@@ -303,6 +302,25 @@ paths:
           description: Not found - The customer or the query type doesn't exist.
       security:
         - api_key: []
+  /customer/cash-back-history:
+    get:
+      tags:
+        - customer
+      summary: Show the customer cash back.
+      description: Show the customer cash back.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerCashBackGET'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
   /admin/customers:
     get:
       tags:
@@ -430,6 +448,62 @@ paths:
                   notes:
                     type: string
                     example: De nouvelles notes de l'admin
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The customer doesn't exist.
+      security:
+        - api_key: []
+  /admin/customers/{customerId}/cash-back:
+    get:
+      tags:
+        - customer
+      summary: Show the customer cash back.
+      description: Show the customer cash back.
+      parameters:
+        - name: customerId
+          in: path
+          description: ID of customer to whom the cash back belong needs to be updated.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerCashBackGET'       
+        '403':
+          description: Unauthorized - Admin is not authenticated
+      security:
+        - api_key: []
+    patch:
+      tags:
+        - customer
+      summary: Credit or debit a customer's cashback account.
+      description: Credit or debit a customer's cashback account by id.
+      parameters:
+        - name: customerId
+          in: path
+          description: ID of customer to whom the cash back belong needs to be updated.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: update an existent cash back in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerCashBackAdminPATCH'
         required: true
       responses:
         '204':
@@ -1620,55 +1694,6 @@ paths:
           description: Not found - The review doesn't exist.
       security:
         - api_key: []
-  /cash-back-history:
-    get:
-      tags:
-        - cash-back
-      summary: Show the customer cash back.
-      description: Show the customer cash back.
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CashBackGET'       
-        '401':
-          description: Unauthorized - Customer is not authenticated
-      security:
-        - api_key: []
-  /admin/cash-back/{customerId}:
-    patch:
-      tags:
-        - cash-back
-      summary: Credit or debit a customer's cashback account.
-      description: Credit or debit a customer's cashback account by id.
-      parameters:
-        - name: customerId
-          in: path
-          description: ID of customer to whom the cash back belong needs to be updated.
-          required: true
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        description: update an existent cash back in the store
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CashBackAdminPATCH'
-        required: true
-      responses:
-        '204':
-          description: Successful operation
-        '403':
-          description: Unauthorized - Admin is not authenticated
-        '404':
-          description: Not found - The customer doesn't exist.
-      security:
-        - api_key: []
   /deliveries:
     get:
       tags:
@@ -2055,6 +2080,33 @@ components:
         country:
           type: string
           example: France
+    CustomerCashBackGET:
+      type: object
+      properties:
+        customer_id:
+          type: string
+          example: 098754838475987
+        total_earned:
+          type: integer
+          example: 35
+        total_spent:
+          type: integer
+          example: 5
+        cash-back_earned_for-this-transaction:
+          type: integer
+          example: 10
+        cash-back_spent_for-this-transaction:
+          type: integer
+          example: 0
+        date_transaction:
+          type: string
+          example: 10/03/2025
+        order_id:
+          type: string
+          example: 98702-495
+        reason:
+          type: string
+          example: Order
     CustomerAllAdminGET:
       type: object
       properties:
@@ -2079,6 +2131,27 @@ components:
         is_active:
           type: boolean
           example: true
+    CustomerCashBackAdminPATCH:
+      type: object
+      properties:
+        customer_id:
+          type: string
+          example: 098754838475987
+        cash-back_earned_for-this-transaction:
+          type: integer
+          example: 20
+        cash-back_spent_for-this-transaction:
+          type: integer
+          example: 0
+        date_transaction:
+          type: string
+          example: 10/03/2025
+        reason:
+          type: string
+          example: Review
+        review_id:
+          type: string
+          example: 98702-495
     OrderPOST:
       type: object
       properties:
@@ -2410,12 +2483,19 @@ components:
         is_archived:
           type: boolean
           example: false
-        image_hero:
+        main_image:
             type: string
             example: https://example.com/image1.jpg
-        is_promotion:
-          type: boolean
-          example: true
+        discount_percentage:
+          type: integer
+          example: null
+        price:
+          type: integer
+          example: 35
+        cash_back:
+          type: integer
+          nullable: true
+          example: 1.5
     ProductOneGET:
       type: object
       properties:
@@ -2425,9 +2505,6 @@ components:
         SKU:
           type: string
           example: 029348752LIK98
-        parent_product_id: 
-          type: string
-          example: 20843572039857
         description:
           type: string
           example: Bracelet fait main.
@@ -2443,39 +2520,24 @@ components:
         price:
           type: integer
           example: 45
-        compare_at_price: 
+        discount_percentage:
           type: integer
-          example: 50
+          example: null
         is_new:
           type: boolean
           example: false
         is_published:
           type: boolean
           example: true
+        cash_back:
+          type: integer
+          example: 1.5
         is_star:
           type: boolean
           example: false
         is_archived:
           type: boolean
           example: false
-        attributes:
-          type: array
-          items:
-            type: object
-            properties:
-              attribute:
-                type: string
-                example: size
-              attribute_value:
-                type: string
-                example: M
-          example:
-              - attribute: size
-                attribute_value: M
-              - attribute: color
-                attribute_value: blue
-              - attribute: material
-                attribute_value: gold
         images:
             type: array
             items:
@@ -2487,19 +2549,13 @@ components:
                 is_main:
                   type: boolean
                   example: true
-                is_hero:
-                  type: boolean
-                  example: false
             example:
               - url: https://example.com/image1.jpg
                 is_main: true
-                is_hero: false
               - url: https://example.com/image2.jpg
                 is_main: false
-                is_hero: true
               - url: https://example.com/image3.jpg
                 is_main: false
-                is_hero: false
         categories:
           type: array
           items:
@@ -2529,9 +2585,6 @@ components:
         SKU:
           type: string
           example: 029348752LIK98
-        parent_product_id: 
-          type: string
-          example: 20843572039857
         description:
           type: string
           example: Bracelet fait main.
@@ -2547,30 +2600,12 @@ components:
         price:
           type: integer
           example: 45
-        compare_at_price: 
+        discount_percentage:
           type: integer
-          example: 50
+          example: null
         is_new:
           type: boolean
           example: false
-        attributes:
-          type: array
-          items:
-            type: object
-            properties:
-              attribute:
-                type: string
-                example: size
-              attribute_value:
-                type: string
-                example: M
-          example:
-              - attribute: size
-                attribute_value: M
-              - attribute: color
-                attribute_value: blue
-              - attribute: material
-                attribute_value: gold
         images:
             type: array
             items:
@@ -2582,19 +2617,13 @@ components:
                 is_main:
                   type: boolean
                   example: true
-                is_hero:
-                  type: boolean
-                  example: false
             example:
               - url: https://example.com/image1.jpg
                 is_main: true
-                is_hero: false
               - url: https://example.com/image2.jpg
                 is_main: false
-                is_hero: true
               - url: https://example.com/image3.jpg
                 is_main: false
-                is_hero: false
         categories:
           type: array
           items:
@@ -2609,6 +2638,9 @@ components:
           example: 
             - 0000334
             - 1234545
+        cash_back:
+          type: integer
+          example: 1.5
       required:
         - name
         - weigth
@@ -2639,10 +2671,9 @@ components:
         price:
           type: integer
           example: 40
-        compare_at_price: 
+        discount_percentage:
           type: integer
-          nullable: true
-          example: null
+          example: 15
         is_new:
           type: boolean
           example: true
@@ -2661,6 +2692,10 @@ components:
             - 1234545
             - 0987545
             - 1123442
+        cash_back:
+          type: integer
+          nullable: true
+          example: null
     CollectionGET:
       type: object
       properties:
@@ -2945,54 +2980,6 @@ components:
         is_validate_by_admin:
           type: boolean
           example: true
-    CashBackGET:
-      type: object
-      properties:
-        customer_id:
-          type: string
-          example: 098754838475987
-        total_earned:
-          type: integer
-          example: 35
-        total_spent:
-          type: integer
-          example: 5
-        cash-back_earned_for-this-transaction:
-          type: integer
-          example: 10
-        cash-back_spent_for-this-transaction:
-          type: integer
-          example: 0
-        date_transaction:
-          type: string
-          example: 10/03/2025
-        orderId:
-          type: string
-          example: 98702-495
-        reason:
-          type: string
-          example: Order
-    CashBackAdminPATCH:
-      type: object
-      properties:
-        customer_id:
-          type: string
-          example: 098754838475987
-        cash-back_earned_for-this-transaction:
-          type: integer
-          example: 20
-        cash-back_spent_for-this-transaction:
-          type: integer
-          example: 0
-        date_transaction:
-          type: string
-          example: 10/03/2025
-        reason:
-          type: string
-          example: Review
-        reviewId:
-          type: string
-          example: 98702-495
     DeliveryGET:
       type: object
       properties:

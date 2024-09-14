@@ -187,34 +187,9 @@ FOREIGN KEY (product_id) REFERENCES `product`(id)
 ON DELETE CASCADE;
 
 /* ********************* PRODUCT ********************* */
-ALTER TABLE `product_variant`
-ADD CONSTRAINT fk_product_id
-FOREIGN KEY (product_id) REFERENCES `product`(id)
-ON DELETE SET NULL;
-
-ALTER TABLE `product_variant`
-ADD CONSTRAINT fk_parent_product_id
-FOREIGN KEY (parent_product_id) REFERENCES `product`(id)
-ON DELETE SET NULL;
-
 ALTER TABLE `product_image`
 ADD CONSTRAINT fk_product_image_product
 FOREIGN KEY (product_id) REFERENCES `product`(id)
-ON DELETE CASCADE;
-
-ALTER TABLE `product_attribute`
-ADD CONSTRAINT fk_product_attribute_product
-FOREIGN KEY (product_id) REFERENCES `product`(id)
-ON DELETE CASCADE;
-
-ALTER TABLE `product_attribute`
-ADD CONSTRAINT fk_product_attribute_attribute_value
-FOREIGN KEY (attribute_value_id) REFERENCES `attribute_value`(id)
-ON DELETE CASCADE;
-
-ALTER TABLE `attribute_value`
-ADD CONSTRAINT fk_attribute_value_attribute
-FOREIGN KEY (attribute_id) REFERENCES `attribute`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE `product_category`
