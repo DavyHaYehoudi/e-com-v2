@@ -11,6 +11,7 @@ import categoryRoutes from "./routes/freeAccess/category.routes.js";
 import tagRoutes from "./routes/freeAccess/tag.routes.js";
 import discountRoutes from "./routes/freeAccess/discount.routes.js";
 import codePromoRoutes from "./routes/freeAccess/codePromo.routes.js";
+import productRoutes from "./routes/freeAccess/product.routes.js";
 // Customer routes
 import customerRoutes from "./routes/customer/customer.routes.js";
 // Admin routes
@@ -21,6 +22,7 @@ import categoryAdminRoutes from "./routes/admin/category/category.routes.js";
 import tagAdminRoutes from "./routes/admin/tag/tag.routes.js";
 import discountAdminRoutes from "./routes/admin/discount/discount.routes.js";
 import codePromoAdminRoutes from "./routes/admin/code-promo/codePromo.routes.js";
+import productAdminRoutes from "./routes/admin/product/product.routes.js";
 
 const app: Express = express();
 const port = environment.PORT;
@@ -35,6 +37,7 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/tags", tagRoutes);
 app.use("/api/discounts", discountRoutes);
 app.use("/api/code-promos", codePromoRoutes);
+app.use("/api/products", productRoutes);
 
 // Customer routes
 app.use("/api/customer", customerRoutes);
@@ -57,6 +60,7 @@ app.use(
   adminAccess,
   codePromoAdminRoutes
 );
+app.use("/api/admin/products", verifyToken, adminAccess, productAdminRoutes);
 
 app.use(errorHandler);
 

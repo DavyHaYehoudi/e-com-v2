@@ -60,7 +60,6 @@ export const createCodePromoRepository = async (
     throw error;
   }
 };
-
 export const deleteCodePromoRepository = async (codePromoId: number) => {
   const sql = `
         DELETE FROM code_promo
