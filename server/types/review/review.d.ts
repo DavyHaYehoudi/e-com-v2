@@ -1,4 +1,4 @@
-import { RowDataPacket } from 'mysql2';
+import { RowDataPacket } from "mysql2";
 
 export interface ReviewRow extends RowDataPacket {
   id: number;

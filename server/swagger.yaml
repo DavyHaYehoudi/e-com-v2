@@ -1505,7 +1505,7 @@ paths:
           description: Not found - The code promo doesn't exist.
       security:
         - api_key: []
-  /review:
+  /reviews:
     get:
       tags:
         - review
@@ -1519,8 +1519,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ReviewGET'      
-  /reviews:
+                  $ref: '#/components/schemas/ReviewGET'    
     post:
       tags:
         - review
@@ -1585,13 +1584,6 @@ paths:
       summary: Update an existent customer review.
       description: Update an existent customer review.
       parameters:
-        - name: customerId
-          in: query
-          description: Id of the customer who wrote the review.
-          required: true
-          schema:
-            type: integer
-            format: int64
         - name: reviewId
           in: path
           description: Id of the review written by the customer.
@@ -1619,13 +1611,6 @@ paths:
       summary: Delete a customer review.
       description: Delete a customer review.
       parameters:
-        - name: customerId
-          in: query
-          description: Id of the customer who wrote the review.
-          required: true
-          schema:
-            type: integer
-            format: int64
         - name: reviewId
           in: path
           description: Id of the review written by the customer.
@@ -1667,28 +1652,6 @@ paths:
         '204':
           description: Successful operation
         '403':
-          description: Unauthorized - Admin is not authenticated
-        '404':
-          description: Not found - The review doesn't exist.
-      security:
-        - api_key: []
-    delete:
-      tags:
-        - review
-      summary: Delete a customer review.
-      description: Delete a customer review.
-      parameters:
-        - name: reviewId
-          in: path
-          description: Id of the review written by the customer.
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '204':
-          description: successful operation
-        '401':
           description: Unauthorized - Admin is not authenticated
         '404':
           description: Not found - The review doesn't exist.
