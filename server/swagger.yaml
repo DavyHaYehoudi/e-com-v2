@@ -2992,9 +2992,6 @@ components:
         is_active: 
           type: boolean
           example: true
-        estimated_days:
-          type: integer
-          example: 3
         rates:
           type: array
           items:
@@ -3024,9 +3021,6 @@ components:
         icon_url:
           type: string
           example: https/server-storage/url
-        estimated_days:
-          type: integer
-          example: 3
         rates:
           type: array
           items:
@@ -3063,9 +3057,6 @@ components:
         is_active: 
           type: boolean
           example: true
-        estimated_days:
-          type: integer
-          example: 1
         rates:
           type: array
           items:

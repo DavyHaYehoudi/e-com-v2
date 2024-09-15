@@ -229,16 +229,10 @@ FOREIGN KEY (product_id) REFERENCES `product`(id)
 ON DELETE CASCADE;
 
 /* ********************* DELIVERY ********************* */
-ALTER TABLE `shipping_method`
-ADD CONSTRAINT fk_shipping_method_settings
-FOREIGN KEY (shipping_method_settings_id) REFERENCES `shipping_method_settings`(id)
-ON DELETE CASCADE;
-
-ALTER TABLE `shipping_method_settings`
-ADD CONSTRAINT fk_shipping_method_settings_tarifs
-FOREIGN KEY (shipping_method_tarifs_id) REFERENCES `shipping_method_tarifs`(id)
-ON DELETE CASCADE;
-
+ALTER TABLE `shipping_method_tarifs`
+ADD CONSTRAINT fk_shipping_method_tarifs
+FOREIGN KEY (shipping_method_id) REFERENCES shipping_method(id)
+ON DELETE SET NULL;
 
 /* ********************* NOTES-ADMIN ********************* */
 ALTER TABLE notes_admin
