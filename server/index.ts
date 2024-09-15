@@ -13,8 +13,11 @@ import discountRoutes from "./routes/freeAccess/discount.routes.js";
 import codePromoRoutes from "./routes/freeAccess/codePromo.routes.js";
 import productRoutes from "./routes/freeAccess/product.routes.js";
 import deliveryRoutes from "./routes/freeAccess/delivery.routes.js";
-// Customer routes
-import customerRoutes from "./routes/customer/customer.routes.js";
+import reviewRoutes from "./routes/freeAccess/review.routes.js";
+// Reserved routes
+import customerPrivateRoutes from "./routes/reserved/customer.routes.js";
+import reviewReservedRoutes from "./routes/reserved/review.routes.js";
+
 // Admin routes
 import profileRoutes from "./routes/admin/customer/profile.routes.js";
 import notesAdminRoutes from "./routes/admin/customer/notesAdmin.routes.js";
@@ -25,6 +28,7 @@ import discountAdminRoutes from "./routes/admin/discount/discount.routes.js";
 import codePromoAdminRoutes from "./routes/admin/code-promo/codePromo.routes.js";
 import productAdminRoutes from "./routes/admin/product/product.routes.js";
 import deliveryAdminRoutes from "./routes/admin/delivery/delivery.routes.js";
+import reviewAdminRoutes from "./routes/admin/review/review.routes.js";
 
 const app: Express = express();
 const port = environment.PORT;
@@ -41,9 +45,11 @@ app.use("/api/discounts", discountRoutes);
 app.use("/api/code-promos", codePromoRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/deliveries", deliveryRoutes);
+app.use("/api/reviews", reviewRoutes);
 
-// Customer routes
-app.use("/api/customer", customerRoutes);
+// Reserved routes
+app.use("/api/customer", customerPrivateRoutes);
+app.use("/api/reviews", reviewReservedRoutes);
 
 // Admin routes
 app.use("/api/admin/customers", verifyToken, adminAccess, profileRoutes);
@@ -65,6 +71,7 @@ app.use(
 );
 app.use("/api/admin/products", verifyToken, adminAccess, productAdminRoutes);
 app.use("/api/admin/deliveries", verifyToken, adminAccess, deliveryAdminRoutes);
+app.use("/api/admin/reviews", verifyToken, adminAccess, reviewAdminRoutes);
 
 app.use(errorHandler);
 

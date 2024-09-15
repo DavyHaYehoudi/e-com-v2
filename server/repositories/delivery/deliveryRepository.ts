@@ -2,7 +2,6 @@ import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { query } from "../../config/req.js";
 import {
   CreateDeliveryDTO,
-  UpdateDeliveryDTO,
 } from "../../dto/delivery/delivery.dto.js";
 import {
   beginTransaction,
