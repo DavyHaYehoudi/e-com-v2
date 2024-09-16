@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import * as productService from "../../services/product/productService.js";
 import {
-  createProductSchema,
-  updateProductSchema,
+  ProductDTO,
+  productSchema,
 } from "../../dto/product/product.dto.js";
 
 // Récupérer tous les produits
@@ -35,12 +35,12 @@ export const getProductController = async (
 
 // ADMIN - Créer un nouveau produit
 export const createProductController = async (
-  req: Request,
+  req: Request<any,any,ProductDTO>,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const productData = createProductSchema.parse(req.body);
+    const productData = productSchema.parse(req.body);
     const newProduct = await productService.createProductService(productData);
     res.status(201).json(newProduct);
   } catch (error) {
@@ -56,7 +56,7 @@ export const updateProductController = async (
 ) => {
   try {
     const productId = parseInt(req.params.productId);
-    const productData = updateProductSchema.parse(req.body);
+    const productData = productSchema.parse(req.body);
     await productService.updateProductService(productId, productData);
     res.status(204).json();
   } catch (error) {

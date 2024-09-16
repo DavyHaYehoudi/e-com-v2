@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS product (
     id INT AUTO_INCREMENT PRIMARY KEY,                -- Identifiant unique pour chaque produit
     name VARCHAR(255) NOT NULL,                       -- Nom du produit
-    SKU VARCHAR(100) NULL UNIQUE,                 -- SKU (Stock Keeping Unit), identifiant unique pour le produit
+    SKU VARCHAR(100) NULL ,                 -- SKU (Stock Keeping Unit), 
     description TEXT,                                 -- Description du produit
     weight DECIMAL(10, 2) NULL,                       -- Poids du produit
     continue_selling BOOLEAN DEFAULT TRUE,            -- Indique si le produit peut continuer à être vendu même en rupture de stock

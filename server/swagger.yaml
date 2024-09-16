@@ -2377,31 +2377,51 @@ components:
         name: 
           type: string
           example: Bracelet
-        is_new:
+        SKU:
+          type: string
+          example: 029348752LIK98
+        description:
+          type: string
+          example: Bracelet fait main.
+        main_image:
+          type: string
+          example: https://example.com/image1.jpg
+        discount_percentage:
+          type: integer
+          example: 12
+        weight:
+          type: integer
+          example: 250
+        continue_selling: 
           type: boolean
-          example: false
+          example: true
+        quantity_in_stock:
+          type: integer
+          example: 4
+        price:
+          type: integer
+          example: 45
+        new_until:
+          type: string
+          example: 2025-10-10
         is_published:
           type: boolean
           example: true
+        cash_back:
+          type: integer
+          example: 1.5
         is_star:
           type: boolean
           example: false
         is_archived:
           type: boolean
           example: false
-        main_image:
-            type: string
-            example: https://example.com/image1.jpg
-        discount_percentage:
-          type: integer
-          example: null
-        price:
-          type: integer
-          example: 35
-        cash_back:
-          type: integer
-          nullable: true
-          example: 1.5
+        createdAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+        updatedAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
     ProductOneGET:
       type: object
       properties:
@@ -2426,12 +2446,9 @@ components:
         price:
           type: integer
           example: 45
-        discount_percentage:
-          type: integer
-          example: null
-        is_new:
-          type: boolean
-          example: false
+        new_until:
+          type: string
+          example: 2025-10-10
         is_published:
           type: boolean
           example: true
@@ -2506,10 +2523,13 @@ components:
         price:
           type: integer
           example: 45
-        discount_percentage:
-          type: integer
-          example: null
-        is_new:
+        new_until:
+          type: string
+          example: 2025-10-10
+        is_published:
+          type: boolean
+          example: true
+        is_star:
           type: boolean
           example: false
         images:
@@ -2549,10 +2569,19 @@ components:
           example: 1.5
       required:
         - name
-        - weigth
+        - SKU
+        - description
+        - weight
+        - continue_selling
+        - quantity_in_stock
         - price
+        - new_until
+        - is_published
+        - is_star
+        - cash_back
         - images
         - categories
+        - tags
     ProductPATCH:
       type: object
       properties:
@@ -2573,22 +2602,44 @@ components:
           example: true
         quantity_in_stock:
           type: integer
-          example: 6
+          example: 4
         price:
           type: integer
-          example: 40
-        discount_percentage:
-          type: integer
-          example: 15
-        is_new:
+          example: 45
+        new_until:
+          type: string
+          example: 2025-10-10
+        is_published:
           type: boolean
           example: true
+        is_star:
+          type: boolean
+          example: false
+        images:
+            type: array
+            items:
+              type: object
+              properties:
+                url:
+                  type: string
+                  example: "https://example.com/image1.jpg"
+                is_main:
+                  type: boolean
+                  example: true
+            example:
+              - url: https://example.com/image1.jpg
+                is_main: true
+              - url: https://example.com/image2.jpg
+                is_main: false
+              - url: https://example.com/image3.jpg
+                is_main: false
         categories:
           type: array
           items:
             type: string
           example: 
             - 7778325
+            - 8882343
         tags:
           type: array
           items:
@@ -2596,12 +2647,28 @@ components:
           example: 
             - 0000334
             - 1234545
-            - 0987545
-            - 1123442
         cash_back:
           type: integer
-          nullable: true
-          example: null
+          example: 1.5
+        is_archived:
+          type: boolean
+          example: true
+      required:
+        - name
+        - SKU
+        - description
+        - weight
+        - continue_selling
+        - quantity_in_stock
+        - price
+        - new_until
+        - is_published
+        - is_star
+        - cash_back
+        - images
+        - categories
+        - tags
+        - is_archived
     CollectionGET:
       type: object
       properties:

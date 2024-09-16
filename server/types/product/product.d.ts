@@ -17,3 +17,18 @@ export interface ProductRow extends RowDataPacket {
   created_at: Date;
   updated_at: Date;
 }
+export interface ProductImageRow extends RowDataPacket {
+  id: number;
+  url: string;
+  is_main: boolean;
+  product_id: number;
+  created_at: Date;
+  updated_at: Date;
+}
+export interface CategoryIdRow extends RowDataPacket {
+  id: number;
+}
+export interface TagIdRow extends RowDataPacket {
+  id: number;
+}
+

@@ -1,4 +1,4 @@
-import { CreateProductDTO } from "../../dto/product/product.dto";
+import { ProductDTO } from "../../dto/product/product.dto";
 import * as productService from "../../repositories/product/productRepository.js";
 
 // Récupérer tous les produits
@@ -11,7 +11,7 @@ export const getProductService = async (productId: number) => {
 };
 
 // Créer un nouveau produit
-export const createProductService = async (productData: CreateProductDTO) => {
+export const createProductService = async (productData: ProductDTO) => {
   const newProduct = await productService.createProductRepository(productData);
   return newProduct;
 };

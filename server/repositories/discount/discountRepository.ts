@@ -48,7 +48,6 @@ export const createDiscountRepository = async (
   const [newDiscount] = await query<DiscountRow[]>(sql3, [newDiscountId]);
   return newDiscount;
 };
-
 export const deleteDiscountRepository = async (discountId: number) => {
   const sql = `
         DELETE FROM discount
