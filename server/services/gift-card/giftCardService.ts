@@ -6,8 +6,8 @@ export const getCustomerGiftCardsService = async (customerId: number) => {
   return await giftCardService.getCustomerGiftCardsRepository(customerId);
 };
 // ADMIN - Récupérer toutes les cartes cadeaux
-export const getAllGiftCardsAdminService = async () => {
-  return await giftCardService.getAllGiftCardsAdminRepository();
+export const getAllGiftCardsAdminService = async (customerId?: string) => {
+  return await giftCardService.getAllGiftCardsAdminRepository(customerId);
 };
 // ADMIN - Création d'une carte cadeau
 export const createGiftCardService = async (

@@ -69,13 +69,19 @@ export const getCustomerGiftCardsRepository = async (customerId: number) => {
   return results;
 };
 // ADMIN - Récupérer toutes les cartes cadeaux
-export const getAllGiftCardsAdminRepository = async () => {
-  const sql1 = `
+export const getAllGiftCardsAdminRepository = async (customerId?:string) => {
+  let sql1 = `
       SELECT * 
       FROM gift_card
     `;
+    const params: any[] = [];
 
-  const giftCards = await query<GiftCardRow[]>(sql1);
+    // Si un customerId est fourni, ajouter une clause WHERE
+    if (customerId) {
+      sql1 += ` WHERE first_holder_id = ?`;
+      params.push(customerId);
+    }
+  const giftCards = await query<GiftCardRow[]>(sql1,params);
 
   if (giftCards.length === 0) {
     return [];

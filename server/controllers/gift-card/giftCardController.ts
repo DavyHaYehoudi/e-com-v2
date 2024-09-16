@@ -26,7 +26,8 @@ export const getAllGiftCardsAdminController = async (
   next: NextFunction
 ) => {
   try {
-    const giftCards = await giftCardService.getAllGiftCardsAdminService();
+    const { customerId } = req.query;
+    const giftCards = await giftCardService.getAllGiftCardsAdminService(customerId as string);
     res.json(giftCards);
   } catch (error) {
     console.error(error);
