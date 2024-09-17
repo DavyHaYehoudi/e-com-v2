@@ -3,7 +3,7 @@ import * as discountService from "../../services/discount/discountService.js";
 import {
   createDiscountSchema,
   targetTableSchema,
-} from "../../dto/discount/discount.dto.js";
+} from "./entities/dto/discount.dto.js";
 
 // Récupérer toutes les promotions
 export const getAllDiscountsController = async (

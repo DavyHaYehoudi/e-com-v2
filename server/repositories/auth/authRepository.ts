@@ -1,6 +1,6 @@
 //authRepository.ts
 import { query } from "../../config/req.js";
-import { AuthRow } from "../../types/auth/auth.js";
+import { AuthRow } from "./dao/auth.dao.js";
 
 // Insérer le code d'authentification
 export const storeAuthCodeRepository = async (

@@ -3,7 +3,7 @@ import * as categoryService from "../../services/category/categoryService.js";
 import {
   createCategorySchema,
   updateCategorySchema,
-} from "../../dto/category/category.dto.js";
+} from "./entities/dto/category.dto.js";
 
 // Récupérer toutes les informations sur la catégorie
 export const getAllCategoriesController = async (

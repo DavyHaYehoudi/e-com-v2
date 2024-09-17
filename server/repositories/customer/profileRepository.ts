@@ -1,7 +1,7 @@
 //profileRepository.ts
 import { query } from "../../config/req.js";
 import { ResultSetHeader } from "mysql2";
-import { ProfileRow } from "../../types/customer/profile.js";
+import { ProfileRow } from "./dao/profile.dao.js";
 import { NotFoundError } from "../../exceptions/CustomErrors.js";
 
 // Récupérer les données du customer par email pour l'ouverture de session

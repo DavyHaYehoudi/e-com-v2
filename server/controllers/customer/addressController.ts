@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { CustomJwtPayload } from "../../types/auth/auth.js";
+import { CustomJwtPayload } from "../../repositories/auth/dao/auth.dao.js";
 import { NotFoundError } from "../../exceptions/CustomErrors.js";
 import {
   getCustomerAddressService,
@@ -8,7 +8,7 @@ import {
 import {
   addressSchema,
   addressTypeSchema,
-} from "../../dto/customer/address.dto.js";
+} from "./entities/dto/address.dto.js";
 
 // Récupérer l'adresse shipping/billing du customer
 export const getCustomerAddressController = async (

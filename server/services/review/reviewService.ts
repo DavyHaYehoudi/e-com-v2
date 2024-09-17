@@ -1,4 +1,4 @@
-import { CreateReviewDTO } from "../../dto/review/review.dto";
+import { CreateReviewDTO } from "../../controllers/review/entities/dto/review.dto";
 import * as reviewService from "../../repositories/review/reviewRepository.js";
 
 // Récupérer tous les commentaires

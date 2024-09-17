@@ -1,4 +1,4 @@
-import { CreateCategoryDTO } from "../../dto/category/category.dto.js";
+import { CreateCategoryDTO } from "../../controllers/category/entities/dto/category.dto.js";
 import * as categoryService from "../../repositories/category/categoryRepository.js";
 
 // Récupérer toutes les informations sur la catégorie

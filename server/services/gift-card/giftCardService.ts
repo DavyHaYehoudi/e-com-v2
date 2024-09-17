@@ -1,4 +1,4 @@
-import { CreateGiftCardDTO } from "../../dto/gift-card/gift-card.dto";
+import { CreateGiftCardDTO } from "../../controllers/gift-card/entities/dto/gift-card.dto";
 import * as giftCardService from "../../repositories/gift-card/giftCardRepository.js";
 
 // Récupérer pour un customer toutes ses cartes cadeaux

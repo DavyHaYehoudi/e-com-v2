@@ -4,9 +4,9 @@ import {
   DuplicateEntryError,
   NotFoundError,
 } from "../../exceptions/CustomErrors.js";
-import { CreateCategoryDTO } from "../../dto/category/category.dto.js";
-import { CategoryRow } from "../../types/category/category.js";
-import { CollectionRow } from "../../types/collection/collection.js";
+import { CreateCategoryDTO } from "../../controllers/category/entities/dto/category.dto.js";
+import { CategoryRow } from "./dao/category.dao.js";
+import { CollectionRow } from "../collection/dao/collection.dao.js";
 
 export const getAllCategoriesRepository = async () => {
   const sql = `SELECT * FROM category`;

@@ -1,7 +1,7 @@
 import {
   ProfileInputDTO,
   ProfileInputReservedAdminDTO,
-} from "../../dto/customer/profile.dto.js";
+} from "../../controllers/customer/entities/dto/profile.dto.js";
 import * as profileRepository from "../../repositories/customer/profileRepository.js";
 
 // Récupérer le profil du customer

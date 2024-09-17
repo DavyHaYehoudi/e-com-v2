@@ -7,8 +7,8 @@ import {
   ProductRow,
   ProductVariantRow,
   TagIdRow,
-} from "../../types/product/product.js";
-import { ProductDTO } from "../../dto/product/product.dto.js";
+} from "./dao/product.dao.js";
+import { ProductDTO } from "../../controllers/product/entities/dto/product.dto.js";
 import {
   beginTransaction,
   commitTransaction,

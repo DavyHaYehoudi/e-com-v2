@@ -1,5 +1,5 @@
 import * as cartRepository from "../../repositories/customer/cartRepository.js";
-import { CartInputDTO } from "../../types/customer/cart.js";
+import { CartInputDTO } from "../../repositories/customer/dao/cart.dao.js";
 
 // Récupérer le panier du customer
 export const getCustomerCartService = async (customerId: number) => {

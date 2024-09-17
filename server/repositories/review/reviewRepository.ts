@@ -1,8 +1,8 @@
 import { ResultSetHeader } from "mysql2";
 import { query } from "../../config/req.js";
 import { NotFoundError } from "../../exceptions/CustomErrors.js";
-import { ReviewRow } from "../../types/review/review.js";
-import { CreateReviewDTO } from "../../dto/review/review.dto.js";
+import { ReviewRow } from "./dao/review.dao.js";
+import { CreateReviewDTO } from "../../controllers/review/entities/dto/review.dto.js";
 
 export const getAllReviewsRepository = async () => {
   const sql = `SELECT * FROM review`;

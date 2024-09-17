@@ -1,4 +1,4 @@
-import { CreateTagDTO } from "../../dto/tag/tag.dto.js";
+import { CreateTagDTO } from "../../controllers/tag/entities/dto/tag.dto.js";
 import * as tagService from "../../repositories/tag/tagRepository.js";
 
 // Récupérer tous les tags

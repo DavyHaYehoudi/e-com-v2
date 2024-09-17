@@ -3,8 +3,8 @@ import * as reviewService from "../../services/review/reviewService.js";
 import {
   createReviewSchema,
   updateReviewSchema,
-} from "../../dto/review/review.dto.js";
-import { CustomJwtPayload } from "../../types/auth/auth.js";
+} from "./entities/dto/review.dto.js";
+import { CustomJwtPayload } from "../../repositories/auth/dao/auth.dao.js";
 
 // Récupérer tous les commentaires
 export const getAllReviewsController = async (

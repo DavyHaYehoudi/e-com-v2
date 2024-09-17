@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import * as tagService from "../../services/tag/tagService.js";
-import { createTagSchema } from "../../dto/tag/tag.dto.js";
+import { createTagSchema } from "./entities/dto/tag.dto.js";
 
 // Récupérer tous les tags
 export const getAllTagsController = async (

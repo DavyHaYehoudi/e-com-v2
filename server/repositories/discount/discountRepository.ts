@@ -1,13 +1,13 @@
 import { ResultSetHeader } from "mysql2";
 import { query } from "../../config/req.js";
 import { NotFoundError } from "../../exceptions/CustomErrors.js";
-import { CategoryRow } from "../../types/category/category.js";
-import { CollectionRow } from "../../types/collection/collection.js";
-import { DiscountRow } from "../../types/discount/discount.js";
+import { CategoryRow } from "../category/dao/category.dao.js";
+import { CollectionRow } from "../collection/dao/collection.dao.js";
+import { DiscountRow } from "./dao/discount.dao.js";
 import {
   CreateDiscountDTO,
   TargetTableDiscountDTO,
-} from "../../dto/discount/discount.dto.js";
+} from "../../controllers/discount/entities/dto/discount.dto.js";
 import { ProductRow } from "../../types/product/product.js";
 
 export const getAllDiscountsRepository = async () => {

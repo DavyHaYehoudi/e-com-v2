@@ -1,7 +1,7 @@
 import { ResultSetHeader } from "mysql2";
 import { query } from "../../config/req.js";
-import { CreateCollectionDTO } from "../../dto/collection/collection.dto.js";
-import { CollectionRow } from "../../types/collection/collection.js";
+import { CreateCollectionDTO } from "../../controllers/collection/entities/dto/collection.dto.js";
+import { CollectionRow } from "./dao/collection.dao.js";
 import {
   DuplicateEntryError,
   NotFoundError,

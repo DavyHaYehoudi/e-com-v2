@@ -3,8 +3,8 @@ import { Request, Response, NextFunction } from "express";
 import {
   updateAnyCustomerProfileSchema,
   updateCustomerProfileSchema,
-} from "../../dto/customer/profile.dto.js";
-import { CustomJwtPayload } from "../../types/auth/auth.js";
+} from "./entities/dto/profile.dto.js";
+import { CustomJwtPayload } from "../../repositories/auth/dao/auth.dao.js";
 import * as profileService from "../../services/customer/profileService.js";
 import { NotFoundError } from "../../exceptions/CustomErrors.js";
 

@@ -3,7 +3,7 @@ import * as deliveryService from "../../services/delivery/deliveryService.js";
 import {
   createDeliverySchema,
   updateDeliverySchema,
-} from "../../dto/delivery/delivery.dto.js";
+} from "./entities/dto/delivery.dto.js";
 
 // Récupérer toutes les méthodes de livraison
 export const getAllDeliveriesController = async (

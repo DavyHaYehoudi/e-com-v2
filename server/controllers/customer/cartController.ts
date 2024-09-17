@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { CustomJwtPayload } from "../../types/auth/auth.js";
+import { CustomJwtPayload } from "../../repositories/auth/dao/auth.dao.js";
 import {
   getCustomerCartService,
   updateCustomerCartService,
 } from "../../services/customer/cartService.js";
 import { NotFoundError } from "../../exceptions/CustomErrors.js";
-import { CartInputSchema } from "../../dto/customer/cart.dto.js";
+import { CartInputSchema } from "./entities/dto/cart.dto.js";
 
 // Récupérer le panier du customer
 export const getCustomerCartController = async (

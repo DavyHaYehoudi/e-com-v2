@@ -4,13 +4,13 @@ import {
   CartGiftCardRow,
   CartItemRow,
   CartRow,
-} from "../../types/customer/cart.js";
+} from "./dao/cart.dao.js";
 import {
   beginTransaction,
   commitTransaction,
   rollbackTransaction,
 } from "../../utils/transaction.js";
-import { CartInputDTO } from "../../dto/customer/cart.dto.js";
+import { CartInputDTO } from "../../controllers/customer/entities/dto/cart.dto.js";
 
 // Récupérer le panier du customer
 export const getCustomerCartRepository = async (customerId: number) => {

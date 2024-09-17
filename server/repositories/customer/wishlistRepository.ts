@@ -4,13 +4,13 @@ import {
   WishlistGiftCardRow,
   WishlistItemRow,
   WishlistRow,
-} from "../../types/customer/wishlist.js";
+} from "./dao/wishlist.dao.js";
 import {
   beginTransaction,
   commitTransaction,
   rollbackTransaction,
 } from "../../utils/transaction.js";
-import { WishlistInputDTO } from "../../dto/customer/wishlist.dto.js";
+import { WishlistInputDTO } from "../../controllers/customer/entities/dto/wishlist.dto.js";
 
 // Récupérer la wishlist du customer
 export const getCustomerWishlistRepository = async (customerId: number) => {

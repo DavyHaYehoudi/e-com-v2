@@ -2,7 +2,7 @@ import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { query } from "../../config/req.js";
 import {
   CreateDeliveryDTO,
-} from "../../dto/delivery/delivery.dto.js";
+} from "../../controllers/delivery/entities/dto/delivery.dto.js";
 import {
   beginTransaction,
   commitTransaction,
@@ -11,7 +11,7 @@ import {
 import {
   ShippingMethodRow,
   ShippingMethodTarifsRow,
-} from "../../types/delivery/delivery.js";
+} from "./dao/delivery.dao.js";
 import { NotFoundError } from "../../exceptions/CustomErrors.js";
 
 // Récupérer toutes les méthodes de livraison

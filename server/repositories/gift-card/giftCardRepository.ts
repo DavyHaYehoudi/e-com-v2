@@ -4,9 +4,9 @@ import {
   firstHolderIdRow,
   GiftCardRow,
   GiftCardUsageRow,
-} from "../../types/gift-card/gift-card.js";
+} from "./dao/gift-card.dao.js";
 import { generateGiftCardCode } from "./utils/generateCode.js";
-import { CreateGiftCardDTO } from "../../dto/gift-card/gift-card.dto.js";
+import { CreateGiftCardDTO } from "../../controllers/gift-card/entities/dto/gift-card.dto.js";
 import { NotFoundError } from "../../exceptions/CustomErrors.js";
 
 // Récupérer pour un customer toutes ses cartes cadeaux

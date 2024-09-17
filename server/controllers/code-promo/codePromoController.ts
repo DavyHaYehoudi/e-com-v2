@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import * as codePromoService from "../../services/code-promo/codePromoService.js";
-import { createCodePromoSchema } from "../../dto/code-promo/code-promo.dto.js";
+import { createCodePromoSchema } from "./entities/dto/code-promo.dto.js";
 
 // Vérifier un code promo
 export const verifyCodePromoController = async (

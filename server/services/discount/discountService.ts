@@ -1,7 +1,7 @@
 import {
   CreateDiscountDTO,
   TargetTableDiscountDTO,
-} from "../../dto/discount/discount.dto";
+} from "../../controllers/discount/entities/dto/discount.dto";
 import * as discountService from "../../repositories/discount/discountRepository.js";
 
 // Récupérer toutes les promotions

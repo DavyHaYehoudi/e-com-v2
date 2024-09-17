@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import * as productService from "../../services/product/productService.js";
-import { ProductDTO, productSchema } from "../../dto/product/product.dto.js";
+import { ProductDTO, productSchema } from "./entities/dto/product.dto.js";
 
 // Récupérer tous les produits
 export const getAllProductsController = async (

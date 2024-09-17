@@ -1,7 +1,7 @@
 import { query } from "../../config/req.js";
-import { NotesAdminRow } from "../../types/note/notesAdmin.js";
+import { NotesAdminRow } from "./dao/notesAdmin.dao.js";
 import { NotFoundError } from "../../exceptions/CustomErrors.js";
-import { ProfileRow } from "../../types/customer/profile.js";
+import { ProfileRow } from "../customer/dao/profile.dao.js";
 
 export const getNotesAdminRepository = async (customerId: number) => {
   const sql1 = `SELECT * FROM customer WHERE id = ?`;

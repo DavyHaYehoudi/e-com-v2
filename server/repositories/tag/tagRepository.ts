@@ -4,8 +4,8 @@ import {
   DuplicateEntryError,
   NotFoundError,
 } from "../../exceptions/CustomErrors.js";
-import { CreateTagDTO } from "../../dto/tag/tag.dto.js";
-import { TagRow } from "../../types/tag/tag.js";
+import { CreateTagDTO } from "../../controllers/tag/entities/dto/tag.dto.js";
+import { TagRow } from "./dao/tag.dao.js";
 
 export const getAllTagsRepository = async () => {
   const sql = `SELECT * FROM tag`;

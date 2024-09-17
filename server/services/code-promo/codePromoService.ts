@@ -1,4 +1,4 @@
-import { CreateCodePromoDTO } from "../../dto/code-promo/code-promo.dto";
+import { CreateCodePromoDTO } from "../../controllers/code-promo/entities/dto/code-promo.dto";
 import * as codePromoService from "../../repositories/code-promo/codePromoRepository.js";
 
 // Vérifier un code promo

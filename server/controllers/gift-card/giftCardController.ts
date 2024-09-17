@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import * as giftCardService from "../../services/gift-card/giftCardService.js";
-import { CustomJwtPayload } from "../../types/auth/auth.js";
-import { createGiftCardSchema } from "../../dto/gift-card/gift-card.dto.js";
+import { CustomJwtPayload } from "../../repositories/auth/dao/auth.dao.js";
+import { createGiftCardSchema } from "./entities/dto/gift-card.dto.js";
 
 // Récupérer pour un customer toutes ses cartes cadeaux
 export const getCustomerGiftCardsController = async (

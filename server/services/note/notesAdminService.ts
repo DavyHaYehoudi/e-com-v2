@@ -1,4 +1,4 @@
-import { NotesAdminInputDTO } from "../../dto/note/notesAdmin.dto.js";
+import { NotesAdminInputDTO } from "../../controllers/note/entities/dto/notesAdmin.dto.js";
 import * as notesAdminRepository from "../../repositories/note/notesAdminRepository.js";
 
 // Admin - Récupérer les notes sur un customer

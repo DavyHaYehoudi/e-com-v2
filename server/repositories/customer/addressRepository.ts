@@ -1,6 +1,6 @@
 import { query } from "../../config/req.js";
-import { AddressInputDTO } from "../../dto/customer/address.dto.js";
-import { AddressRow } from "../../types/customer/address.js";
+import { AddressInputDTO } from "../../controllers/customer/entities/dto/address.dto.js";
+import { AddressRow } from "./dao/address.dao.js";
 
 export const getCustomerAddressRepository = async (
   customerId: number,

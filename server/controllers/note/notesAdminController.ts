@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import * as notesAdminService from "../../services/note/notesAdminService.js";
-import { updateNotesAdminSchema } from "../../dto/note/notesAdmin.dto.js";
+import { updateNotesAdminSchema } from "./entities/dto/notesAdmin.dto.js";
 import { NotFoundError } from "../../exceptions/CustomErrors.js";
 
 // Admin - Récupérer les notes sur un customer

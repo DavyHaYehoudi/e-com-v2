@@ -4,8 +4,8 @@ import {
   DuplicateEntryError,
   NotFoundError,
 } from "../../exceptions/CustomErrors.js";
-import { CodePromoRow } from "../../types/code-promo/code-promo.js";
-import { CreateCodePromoDTO } from "../../dto/code-promo/code-promo.dto.js";
+import { CodePromoRow } from "./dao/code-promo.dao.js";
+import { CreateCodePromoDTO } from "../../controllers/code-promo/entities/dto/code-promo.dto.js";
 
 export const verifyCodePromoRepository = async (
   codePromo: string

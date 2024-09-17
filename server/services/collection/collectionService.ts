@@ -1,4 +1,4 @@
-import { CreateCollectionDTO } from "../../dto/collection/collection.dto";
+import { CreateCollectionDTO } from "../../controllers/collection/entities/dto/collection.dto";
 import * as collectionService from "../../repositories/collection/collectionRepository.js";
 
 // Récupérer toutes les informations sur la collection

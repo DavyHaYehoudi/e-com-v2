@@ -1,4 +1,4 @@
-import { AddressInputDTO } from "../../dto/customer/address.dto.js";
+import { AddressInputDTO } from "../../controllers/customer/entities/dto/address.dto.js";
 import * as addressRepository from "../../repositories/customer/addressRepository.js";
 
 // Récupérer l' adresse shipping/billing du customer

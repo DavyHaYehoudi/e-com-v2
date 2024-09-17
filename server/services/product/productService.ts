@@ -1,4 +1,4 @@
-import { ProductDTO } from "../../dto/product/product.dto";
+import { ProductDTO } from "../../controllers/product/entities/dto/product.dto";
 import * as productService from "../../repositories/product/productRepository.js";
 
 // Récupérer tous les produits

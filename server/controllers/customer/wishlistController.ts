@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { CustomJwtPayload } from "../../types/auth/auth.js";
+import { CustomJwtPayload } from "../../repositories/auth/dao/auth.dao.js";
 import {
   getCustomerWishlistService,
   updateCustomerWishlistService,
 } from "../../services/customer/wishlistService.js";
 import { NotFoundError } from "../../exceptions/CustomErrors.js";
-import { WishlistInputSchema } from "../../dto/customer/wishlist.dto.js";
+import { WishlistInputSchema } from "./entities/dto/wishlist.dto.js";
 
 // Récupérer la wishlist du customer
 export const getCustomerWishlistController = async (

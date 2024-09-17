@@ -1,4 +1,4 @@
-import { CreateDeliveryDTO } from "../../dto/delivery/delivery.dto";
+import { CreateDeliveryDTO } from "../../controllers/delivery/entities/dto/delivery.dto";
 import * as deliveryService from "../../repositories/delivery/deliveryRepository.js";
 
 // Récupérer toutes les méthodes de livraison

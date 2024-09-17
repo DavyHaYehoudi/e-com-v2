@@ -3,7 +3,7 @@ import * as collectionService from "../../services/collection/collectionService.
 import {
   createCollectionSchema,
   updateCollectionSchema,
-} from "../../dto/collection/collection.dto.js";
+} from "./entities/dto/collection.dto.js";
 
 // Récupérer toutes les informations sur la collection
 export const getAllCollectionsController = async (
