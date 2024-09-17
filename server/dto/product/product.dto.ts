@@ -40,6 +40,7 @@ export const productSchema = z.object({
     .array(z.number().int())
     .min(1, { message: "Au moins une catégorie est requise." }),
   tags: z.array(z.number().int()),
+  variants: z.array(z.string()),
 });
 
 // Types dérivés pour Product

@@ -212,6 +212,11 @@ ADD CONSTRAINT fk_product_tag_tag
 FOREIGN KEY (tag_id) REFERENCES `tag`(id)
 ON DELETE CASCADE;
 
+ALTER TABLE `product_variant`
+ADD CONSTRAINT fk_product_variant
+FOREIGN KEY (product_id) REFERENCES `product`(id)
+ON DELETE CASCADE;
+
 /* ********************* REVIEW ********************* */
 ALTER TABLE `review`
 ADD CONSTRAINT fk_review_customer

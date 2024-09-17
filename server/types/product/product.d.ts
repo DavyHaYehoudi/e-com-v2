@@ -25,6 +25,13 @@ export interface ProductImageRow extends RowDataPacket {
   created_at: Date;
   updated_at: Date;
 }
+export interface ProductVariantRow extends RowDataPacket {
+  id: number;
+  combination: string;
+  product_id: number;
+  created_at: Date;
+  updated_at: Date;
+}
 export interface CategoryIdRow extends RowDataPacket {
   id: number;
 }

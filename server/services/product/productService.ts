@@ -2,8 +2,17 @@ import { ProductDTO } from "../../dto/product/product.dto";
 import * as productService from "../../repositories/product/productRepository.js";
 
 // Récupérer tous les produits
-export const getAllProductsService = async () => {
-  return await productService.getAllProductsRepository();
+export const getAllProductsService = async (filters: {
+  name?: string;
+  category_ids?: number[];
+  tag_ids?: number[];
+  min_price?: number;
+  max_price?: number;
+  on_promotion?: boolean;
+  is_new?: boolean;
+  collection_ids?: number[];
+}) => {
+  return await productService.getAllProductsRepository(filters);
 };
 // Récupérer un produit
 export const getProductService = async (productId: number) => {
@@ -18,7 +27,7 @@ export const createProductService = async (productData: ProductDTO) => {
 // Mettre à jour un produit
 export const updateProductService = async (
   productId: number,
-  updatedFields: Record<string, any>
+  updatedFields: ProductDTO
 ) => {
   await productService.updateProductRepository(productId, updatedFields);
 };
