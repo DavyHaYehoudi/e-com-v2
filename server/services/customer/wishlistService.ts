@@ -1,5 +1,5 @@
 import * as wishlistRepository from "../../repositories/customer/wishlistRepository.js";
-import { WishlistInputDTO } from "../../repositories/customer/dao/wishlist.dao.js";
+import { WishlistInputDTO } from "../../controllers/customer/entities/dto/wishlist.dto.js";
 
 // Récupérer la wishlist du customer
 export const getCustomerWishlistService = async (customerId: number) => {

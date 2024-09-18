@@ -8,7 +8,7 @@ import {
   CreateDiscountDTO,
   TargetTableDiscountDTO,
 } from "../../controllers/discount/entities/dto/discount.dto.js";
-import { ProductRow } from "../../types/product/product.js";
+import { ProductRow } from "../product/dao/product.dao.js";
 
 export const getAllDiscountsRepository = async () => {
   const sql = `SELECT * FROM discount`;

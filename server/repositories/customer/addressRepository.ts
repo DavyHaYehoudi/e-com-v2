@@ -11,7 +11,6 @@ export const getCustomerAddressRepository = async (
 
   return results.length ? results[0] : null;
 };
-
 export const updateCustomerAddressRepository = async (
   customerId: number,
   type: string,
@@ -36,7 +35,6 @@ export const updateCustomerAddressRepository = async (
     type,
   ]);
 };
-
 export const createCustomerAddressRepository = async (
   customerId: number,
   type: string,
