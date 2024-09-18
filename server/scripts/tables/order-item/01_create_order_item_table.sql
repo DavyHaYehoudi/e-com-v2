@@ -10,5 +10,7 @@ CREATE TABLE IF NOT EXISTS `order_item` (
     exchange_at DATE,                                -- Date de l'échange (peut être NULL)
     refund_number INT DEFAULT 0,                     -- Nombre d'articles remboursés
     refund_at DATE,                                  -- Date du remboursement (peut être NULL)
-    refund_amount DECIMAL(10, 2)                    -- Montant total remboursé (peut être NULL)
+    refund_amount DECIMAL(10, 2)                     -- Montant total remboursé (peut être NULL)
+    return_at DATE,                                  -- Date de retour des articles
+    return_number INT DEFAULT 0                      -- Nombre d'articles retournés
 );

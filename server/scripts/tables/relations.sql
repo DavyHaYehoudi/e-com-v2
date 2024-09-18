@@ -126,11 +126,6 @@ FOREIGN KEY (payment_status_id) REFERENCES `payment_status`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE `order`
-ADD CONSTRAINT fk_order_payment_method
-FOREIGN KEY (payment_method_id) REFERENCES `payment_method`(id)
-ON DELETE CASCADE;
-
-ALTER TABLE `order`
 ADD CONSTRAINT fk_order_gift_card
 FOREIGN KEY (order_gift_card_id) REFERENCES `order_gift_card`(id)
 ON DELETE CASCADE;
@@ -146,13 +141,8 @@ FOREIGN KEY (shipping_method_id) REFERENCES `shipping_method`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE `order`
-ADD CONSTRAINT fk_order_address_shipping
-FOREIGN KEY (order_address_shipping_id) REFERENCES `order_address_shipping`(id)
-ON DELETE CASCADE;
-
-ALTER TABLE `order`
-ADD CONSTRAINT fk_order_address_billing
-FOREIGN KEY (order_address_billing_id) REFERENCES `order_address_billing`(id)
+ADD CONSTRAINT fk_order_address
+FOREIGN KEY (order_address_id) REFERENCES `order_address`(id)
 ON DELETE CASCADE;
 
 ALTER TABLE `order_message`
