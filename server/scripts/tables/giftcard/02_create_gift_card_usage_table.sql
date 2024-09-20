@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS gift_card_usage (
     used_by_customer_id INT NULL,                -- Référence au client qui a utilisé la carte cadeau
     amount_used DECIMAL(10, 2) NOT NULL,             -- Montant dépensé avec la carte cadeau
     used_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,     -- Date et heure d'utilisation
+    order_id INT NULL,                                -- Référence de la commande à son utilisation
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Date et heure de création
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP -- Date et heure de dernière mise à jour
 );

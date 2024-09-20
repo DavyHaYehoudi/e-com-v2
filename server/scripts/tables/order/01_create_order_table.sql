@@ -4,14 +4,12 @@ CREATE TABLE IF NOT EXISTS `order` (
     order_status_id INT NOT NULL,                             -- Statut de la commande
     payment_status_id INT NOT NULL,                           -- Statut du paiement
     payment_method_id INT NOT NULL,                           -- Méthode de paiement utilisée
-    order_address_id INT NOT NULL,                            -- Adresse de livraison ou de facturation
     confirmation_number VARCHAR(9) NOT NULL,                  -- Numéro de commande unique (9 caractères alphanumériques)
     notes_admin TEXT,                                         -- Commentaires laissés par l'admin sur cette commande
-    order_gift_card_id INT,                                   -- Référence aux gift cards utilisées
-    code_promo_id INT,                                        -- Référence à un code promo appliqué
+    code_promo_amount DECIMAL(10, 2),                         -- Montant de réduction par le code promo appliqué
+    total_promo_products DECIMAL(10, 2),                      -- Total des promotions cumulées pour les produits achetés
     total_price DECIMAL(10, 2) NOT NULL,                      -- Prix total de la commande
     shipping_price DECIMAL(10, 2) NOT NULL,                   -- Prix de la livraison
-    shipping_method_id INT NOT NULL,                          -- Méthode de livraison utilisée
     cashback_earned DECIMAL(10, 2),                           -- Montant de cashback gagné pour cette commande
     cashback_spent DECIMAL(10, 2),                            -- Montant de cashback dépensé pour cette commande
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,           -- Date de création de la commande

@@ -21,6 +21,7 @@ tags:
   - name: code-promo
   - name: review
   - name: delivery
+  - name: payment
 paths:
   /auth/open-session:
     post:
@@ -1765,7 +1766,100 @@ paths:
           description: Not found - The discount doesn't exist.
       security:
         - api_key: []
-
+  /payment/amount:
+    get:
+      tags:
+        - payment
+      summary: Calculation of the order amount.
+      description: Returns the amount of the order including any discounts such as promotions, promo codes or the use of gift cards.
+      parameters:
+        - name: codePromo
+          in: query
+          description: Code of the code promo.
+          required: true
+          schema:
+            type: string
+        - name: giftCardIds
+          in: query
+          description: Ids of the gift cards.
+          required: true
+          schema:
+            type: array
+            items: 
+              type: number
+        - name: shippingMethodId
+          in: query
+          description: Id of the shipping method.
+          required: true
+          schema:
+              type: number
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  amount:
+                    type: number
+                    example: 245
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
+  /payment/intent:
+    post:
+      tags:
+        - payment
+      summary: Displaying the payment method.
+      description: A payment intent with the amount is recorded in Stripe but is not yet a completed payment.
+      requestBody:
+        description: Provide the customerId to find your shopping cart and transmit any discounts (promo code, gift card).
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentIntentPOST'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  clientSecret:
+                    type: string
+                    example: Pi_T5938759283574NJ_secret_209348572039485720
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
+  /payment/confirm:
+    post:
+      tags:
+        - payment
+      summary: confirmation of payment established.
+      description: confirmation of payment established.
+      requestBody:
+        description: Sending the data required for creating an order to the DB.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentConfirmationPOST'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentConfirmationResponse'
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
 
 components:
   schemas:
@@ -2058,47 +2152,6 @@ components:
         review_id:
           type: string
           example: 98702-495
-    OrderPOST:
-      type: object
-      properties:
-        customer_id:
-          type: string
-          example: 309485729
-        payment_method_id:
-          type: string
-          example: 3
-        order_git_card_id:
-          type: string
-          example: 7809BJQ0
-        code_promo_id:
-          type: string
-          example: 85203852
-        total_price:
-          type: integer
-          example: 75
-        shipping_price:
-          type: integer
-          example: 4.99
-        order_address_shipping_id:
-          type: string
-          example: 20938475
-        order_address_billing_id:
-          type: string
-          example: 6662234
-        shipping_method_id:
-          type: string
-          example: 1
-        cash-back_earned:
-          type: integer
-          example: 8
-      required:
-        - customer_id
-        - payment_method_id
-        - total_price
-        - shipping_price
-        - order_address_shipping_id
-        - order_address_billing_id
-        - shipping_method_id
     OrderOneCustomerGET:
       type: object
       properties:
@@ -2107,14 +2160,11 @@ components:
           example: 309485729
         order_status_id:
           type: string
-          example: 0
+          example: 1
         payment_status_id:
           type: string
-          example: 0
-        payment_method_id:
-          type: string
-          example: 3
-        orderNumber:
+          example: 1
+        confirmation_number:
           type: integer
           example: 20957IKLH
         order_git_card_id:
@@ -2156,7 +2206,7 @@ components:
         payment_status_id:
           type: string
           example: 2
-        orderNumber:
+        confirmation_number:
           type: integer
           example: 20957IKLH
         total_price:
@@ -2249,10 +2299,7 @@ components:
         payment_status_id:
           type: string
           example: 2
-        payment_method_id:
-          type: string
-          example: 3
-        orderNumber:
+        confirmation_number:
           type: integer
           example: 20957IKLH
         notes_admin:
@@ -2300,7 +2347,7 @@ components:
         payment_status_id:
           type: string
           example: 2
-        orderNumber:
+        confirmation_number:
           type: integer
           example: 20957IKLH
         total_price:
@@ -2351,6 +2398,13 @@ components:
           example: null
         refund_amount:
           type: integer
+          nullable: true
+          example: null
+        return_number:
+          type: integer
+          example: null
+        return_at:
+          type: string
           nullable: true
           example: null
     OrderItemPATCH:
@@ -2493,6 +2547,11 @@ components:
           example: 
             - 0000334
             - 1234545
+        variants:
+          type: array
+          items:
+            type: string
+            example: S/Blue, XL/Black, M/Orange
         createdAt:
           type: string
           example: 2024-03-21T17:50:38.100Z
@@ -2564,6 +2623,11 @@ components:
           example: 
             - 0000334
             - 1234545
+        variants:
+          type: array
+          items:
+            type: string
+            example: S/Blue, XL/Black, M/Orange
         cash_back:
           type: integer
           example: 1.5
@@ -2582,6 +2646,7 @@ components:
         - images
         - categories
         - tags
+        - variants
     ProductPATCH:
       type: object
       properties:
@@ -2647,6 +2712,9 @@ components:
           example: 
             - 0000334
             - 1234545
+        variants:
+            type: string
+            example: []
         cash_back:
           type: integer
           example: 1.5
@@ -2669,6 +2737,7 @@ components:
         - categories
         - tags
         - is_archived
+        - variants
     CollectionGET:
       type: object
       properties:
@@ -2780,7 +2849,7 @@ components:
         expiration_date:
           type: string
           example: 08/08/2025
-        orderId:
+        buy_order_id:
           type: string
           example: 98702-495
         usage_history:           
@@ -2800,6 +2869,9 @@ components:
               used_at:
                 type: string
                 example: 05/06/2025
+              used_order_id:
+                type: integer
+                example: 93857
         createdAt:
           type: string
           example: 2024-03-21T17:50:38.100Z
@@ -3066,6 +3138,140 @@ components:
         - discount_percentage
         - start_date
         - end_date
+    PaymentIntentPOST:
+      type: object
+      properties:
+        code_promo:
+          type: string
+          example: Bonjour-12
+        gift_Card_Ids:
+          type: array
+          items:
+            type: number
+          example:
+            - 2348
+            - 0984
+        shipping_method_id:
+          type: number
+          example: 2
+    PaymentConfirmationPOST:
+     type: object
+     properties:
+        code_promo:
+          type: string
+          example: Bonjour-12
+        gift_Card_Ids:
+          type: array
+          items:
+            type: number
+          example:
+            - 2348
+            - 0984
+        shipping_method_id:
+          type: number
+          example: 2
+        order_address_shipping:
+          type: object
+          properties:
+            company:
+              type: string
+              example: name company
+            email:
+              type: string
+              example: john@example.com
+            phone:
+              type: string
+              example: 0798765432
+            street_number:
+              type: string
+              example: 2 BIS
+            address1:
+              type: string
+              example: rue de la Paix
+            address2:
+              type: string
+              example: appartement C12
+            city:
+              type: string
+              example: Paris 
+            postal_code:
+              type: integer
+              example: 75016
+            country:
+              type: string
+              example: France
+        order_address_billing:
+          type: object
+          properties:
+            company:
+              type: string
+              example: name company
+            email:
+              type: string
+              example: john@example.com
+            phone:
+              type: string
+              example: 0798765432
+            street_number:
+              type: string
+              example: 2 BIS
+            address1:
+              type: string
+              example: rue de la Paix
+            address2:
+              type: string
+              example: appartement C12
+            city:
+              type: string
+              example: Paris 
+            postal_code:
+              type: integer
+              example: 75016
+            country:
+              type: string
+              example: France     
+    PaymentConfirmationResponse:
+      type: object
+      properties:
+        customer_id:
+          type: integer
+          example: 023948
+        payment_status: 
+          type: string
+          example: Payée
+        order_status:
+          type: string
+          example: A traiter
+        confirmation_number:
+          type: integer
+          example: HUY78BG332
+        notes_admin:
+          type: string
+          example:
+        total_price:
+          type: integer
+          example: 175.3
+        code_promo_amount:
+          type: integer
+          example: 12.6
+        total_promo_products:
+          type: integer
+          example: 21.1
+        shipping_price:
+          type: integer
+          example: 4.9
+        cash_back_earned:
+          type: integer
+          example: 7
+        cash_back_spent:
+          type: integer
+          example: 0
+        createdAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+        updatedAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
 
   securitySchemes:
     api_key:

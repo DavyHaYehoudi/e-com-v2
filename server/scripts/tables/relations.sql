@@ -92,6 +92,11 @@ ADD CONSTRAINT fk_gift_card_usage_customer
 FOREIGN KEY (used_by_customer_id) REFERENCES `customer`(id)
 ON DELETE CASCADE;
 
+ALTER TABLE gift_card_usage
+ADD CONSTRAINT fk_gift_card_usage_order
+FOREIGN KEY (order_id) REFERENCES `order`(id)
+ON DELETE CASCADE;
+
 /* ********************* COLLECTION ********************* */
 ALTER TABLE collection
 ADD CONSTRAINT unique_collection_label UNIQUE (label);
@@ -125,26 +130,6 @@ ADD CONSTRAINT fk_order_payment_status
 FOREIGN KEY (payment_status_id) REFERENCES `payment_status`(id)
 ON DELETE CASCADE;
 
-ALTER TABLE `order`
-ADD CONSTRAINT fk_order_gift_card
-FOREIGN KEY (order_gift_card_id) REFERENCES `order_gift_card`(id)
-ON DELETE CASCADE;
-
-ALTER TABLE `order`
-ADD CONSTRAINT fk_order_code_promo
-FOREIGN KEY (code_promo_id) REFERENCES `code_promo`(id)
-ON DELETE SET NULL;
-
-ALTER TABLE `order`
-ADD CONSTRAINT fk_order_shipping_method
-FOREIGN KEY (shipping_method_id) REFERENCES `shipping_method`(id)
-ON DELETE CASCADE;
-
-ALTER TABLE `order`
-ADD CONSTRAINT fk_order_address
-FOREIGN KEY (order_address_id) REFERENCES `order_address`(id)
-ON DELETE CASCADE;
-
 ALTER TABLE `order_message`
 ADD CONSTRAINT fk_order_message_order
 FOREIGN KEY (order_id) REFERENCES `order`(id)
@@ -155,9 +140,10 @@ ADD CONSTRAINT fk_order_tracking_order
 FOREIGN KEY (order_id) REFERENCES `order`(id)
 ON DELETE CASCADE;
 
-ALTER TABLE `order_gift_card`
-ADD CONSTRAINT fk_order_gift_card_usage
-FOREIGN KEY (gift_card_usage_id) REFERENCES `gift_card_usage`(id)
+/* ********************* ORDER-ADDRESS ********************* */
+ALTER TABLE `order_address`
+ADD CONSTRAINT fk_order
+FOREIGN KEY (order_id) REFERENCES `order`(id)
 ON DELETE CASCADE;
 
 /* ********************* ORDER-ITEM ********************* */
