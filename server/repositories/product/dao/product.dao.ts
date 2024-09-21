@@ -38,4 +38,9 @@ export interface CategoryIdRow extends RowDataPacket {
 export interface TagIdRow extends RowDataPacket {
   id: number;
 }
+export interface ProductBestDiscount extends RowDataPacket {
+  id: number;
+  category_id: number;
+  collection_id: number;
+}
 

@@ -43,5 +43,59 @@ export const productSchema = z.object({
   variants: z.array(z.string()),
 });
 
+
 // Types dérivés pour Product
 export type ProductDTO = z.infer<typeof productSchema>;
+
+// Schéma pour valider les paramètres de requête (GET /products)
+export const productQueriesSchema = z.object({
+  name: z.string().optional(), // nom du produit, optionnel
+  category_ids: z
+    .array(z.number().int())
+    .optional()
+    .default([]), // Défaut à un tableau vide
+  tag_ids: z
+    .array(z.number().int())
+    .optional()
+    .default([]), // Défaut à un tableau vide
+  min_price: z.number().optional(), // prix minimum, optionnel
+  max_price: z.number().optional(), // prix maximum, optionnel
+  on_promotion: z.boolean().optional(), // promotion, optionnel
+  is_new: z.boolean().optional(), // nouveauté, optionnel
+  collection_ids: z
+    .array(z.number().int())
+    .optional()
+    .default([]), // Défaut à un tableau vide
+});
+
+// Fonction de prétraitement des requêtes pour la récupération des produits
+export const preprocessProductQueries = (query: any) => {
+  const preprocessedQuery: any = {};
+
+  if (query.name) {
+    preprocessedQuery.name = query.name;
+  }
+
+  preprocessedQuery.category_ids = query.category_ids
+    ? query.category_ids.split(",").map(Number)
+    : []; // Défaut à un tableau vide
+
+  preprocessedQuery.tag_ids = query.tag_ids
+    ? query.tag_ids.split(",").map(Number)
+    : []; // Défaut à un tableau vide
+
+  preprocessedQuery.min_price = query.min_price ? Number(query.min_price) : undefined;
+  preprocessedQuery.max_price = query.max_price ? Number(query.max_price) : undefined;
+
+  preprocessedQuery.on_promotion = query.on_promotion === "true" ? true : undefined;
+  preprocessedQuery.is_new = query.is_new === "true" ? true : undefined;
+
+  preprocessedQuery.collection_ids = query.collection_ids
+    ? query.collection_ids.split(",").map(Number)
+    : []; // Défaut à un tableau vide
+
+  return preprocessedQuery;
+};
+
+// Types dérivés pour Product
+export type ProductQueriesDTO = z.infer<typeof productQueriesSchema>;

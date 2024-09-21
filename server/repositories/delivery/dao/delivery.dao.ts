@@ -29,3 +29,6 @@ export interface ShippingMethodClientFormat extends RowDataPacket {
   created_at: Date;
   updated_at: Date;
 }
+export interface ShippingMethodTarifs extends RowDataPacket {
+  price: number;
+}

@@ -35,3 +35,19 @@ export interface CartGiftCardInput {
   amount: number;
   quantity: number;
 }
+
+// Pour le calcul du total de la commande
+export interface CartItemToAmountRow extends RowDataPacket {
+  id: number;
+  quantity: number;
+  name: string;
+  price: number;
+  weight: number | null;
+  is_published: boolean;
+  is_archived: boolean;
+}
+export interface CartItemGiftCardRow extends RowDataPacket {
+  id: number;
+  quantity: number;
+  amount: number;
+}

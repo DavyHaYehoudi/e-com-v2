@@ -10,3 +10,7 @@ export interface DiscountRow extends RowDataPacket {
   created_at: Date;
   updated_at: Date;
 }
+
+export interface DiscountPercentageRow extends RowDataPacket {
+  discount_percentage: number;
+}

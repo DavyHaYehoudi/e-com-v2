@@ -1,6 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import * as productService from "../../services/product/productService.js";
-import { ProductDTO, productSchema } from "./entities/dto/product.dto.js";
+import {
+  preprocessProductQueries,
+  ProductDTO,
+  productQueriesSchema,
+  productSchema,
+} from "./entities/dto/product.dto.js";
 
 // Récupérer tous les produits
 export const getAllProductsController = async (
@@ -9,26 +14,11 @@ export const getAllProductsController = async (
   next: NextFunction
 ) => {
   try {
-    // Extraction des paramètres de la requête (req.query)
-    const filters = {
-      name: req.query.name as string | undefined,
-      category_ids: req.query.category_ids
-        ? (req.query.category_ids as string).split(",").map(Number)
-        : undefined,
-      tag_ids: req.query.tag_ids
-        ? (req.query.tag_ids as string).split(",").map(Number)
-        : undefined,
-      min_price: req.query.min_price ? Number(req.query.min_price) : undefined,
-      max_price: req.query.max_price ? Number(req.query.max_price) : undefined,
-      on_promotion: req.query.on_promotion === "true" ? true : undefined,
-      is_new: req.query.is_new === "true" ? true : undefined,
-      collection_ids: req.query.collection_ids
-        ? (req.query.collection_ids as string).split(",").map(Number)
-        : undefined,
-    };
-
-    // Appel du service avec les filtres extraits
-    const products = await productService.getAllProductsService(filters);
+    const preprocessedFilters = preprocessProductQueries(req.query);
+    const validatedFilters = productQueriesSchema.parse(preprocessedFilters);
+    const products = await productService.getAllProductsService(
+      validatedFilters
+    );
 
     res.json(products);
   } catch (error) {
