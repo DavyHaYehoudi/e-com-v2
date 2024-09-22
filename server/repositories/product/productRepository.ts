@@ -26,7 +26,7 @@ export const getAllProductsRepository = async (filters: {
   collection_ids?: number[];
 }) => {
   let sql = `
-    SELECT 
+    SELECT DISTINCT
       p.*, 
       pi.url AS main_image,
       d.discount_percentage

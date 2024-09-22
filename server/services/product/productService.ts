@@ -18,7 +18,6 @@ export const getAllProductsService = async (filters: {
 export const getProductService = async (productId: number) => {
   return await productService.getProductRepository(productId);
 };
-
 // Créer un nouveau produit
 export const createProductService = async (productData: ProductDTO) => {
   const newProduct = await productService.createProductRepository(productData);
@@ -31,7 +30,6 @@ export const updateProductService = async (
 ) => {
   await productService.updateProductRepository(productId, updatedFields);
 };
-
 // Supprimer un produit
 export const deleteProductService = async (productId: number) => {
   await productService.deleteProductRepository(productId);
