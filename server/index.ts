@@ -23,6 +23,7 @@ import paymentReservedRoutes from "./routes/reserved/payment.routes.js";
 // Admin routes
 import profileRoutes from "./routes/admin/customer/profile.routes.js";
 import notesAdminRoutes from "./routes/admin/customer/notesAdmin.routes.js";
+import cashBackAdminRoutes from "./routes/admin/cash-back/cashBack.routes.js";
 import collectionAdminRoutes from "./routes/admin/collection/collection.routes.js";
 import categoryAdminRoutes from "./routes/admin/category/category.routes.js";
 import tagAdminRoutes from "./routes/admin/tag/tag.routes.js";
@@ -59,6 +60,7 @@ app.use("/api/payment", paymentReservedRoutes);
 // Admin routes
 app.use("/api/admin/customers", verifyToken, adminAccess, profileRoutes);
 app.use("/api/admin/customers", verifyToken, adminAccess, notesAdminRoutes);
+app.use("/api/admin/customers", verifyToken, adminAccess, cashBackAdminRoutes);
 app.use(
   "/api/admin/collections",
   verifyToken,
@@ -78,6 +80,7 @@ app.use("/api/admin/products", verifyToken, adminAccess, productAdminRoutes);
 app.use("/api/admin/deliveries", verifyToken, adminAccess, deliveryAdminRoutes);
 app.use("/api/admin/reviews", verifyToken, adminAccess, reviewAdminRoutes);
 app.use("/api/admin/gift-cards", verifyToken, adminAccess, giftCardAdminRoutes);
+
 
 app.use(errorHandler);
 

@@ -1,10 +1,5 @@
 
 /* ********************* CASH-BACK ********************* */
-ALTER TABLE cashback_customer
-ADD CONSTRAINT fk_cashback_customer
-FOREIGN KEY (customer_id) REFERENCES `customer`(id)
-ON DELETE CASCADE;
-
 ALTER TABLE cash_back_transaction
 ADD CONSTRAINT fk_cash_back_transaction_customer
 FOREIGN KEY (customer_id) REFERENCES `customer`(id)
