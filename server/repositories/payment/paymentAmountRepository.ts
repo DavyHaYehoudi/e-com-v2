@@ -158,11 +158,11 @@ export async function getGiftCardBalancesRepository(
 
   return totalBalance;
 }
-
 export async function getShippingRatesRepository(
   shippingMethodId: number,
   totalWeight: number
 ): Promise<ShippingMethodTarifs | null> {
+
   const sql = `
     SELECT price 
     FROM shipping_method_tarifs

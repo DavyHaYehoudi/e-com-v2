@@ -68,7 +68,7 @@ export async function getPaymentAmountService(
       calculateTotalWeight(cartItems)
     );
     if (shippingRate) {
-      total += shippingRate.price;
+      total += Number(shippingRate.price);
     }
   }
   // Traitement du code promo si fourni
@@ -79,7 +79,7 @@ export async function getPaymentAmountService(
     }
   }
 
-  return total;
+  return parseFloat(total.toFixed(2));
 }
 
 function calculateTotalWeight(cartItems: CartItemToAmountRow[]) {
