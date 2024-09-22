@@ -1,6 +1,6 @@
 import { ResultSetHeader } from "mysql2";
 import { query } from "../../config/req.js";
-import { NotFoundError } from "../../exceptions/CustomErrors.js";
+import { BadRequestError, DuplicateEntryError, NotFoundError } from "../../exceptions/CustomErrors.js";
 import { CategoryRow } from "../category/dao/category.dao.js";
 import { CollectionRow } from "../collection/dao/collection.dao.js";
 import { DiscountRow } from "./dao/discount.dao.js";
@@ -29,12 +29,32 @@ export const createDiscountRepository = async (
     throw new NotFoundError(`${target_table} with ID ${targetId} not found`);
   }
 
-  // Créer le nouveau discount
+  // Vérifier que le nouveau discount n'existe pas déjà pour la même table et l'id cible
   const sql2 = `
+        SELECT * FROM discount
+        WHERE target_table =?
+        AND target_id =?
+      `;
+  const isDiscountExists = await query<DiscountRow[]>(sql2, [
+    target_table,
+    discountData.target_id,
+  ]);
+  if (isDiscountExists.length > 0) {
+    throw new DuplicateEntryError(`Discount already exists for ${target_table} with ID ${targetId}`);
+  }
+
+  // Vérifier que la date de début est inférieure à la date de fin
+  if (discountData.start_date >= discountData.end_date) {
+    throw new BadRequestError("Start date must be before end date");
+  }
+
+
+  // Créer le nouveau discount
+  const sql3 = `
         INSERT INTO discount (target_table, target_id, discount_percentage, start_date, end_date)
         VALUES (?, ?, ?, ?, ?)
       `;
-  const result = await query<ResultSetHeader>(sql2, [
+  const result = await query<ResultSetHeader>(sql3, [
     target_table,
     discountData.target_id,
     discountData.discount_percentage,
@@ -42,10 +62,10 @@ export const createDiscountRepository = async (
     discountData.end_date,
   ]);
   const newDiscountId = result.insertId;
-  const sql3 = `
+  const sql4 = `
      SELECT * FROM discount WHERE id =?
    `;
-  const [newDiscount] = await query<DiscountRow[]>(sql3, [newDiscountId]);
+  const [newDiscount] = await query<DiscountRow[]>(sql4, [newDiscountId]);
   return newDiscount;
 };
 export const deleteDiscountRepository = async (discountId: number) => {

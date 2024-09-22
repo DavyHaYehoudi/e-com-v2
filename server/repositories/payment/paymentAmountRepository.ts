@@ -15,13 +15,13 @@ export async function getCartItemsRepository(
     SELECT * FROM cart WHERE customer_id = ?`;
   const resultsCart = await query<RowDataPacket[]>(sqlCart, [customerId]);
   const cartId = resultsCart[0].id;
-  if(!cartId) {
+  if (!cartId) {
     throw new NotFoundError("Cart not found");
   }
 
   const sql = `
       SELECT 
-        ci.id, ci.quantity, p.name, p.price, p.weight, p.is_published, p.is_archived
+        ci.product_id, ci.quantity, p.name, p.price, p.weight, p.is_published, p.is_archived
       FROM cart_item ci
       JOIN product p ON ci.product_id = p.id
       WHERE ci.cart_id = ? AND p.is_published = TRUE AND p.is_archived = FALSE;
@@ -36,7 +36,7 @@ export async function getCartGiftCardsRepository(
     SELECT * FROM cart WHERE customer_id = ?`;
   const resultsCart = await query<RowDataPacket[]>(sqlCart, [customerId]);
   const cartId = resultsCart[0].id;
-  if(!cartId) {
+  if (!cartId) {
     throw new NotFoundError("Cart not found");
   }
 
@@ -65,10 +65,80 @@ export async function getApplicableDiscountsRepository(
   const discounts = await query<RowDataPacket[]>(sql, [targetId, targetType]);
   return discounts.length > 0 ? (discounts[0] as DiscountPercentageRow) : null;
 }
+export async function getBestCategoryDiscountRepository(
+  productId: number
+): Promise<DiscountPercentageRow | null> {
+  // Cherche les catégories associées au produit
+  const sqlCategory = `
+    SELECT category_id 
+    FROM product_category 
+    WHERE product_id = ?;
+  `;
+  const categories = await query<RowDataPacket[]>(sqlCategory, [productId]);
+
+  let bestDiscount: DiscountPercentageRow | null = null;
+
+  // Pour chaque catégorie, cherche la meilleure promotion
+  for (const category of categories) {
+    const discount = await getApplicableDiscountsRepository(
+      category.category_id,
+      "category"
+    );
+    if (
+      discount &&
+      (!bestDiscount ||
+        discount.discount_percentage > bestDiscount.discount_percentage)
+    ) {
+      bestDiscount = discount;
+    }
+  }
+
+  return bestDiscount;
+}
+export async function getBestCollectionDiscountRepository(
+  productId: number
+): Promise<DiscountPercentageRow | null> {
+  // Cherche les catégories associées au produit
+  const sqlCategory = `
+    SELECT category_id 
+    FROM product_category 
+    WHERE product_id = ?;
+  `;
+  const categories = await query<RowDataPacket[]>(sqlCategory, [productId]);
+
+  let bestDiscount: DiscountPercentageRow | null = null;
+
+  // Pour chaque catégorie, cherche la collection parente et la promotion associée
+  for (const category of categories) {
+    const sqlCollection = `
+      SELECT parent_collection_id 
+      FROM category 
+      WHERE id = ?;
+    `;
+    const collections = await query<RowDataPacket[]>(sqlCollection, [
+      category.category_id,
+    ]);
+
+    for (const collection of collections) {
+      const discount = await getApplicableDiscountsRepository(
+        collection.parent_collection_id,
+        "collection"
+      );
+      if (
+        discount &&
+        (!bestDiscount ||
+          discount.discount_percentage > bestDiscount.discount_percentage)
+      ) {
+        bestDiscount = discount;
+      }
+    }
+  }
+
+  return bestDiscount;
+}
 export async function getGiftCardBalancesRepository(
   giftCardIds: number[]
 ): Promise<number> {
-
   const sql = `
     SELECT SUM(balance) as total_balance 
     FROM gift_card 
@@ -94,7 +164,9 @@ export async function getShippingRatesRepository(
   ]);
   return rates.length > 0 ? (rates[0] as ShippingMethodTarifs) : null;
 }
-export async function getPercentageByCodePromoRepository(code: string): Promise<{ discount_percentage: number } | null> {
+export async function getPercentageByCodePromoRepository(
+  code: string
+): Promise<{ discount_percentage: number } | null> {
   const sql = `
     SELECT discount_percentage 
     FROM code_promo

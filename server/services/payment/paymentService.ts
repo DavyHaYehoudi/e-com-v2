@@ -1,6 +1,8 @@
 import { CartItemToAmountRow } from "../../repositories/customer/dao/cart.dao";
 import {
   getApplicableDiscountsRepository,
+  getBestCategoryDiscountRepository,
+  getBestCollectionDiscountRepository,
   getCartGiftCardsRepository,
   getCartItemsRepository,
   getGiftCardBalancesRepository,
@@ -10,9 +12,9 @@ import {
 
 export async function getPaymentAmountService(
   customerId: number,
-  shippingMethodId: number|null,
+  shippingMethodId: number | null,
   giftCardIds: number[],
-  codePromo: string|null
+  codePromo: string | null
 ): Promise<number> {
   const cartItems = await getCartItemsRepository(customerId);
   const giftCardsInCart = await getCartGiftCardsRepository(customerId);
@@ -22,12 +24,34 @@ export async function getPaymentAmountService(
 
   // Calcul des totaux des articles du panier
   for (const item of cartItems) {
-    const discount = await getApplicableDiscountsRepository(item.id, "product"); // ou autre type selon le besoin
+    // Vérifie la promotion directe sur le produit
+    let discount = await getApplicableDiscountsRepository(
+      item.product_id,
+      "product"
+    );
+
+    if (!discount) {
+      // Si aucune promotion sur le produit, cherche dans les catégories associées
+      const categoryDiscount = await getBestCategoryDiscountRepository(
+        item.product_id
+      );
+      discount = categoryDiscount || discount; // Si pas de promotion catégorie, reste null
+    }
+
+    if (!discount) {
+      // Si aucune promotion sur le produit et la catégorie, cherche dans les collections associées
+      const collectionDiscount = await getBestCollectionDiscountRepository(
+        item.product_id
+      );
+      discount = collectionDiscount || discount;
+    }
+
     const itemTotal = item.price * item.quantity;
     total += discount
       ? itemTotal * (1 - discount.discount_percentage / 100)
       : itemTotal;
   }
+
   // Ajout des montants des cartes cadeaux dans le panier
   for (const giftCard of giftCardsInCart) {
     total += giftCard.amount * giftCard.quantity; // Ajouter le montant pour chaque carte cadeau dans le panier
