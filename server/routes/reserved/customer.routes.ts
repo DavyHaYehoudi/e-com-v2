@@ -16,6 +16,7 @@ import {
   getCustomerAddressController,
   updateCustomerAddressController,
 } from "../../controllers/customer/addressController.js";
+import { getAllCashBackOneCustomerViaCustomerController } from "../../controllers/cash-back/cashBackController.js";
 
 const router = Router();
 
@@ -28,6 +29,10 @@ router.get("/wishlist", verifyToken, getCustomerWishlistController);
 router.put("/wishlist", verifyToken, updateCustomerWishlistController);
 router.get("/address", verifyToken, getCustomerAddressController);
 router.put("/address", verifyToken, updateCustomerAddressController);
-
+router.get(
+  "/cash-back-history",
+  verifyToken,
+  getAllCashBackOneCustomerViaCustomerController
+);
 
 export default router;

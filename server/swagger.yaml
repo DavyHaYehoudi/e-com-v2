@@ -486,7 +486,7 @@ paths:
           description: Unauthorized - Admin is not authenticated
       security:
         - api_key: []
-    patch:
+    post:
       tags:
         - customer
       summary: Credit or debit a customer's cashback account.
@@ -504,11 +504,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CustomerCashBackAdminPATCH'
+              $ref: '#/components/schemas/CustomerCashBackAdminPOST'
         required: true
       responses:
-        '204':
+        '201':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/CustomerCashBackPOSTresp'      
         '403':
           description: Unauthorized - Admin is not authenticated
         '404':
@@ -1782,6 +1786,9 @@ paths:
                   amount:
                     type: number
                     example: 245
+                  cashBack: 
+                    type: number
+                    example: 35
         '401':
           description: Unauthorized - Customer is not authenticated
       security:
@@ -2058,33 +2065,97 @@ components:
         country:
           type: string
           example: France
-    CustomerCashBackGET:
+    CustomerCashBackAdminPOST:
       type: object
       properties:
-        customer_id:
+        amountCashBack:
+          type: integer
+          example: 20
+        increase:
+          type: boolean
+          example: true
+        reason:
           type: string
-          example: 098754838475987
+          example: Review
+        review_id:
+          type: number
+          example: 98702495
+      required:
+        - amountCashBack
+        - increase
+        - reason
+    CustomerCashBackPOSTresp:
+      type: object
+      properties:
+        transaction_id:
+          type: integer
+          example: 3
+        customer_id:
+          type: integer
+          example: 19
+        cash_back_earned_for-this-transaction:
+          type: integer
+          example: 10
+        cash_back_spent_for-this-transaction:
+          type: integer
+          example: 0
+        createdAt:
+          type: string
+          example: 10/03/2025
+        order_id:
+          type: string
+          nullable: true
+          example:
+        review_id: 
+          type: integer
+          example: 2
         total_earned:
           type: integer
           example: 35
         total_spent:
           type: integer
           example: 5
-        cash-back_earned_for-this-transaction:
-          type: integer
-          example: 10
-        cash-back_spent_for-this-transaction:
-          type: integer
-          example: 0
-        date_transaction:
-          type: string
-          example: 10/03/2025
-        order_id:
-          type: string
-          example: 98702-495
         reason:
           type: string
-          example: Order
+          example: Review
+    CustomerCashBackGET:
+      type: object
+      properties:
+        cashBacks:
+          type: object
+          properties:
+            transaction_id:
+              type: number
+              example: 3
+            customer_id:
+              type: number
+              example: 12
+            order_id:
+              type: number
+              nullable: true
+              example:
+            review_id:
+              type: number
+              nullable: true
+              example: 2
+            cash_back_earned_for-this-transaction:
+              type: integer
+              example: 10
+            cash_back_spent_for-this-transaction:
+              type: integer
+              example: 0
+            createdAt:
+              type: string
+              example: 10/03/2025
+            reason:
+              type: string
+              example: Review
+        total_earned:
+          type: integer
+          example: 35
+        total_spent:
+          type: integer
+          example: 5
     CustomerAllAdminGET:
       type: object
       properties:
@@ -2109,27 +2180,6 @@ components:
         is_active:
           type: boolean
           example: true
-    CustomerCashBackAdminPATCH:
-      type: object
-      properties:
-        customer_id:
-          type: string
-          example: 098754838475987
-        cash-back_earned_for-this-transaction:
-          type: integer
-          example: 20
-        cash-back_spent_for-this-transaction:
-          type: integer
-          example: 0
-        date_transaction:
-          type: string
-          example: 10/03/2025
-        reason:
-          type: string
-          example: Review
-        review_id:
-          type: string
-          example: 98702-495
     OrderOneCustomerGET:
       type: object
       properties:
@@ -3119,17 +3169,17 @@ components:
     PaymentIntentPOST:
       type: object
       properties:
-        code_promo:
+        codePromo:
           type: string
           example: Bonjour-12
-        gift_Card_Ids:
+        giftCardIds:
           type: array
           items:
             type: number
           example:
             - 2348
             - 0984
-        shipping_method_id:
+        shippingMethodId:
           type: number
           example: 2
     PaymentConfirmationPOST:

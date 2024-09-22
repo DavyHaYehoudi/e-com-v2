@@ -14,6 +14,7 @@ import codePromoRoutes from "./routes/freeAccess/codePromo.routes.js";
 import productRoutes from "./routes/freeAccess/product.routes.js";
 import deliveryRoutes from "./routes/freeAccess/delivery.routes.js";
 import reviewRoutes from "./routes/freeAccess/review.routes.js";
+
 // Reserved routes
 import customerPrivateRoutes from "./routes/reserved/customer.routes.js";
 import reviewReservedRoutes from "./routes/reserved/review.routes.js";

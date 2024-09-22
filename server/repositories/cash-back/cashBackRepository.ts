@@ -1,6 +1,9 @@
 import { RowDataPacket } from "mysql2";
 import { query } from "../../config/req.js";
-import { BadRequestError, NotFoundError } from "../../exceptions/CustomErrors.js";
+import {
+  BadRequestError,
+  NotFoundError,
+} from "../../exceptions/CustomErrors.js";
 import {
   createCashBackTransactionRow,
   getCashBackTransactionRow,
@@ -110,7 +113,54 @@ export async function createCashBackCustomerFromAdminRepository(
   return {
     transaction: newTransaction,
     total_earned: updatedTotalEarned, // Total cumulé de cashback gagné après la transaction
-    total_spent: updatedTotalSpent,   // Total cumulé de cashback dépensé après la transaction
-    reason
+    total_spent: updatedTotalSpent, // Total cumulé de cashback dépensé après la transaction
+    reason,
+  };
+}
+// ADMIN + CUSTOMER - Récupérer l'historique du cashback d'un customer
+export async function getAllCashBackOneCustomerRepository(customerId: number) {
+  // Vérifier si le client existe
+  const sqlCheck = `
+  SELECT * FROM customer
+  WHERE id = ?
+`;
+  const results = await query<RowDataPacket[]>(sqlCheck, [customerId]);
+
+  if (results.length === 0) {
+    throw new NotFoundError(`Customer with ID ${customerId} not found`);
+  }
+
+  const sqlTransactions = `
+      SELECT 
+        cbt.*, 
+        cbr.label as reason_label
+      FROM cash_back_transaction cbt
+      LEFT JOIN cash_back_reason cbr 
+        ON cbt.cash_back_reason_id = cbr.id
+      WHERE cbt.customer_id = ?
+      ORDER BY cbt.created_at DESC
+    `;
+
+  const sqlTotals = `
+      SELECT 
+        SUM(cash_back_earned_for_this_transaction) as total_earned, 
+        SUM(cash_back_spent_for_this_transaction) as total_spent
+      FROM cash_back_transaction
+      WHERE customer_id = ?
+    `;
+
+  // Exécuter les deux requêtes en parallèle
+  const [result, [totals]] = await Promise.all([
+    query<getCashBackTransactionRow[]>(sqlTransactions, [customerId]),
+    query<RowDataPacket[]>(sqlTotals, [customerId]),
+  ]);
+
+  const totalEarned = totals.total_earned || 0;
+  const totalSpent = totals.total_spent || 0;
+
+  return {
+    transactions: result,
+    total_earned: totalEarned,
+    total_spent: totalSpent,
   };
 }
