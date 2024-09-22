@@ -33,3 +33,8 @@ export const preprocessPaymentAmountQuery = (query: any) => {
 
 // Types dérivés pour PaymentAmount
 export type PaymentAmountDTO = z.infer<typeof paymentAmountSchema>;
+
+export interface PaymentAmountResponse {
+  amount: number; // Montant total de la commande après calcul
+  cashBack: number; // Montant total du cashback
+}

@@ -42,6 +42,7 @@ export interface CartItemToAmountRow extends RowDataPacket {
   quantity: number;
   name: string;
   price: number;
+  cash_back: number;
   weight: number | null;
   is_published: boolean;
   is_archived: boolean;
@@ -50,4 +51,4 @@ export interface CartItemGiftCardRow extends RowDataPacket {
   id: number;
   quantity: number;
   amount: number;
-}
+} 

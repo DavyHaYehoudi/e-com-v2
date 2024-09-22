@@ -1,3 +1,4 @@
+import { PaymentAmountResponse } from "../../controllers/payment/entities/dto/paymentAmount.dto";
 import { CartItemToAmountRow } from "../../repositories/customer/dao/cart.dao";
 import {
   getApplicableDiscountsRepository,
@@ -15,12 +16,13 @@ export async function getPaymentAmountService(
   shippingMethodId: number | null,
   giftCardIds: number[],
   codePromo: string | null
-): Promise<number> {
+): Promise<PaymentAmountResponse> {
   const cartItems = await getCartItemsRepository(customerId);
   const giftCardsInCart = await getCartGiftCardsRepository(customerId);
 
   // Calcul des totaux ici, par exemple en utilisant une méthode séparée
   let total = 0;
+  let cash_back = 0;
 
   // Calcul des totaux des articles du panier
   for (const item of cartItems) {
@@ -50,6 +52,9 @@ export async function getPaymentAmountService(
     total += discount
       ? itemTotal * (1 - discount.discount_percentage / 100)
       : itemTotal;
+
+    const cash_back_item = item.cash_back * item.quantity;
+    cash_back += cash_back_item;
   }
   // Ajout des montants des cartes cadeaux dans le panier
   for (const giftCard of giftCardsInCart) {
@@ -79,7 +84,8 @@ export async function getPaymentAmountService(
     }
   }
 
-  return parseFloat(total.toFixed(2));
+  const amounts = { amount: parseFloat(total.toFixed(2)), cashBack: cash_back };
+  return amounts;
 }
 
 function calculateTotalWeight(cartItems: CartItemToAmountRow[]) {
