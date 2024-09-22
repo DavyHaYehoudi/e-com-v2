@@ -13,13 +13,11 @@ export const paymentAmountSchema = z.object({
 export const preprocessPaymentAmountQuery = (query: any) => {
   const preprocessedQuery: any = {};
 
-  if (query.codePromo) {
-    preprocessedQuery.codePromo = query.codePromo;
-  }else{
-    preprocessedQuery.codePromo = null; // Défaut à null
-  }
+  preprocessedQuery.codePromo = query.codePromo || null;
 
   if (query.giftCardIds) {
+    // Si giftCardIds est déjà un tableau, on map les valeurs à Number
+    // Si c'est un seul élément, on le transforme en tableau
     preprocessedQuery.giftCardIds = Array.isArray(query.giftCardIds)
       ? query.giftCardIds.map(Number) // Assurer que ce sont des nombres
       : [Number(query.giftCardIds)];
@@ -27,14 +25,11 @@ export const preprocessPaymentAmountQuery = (query: any) => {
     preprocessedQuery.giftCardIds = []; // Défaut à un tableau vide
   }
 
-  if (query.shippingMethodId) {
-    preprocessedQuery.shippingMethodId = Number(query.shippingMethodId);
-  }else{
-    preprocessedQuery.shippingMethodId = null; // Défaut à null
-  }
+  preprocessedQuery.shippingMethodId = query.shippingMethodId ? Number(query.shippingMethodId) : null;
 
   return preprocessedQuery;
 };
+
 
 // Types dérivés pour PaymentAmount
 export type PaymentAmountDTO = z.infer<typeof paymentAmountSchema>;

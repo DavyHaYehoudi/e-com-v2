@@ -51,7 +51,6 @@ export async function getPaymentAmountService(
       ? itemTotal * (1 - discount.discount_percentage / 100)
       : itemTotal;
   }
-
   // Ajout des montants des cartes cadeaux dans le panier
   for (const giftCard of giftCardsInCart) {
     total += giftCard.amount * giftCard.quantity; // Ajouter le montant pour chaque carte cadeau dans le panier
@@ -62,7 +61,6 @@ export async function getPaymentAmountService(
     total -= giftCardBalance;
     total = Math.max(total, 0); // Le total ne doit pas être négatif
   }
-
   // Ajout des frais de livraison
   if (shippingMethodId) {
     const shippingRate = await getShippingRatesRepository(

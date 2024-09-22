@@ -139,14 +139,26 @@ export async function getBestCollectionDiscountRepository(
 export async function getGiftCardBalancesRepository(
   giftCardIds: number[]
 ): Promise<number> {
-  const sql = `
-    SELECT SUM(balance) as total_balance 
-    FROM gift_card 
-    WHERE id IN (?) AND expiration_date >= CURDATE();
-  `;
-  const [result] = await query<RowDataPacket[]>(sql, [giftCardIds]);
-  return result.total_balance || 0;
+  let totalBalance = 0;
+
+  // Boucle sur les IDs de cartes cadeaux
+  for (const giftCardId of giftCardIds) {
+    const sql = `
+      SELECT balance 
+      FROM gift_card 
+      WHERE id = ? AND expiration_date >= CURDATE();
+    `;
+
+    // Exécuter la requête et récupérer la balance
+    const result = await query<RowDataPacket[]>(sql, [giftCardId]);
+
+    // Si un résultat est retourné, on ajoute la balance au total
+    totalBalance += result[0]?.balance ? parseFloat(result[0].balance) : 0;
+  }
+
+  return totalBalance;
 }
+
 export async function getShippingRatesRepository(
   shippingMethodId: number,
   totalWeight: number

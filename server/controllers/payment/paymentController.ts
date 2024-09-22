@@ -13,7 +13,7 @@ export const getPaymentAmountController = async (
   next: NextFunction
 ) => {
   try {
-    const customerId = (req.user as CustomJwtPayload).id;
+    const customerId = (req.user as CustomJwtPayload).id;    
     const preprocessedQuery = preprocessPaymentAmountQuery(req.query);
     const validatedData = paymentAmountSchema.parse(preprocessedQuery);
     const { codePromo, giftCardIds, shippingMethodId } = validatedData;
