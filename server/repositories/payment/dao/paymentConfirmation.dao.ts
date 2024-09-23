@@ -1,10 +1,29 @@
+import { ResultSetHeader, RowDataPacket } from "mysql2";
+
 // Représentation des colonnes de la table `order`
-export interface OrderDAO {
+export interface OrderDAO extends ResultSetHeader{
     id: number;
     customer_id: number;
     order_status_id: number;
     payment_status_id: number;
     confirmation_number: string;
+    notes_admin: string;
+    code_promo_amount: number;
+    total_promo_products: number;
+    total_price: number;
+    shipping_price: number;
+    cashback_earned: number;
+    cashback_spent: number;
+    created_at: Date;
+    updated_at: Date;
+}
+export interface OrderDAORow extends RowDataPacket{
+    id: number;
+    customer_id: number;
+    order_status_id: number;
+    payment_status_id: number;
+    confirmation_number: string;
+    notes_admin: string;
     code_promo_amount: number;
     total_promo_products: number;
     total_price: number;
@@ -16,7 +35,7 @@ export interface OrderDAO {
 }
 
 // Représentation des colonnes de la table `order_address`
-export interface OrderAddressDAO {
+export interface OrderAddressDAO extends ResultSetHeader{
     id: number;
     type: string; // "shipping" ou "billing"
     company?: string;
@@ -31,24 +50,6 @@ export interface OrderAddressDAO {
     order_id: number;
     created_at: Date;
     updated_at: Date;
-}
-
-// Représentation des colonnes de la table `shipping_method`
-export interface ShippingMethodDAO {
-    id: number;
-    name: string;
-    icon_url: string;
-    estimated_days: number;
-    rates: ShippingRateDAO[];
-}
-
-// Représentation des colonnes de la table `shipping_method_tarifs`
-export interface ShippingRateDAO {
-    id: number;
-    shipping_method_id: number;
-    min_weight: number;
-    max_weight: number;
-    price: number;
 }
 
 // Représentation des colonnes de la table `gift_card`

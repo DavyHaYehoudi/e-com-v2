@@ -164,3 +164,23 @@ export async function getAllCashBackOneCustomerRepository(customerId: number) {
     total_spent: totalSpent,
   };
 }
+// CUSTOMER - Ajout/Retrait de cashback suite à une création d'une commande
+export async function createCashbackOrderRepository(
+  orderId: number,
+  customerId: number,
+  cashBackEarned: number | null,
+  cashBackSpent: number | null
+) {
+  const sql = `
+  INSERT INTO cash_back_transaction
+  (customer_id,order_id,cash_back_earned_for_this_transaction,cash_back_spent_for_this_transaction,cash_back_reason_id)
+  VALUES(?, ?, ?, ?, ?)
+  `;
+  await query(sql, [
+    customerId,
+    orderId,
+    cashBackEarned,
+    cashBackSpent,
+    5,
+  ]);
+}

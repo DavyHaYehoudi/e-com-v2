@@ -173,7 +173,6 @@ export async function getShippingRatesRepository(
     totalWeight,
     totalWeight,
   ]);
-  console.log("rates:", rates);
 
   const shippingMethodIdSelected = rates[0].id;
   if (!shippingMethodIdSelected) {

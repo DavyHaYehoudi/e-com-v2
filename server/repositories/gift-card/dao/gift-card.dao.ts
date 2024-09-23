@@ -26,3 +26,7 @@ export interface GiftCardUsageRow extends RowDataPacket {
 export interface firstHolderIdRow extends RowDataPacket {
   id: number; // Identifiant unique de first_holder_id
 }
+export interface giftCardBalanceRow extends RowDataPacket {
+  id: number;
+  balance: number;
+}

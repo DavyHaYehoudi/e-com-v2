@@ -1,6 +1,7 @@
 import { UpdateCashBackDto } from "../../controllers/cash-back/entities/dto/cashBack.dto.js";
 import {
   createCashBackCustomerFromAdminRepository,
+  createCashbackOrderRepository,
   getAllCashBackOneCustomerRepository,
   getCashBackBalanceRepository,
 } from "../../repositories/cash-back/cashBackRepository.js";
@@ -55,4 +56,18 @@ export const getAllCashBackOneCustomerService = async (customerId: number) => {
     total_earned: history.total_earned,
     total_spent: history.total_spent,
   };
+};
+// CUSTOMER - Ajout/Retrait de cashback suite à une création d'une commande
+export const createCashbackOrderService = async (
+  orderId: number,
+  customerId: number,
+  cashBackEarned: number | null,
+  cashBackSpent: number | null
+) => {
+  await createCashbackOrderRepository(
+    orderId,
+    customerId,
+    cashBackEarned,
+    cashBackSpent
+  );
 };

@@ -2,12 +2,16 @@ import { ResultSetHeader } from "mysql2";
 import { query } from "../../config/req.js";
 import {
   firstHolderIdRow,
+  giftCardBalanceRow,
   GiftCardRow,
   GiftCardUsageRow,
 } from "./dao/gift-card.dao.js";
 import { generateGiftCardCode } from "./utils/generateCode.js";
-import { CreateGiftCardDTO } from "../../controllers/gift-card/entities/dto/gift-card.dto.js";
+import {
+  CreateGiftCardDTO,
+} from "../../controllers/gift-card/entities/dto/gift-card.dto.js";
 import { NotFoundError } from "../../exceptions/CustomErrors.js";
+import { CartGiftCardRow } from "../customer/dao/cart.dao.js";
 
 // Récupérer pour un customer toutes ses cartes cadeaux
 export const getCustomerGiftCardsRepository = async (customerId: number) => {
@@ -69,19 +73,19 @@ export const getCustomerGiftCardsRepository = async (customerId: number) => {
   return results;
 };
 // ADMIN - Récupérer toutes les cartes cadeaux
-export const getAllGiftCardsAdminRepository = async (customerId?:string) => {
+export const getAllGiftCardsAdminRepository = async (customerId?: string) => {
   let sql1 = `
       SELECT * 
       FROM gift_card
     `;
-    const params: any[] = [];
+  const params: any[] = [];
 
-    // Si un customerId est fourni, ajouter une clause WHERE
-    if (customerId) {
-      sql1 += ` WHERE first_holder_id = ?`;
-      params.push(customerId);
-    }
-  const giftCards = await query<GiftCardRow[]>(sql1,params);
+  // Si un customerId est fourni, ajouter une clause WHERE
+  if (customerId) {
+    sql1 += ` WHERE first_holder_id = ?`;
+    params.push(customerId);
+  }
+  const giftCards = await query<GiftCardRow[]>(sql1, params);
 
   if (giftCards.length === 0) {
     return [];
@@ -175,3 +179,92 @@ export const deleteGiftCardRepository = async (giftCardId: number) => {
     throw new NotFoundError(`Giftcard with ID ${giftCardId} not found.`);
   }
 };
+// CUSTOMER - Achat d'une carte cadeau
+export const createGiftCardRepository = async (
+  customerId: number,
+  orderId: number,
+  giftCards: CartGiftCardRow[]
+) => {
+  for (const giftCard of giftCards) {
+    const { quantity, amount } = giftCard;
+
+    for (let i = 0; i < quantity; i++) {
+      const generatedCode = generateGiftCardCode(); // Générer un code unique pour chaque carte
+      const balance = amount; // Chaque carte a le même montant
+      
+      const sql = `
+        INSERT INTO gift_card (
+          first_holder_id, code, initial_value, balance, is_issued_by_admin, expiration_date, order_id
+        ) VALUES (?, ?, ?, ?, ?, DATE_ADD(CURRENT_DATE, INTERVAL 1 YEAR), ?);
+      `;
+
+      await query(sql, [
+        customerId,
+        generatedCode,
+        amount,
+        balance,
+        false, // Valeur pour is_issued_by_admin
+        orderId,
+      ]);
+    }
+  }
+};
+// CUSTOMER - Mise à jour des cartes cadeaux au niveau de leur balance et de leur historique après une commande
+export const updateGiftCardsRepository = async (
+  orderId: number,
+  giftCardIds: number[],
+  amountGiftCardUsed: number,
+  customerId: number
+) => {
+  // Générer une chaîne de "?" pour chaque giftCardId
+  const placeholders = giftCardIds.map(() => '?').join(', ');
+
+  const sqlSelectGiftCards = `
+    SELECT id, balance 
+    FROM gift_card 
+    WHERE id IN (${placeholders})
+  `;
+
+  // Récupérer les cartes cadeaux en utilisant le tableau giftCardIds décomposé
+  const giftCards = await query<{ id: number; balance: number }[]>(sqlSelectGiftCards, giftCardIds);
+
+  let remainingAmount = amountGiftCardUsed;
+
+  for (const giftCard of giftCards) {
+    if (remainingAmount <= 0) break; // Si le montant restant à couvrir est 0 ou négatif, on sort de la boucle
+
+    let amountToDeduct = 0;
+
+    if (giftCard.balance >= remainingAmount) {
+      // Si la carte cadeau peut couvrir tout le montant restant
+      amountToDeduct = remainingAmount;
+      remainingAmount = 0; // On a utilisé tout le montant nécessaire
+    } else {
+      // Si la carte cadeau ne couvre qu'une partie du montant restant
+      amountToDeduct = giftCard.balance;
+      remainingAmount -= giftCard.balance; // On déduit ce qui reste à couvrir
+    }
+
+    // Mise à jour du solde de la carte cadeau
+    const sqlUpdateGiftCard = `
+      UPDATE gift_card 
+      SET balance = balance - ? 
+      WHERE id = ?
+    `;
+    await query(sqlUpdateGiftCard, [amountToDeduct, giftCard.id]);
+
+    // Insertion dans l'historique d'utilisation de la carte cadeau
+    const sqlInsertGiftCardUsage = `
+      INSERT INTO gift_card_usage (gift_card_id, used_by_customer_id, amount_used, order_id) 
+      VALUES (?, ?, ?, ?)
+    `;
+    await query(sqlInsertGiftCardUsage, [giftCard.id, customerId, amountToDeduct, orderId]);
+  }
+
+  // Si le remainingAmount est supérieur à 0 à ce stade, cela signifie qu'il n'y avait pas assez de solde sur les cartes cadeaux pour couvrir toute la commande
+  if (remainingAmount > 0) {
+    throw new Error("Insufficient gift card balance to cover the total amount.");
+  }
+};
+
+

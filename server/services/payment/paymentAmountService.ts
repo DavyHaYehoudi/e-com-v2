@@ -31,6 +31,8 @@ export async function getPaymentAmountService(
   let codePromoAmount = 0;
   let codePromoPercentage = 0;
   let totalPromotionAmount = 0;
+  let overageGiftCard = 0;
+  let amountGiftCardUsed = 0;
   let cash_back_to_earn = 0;
   let overageCashBack = 0; // Montant de l'excédant du cashback utilisé par rapport au total de la commande qui restera >=0
   const balanceCashBackCustomer = await getCashBackBalanceRepository(
@@ -93,12 +95,6 @@ export async function getPaymentAmountService(
   for (const giftCard of giftCardsInCart) {
     totalAmountOrder += giftCard.amount * giftCard.quantity; // Ajouter le montant pour chaque carte cadeau dans le panier
   }
-  // Ajout des soldes des cartes cadeaux
-  if (giftCardIds && giftCardIds.length > 0) {
-    const giftCardBalance = await getGiftCardBalancesRepository(giftCardIds);
-    totalAmountOrder -= giftCardBalance;
-    totalAmountOrder = Math.max(totalAmountOrder, 0); // Le total ne doit pas être négatif
-  }
   // Ajout des frais de livraison
   const totalWeight = calculateTotalWeight(cartItems);
   const shippingRate = await getShippingRatesRepository(
@@ -108,6 +104,18 @@ export async function getPaymentAmountService(
   if (shippingRate) {
     shippingPrice += Number(shippingRate.price);
     totalAmountOrder += Number(shippingRate.price);
+  }
+  // Ajout des soldes des cartes cadeaux
+  if (giftCardIds && giftCardIds.length > 0) {
+    const giftCardBalance = await getGiftCardBalancesRepository(giftCardIds);
+    amountGiftCardUsed = giftCardBalance;
+    const delta = Number(totalAmountOrder - giftCardBalance);
+    if (delta < 0) {
+      overageGiftCard = delta;
+      amountGiftCardUsed += delta; // delta est négatif
+    }
+    totalAmountOrder -= giftCardBalance;
+    totalAmountOrder = Math.max(totalAmountOrder, 0); // Le total ne doit pas être négatif
   }
   // Traitement du code promo si fourni
   if (codePromo) {
@@ -141,6 +149,7 @@ export async function getPaymentAmountService(
     totalWeight: formatAmount(totalWeight),
     shippingPrice,
     totalPromotionAmount: formatAmount(totalPromotionAmount),
+    amountGiftCardUsed: formatAmount(amountGiftCardUsed),
     cashBack: {
       toEarn: formatAmount(cash_back_to_earn),
       toSpend: formatAmount(cashBackToSpend),

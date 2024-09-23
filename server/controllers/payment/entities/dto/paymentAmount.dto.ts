@@ -4,7 +4,7 @@ import { z } from "zod";
 export const paymentAmountSchema = z.object({
   codePromo: z.string().nullable().optional().default(null),
   giftCardIds: z.array(z.number().int()).optional().default([]), // Ajout d'un tableau vide par défaut
-  shippingMethodId: z.number(),
+  shippingMethodId: z.number().int(),
   cashBackToSpend: z.number().min(0).nullable().optional().default(null),
 });
 
@@ -52,5 +52,6 @@ export interface PaymentAmountResponse {
   totalWeight: number; // Poids total de la commande
   shippingPrice: number; // Prix de la livraison
   totalPromotionAmount: number; // Montant total des promotions appliquées
+  amountGiftCardUsed: number; // Montant total utilisé avec les cartes cadeau
   cashBack: CashBackDetails; // Détails du cashback
 }
