@@ -162,9 +162,8 @@ export async function getShippingRatesRepository(
   shippingMethodId: number,
   totalWeight: number
 ): Promise<ShippingMethodTarifs | null> {
-
   const sql = `
-    SELECT price 
+    SELECT id,price 
     FROM shipping_method_tarifs
     WHERE shipping_method_id = ? AND min_weight <= ? AND max_weight >= ?
     LIMIT 1;
@@ -174,6 +173,14 @@ export async function getShippingRatesRepository(
     totalWeight,
     totalWeight,
   ]);
+  console.log("rates:", rates);
+
+  const shippingMethodIdSelected = rates[0].id;
+  if (!shippingMethodIdSelected) {
+    throw new NotFoundError(
+      `Shipping method id ${shippingMethodIdSelected} not found`
+    );
+  }
   return rates.length > 0 ? (rates[0] as ShippingMethodTarifs) : null;
 }
 export async function getPercentageByCodePromoRepository(

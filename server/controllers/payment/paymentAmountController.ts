@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import * as paymentService from "../../services/payment/paymentService.js";
+import * as paymentService from "../../services/payment/paymentAmountService.js";
 import {
   paymentAmountSchema,
   preprocessPaymentAmountQuery,
@@ -13,17 +13,19 @@ export const getPaymentAmountController = async (
   next: NextFunction
 ) => {
   try {
-    const customerId = (req.user as CustomJwtPayload).id;    
+    const customerId = (req.user as CustomJwtPayload).id;
     const preprocessedQuery = preprocessPaymentAmountQuery(req.query);
     const validatedData = paymentAmountSchema.parse(preprocessedQuery);
-    const { codePromo, giftCardIds, shippingMethodId } = validatedData;
+    const { codePromo, giftCardIds, shippingMethodId, cashBackToSpend } =
+      validatedData;
     const paymentAmount = await paymentService.getPaymentAmountService(
       customerId,
       shippingMethodId,
       giftCardIds,
-      codePromo
+      codePromo,
+      cashBackToSpend
     );
-    res.status(200).json({ amount: paymentAmount });
+    res.status(200).json(paymentAmount);
   } catch (error) {
     console.error(error);
     next(error);

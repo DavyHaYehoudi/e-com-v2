@@ -2,6 +2,7 @@ import { UpdateCashBackDto } from "../../controllers/cash-back/entities/dto/cash
 import {
   createCashBackCustomerFromAdminRepository,
   getAllCashBackOneCustomerRepository,
+  getCashBackBalanceRepository,
 } from "../../repositories/cash-back/cashBackRepository.js";
 
 // ADMIN - Ajout/Retrait de cashback au compte du customer
@@ -9,9 +10,13 @@ export const createCashBackCustomerFromAdminService = async (
   customerId: number,
   cashBackData: UpdateCashBackDto
 ) => {
+  const balanceCashBackCustomer = await getCashBackBalanceRepository(
+    customerId
+  );
   const transaction = await createCashBackCustomerFromAdminRepository(
     customerId,
-    cashBackData
+    cashBackData,
+    balanceCashBackCustomer
   );
   return {
     transaction_id: transaction.transaction.id,

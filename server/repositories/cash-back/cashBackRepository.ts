@@ -10,10 +10,24 @@ import {
 } from "./dao/cashBack.dao.js";
 import { UpdateCashBackDto } from "../../controllers/cash-back/entities/dto/cashBack.dto.js";
 
+// Calcul de la balance du cashback du customer
+export async function getCashBackBalanceRepository(
+  customerId: number
+): Promise<number> {
+  const sql = `
+      SELECT SUM(cash_back_earned_for_this_transaction) - SUM(cash_back_spent_for_this_transaction) as balance
+      FROM cash_back_transaction
+      WHERE customer_id =?
+    `;
+  const result = await query<RowDataPacket[]>(sql, [customerId]);
+
+  return result[0].balance || 0;
+}
 // ADMIN - Ajout/Retrait de cashback au compte du customer
 export async function createCashBackCustomerFromAdminRepository(
   customerId: number,
-  cashBackData: UpdateCashBackDto
+  cashBackData: UpdateCashBackDto,
+  currentBalance: number
 ): Promise<{
   transaction: getCashBackTransactionRow;
   total_earned: number;
@@ -44,20 +58,6 @@ export async function createCashBackCustomerFromAdminRepository(
     throw new Error(`Cashback reason "${reason}" not found`);
   }
   const reasonId = reasonResult[0].id;
-
-  // Calculer le total des cashbacks gagnés et dépensés avant la transaction
-  const sqlTotals = `
-    SELECT 
-      SUM(cash_back_earned_for_this_transaction) as total_earned, 
-      SUM(cash_back_spent_for_this_transaction) as total_spent
-    FROM cash_back_transaction
-    WHERE customer_id = ?
-  `;
-  const [totals] = await query<RowDataPacket[]>(sqlTotals, [customerId]);
-
-  const totalEarned = totals.total_earned || 0;
-  const totalSpent = totals.total_spent || 0;
-  const currentBalance = totalEarned - totalSpent;
 
   // Vérifier si le montant à retirer dépasse la balance disponible
   if (!increase && amountCashBack > currentBalance) {

@@ -4,7 +4,8 @@ import { z } from "zod";
 export const paymentAmountSchema = z.object({
   codePromo: z.string().nullable().optional().default(null),
   giftCardIds: z.array(z.number().int()).optional().default([]), // Ajout d'un tableau vide par défaut
-  shippingMethodId: z.number().nullable().optional().default(null),
+  shippingMethodId: z.number(),
+  cashBackToSpend: z.number().min(0).nullable().optional().default(null),
 });
 
 
@@ -25,7 +26,8 @@ export const preprocessPaymentAmountQuery = (query: any) => {
     preprocessedQuery.giftCardIds = []; // Défaut à un tableau vide
   }
 
-  preprocessedQuery.shippingMethodId = query.shippingMethodId ? Number(query.shippingMethodId) : null;
+  preprocessedQuery.shippingMethodId = Number(query.shippingMethodId);
+  preprocessedQuery.cashBackToSpend = query.cashBackToSpend ? Number(query.cashBackToSpend) : null;
 
   return preprocessedQuery;
 };
@@ -34,7 +36,21 @@ export const preprocessPaymentAmountQuery = (query: any) => {
 // Types dérivés pour PaymentAmount
 export type PaymentAmountDTO = z.infer<typeof paymentAmountSchema>;
 
+// Interface pour le cashback
+export interface CashBackDetails {
+  toEarn: number | null; // Cashback à gagner
+  toSpend: number | null; // Cashback à utiliser
+  overageToSpend: number | null; // Montant de cashback excédentaire à utiliser
+  newBalance: number | null; // Nouveau solde de cashback après utilisation
+}
+
+// Interface pour la réponse PaymentAmount
 export interface PaymentAmountResponse {
-  amount: number; // Montant total de la commande après calcul
-  cashBack: number; // Montant total du cashback
+  orderAmount: number; // Montant total de la commande après calcul
+  codePromoAmount: number | null; // Montant de la réduction de code promo (peut être null)
+  codePromoPercentage: number | null; // Pourcentage de réduction du code promo (peut être null)
+  totalWeight: number; // Poids total de la commande
+  shippingPrice: number; // Prix de la livraison
+  totalPromotionAmount: number; // Montant total des promotions appliquées
+  cashBack: CashBackDetails; // Détails du cashback
 }
