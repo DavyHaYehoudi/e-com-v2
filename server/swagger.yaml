@@ -1775,20 +1775,20 @@ paths:
           schema:
               type: number
               nullable: true
+          required: true
+        - name: cashBackToSpend
+          in: query
+          description: Amount cashback to use.
+          schema:
+              type: number
+              nullable: true
       responses:
         '200':
           description: successful operation
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  amount:
-                    type: number
-                    example: 245
-                  cashBack: 
-                    type: number
-                    example: 35
+                $ref: '#/components/schemas/PaymentAmountGET'
         '401':
           description: Unauthorized - Customer is not authenticated
       security:
@@ -2207,6 +2207,9 @@ components:
         shipping_price:
           type: integer
           example: 4.99
+        total_weight:
+          type: integer
+          example: 1200
         order_address_shipping_id:
           type: string
           example: 20938475
@@ -2345,6 +2348,9 @@ components:
         shipping_price:
           type: integer
           example: 4.99
+        total_weight:
+          type: integer
+          example: 1200
         order_address_shipping_id:
           type: string
           example: 20938475
@@ -3182,20 +3188,62 @@ components:
         shippingMethodId:
           type: number
           example: 2
+    PaymentAmountGET:
+      type: object
+      properties:
+        orderAmount:
+          type: integer
+          example: 210
+        codePromoAmount:
+          type: integer
+          example: 21
+        codePromoPercentage:
+          type: integer
+          example: 10
+        totalPromotionAmount:
+          type: integer
+          example: 16
+        shippingPrice:
+          type: integer
+          example: 4.9
+        totalWeight:  
+          type: integer
+          example: 1200
+        amountGiftCardUsed:
+          type: integer
+          example: 32
+        cashBack:
+          type: object
+          properties:
+            toEarn: 
+              type: integer
+              example: 10
+            toSpend:
+              type: integer
+              example: 25
+            overageToSpend:
+              type: integer
+              example: 3
+            newBalance:
+              type: integer
+              example: 31
     PaymentConfirmationPOST:
      type: object
      properties:
-        code_promo:
+        codePromo:
           type: string
           example: Bonjour-12
-        gift_Card_Ids:
+        cashBackToSpend:
+          type: number
+          example: 4
+        giftCardIds:
           type: array
           items:
             type: number
           example:
             - 2348
             - 0984
-        shipping_method_id:
+        shippingMethodId:
           type: number
           example: 2
         order_address_shipping:
