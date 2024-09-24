@@ -1,15 +1,22 @@
-import { OrderInputDTO } from "../../controllers/order/entities/dto/order.dto.js";
 import {
+  OrderFiltersDTO,
+  OrderInputDTO,
+} from "../../controllers/order/entities/dto/order.dto.js";
+import {
+  getAddressesRepository,
   getAllOrdersRepository,
+  getNotesAdminRepository,
   getOneOrderFromAdminRepository,
   getOneOrderFromCustomerRepository,
   getOrdersOneCustomerRepository,
+  getOrderStatusLabel,
+  getPaymentStatusLabel,
   updateOrderRepository,
 } from "../../repositories/order/orderRepository.js";
 
 // ADMIN - Récupérer toutes les commandes
-export const getAllOrdersService = async () => {
-  const orders = await getAllOrdersRepository();
+export const getAllOrdersService = async (filters: OrderFiltersDTO) => {
+  const orders = await getAllOrdersRepository(filters);
   return orders;
 };
 // ADMIN CUSTOMER - Récupérer toutes les commandes d'un client
@@ -17,10 +24,16 @@ export const getOrdersOneCustomerService = async (customerId: number) => {
   const orders = await getOrdersOneCustomerRepository(customerId);
   return orders;
 };
-// ADMIN CUSTOMER - Récupérer une commande en particulier
+// ADMIN - Récupérer une commande en particulier
 export const getOneOrderFromAdminService = async (orderId: number) => {
   const order = await getOneOrderFromAdminRepository(orderId);
-  return order;
+  const addresses = await getAddressesRepository(orderId);
+  const notes = await getNotesAdminRepository(orderId);
+  return {
+    order,
+    addresses,
+    notes,
+  };
 };
 // CUSTOMER - Récupérer une commande en particulier
 export const getOneOrderFromCustomerService = async (
@@ -28,8 +41,12 @@ export const getOneOrderFromCustomerService = async (
   customerId: number
 ) => {
   const order = await getOneOrderFromCustomerRepository(orderId, customerId);
-  return order;
-};  
+  const addresses = await getAddressesRepository(orderId);
+  return {
+    order,
+    addresses,
+  };
+};
 // ADMIN - Modifier une commande
 export const updateOrderService = async (
   orderId: number,

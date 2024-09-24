@@ -211,9 +211,14 @@ FOREIGN KEY (shipping_method_id) REFERENCES shipping_method(id)
 ON DELETE SET NULL;
 
 /* ********************* NOTES-ADMIN ********************* */
-ALTER TABLE notes_admin
+ALTER TABLE notes_admin_on_customer
 ADD CONSTRAINT fk_notes_admin_customer_id
 FOREIGN KEY (customer_id) REFERENCES `customer`(id)
+ON DELETE SET NULL;
+
+ALTER TABLE notes_admin_on_order
+ADD CONSTRAINT fk_notes_admin_order_id
+FOREIGN KEY (order_id) REFERENCES `order`(id)
 ON DELETE SET NULL;
 
 /* ********************* CODE-PROMO ********************* */

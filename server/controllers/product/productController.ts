@@ -39,7 +39,6 @@ export const getProductController = async (
     next(error);
   }
 };
-
 // ADMIN - Créer un nouveau produit
 export const createProductController = async (
   req: Request<any, any, ProductDTO>,

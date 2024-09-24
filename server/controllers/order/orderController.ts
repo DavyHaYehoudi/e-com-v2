@@ -7,7 +7,11 @@ import {
   updateOrderService,
 } from "../../services/order/orderService.js";
 import { CustomJwtPayload } from "../../repositories/auth/dao/auth.dao.js";
-import { OrderInputDTO } from "./entities/dto/order.dto.js";
+import {
+  orderFiltersSchema,
+  OrderInputDTO,
+  preprocessOrderQueries,
+} from "./entities/dto/order.dto.js";
 
 // ADMIN - Récupérer toutes les commandes
 export const getAllOrdersController = async (
@@ -16,7 +20,9 @@ export const getAllOrdersController = async (
   next: NextFunction
 ) => {
   try {
-    const orders = await getAllOrdersService();
+    const preprocessedFilters = preprocessOrderQueries(req.query);
+    const validatedFilters = orderFiltersSchema.parse(preprocessedFilters);
+    const orders = await getAllOrdersService(validatedFilters);
     res.status(200).json(orders);
   } catch (error) {
     console.error(error);

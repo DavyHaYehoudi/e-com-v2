@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS notes_admin (
+CREATE TABLE IF NOT EXISTS notes_admin_on_customer (
     id INT AUTO_INCREMENT PRIMARY KEY,                -- Identifiant unique
     notes_admin TEXT,                                -- Notes ou commentaires de l'admin sur un customer
     customer_id INT,                                 -- Identifiant du customer associé

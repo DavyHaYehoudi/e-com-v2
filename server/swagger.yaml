@@ -747,6 +747,31 @@ paths:
         - order
       summary: Finds all orders.
       description: Finds all orders.
+      parameters:
+        - name: customerId
+          in: query
+          description: Id of the orders customer.
+          schema:
+            type: integer
+            nullable: true
+        - name: order_status_id
+          in: query
+          description: Status of the order (En cours de traitement, A traiter etc.)
+          schema:
+            type: integer
+            nullable: true
+        - name: payment_status_id
+          in: query
+          description: Status of the payment (Payée, Remboursement partiel etc.)
+          schema:
+            type: integer
+            nullable: true
+        - name: confirmation_number
+          in: query
+          description: Number of the order when success payment.
+          schema:
+              type: integer
+              nullable: true
       responses:
         '200':
           description: successful operation
@@ -850,13 +875,6 @@ paths:
       summary: Update an existent order-item.
       description: Update an existent order-item.
       parameters:
-        - name: orderId
-          in: path
-          description: Id of the order.
-          required: true
-          schema:
-            type: integer
-            format: int64
         - name: orderItemId
           in: path
           description: Id of the order-item.
@@ -884,6 +902,31 @@ paths:
         - product
       summary: Finds all products.
       description: Finds all products.
+      parameters:
+        - name: min_price
+          in: query
+          description: The minimum product price
+          schema:
+            type: integer
+            nullable: true
+        - name: max_price
+          in: query
+          description: The maximum product price
+          schema:
+            type: integer
+            nullable: true
+        - name: on_promotion
+          in: query
+          description: Products in promotion
+          schema:
+            type: integer
+            nullable: true
+        - name: is_new
+          in: query
+          description: News Products 
+          schema:
+              type: integer
+              nullable: true
       responses:
         '200':
           description: successful operation
@@ -2183,24 +2226,135 @@ components:
     OrderOneCustomerGET:
       type: object
       properties:
+        order:
+          type: object
+          properties:
+            customer_id:
+              type: string
+              example: 309485729
+            order_status_label:
+              type: string
+              example: En cours de traitement
+            payment_status_label:
+              type: string
+              example: Payée
+            confirmation_number:
+              type: integer
+              example: 20957IKLH
+            code_promo_amount:
+              type: number
+              example: 0.00
+            total_price:
+              type: integer
+              example: 75
+            shipping_price:
+              type: integer
+              example: 4.99
+            total_weight:
+              type: integer
+              example: 1200
+            total_promo_products:
+              type: integer
+              example: 13
+            order_address_shipping_id:
+              type: string
+              example: 20938475
+            order_address_billing_id:
+              type: string
+              example: 6662234
+            cash-back_earned:
+              type: integer
+              example: 8
+            cash-back_spent:
+              type: integer
+              example: 15
+            createdAt:
+              type: string
+              example: 2024-03-21T17:50:38.100Z
+            updatedAt:
+              type: string
+              example: 2024-03-21T17:50:38.100Z
+        addresses:
+          type: object
+          properties:
+            shippingAddress:
+              type: object
+              properties:
+                company:
+                  type: string
+                  example: name company
+                email:
+                  type: string
+                  example: john@example.com
+                phone:
+                  type: string
+                  example: 0798765432
+                street_number:
+                  type: string
+                  example: 2 BIS
+                address1:
+                  type: string
+                  example: rue de la Paix
+                address2:
+                  type: string
+                  example: appartement C12
+                city:
+                  type: string
+                  example: Paris 
+                postal_code:
+                  type: integer
+                  example: 75016
+                country:
+                  type: string
+                  example: France
+            billingAddress:
+              type: object
+              properties:
+                company:
+                  type: string
+                  example: name company
+                email:
+                  type: string
+                  example: john@example.com
+                phone:
+                  type: string
+                  example: 0798765432
+                street_number:
+                  type: string
+                  example: 2 BIS
+                address1:
+                  type: string
+                  example: rue de la Paix
+                address2:
+                  type: string
+                  example: appartement C12
+                city:
+                  type: string
+                  example: Paris 
+                postal_code:
+                  type: integer
+                  example: 75016
+                country:
+                  type: string
+                  example: France
+    OrderAllCustomerGET:
+      type: object
+      properties:
         customer_id:
           type: string
           example: 309485729
-        order_status_id:
+        order_status_label:
           type: string
-          example: 1
-        payment_status_id:
+          example: En cours de traitement
+        payment_status_label:
           type: string
-          example: 1
+          example: Payée
         confirmation_number:
           type: integer
           example: 20957IKLH
-        order_git_card_id:
-          type: string
-          example: 7
-        code_promo_id:
-          type: string
-          example: 85203852
+        code_promo_amount:
+          type: number
+          example: 0.00
         total_price:
           type: integer
           example: 75
@@ -2210,39 +2364,27 @@ components:
         total_weight:
           type: integer
           example: 1200
+        total_promo_products:
+          type: integer
+          example: 13
         order_address_shipping_id:
           type: string
           example: 20938475
         order_address_billing_id:
           type: string
           example: 6662234
-        shipping_method_id:
-          type: string
-          example: 1
         cash-back_earned:
           type: integer
           example: 8
+        cash-back_spent:
+          type: integer
+          example: 15
         createdAt:
           type: string
           example: 2024-03-21T17:50:38.100Z
         updatedAt:
           type: string
           example: 2024-03-21T17:50:38.100Z
-    OrderAllCustomerGET:
-      type: object
-      properties:
-        order_status_id:
-          type: string
-          example: 1
-        payment_status_id:
-          type: string
-          example: 2
-        confirmation_number:
-          type: integer
-          example: 20957IKLH
-        total_price:
-          type: integer
-          example: 75
     OrderTrackingGET:
       type: object
       properties:
@@ -2321,27 +2463,153 @@ components:
     OrderOneAdminGET:
       type: object
       properties:
+        order:
+          type: object
+          properties:
+            customer_id:
+              type: string
+              example: 309485729
+            order_status_label:
+              type: string
+              example: En cours de traitement
+            payment_status_label:
+              type: string
+              example: Payée
+            confirmation_number:
+              type: integer
+              example: 20957IKLH
+            code_promo_amount:
+              type: number
+              example: 0.00
+            total_price:
+              type: integer
+              example: 75
+            shipping_price:
+              type: integer
+              example: 4.99
+            total_weight:
+              type: integer
+              example: 1200
+            total_promo_products:
+              type: integer
+              example: 13
+            order_address_shipping_id:
+              type: string
+              example: 20938475
+            order_address_billing_id:
+              type: string
+              example: 6662234
+            cash-back_earned:
+              type: integer
+              example: 8
+            cash-back_spent:
+              type: integer
+              example: 15
+            createdAt:
+              type: string
+              example: 2024-03-21T17:50:38.100Z
+            updatedAt:
+              type: string
+              example: 2024-03-21T17:50:38.100Z
+        addresses:
+          type: object
+          properties:
+            shippingAddress:
+              type: object
+              properties:
+                company:
+                  type: string
+                  example: name company
+                email:
+                  type: string
+                  example: john@example.com
+                phone:
+                  type: string
+                  example: 0798765432
+                street_number:
+                  type: string
+                  example: 2 BIS
+                address1:
+                  type: string
+                  example: rue de la Paix
+                address2:
+                  type: string
+                  example: appartement C12
+                city:
+                  type: string
+                  example: Paris 
+                postal_code:
+                  type: integer
+                  example: 75016
+                country:
+                  type: string
+                  example: France
+            billingAddress:
+              type: object
+              properties:
+                company:
+                  type: string
+                  example: name company
+                email:
+                  type: string
+                  example: john@example.com
+                phone:
+                  type: string
+                  example: 0798765432
+                street_number:
+                  type: string
+                  example: 2 BIS
+                address1:
+                  type: string
+                  example: rue de la Paix
+                address2:
+                  type: string
+                  example: appartement C12
+                city:
+                  type: string
+                  example: Paris 
+                postal_code:
+                  type: integer
+                  example: 75016
+                country:
+                  type: string
+                  example: France
+        notes:
+          type: object
+          properties:
+            id: 
+              type: integer
+              example: 3
+            notes_admin:
+              type: string
+              example: Des notes de l'admin sur la commande
+            order_id:
+              type: integer
+              example: 4
+            createdAt:
+              type: string
+              example: 2024-03-21T17:50:38.100Z
+            updatedAt:
+              type: string
+              example: 2024-03-21T17:50:38.100Z
+    OrderAllAdminGET:
+      type: object
+      properties:
         customer_id:
           type: string
           example: 309485729
-        order_status_id:
+        order_status_label:
           type: string
-          example: 1
-        payment_status_id:
+          example: En cours de traitement
+        payment_status_label:
           type: string
-          example: 2
+          example: Payée
         confirmation_number:
           type: integer
           example: 20957IKLH
-        notes_admin:
-          type: string
-          example: Discussion avec le client sur un éventuel retour.
-        order_git_card_id:
-          type: string
-          example: 7
-        code_promo_id:
-          type: string
-          example: 85203852
+        code_promo_amount:
+          type: number
+          example: 0.00
         total_price:
           type: integer
           example: 75
@@ -2351,42 +2619,27 @@ components:
         total_weight:
           type: integer
           example: 1200
+        total_promo_products:
+          type: integer
+          example: 13
         order_address_shipping_id:
           type: string
           example: 20938475
         order_address_billing_id:
           type: string
           example: 6662234
-        shipping_method_id:
-          type: string
-          example: 1
         cash-back_earned:
           type: integer
           example: 8
+        cash-back_spent:
+          type: integer
+          example: 15
         createdAt:
           type: string
           example: 2024-03-21T17:50:38.100Z
         updatedAt:
           type: string
           example: 2024-03-21T17:50:38.100Z
-    OrderAllAdminGET:
-      type: object
-      properties:
-        customer_id:
-          type: string
-          example: 309485729
-        order_status_id:
-          type: string
-          example: 1
-        payment_status_id:
-          type: string
-          example: 2
-        confirmation_number:
-          type: integer
-          example: 20957IKLH
-        total_price:
-          type: integer
-          example: 75
     OrderAdminPATCH:
       type: object
       properties:

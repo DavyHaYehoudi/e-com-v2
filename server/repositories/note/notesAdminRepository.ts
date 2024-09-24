@@ -12,7 +12,7 @@ export const getNotesAdminRepository = async (customerId: number) => {
   }
   const sql2 = `
         SELECT *
-        FROM notes_admin 
+        FROM notes_admin_on_customer 
         WHERE customer_id = ?`;
 
   const rows = await query<NotesAdminRow[]>(sql2, [customerId]);
@@ -25,7 +25,7 @@ export const updateNotesAdminRepository = async (
   notesAdminData: Record<string, any>
 ) => {
   const sql = `
-      UPDATE notes_admin 
+      UPDATE notes_admin_on_customer 
       SET notes_admin = ?
       WHERE customer_id = ? 
     `;
@@ -38,7 +38,7 @@ export const createNotesAdminRepository = async (
   notesAdminData: Record<string, any>
 ) => {
   const sql = `
-      INSERT INTO notes_admin (notes_admin, customer_id)
+      INSERT INTO notes_admin_on_customer (notes_admin, customer_id)
       VALUES (?, ?)
     `;
   await query(sql, [notesAdminData.notes_admin, customerId]);

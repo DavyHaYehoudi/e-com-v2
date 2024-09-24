@@ -4,7 +4,6 @@ CREATE TABLE IF NOT EXISTS `order` (
     order_status_id INT NOT NULL,                             -- Statut de la commande
     payment_status_id INT NOT NULL,                           -- Statut du paiement
     confirmation_number VARCHAR(9) NOT NULL,                  -- Numéro de commande unique (9 caractères alphanumériques)
-    notes_admin TEXT,                                         -- Commentaires laissés par l'admin sur cette commande
     code_promo_amount DECIMAL(10, 2),                         -- Montant de réduction par le code promo appliqué
     total_promo_products DECIMAL(10, 2),                      -- Total des promotions cumulées pour les produits achetés
     total_price DECIMAL(10, 2) NOT NULL,                      -- Prix total de la commande
