@@ -3227,6 +3227,24 @@ components:
             newBalance:
               type: integer
               example: 31
+        orderItems:
+          type: array
+          items:
+            type: object
+            properties:
+              productId:
+                type: integer
+                example: 19
+              discount_percentage:
+                type: integer
+                nullable: true
+                example: 
+              price_before_discount:
+                type: integer
+                example: 100
+              article_number:
+                type: integer
+                example: 2
     PaymentConfirmationPOST:
      type: object
      properties:

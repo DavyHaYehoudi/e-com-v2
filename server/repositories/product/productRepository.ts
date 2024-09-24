@@ -1,6 +1,9 @@
 import { ResultSetHeader } from "mysql2";
 import { query } from "../../config/req.js";
-import { NotFoundError } from "../../exceptions/CustomErrors.js";
+import {
+  BadRequestError,
+  NotFoundError,
+} from "../../exceptions/CustomErrors.js";
 import {
   CategoryIdRow,
   ProductImageRow,
@@ -8,12 +11,16 @@ import {
   ProductVariantRow,
   TagIdRow,
 } from "./dao/product.dao.js";
-import { ProductDTO } from "../../controllers/product/entities/dto/product.dto.js";
+import {
+  ProductDTO,
+  ProductUpdateStock,
+} from "../../controllers/product/entities/dto/product.dto.js";
 import {
   beginTransaction,
   commitTransaction,
   rollbackTransaction,
 } from "../../utils/transaction.js";
+import { orderItem } from "../../controllers/payment/entities/dto/paymentAmount.dto.js";
 
 export const getAllProductsRepository = async (filters: {
   name?: string;
@@ -375,5 +382,44 @@ export const deleteProductRepository = async (productId: number) => {
 
   if (result.affectedRows === 0) {
     throw new NotFoundError(`Product with ID ${productId} not found`);
+  }
+};
+export const updateProductStockRepository = async (orderItems: orderItem[]) => {
+  for (const item of orderItems) {
+    const { productId, article_number } = item;
+
+    // Récupérer la quantité en stock et l'état continue_selling du produit
+    const sqlSelectProduct = `
+      SELECT quantity_in_stock, continue_selling
+      FROM product
+      WHERE id = ?
+    `;
+    const [product] = await query<ProductUpdateStock[]>(sqlSelectProduct, [
+      productId,
+    ]);
+
+    if (!product) {
+      throw new BadRequestError(`Produit avec l'ID ${productId} non trouvé.`);
+    }
+
+    const { quantity_in_stock, continue_selling } = product;
+
+    // Calcul du nouveau stock
+    const newQuantityInStock = quantity_in_stock - article_number;
+
+    // Si le stock devient négatif et que le produit ne permet pas de continuer à vendre
+    if (newQuantityInStock < 0 && !continue_selling) {
+      throw new BadRequestError(
+        `Le stock du produit ${productId} est insuffisant, et les ventes ne sont pas autorisées avec un stock négatif.`
+      );
+    }
+
+    // Mettre à jour la quantité en stock du produit
+    const sqlUpdateStock = `
+      UPDATE product
+      SET quantity_in_stock = ?
+      WHERE id = ?
+    `;
+    await query(sqlUpdateStock, [newQuantityInStock, productId]);
   }
 };

@@ -1,3 +1,4 @@
+import { RowDataPacket } from "mysql2";
 import { z } from "zod";
 
 // Schéma pour valider la création d'un produit (POST)
@@ -99,3 +100,7 @@ export const preprocessProductQueries = (query: any) => {
 
 // Types dérivés pour Product
 export type ProductQueriesDTO = z.infer<typeof productQueriesSchema>;
+
+export interface ProductUpdateStock extends RowDataPacket{
+  quantity_in_stock: number, continue_selling: boolean 
+}

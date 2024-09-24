@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS product (
     description TEXT,                                 -- Description du produit
     weight DECIMAL(10, 2) NULL,                       -- Poids du produit
     continue_selling BOOLEAN DEFAULT TRUE,            -- Indique si le produit peut continuer à être vendu même en rupture de stock
-    quantity_in_stock INT UNSIGNED DEFAULT 0,         -- Quantité de produit disponible à la vente
+    quantity_in_stock INT DEFAULT 0,         -- Quantité de produit disponible à la vente
     price DECIMAL(10, 2) NOT NULL,                    -- Prix actuel du produit
     new_until DATE NULL,                              -- Date jusqu'à laquelle le produit est considéré comme nouveau
     cash_back DECIMAL(10, 2) NULL DEFAULT NULL
