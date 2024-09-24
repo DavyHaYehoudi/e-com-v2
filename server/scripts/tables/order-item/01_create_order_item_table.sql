@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `order_item` (
     product_id INT NOT NULL,                         -- Référence au produit commandé
     article_number INT NOT NULL,                     -- Nombre d'articles pour cette ligne de commande
     price_before_discount DECIMAL(10, 2) NOT NULL,   -- Prix total avant réduction
-    price_after_discount DECIMAL(10, 2),             -- Prix total après réduction (peut être NULL)
+    discount_percentage DECIMAL(10, 2),              -- Pourcentage de réduction (peut être NULL)
     exchange_number INT DEFAULT 0,                   -- Nombre d'articles échangés
     exchange_at DATE,                                -- Date de l'échange (peut être NULL)
     refund_number INT DEFAULT 0,                     -- Nombre d'articles remboursés

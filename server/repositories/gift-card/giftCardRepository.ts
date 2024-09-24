@@ -226,7 +226,7 @@ export const updateGiftCardsRepository = async (
   `;
 
   // Récupérer les cartes cadeaux en utilisant le tableau giftCardIds décomposé
-  const giftCards = await query<{ id: number; balance: number }[]>(sqlSelectGiftCards, giftCardIds);
+  const giftCards = await query<giftCardBalanceRow[]>(sqlSelectGiftCards, giftCardIds);
 
   let remainingAmount = amountGiftCardUsed;
 
@@ -259,11 +259,6 @@ export const updateGiftCardsRepository = async (
       VALUES (?, ?, ?, ?)
     `;
     await query(sqlInsertGiftCardUsage, [giftCard.id, customerId, amountToDeduct, orderId]);
-  }
-
-  // Si le remainingAmount est supérieur à 0 à ce stade, cela signifie qu'il n'y avait pas assez de solde sur les cartes cadeaux pour couvrir toute la commande
-  if (remainingAmount > 0) {
-    throw new Error("Insufficient gift card balance to cover the total amount.");
   }
 };
 

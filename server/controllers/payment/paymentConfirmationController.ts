@@ -16,7 +16,7 @@ export const getPaymentConfirmationController = async (
       customerId,
       validatedData
     );
-    res.status(200).json(paymentConfirmation);
+    res.status(201).json(paymentConfirmation);
   } catch (error) {
     console.error(error);
     next(error);

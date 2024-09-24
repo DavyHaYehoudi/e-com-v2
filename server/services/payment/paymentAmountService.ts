@@ -31,7 +31,7 @@ export async function getPaymentAmountService(
   let codePromoAmount = 0;
   let codePromoPercentage = 0;
   let totalPromotionAmount = 0;
-  let overageGiftCard = 0;
+  let orderItems = [];
   let amountGiftCardUsed = 0;
   let cash_back_to_earn = 0;
   let overageCashBack = 0; // Montant de l'excédant du cashback utilisé par rapport au total de la commande qui restera >=0
@@ -52,6 +52,13 @@ export async function getPaymentAmountService(
     if (discount) {
       totalPromotionAmount +=
         (item.price * item.quantity * discount.discount_percentage) / 100;
+
+      orderItems.push({
+        productId: item.product_id,
+        discount_percentage: discount.discount_percentage,
+        price_before_discount: item.price,
+        article_number: item.quantity,
+      });
     }
 
     if (!discount) {
@@ -64,6 +71,13 @@ export async function getPaymentAmountService(
         totalPromotionAmount +=
           (item.price * item.quantity * categoryDiscount.discount_percentage) /
           100;
+
+        orderItems.push({
+          productId: item.product_id,
+          discount_percentage: categoryDiscount.discount_percentage,
+          price_before_discount: item.price,
+          article_number: item.quantity,
+        });
       }
     }
 
@@ -79,7 +93,22 @@ export async function getPaymentAmountService(
             item.quantity *
             collectionDiscount.discount_percentage) /
           100;
+
+        orderItems.push({
+          productId: item.product_id,
+          discount_percentage: collectionDiscount.discount_percentage,
+          price_before_discount: item.price,
+          article_number: item.quantity,
+        });
       }
+    }
+    if (!discount) {
+      orderItems.push({
+        productId: item.product_id,
+        discount_percentage: null,
+        price_before_discount: item.price,
+        article_number: item.quantity,
+      });
     }
 
     const itemTotal = item.price * item.quantity;
@@ -111,7 +140,6 @@ export async function getPaymentAmountService(
     amountGiftCardUsed = giftCardBalance;
     const delta = Number(totalAmountOrder - giftCardBalance);
     if (delta < 0) {
-      overageGiftCard = delta;
       amountGiftCardUsed += delta; // delta est négatif
     }
     totalAmountOrder -= giftCardBalance;
@@ -149,6 +177,7 @@ export async function getPaymentAmountService(
     totalWeight: formatAmount(totalWeight),
     shippingPrice,
     totalPromotionAmount: formatAmount(totalPromotionAmount),
+    orderItems,
     amountGiftCardUsed: formatAmount(amountGiftCardUsed),
     cashBack: {
       toEarn: formatAmount(cash_back_to_earn),

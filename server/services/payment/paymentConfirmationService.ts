@@ -16,6 +16,7 @@ import {
   createGiftCardRepository,
   updateGiftCardsRepository,
 } from "../../repositories/gift-card/giftCardRepository.js";
+import { createOrderItemRepository } from "../../repositories/order-item/orderItemRepository.js";
 
 // Fonction principale pour créer une commande
 export const createOrderService = async (
@@ -100,6 +101,13 @@ export const createOrderService = async (
         cartCustomer.giftCards
       );
     }
+
+    // 8. Créer les order-item
+    await createOrderItemRepository(
+      customerId,
+      order.id,
+      paymentDetails.orderItems
+    );
     await commitTransaction();
     // Retourner l'ID de commande et le numéro de confirmation
     return { order, confirmationNumber };

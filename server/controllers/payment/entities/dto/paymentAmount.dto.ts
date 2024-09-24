@@ -43,7 +43,13 @@ export interface CashBackDetails {
   overageToSpend: number | null; // Montant de cashback excédentaire à utiliser
   newBalance: number | null; // Nouveau solde de cashback après utilisation
 }
-
+// Interface pour le détail des produits en promotion
+export interface orderItem {
+  productId: number; // Id du produit
+  discount_percentage: number | null; // Montant de la réduction
+  price_before_discount: number; // Prix du produit avant la promotion
+  article_number:number; // Nombre de produit concernés par la promotion
+}
 // Interface pour la réponse PaymentAmount
 export interface PaymentAmountResponse {
   orderAmount: number; // Montant total de la commande après calcul
@@ -52,6 +58,7 @@ export interface PaymentAmountResponse {
   totalWeight: number; // Poids total de la commande
   shippingPrice: number; // Prix de la livraison
   totalPromotionAmount: number; // Montant total des promotions appliquées
+  orderItems:orderItem[]
   amountGiftCardUsed: number; // Montant total utilisé avec les cartes cadeau
   cashBack: CashBackDetails; // Détails du cashback
 }
