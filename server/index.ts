@@ -21,6 +21,7 @@ import customerPrivateRoutes from "./routes/reserved/customer.routes.js";
 import reviewReservedRoutes from "./routes/reserved/review.routes.js";
 import giftCardReservedRoutes from "./routes/reserved/giftCard.routes.js";
 import paymentReservedRoutes from "./routes/reserved/payment.routes.js";
+import orderReservedRoutes from "./routes/reserved/order.routes.js"
 
 // Admin routes
 import profileRoutes from "./routes/admin/customer/profile.routes.js";
@@ -36,6 +37,7 @@ import deliveryAdminRoutes from "./routes/admin/delivery/delivery.routes.js";
 import reviewAdminRoutes from "./routes/admin/review/review.routes.js";
 import giftCardAdminRoutes from "./routes/admin/gift-card/giftCard.routes.js";
 import orderItemAdminRoutes from "./routes/admin/order-item/orderItem.routes.js";
+import orderAdminRoutes from "./routes/admin/order/order.routes.js"
 
 const app: Express = express();
 const port = environment.PORT;
@@ -59,6 +61,7 @@ app.use("/api/customer", customerPrivateRoutes);
 app.use("/api/reviews", reviewReservedRoutes);
 app.use("/api/gift-cards", giftCardReservedRoutes);
 app.use("/api/payment", paymentReservedRoutes);
+app.use("/api/orders", orderReservedRoutes);
 
 // Admin routes
 app.use("/api/admin/customers", verifyToken, adminAccess, profileRoutes);
@@ -84,6 +87,7 @@ app.use("/api/admin/deliveries", verifyToken, adminAccess, deliveryAdminRoutes);
 app.use("/api/admin/reviews", verifyToken, adminAccess, reviewAdminRoutes);
 app.use("/api/admin/gift-cards", verifyToken, adminAccess, giftCardAdminRoutes);
 app.use("/api/admin/order-items", verifyToken, adminAccess, orderItemAdminRoutes); 
+app.use("/api/admin/orders", verifyToken, adminAccess, orderAdminRoutes);
 
 
 app.use(errorHandler);
