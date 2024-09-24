@@ -4,6 +4,7 @@ import { checkConnection } from "./database/check-connection.js";
 import errorHandler from "./middlewares/errorMiddleware.js";
 import { verifyToken } from "./middlewares/authMiddleware.js";
 import { adminAccess } from "./middlewares/adminAccessMiddleware.js";
+
 // Public routes
 import authRoutes from "./routes/freeAccess/auth.routes.js";
 import collectionRoutes from "./routes/freeAccess/collection.routes.js";
@@ -34,6 +35,7 @@ import productAdminRoutes from "./routes/admin/product/product.routes.js";
 import deliveryAdminRoutes from "./routes/admin/delivery/delivery.routes.js";
 import reviewAdminRoutes from "./routes/admin/review/review.routes.js";
 import giftCardAdminRoutes from "./routes/admin/gift-card/giftCard.routes.js";
+import orderItemAdminRoutes from "./routes/admin/order-item/orderItem.routes.js";
 
 const app: Express = express();
 const port = environment.PORT;
@@ -81,6 +83,7 @@ app.use("/api/admin/products", verifyToken, adminAccess, productAdminRoutes);
 app.use("/api/admin/deliveries", verifyToken, adminAccess, deliveryAdminRoutes);
 app.use("/api/admin/reviews", verifyToken, adminAccess, reviewAdminRoutes);
 app.use("/api/admin/gift-cards", verifyToken, adminAccess, giftCardAdminRoutes);
+app.use("/api/admin/order-items", verifyToken, adminAccess, orderItemAdminRoutes); 
 
 
 app.use(errorHandler);

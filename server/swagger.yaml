@@ -814,7 +814,7 @@ paths:
           description: Not found - The order doesn't exist.
       security:
         - api_key: []
-  /admin/{orderId}/order-item:
+  /admin/order-items/{orderId}:
     get:
       tags:
         - order-item
@@ -843,7 +843,7 @@ paths:
           description: Not found - The order doesn't exist.
       security:
         - api_key: []
-  /admin/{orderId}/order-item/{orderItemId}:
+  /admin/order-items/{orderItemId}:
     patch:
       tags:
         - order-item
@@ -2411,7 +2411,7 @@ components:
         price_before_discount:
           type: integer
           example: 68
-        price_after_discount:
+        discount_percentage:
           type: integer
           example: 60
         exchange_number:
