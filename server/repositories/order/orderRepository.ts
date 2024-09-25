@@ -1,13 +1,20 @@
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { query } from "../../config/req.js";
 import { BadRequestError } from "../../exceptions/CustomErrors.js";
-import { OrderRow, OrderTrackingRow } from "./dao/order.dao.js";
 import {
+  OrderMessageRow,
+  OrderRow,
+  OrderTrackingRow,
+} from "./dao/order.dao.js";
+import {
+  CreateOrderMessageDTO,
   OrderFiltersDTO,
   OrderInputDTO,
   OrderTrackingAdminDTO,
   OrderTrackingCustomerDTO,
+  UpdateOrderMessageDTO,
 } from "../../controllers/order/entities/dto/order.dto.js";
+import { log } from "console";
 
 // ADMIN - Récupérer toutes les commandes
 export const getAllOrdersRepository = async (filters: OrderFiltersDTO) => {
@@ -285,4 +292,154 @@ export const getOrderTrackingByOrderIdAndCustomerIdRepository = async (
       WHERE order_id = ? AND customer_id = ?
     `;
   return await query<RowDataPacket[]>(sql, [orderId, customerId]);
+};
+// Fonction pour créer un message
+export const createOrderMessageRepository = async (
+  orderId: number,
+  data: CreateOrderMessageDTO
+) => {
+  // Vérification si l'orderId existe dans la base de données
+  const checkSql = `SELECT id FROM \`order\` WHERE id = ? LIMIT 1`;
+  const checkResult = await query<RowDataPacket[]>(checkSql, [orderId]);
+
+  if (checkResult.length === 0) {
+    throw new BadRequestError(`Order with ID ${orderId} does not exist.`);
+  }
+  const sql = `
+    INSERT INTO order_message (sender, body, order_id) 
+    VALUES (?, ?, ?)
+  `;
+  const result = await query<ResultSetHeader>(sql, [
+    data.sender,
+    data.body,
+    orderId,
+  ]);
+  const newMessageId = result.insertId;
+  const sql2 = ` 
+  SELECT * FROM order_message WHERE id = ? `;
+  const [newMessage] = await query<OrderMessageRow[]>(sql2, [newMessageId]);
+  return newMessage;
+};
+// Fonction pour mettre à jour un message (si non lu)
+export const updateOrderMessageRepository = async (
+  messageId: number,
+  data: UpdateOrderMessageDTO,
+  orderId: number
+) => {
+  // Vérification si l'orderId existe dans la base de données
+  const checkOrderIdSql = `SELECT id FROM \`order\` WHERE id = ? LIMIT 1`;
+  const checkOrderIdResult = await query<RowDataPacket[]>(checkOrderIdSql, [
+    orderId,
+  ]);
+
+  if (checkOrderIdResult.length === 0) {
+    throw new BadRequestError(`Order with ID ${orderId} does not exist.`);
+  }
+
+  // Vérification si le messageId existe dans la base de données
+  const checkSql = `SELECT id FROM order_message WHERE id = ? LIMIT 1`;
+  const checkMessageIdResult = await query<RowDataPacket[]>(checkSql, [
+    messageId,
+  ]);
+
+  if (checkMessageIdResult.length === 0) {
+    throw new BadRequestError(`Message with ID ${messageId} does not exist.`);
+  }
+  const { body, is_read, sender } = data;
+
+  // Construction de la requête SQL dynamique en fonction des champs disponibles à mettre à jour
+  const fieldsToUpdate = [];
+  const params: any[] = [];
+
+  if (body !== undefined) {
+    fieldsToUpdate.push("body = ?");
+    params.push(body);
+  }
+
+  if (is_read !== undefined) {
+    fieldsToUpdate.push("is_read = ?");
+    params.push(is_read);
+  }
+
+  params.push(messageId, sender);
+
+  if (!body && !is_read) {
+    throw new BadRequestError("No fields provided to update.");
+  }
+  const sql = `
+    UPDATE \`order_message\`
+    SET ${fieldsToUpdate.join(", ")}
+    WHERE id = ? AND sender = ?
+  `;
+
+  await query<ResultSetHeader>(sql, params);
+};
+// Fonction pour supprimer un message (si non lu)
+export const deleteOrderMessageRepository = async (
+  messageId: number,
+  orderId: number
+) => {
+  // Vérification si l'orderId existe dans la base de données
+  const checkOrderIdSql = `SELECT id FROM \`order\` WHERE id = ? LIMIT 1`;
+  const checkOrderIdResult = await query<RowDataPacket[]>(checkOrderIdSql, [
+    orderId,
+  ]);
+
+  if (checkOrderIdResult.length === 0) {
+    throw new BadRequestError(`Order with ID ${orderId} does not exist.`);
+  }
+
+  // Vérification si le messageId existe dans la base de données
+  const checkSql = `SELECT id FROM order_message WHERE id = ? LIMIT 1`;
+  const checkMessageIdResult = await query<RowDataPacket[]>(checkSql, [
+    messageId,
+  ]);
+
+  if (checkMessageIdResult.length === 0) {
+    throw new BadRequestError(`Message with ID ${messageId} does not exist.`);
+  }
+  const sql = `
+    DELETE FROM order_message 
+    WHERE id = ? AND is_read = FALSE
+  `;
+  await query<ResultSetHeader>(sql, [messageId]);
+};
+// Fonction pour récupérer les messages d'une commande
+export const getOrderMessagesByOrderIdRepository = async (
+  orderId: number
+): Promise<RowDataPacket[]> => {
+  // Vérification si l'orderId existe dans la base de données
+  const checkSql = `SELECT id FROM \`order\` WHERE id = ? LIMIT 1`;
+  const checkResult = await query<RowDataPacket[]>(checkSql, [orderId]);
+
+  if (checkResult.length === 0) {
+    throw new BadRequestError(`Order with ID ${orderId} does not exist.`);
+  }
+  const sql = `
+    SELECT * 
+    FROM order_message 
+    WHERE order_id = ?
+    ORDER BY created_at ASC
+  `;
+  return await query<RowDataPacket[]>(sql, [orderId]);
+};
+// Fonction pour vérifier l'appartenance de la commande
+export const checkOrderOwnershipRepository = async (
+  orderId: number,
+  customerId: number | null
+) => {
+  const checkSql = `
+      SELECT id FROM \`order\`
+      WHERE id = ? AND customer_id = ?
+      LIMIT 1
+    `;
+  const checkResult = await query<RowDataPacket[]>(checkSql, [
+    orderId,
+    customerId,
+  ]);
+  if (checkResult.length === 0) {
+    throw new BadRequestError(
+      `Order with ID ${orderId} does not belong to the customer.`
+    );
+  }
 };

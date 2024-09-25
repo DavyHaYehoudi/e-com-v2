@@ -24,3 +24,12 @@ export interface OrderTrackingRow extends RowDataPacket {
   sender: string;
   sending_date: Date;
 }
+
+export interface OrderMessageRow extends RowDataPacket {
+  id: number;
+  sender: string;
+  body: string;
+  timestamp: Date;
+  order_id: number;
+  is_read: boolean;
+}

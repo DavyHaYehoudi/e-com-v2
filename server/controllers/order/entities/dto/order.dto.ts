@@ -56,3 +56,20 @@ export const orderTrackingCustomerSchema = z.object({
 export type OrderTrackingCustomerDTO = z.infer<
   typeof orderTrackingCustomerSchema
 >;
+
+// Schéma de validation pour créer un message
+export const createOrderMessageSchema = z.object({
+  sender: z.enum(['admin', 'customer']),
+  body: z.string().min(1, { message: "Le contenu du message ne peut pas être vide." }),
+});
+
+// Schéma de validation pour mettre à jour un message (seulement tant qu'il n'a pas été lu)
+export const updateOrderMessageSchema = z.object({
+ sender: z.enum(['admin', 'customer']),
+  body: z.string().optional(),
+  is_read: z.boolean().optional(),
+});
+
+// Types dérivés pour l'usage dans le code
+export type CreateOrderMessageDTO = z.infer<typeof createOrderMessageSchema>;
+export type UpdateOrderMessageDTO = z.infer<typeof updateOrderMessageSchema>;

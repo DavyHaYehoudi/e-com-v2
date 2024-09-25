@@ -1,23 +1,29 @@
 import { Request, Response, NextFunction } from "express";
 import {
+  createOrderMessageService,
+  deleteOrderMessageService,
   getAllOrdersService,
   getAllOrderTrackingByOrderIdForAdminService,
   getOneOrderFromAdminService,
   getOneOrderFromCustomerService,
+  getOrderMessagesByOrderIdService,
   getOrdersOneCustomerService,
   getOrderTrackingByOrderIdForCustomerService,
+  updateOrderMessageService,
   updateOrderService,
   upsertOrderTrackingFromAdminService,
   upsertOrderTrackingFromCustomerService,
 } from "../../services/order/orderService.js";
 import { CustomJwtPayload } from "../../repositories/auth/dao/auth.dao.js";
 import {
+  createOrderMessageSchema,
   orderFiltersSchema,
   OrderInputDTO,
   OrderTrackingAdminDTO,
   orderTrackingAdminSchema,
   orderTrackingCustomerSchema,
   preprocessOrderQueries,
+  updateOrderMessageSchema,
 } from "./entities/dto/order.dto.js";
 
 // ADMIN - Récupérer toutes les commandes
@@ -163,6 +169,138 @@ export const upsertOrderTrackingFromCustomerController = async (
       customerId,
       validatedFilters
     );
+    res.status(204).json();
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+// ADMIN - Récupérer tous les messages d'une commande
+export const getOrderMessagesFromAdminController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const orderId = parseInt(req.params.orderId);
+    const messages = await getOrderMessagesByOrderIdService(orderId, null);
+    res.status(200).json(messages);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+// ADMIN - Créer un message
+export const createOrderMessageFromAdminController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const orderId = parseInt(req.params.orderId);
+    const validateFields = createOrderMessageSchema.parse(req.body);
+    await createOrderMessageService(orderId, validateFields, null);
+    res.status(204).json();
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+// ADMIN - Mettre à jour un message avant qu'il n'ait été lu
+export const updateOrderMessageFromAdminController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const orderId = parseInt(req.params.orderId);
+    const messageId = parseInt(req.params.messageId);
+    const validateFields = updateOrderMessageSchema.parse(req.body);
+    await updateOrderMessageService(messageId, validateFields, orderId, null);
+    res.status(204).json();
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+// ADMIN - Supprimer un message
+export const deleteOrderMessageFromAdminController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const orderId = parseInt(req.params.orderId);
+    const messageId = parseInt(req.params.messageId);
+    await deleteOrderMessageService(messageId, orderId, null);
+    res.status(204).json();
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+// CUSTOMER - Récupérer tous les messages d'une commande
+export const getOrderMessagesFromCustomerController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const orderId = parseInt(req.params.orderId);
+    const customerId = (req.user as CustomJwtPayload).id;
+    const messages = await getOrderMessagesByOrderIdService(orderId, customerId);
+    res.status(200).json(messages);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+// CUSTOMER - Créer un message
+export const createOrderMessageFromCustomerController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const customerId = (req.user as CustomJwtPayload).id;
+    const orderId = parseInt(req.params.orderId);
+    const validateFields = createOrderMessageSchema.parse(req.body);
+    await createOrderMessageService(orderId, validateFields, customerId);
+    res.status(204).json();
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+// CUSTOMER - Mettre à jour un message avant qu'il n'ait été lu
+export const updateOrderMessageFromCustomerController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const customerId = (req.user as CustomJwtPayload).id;
+    const orderId = parseInt(req.params.orderId);
+    const messageId = parseInt(req.params.messageId);
+    const validateFields = updateOrderMessageSchema.parse(req.body);
+    await updateOrderMessageService(messageId, validateFields, orderId, customerId);
+    res.status(204).json();
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+// CUSTOMER - Supprimer un message
+export const deleteOrderMessageFromCustomerController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const customerId = (req.user as CustomJwtPayload).id;
+    const orderId = parseInt(req.params.orderId);
+    const messageId = parseInt(req.params.messageId);
+    await deleteOrderMessageService(messageId, orderId, customerId);
     res.status(204).json();
   } catch (error) {
     console.error(error);

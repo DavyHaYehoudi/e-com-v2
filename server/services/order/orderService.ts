@@ -1,20 +1,27 @@
 import {
+  CreateOrderMessageDTO,
   OrderFiltersDTO,
   OrderInputDTO,
   OrderTrackingAdminDTO,
   OrderTrackingCustomerDTO,
+  UpdateOrderMessageDTO,
 } from "../../controllers/order/entities/dto/order.dto.js";
 import {
+  checkOrderOwnershipRepository,
+  createOrderMessageRepository,
   createOrderTrackingRepository,
+  deleteOrderMessageRepository,
   getAddressesRepository,
   getAllOrdersRepository,
   getNotesAdminRepository,
   getOneOrderFromAdminRepository,
   getOneOrderFromCustomerRepository,
+  getOrderMessagesByOrderIdRepository,
   getOrdersOneCustomerRepository,
   getOrderTrackingByOrderIdAndCustomerIdRepository,
   getOrderTrackingByOrderIdAndSenderRepository,
   getOrderTrackingByOrderIdRepository,
+  updateOrderMessageRepository,
   updateOrderRepository,
   updateOrderTrackingRepository,
 } from "../../repositories/order/orderRepository.js";
@@ -143,4 +150,48 @@ export const upsertOrderTrackingFromCustomerService = async (
       "customer"
     );
   }
+};
+// Fonction pour créer un message
+export const createOrderMessageService = async (
+  orderId: number,
+  data: CreateOrderMessageDTO,
+  customerId: number | null
+) => {
+  if (customerId) {
+    await checkOrderOwnershipRepository(orderId, customerId);
+  }
+  return await createOrderMessageRepository(orderId, data);
+};
+// Fonction pour mettre à jour un message (seulement si non lu)
+export const updateOrderMessageService = async (
+  messageId: number,
+  data: UpdateOrderMessageDTO,
+  orderId: number,
+  customerId: number | null
+) => {
+  if (customerId) {
+    await checkOrderOwnershipRepository(orderId, customerId);
+  }
+  return await updateOrderMessageRepository(messageId, data, orderId);
+};
+// Fonction pour supprimer un message (seulement si non lu)
+export const deleteOrderMessageService = async (
+  messageId: number,
+  orderId: number,
+  customerId: number | null
+) => {
+  if (customerId) {
+    await checkOrderOwnershipRepository(orderId, customerId);
+  }
+  return await deleteOrderMessageRepository(messageId, orderId);
+};
+// Fonction pour récupérer tous les messages d'une commande
+export const getOrderMessagesByOrderIdService = async (
+  orderId: number,
+  customerId: number | null
+) => {
+  if (customerId) {
+    await checkOrderOwnershipRepository(orderId, customerId);
+  }
+  return await getOrderMessagesByOrderIdRepository(orderId);
 };

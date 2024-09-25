@@ -897,6 +897,126 @@ paths:
           description: Unauthorized - Customer is not authenticated
       security:
         - api_key: []
+  /admin/orders/{orderId}/messages:
+    get:
+      tags:
+        - order
+      summary: Finds all messages for one order.
+      description: Finds all messages for one order.
+      parameters:
+        - name: orderId
+          in: path
+          description: Id of the order.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderMessageGET'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
+    post:
+      tags:
+        - order
+      summary: Add a message.
+      description: Add a message.
+      parameters:
+        - name: orderId
+          in: path
+          description: Id of the order.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Create a new message in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderMessagePOST'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderMessageGET'          
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
+  /admin/orders/{orderId}/messages/{messageId}:
+    patch:
+      tags:
+        - order
+      summary: Update an existing message.
+      description: Update an existing message by id.
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of order that contains the message.
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: messageId
+          in: path
+          description: ID of message that needs to be updated.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: update an existent message in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderMessagePATCH'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - order
+      summary: Delete a message.
+      description: Delete a message.
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of order that contains the message.
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: messageId
+          in: path
+          description: ID of message that needs to be updated.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Successful operation
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
   /admin/order-items/{orderId}:
     get:
       tags:
@@ -2504,15 +2624,12 @@ components:
         body:
           type: string
           example: J'ai bien réceptionné votre colis.
-        timestamp:
+        created_at:
           type: string
           example: 2024-03-21T17:50:38.100Z
     OrderMessagePOST:
       type: object
       properties:
-        order_id:
-          type: string
-          example: 02938457
         sender:
           type: string
           example: customer
@@ -2529,6 +2646,9 @@ components:
         body:
           type: string
           example: J'ai bien reçu le retour, merci.
+        is_read: 
+          type: boolean
+          example: true
     OrderOneAdminGET:
       type: object
       properties:
