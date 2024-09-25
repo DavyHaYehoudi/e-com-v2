@@ -1,10 +1,12 @@
-import { RowDataPacket } from "mysql2";
+import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { query } from "../../config/req.js";
 import { BadRequestError } from "../../exceptions/CustomErrors.js";
-import { OrderRow } from "./dao/order.dao.js";
+import { OrderRow, OrderTrackingRow } from "./dao/order.dao.js";
 import {
   OrderFiltersDTO,
   OrderInputDTO,
+  OrderTrackingAdminDTO,
+  OrderTrackingCustomerDTO,
 } from "../../controllers/order/entities/dto/order.dto.js";
 
 // ADMIN - Récupérer toutes les commandes
@@ -70,7 +72,7 @@ export const getOrdersOneCustomerRepository = async (customerId: number) => {
 };
 // ADMIN CUSTOMER - Récupérer une commande en particulier
 export const getOneOrderFromAdminRepository = async (orderId: number) => {
-    const sql = `
+  const sql = `
     SELECT
       o.*,
       os.label AS order_status_label,
@@ -79,7 +81,8 @@ export const getOneOrderFromAdminRepository = async (orderId: number) => {
     JOIN order_status os ON o.order_status_id = os.id
     JOIN payment_status ps ON o.payment_status_id = ps.id
     WHERE o.id = ?
-  `;  const results = await query<OrderRow[]>(sql, [orderId]);
+  `;
+  const results = await query<OrderRow[]>(sql, [orderId]);
 
   if (results.length === 0) {
     throw new BadRequestError(`Order with ID ${orderId} does not exist.`);
@@ -92,7 +95,7 @@ export const getOneOrderFromCustomerRepository = async (
   orderId: number,
   customerId: number
 ) => {
-    const sql = `
+  const sql = `
     SELECT
       o.*,
       os.label AS order_status_label,
@@ -164,7 +167,7 @@ export const updateOrderRepository = async (
 export const getNotesAdminRepository = async (orderId: number) => {
   const sql = `SELECT * FROM \`notes_admin_on_order\` WHERE order_id = ?`;
   const result = await query<RowDataPacket[]>(sql, [orderId]);
-  return result[0];
+  return result[0] || null;
 };
 // ADMIN CUSOMTER - Récupérer les adresses de livraison et de facturation de la commande
 export const getAddressesRepository = async (orderId: number) => {
@@ -191,7 +194,7 @@ export const getAddressesRepository = async (orderId: number) => {
   };
 };
 // Repository pour récupérer le label du statut de commande
-export const getOrderStatusLabel = async (orderStatusId: number) => {
+export const getOrderStatusLabelRepository = async (orderStatusId: number) => {
   const sql = `SELECT label FROM order_status WHERE id = ?`;
   const result = await query<RowDataPacket[]>(sql, [orderStatusId]);
 
@@ -204,7 +207,9 @@ export const getOrderStatusLabel = async (orderStatusId: number) => {
   return result[0].label;
 };
 // Repository pour récupérer le label du statut de paiement
-export const getPaymentStatusLabel = async (paymentStatusId: number) => {
+export const getPaymentStatusLabelRepository = async (
+  paymentStatusId: number
+) => {
   const sql = `SELECT label FROM payment_status WHERE id = ?`;
   const result = await query<RowDataPacket[]>(sql, [paymentStatusId]);
 
@@ -215,4 +220,69 @@ export const getPaymentStatusLabel = async (paymentStatusId: number) => {
   }
 
   return result[0].label;
+};
+// ADMIN CUSTOMER - Récupérer tous les tracking numbers pour une commande
+export const getOrderTrackingByOrderIdAndSenderRepository = async (
+  orderId: number,
+  sender: "admin" | "customer"
+): Promise<RowDataPacket | null> => {
+  const sql = `
+      SELECT * FROM \`order_tracking\`
+      WHERE order_id = ? AND sender = ?
+      LIMIT 1
+    `;
+  const result = await query<RowDataPacket[]>(sql, [orderId, sender]);
+  return result.length > 0 ? result[0] : null;
+};
+// ADMIN CUSTOMER - Créer un tracking number pour une commande
+export const createOrderTrackingRepository = async (
+  orderId: number,
+  customerId: number,
+  trackingNumber: string,
+  dateSending: string,
+  sender: "admin" | "customer"
+) => {
+  const sql = `
+      INSERT INTO \`order_tracking\` (order_id, customer_id, tracking_number, date_sending, sender)
+      VALUES (?, ?, ?, ?, ?)
+    `;
+  const params = [orderId, customerId, trackingNumber, dateSending, sender];
+  await query<ResultSetHeader>(sql, params);
+};
+// ADMIN CUSTOMER - Modifier un tracking number pour une commande
+export const updateOrderTrackingRepository = async (
+  orderId: number,
+  customerId: number,
+  trackingNumber: string,
+  dateSending: string,
+  sender: "admin" | "customer"
+) => {
+  const sql = `
+      UPDATE \`order_tracking\`
+      SET tracking_number = ?, date_sending = ?, customer_id = ?
+      WHERE order_id = ? AND sender = ?
+    `;
+  const params = [trackingNumber, dateSending, customerId, orderId, sender];
+  await query<ResultSetHeader>(sql, params);
+};
+// ADMIN - Récupérer tous les tracking numbers associés à une commande
+export const getOrderTrackingByOrderIdRepository = async (
+  orderId: number
+): Promise<RowDataPacket[]> => {
+  const sql = `
+      SELECT * FROM \`order_tracking\`
+      WHERE order_id = ?
+    `;
+  return await query<RowDataPacket[]>(sql, [orderId]);
+};
+// CUSTOMER - Récupérer tous les tracking numbers associés à une commande
+export const getOrderTrackingByOrderIdAndCustomerIdRepository = async (
+  orderId: number,
+  customerId: number
+): Promise<RowDataPacket[]> => {
+  const sql = `
+      SELECT * FROM \`order_tracking\`
+      WHERE order_id = ? AND customer_id = ?
+    `;
+  return await query<RowDataPacket[]>(sql, [orderId, customerId]);
 };

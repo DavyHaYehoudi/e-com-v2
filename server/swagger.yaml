@@ -590,7 +590,7 @@ paths:
           description: Unauthorized - Customer is not authenticated
       security:
         - api_key: []
-    post:
+    put:
       tags:
         - order
       summary: Create a tracking.
@@ -608,7 +608,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrderTrackingPOST'
+              $ref: '#/components/schemas/OrderTrackingCustomerPUT'
         required: true
       responses:
         '201':
@@ -837,6 +837,64 @@ paths:
           description: Unauthorized - Admin is not authenticated
         '404':
           description: Not found - The order doesn't exist.
+      security:
+        - api_key: []
+  /admin/orders/{orderId}/tracking:
+    get:
+      tags:
+        - order
+      summary: Finds all tracking for one order.
+      description: Finds all tracking for one order.
+      parameters:
+        - name: orderId
+          in: path
+          description: Id of the order.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderTrackingGET'       
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
+    put:
+      tags:
+        - order
+      summary: Create a tracking.
+      description: Create a tracking.
+      parameters:
+        - name: orderId
+          in: path
+          description: Id of the order.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Create a new tracking in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderTrackingAdminPUT'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderTrackingGET'          
+        '401':
+          description: Unauthorized - Customer is not authenticated
       security:
         - api_key: []
   /admin/order-items/{orderId}:
@@ -2403,18 +2461,29 @@ components:
         createdAt:
           type: string
           example: 2024-03-21T17:50:38.100Z
-    OrderTrackingPOST:
+    OrderTrackingCustomerPUT:
       type: object
       properties:
-        order_id:
-          type: string
-          example: 4093857
         tracking_number:
           type: string
           example: OPM90Yvb34
-        sender:
+        date_sending:
           type: string
-          example: admin
+          example: 08-03-2025
+      required:
+        - order_id
+        - tracking_number
+        - sender
+        - date_sending
+    OrderTrackingAdminPUT:
+      type: object
+      properties:
+        customer_id:
+          type: integer
+          example: 34
+        tracking_number:
+          type: string
+          example: OPM90Yvb34
         date_sending:
           type: string
           example: 08-03-2025

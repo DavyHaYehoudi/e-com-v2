@@ -135,6 +135,14 @@ ADD CONSTRAINT fk_order_tracking_order
 FOREIGN KEY (order_id) REFERENCES `order`(id)
 ON DELETE CASCADE;
 
+ALTER TABLE `order_tracking`
+ADD CONSTRAINT fk_order_tracking_customer
+FOREIGN KEY (customer_id) REFERENCES `customer`(id)
+ON DELETE CASCADE;
+
+ALTER TABLE `order_tracking`
+ADD CONSTRAINT unique_order_sender UNIQUE (`order_id`, `sender`);
+
 /* ********************* ORDER-ADDRESS ********************* */
 ALTER TABLE `order_address`
 ADD CONSTRAINT fk_order

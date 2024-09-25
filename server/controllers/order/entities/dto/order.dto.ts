@@ -30,3 +30,29 @@ export interface OrderInputDTO {
   payment_status_id?: number;
   notes_admin?: string;
 }
+
+// Schémaa pour valider les entrées du tracking
+export const orderTrackingAdminSchema = z.object({
+  customer_id: z.number().int(),
+  tracking_number: z
+    .string()
+    .min(1, { message: "Le numéro de suivi est requis." }),
+  date_sending: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
+    message: "La date doit être au format YYYY-MM-DD.",
+  }),
+});
+// Types dérivés pour Tracking
+export type OrderTrackingAdminDTO = z.infer<typeof orderTrackingAdminSchema>;
+
+export const orderTrackingCustomerSchema = z.object({
+  tracking_number: z
+    .string()
+    .min(1, { message: "Le numéro de suivi est requis." }),
+  date_sending: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
+    message: "La date doit être au format YYYY-MM-DD.",
+  }),
+});
+// Types dérivés pour Tracking
+export type OrderTrackingCustomerDTO = z.infer<
+  typeof orderTrackingCustomerSchema
+>;
