@@ -23,6 +23,7 @@ import { createOrderItemRepository } from "../../repositories/order-item/orderIt
 import { updateProductStockRepository } from "../../repositories/product/productRepository.js";
 import { query } from "../../config/req.js";
 import { RowDataPacket } from "mysql2";
+import { sendPaymentConfirmationEmail } from "../../email/subject/payment.js";
 
 // Fonction principale pour créer une commande
 export const createOrderService = async (
@@ -128,17 +129,39 @@ export const createOrderService = async (
     await query(sql1, [customerId]);
 
     // 12. Retrouver le prénom,s'il existe, du client
-    const sql2 = " SELECT first_name FROM customer WHERE id = ?";
-    const firstName = await query<RowDataPacket[]>(sql2, [customerId]);
+    const sql2 = " SELECT first_name,email FROM customer WHERE id = ?";
+    const [firstNameData] = await query<RowDataPacket[]>(sql2, [customerId]);
 
     await commitTransaction();
-    // Retourner l'ID de commande et le numéro de confirmation
-    return {
-      order,
+
+    const emailDetails = {
+      email: firstNameData.email,
+      firstName: firstNameData.first_name,
+    };
+    const orderDetails = {
+      order: {
+        confirmation_number: order.confirmation_number,
+        total_price: order.total_price,
+        shipping_price: order.shipping_price,
+        cashback_earned: order.cashback_earned,
+        cashback_spent: order.cashback_spent,
+        code_promo_amount: order.code_promo_amount,
+        total_promo_products: order.total_promo_products,
+        total_weight: order.total_weight,
+      },
       giftCards: createdGiftCards,
       products: createdOrderItems,
-      firstName: firstName[0].first_name,
     };
+    
+    // Appeler la fonction d'envoi d'email
+    await sendPaymentConfirmationEmail(emailDetails, orderDetails);
+        // Retourner l'ID de commande et le numéro de confirmation
+        return {
+          order,
+          giftCards: createdGiftCards,
+          products: createdOrderItems,
+          firstName: firstNameData.first_name,
+        };
   } catch (error) {
     await rollbackTransaction();
     throw error;

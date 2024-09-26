@@ -30,3 +30,9 @@ export interface giftCardBalanceRow extends RowDataPacket {
   id: number;
   balance: number;
 }
+export interface GiftCardSendEmail {
+  code: string;
+  amount: number;
+  balance: number;
+  expirationDate: string;
+}

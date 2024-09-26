@@ -43,4 +43,9 @@ export interface ProductBestDiscount extends RowDataPacket {
   category_id: number;
   collection_id: number;
 }
-
+export interface ProductSendEmail {
+  name: string;
+  article_number: number;
+  discount_percentage?: number | null;
+  price_before_discount: number;
+}
