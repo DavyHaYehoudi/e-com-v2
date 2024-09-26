@@ -7,9 +7,7 @@ import {
   GiftCardUsageRow,
 } from "./dao/gift-card.dao.js";
 import { generateGiftCardCode } from "./utils/generateCode.js";
-import {
-  CreateGiftCardDTO,
-} from "../../controllers/gift-card/entities/dto/gift-card.dto.js";
+import { CreateGiftCardDTO } from "../../controllers/gift-card/entities/dto/gift-card.dto.js";
 import { NotFoundError } from "../../exceptions/CustomErrors.js";
 import { CartGiftCardRow } from "../customer/dao/cart.dao.js";
 
@@ -192,7 +190,7 @@ export const createGiftCardRepository = async (
     for (let i = 0; i < quantity; i++) {
       const generatedCode = generateGiftCardCode(); // Générer un code unique pour chaque carte
       const balance = amount; // Chaque carte a le même montant
-      
+
       const sql = `
         INSERT INTO gift_card (
           first_holder_id, code, initial_value, balance, is_issued_by_admin, expiration_date, order_id
@@ -207,12 +205,16 @@ export const createGiftCardRepository = async (
         false, // Valeur pour is_issued_by_admin
         orderId,
       ]);
-       // Ajouter les infos de la carte cadeau créée à l'array
-       createdGiftCards.push({
+      // Ajouter les infos de la carte cadeau créée à l'array
+      createdGiftCards.push({
         code: generatedCode,
         amount,
         balance,
-        expirationDate: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0] // Date d'expiration dans un an
+        expirationDate: new Date(
+          new Date().setFullYear(new Date().getFullYear() + 1)
+        )
+          .toISOString()
+          .split("T")[0], // Date d'expiration dans un an
       });
     }
     return createdGiftCards;
@@ -226,7 +228,7 @@ export const updateGiftCardsRepository = async (
   customerId: number
 ) => {
   // Générer une chaîne de "?" pour chaque giftCardId
-  const placeholders = giftCardIds.map(() => '?').join(', ');
+  const placeholders = giftCardIds.map(() => "?").join(", ");
 
   const sqlSelectGiftCards = `
     SELECT id, balance 
@@ -235,7 +237,10 @@ export const updateGiftCardsRepository = async (
   `;
 
   // Récupérer les cartes cadeaux en utilisant le tableau giftCardIds décomposé
-  const giftCards = await query<giftCardBalanceRow[]>(sqlSelectGiftCards, giftCardIds);
+  const giftCards = await query<giftCardBalanceRow[]>(
+    sqlSelectGiftCards,
+    giftCardIds
+  );
 
   let remainingAmount = amountGiftCardUsed;
 
@@ -267,8 +272,11 @@ export const updateGiftCardsRepository = async (
       INSERT INTO gift_card_usage (gift_card_id, used_by_customer_id, amount_used, order_id) 
       VALUES (?, ?, ?, ?)
     `;
-    await query(sqlInsertGiftCardUsage, [giftCard.id, customerId, amountToDeduct, orderId]);
+    await query(sqlInsertGiftCardUsage, [
+      giftCard.id,
+      customerId,
+      amountToDeduct,
+      orderId,
+    ]);
   }
 };
-
-

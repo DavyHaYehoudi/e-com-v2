@@ -1105,6 +1105,18 @@ paths:
           schema:
               type: integer
               nullable: true
+        - name: sort_by_sales
+          in: query
+          description: Best Products 
+          schema:
+              type: integer
+              nullable: true
+        - name: limit
+          in: query
+          description: Max items in response 
+          schema:
+              type: integer
+              nullable: true
       responses:
         '200':
           description: successful operation
@@ -2784,57 +2796,66 @@ components:
     OrderAllAdminGET:
       type: object
       properties:
-        customer_id:
-          type: string
-          example: 309485729
-        order_status_label:
-          type: string
-          example: En cours de traitement
-        payment_status_label:
-          type: string
-          example: Payée
-        confirmation_number:
+        orders:
+          type: object
+          properties:
+            customer_id:
+              type: string
+              example: 309485729
+            order_status_label:
+              type: string
+              example: En cours de traitement
+            payment_status_label:
+              type: string
+              example: Payée
+            confirmation_number:
+              type: integer
+              example: 20957IKLH
+            code_promo_amount:
+              type: number
+              example: 0.00
+            total_price:
+              type: integer
+              example: 75
+            shipping_price:
+              type: integer
+              example: 4.99
+            total_weight:
+              type: integer
+              example: 1200
+            total_promo_products:
+              type: integer
+              example: 13
+            order_address_shipping_id:
+              type: string
+              example: 20938475
+            order_address_billing_id:
+              type: string
+              example: 6662234
+            cash-back_earned:
+              type: integer
+              example: 8
+            cash-back_spent:
+              type: integer
+              example: 15
+            createdAt:
+              type: string
+              example: 2024-03-21T17:50:38.100Z
+            updatedAt:
+              type: string
+              example: 2024-03-21T17:50:38.100Z
+        total_orders:
           type: integer
-          example: 20957IKLH
-        code_promo_amount:
-          type: number
-          example: 0.00
-        total_price:
+          example: 22
+        totak_amount:
           type: integer
-          example: 75
-        shipping_price:
-          type: integer
-          example: 4.99
-        total_weight:
-          type: integer
-          example: 1200
-        total_promo_products:
-          type: integer
-          example: 13
-        order_address_shipping_id:
-          type: string
-          example: 20938475
-        order_address_billing_id:
-          type: string
-          example: 6662234
-        cash-back_earned:
-          type: integer
-          example: 8
-        cash-back_spent:
-          type: integer
-          example: 15
-        createdAt:
-          type: string
-          example: 2024-03-21T17:50:38.100Z
-        updatedAt:
-          type: string
-          example: 2024-03-21T17:50:38.100Z
+          example: 9872.45
     OrderAdminPATCH:
-      type: object
-      properties:
-        order_status_id:
-          type: string
-          example: 2
+          type: object
+          properties:
+            order_status_id:
+              type: string
+              example: 2
     OrderItemGET:
       type: object
       properties:

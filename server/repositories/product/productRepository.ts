@@ -31,12 +31,15 @@ export const getAllProductsRepository = async (filters: {
   on_promotion?: boolean;
   is_new?: boolean;
   collection_ids?: number[];
+  sort_by_sales?: boolean;
+  limit?: number;
 }) => {
   let sql = `
     SELECT DISTINCT
       p.*, 
       pi.url AS main_image,
-      d.discount_percentage
+      d.discount_percentage,
+      IFNULL(SUM(oi.article_number), 0) AS total_sales
     FROM product p
     LEFT JOIN product_image pi 
       ON p.id = pi.product_id 
@@ -52,6 +55,8 @@ export const getAllProductsRepository = async (filters: {
       ON pc.category_id = c.id
     LEFT JOIN collection cl 
       ON c.parent_collection_id = cl.id
+    LEFT JOIN order_item oi 
+      ON p.id = oi.product_id
   `;
 
   // Initialisation des clauses WHERE
@@ -115,12 +120,29 @@ export const getAllProductsRepository = async (filters: {
     sql += ` WHERE ${conditions.join(" AND ")}`;
   }
 
+  // Groupement par produit pour calculer le total des ventes
+  sql += `
+    GROUP BY p.id, pi.url, d.discount_percentage
+  `;
+
+  // Option pour trier par meilleures ventes
+  if (filters.sort_by_sales) {
+    sql += ` ORDER BY total_sales DESC`; // Trie par total des ventes
+  }
+  // Limite
+  const limit = filters.limit !== undefined ? filters.limit : 0; // 0 signifie pas de limite
+  if (limit > 0) {
+    sql += ` LIMIT ?`;
+    params.push(limit); // Ajout du paramètre de limite
+  }
   const results = await query<
     (ProductRow & {
       main_image: string | null;
       discount_percentage: number | null;
+      total_sales: number; // Ajout du champ total_sales
     })[]
   >(sql, params);
+
   return results;
 };
 export const getProductRepository = async (productId: number) => {

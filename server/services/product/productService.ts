@@ -11,6 +11,8 @@ export const getAllProductsService = async (filters: {
   on_promotion?: boolean;
   is_new?: boolean;
   collection_ids?: number[];
+  sort_by_sales?: boolean;
+  limit?: number;
 }) => {
   return await productService.getAllProductsRepository(filters);
 };

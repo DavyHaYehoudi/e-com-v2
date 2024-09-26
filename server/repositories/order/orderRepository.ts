@@ -15,19 +15,21 @@ import {
   UpdateOrderMessageDTO,
 } from "../../controllers/order/entities/dto/order.dto.js";
 import { log } from "console";
+import { formatAmount } from "../../utils/format_amount.js";
 
 // ADMIN - Récupérer toutes les commandes
 export const getAllOrdersRepository = async (filters: OrderFiltersDTO) => {
   let sql = `
-    SELECT
-      o.*,
-      os.label AS order_status_label,
-      ps.label AS payment_status_label
-    FROM \`order\` o
-    JOIN order_status os ON o.order_status_id = os.id
-    JOIN payment_status ps ON o.payment_status_id = ps.id
-    WHERE 1=1
-  `;
+      SELECT
+        o.*,
+        os.label AS order_status_label,
+        ps.label AS payment_status_label
+      FROM \`order\` o
+      JOIN order_status os ON o.order_status_id = os.id
+      JOIN payment_status ps ON o.payment_status_id = ps.id
+      WHERE 1=1
+    `;
+
   const params: any[] = [];
 
   // Ajout des filtres dynamiquement
@@ -51,9 +53,24 @@ export const getAllOrdersRepository = async (filters: OrderFiltersDTO) => {
     params.push(filters.confirmation_number);
   }
 
-  // Exécution de la requête SQL avec les filtres appliqués
   const results = await query<OrderRow[]>(sql, params);
-  return results;
+
+  const totalsSql = `
+      SELECT
+        COUNT(*) AS total_orders,
+        SUM(total_price) AS total_amount
+      FROM \`order\`
+    `;
+
+  const totals = await query<
+    (OrderRow & { total_orders: number; total_amount: number })[]
+  >(totalsSql);
+
+  return {
+    orders: results,
+    total_orders: totals[0].total_orders,
+    total_amount: formatAmount(totals[0].total_amount),
+  };
 };
 // ADMIN CUSTOMER - Récupérer toutes les commandes d'un client
 export const getOrdersOneCustomerRepository = async (customerId: number) => {

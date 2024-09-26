@@ -12,7 +12,6 @@ export const getAllOrderItemsRepository = async (orderId: number) => {
   const results = await query<orderItemRow[]>(sql, [orderId]);
   return results;
 };
-
 export const createOrderItemRepository = async (
   customerId: number,
   orderId: number,
@@ -34,7 +33,9 @@ export const createOrderItemRepository = async (
     } = item;
     // Récupérer le nom du produit depuis la table `product`
     const selectProductSql = `SELECT name FROM product WHERE id = ?`;
-    const [product] = await query<RowDataPacket[]>(selectProductSql, [productId]);
+    const [product] = await query<RowDataPacket[]>(selectProductSql, [
+      productId,
+    ]);
     await query(sql, [
       customerId,
       orderId,
