@@ -35,6 +35,7 @@ export interface orderSchema {
   shippingPrice: number;
   cashBackEarned: number | null;
   cashBackSpent: number | null;
+  totalWeight: number | null;
 }
 // Types dérivés pour PaymentConfirmation
 export type PaymentConfirmationDTO = z.infer<typeof createOrderSchema>;

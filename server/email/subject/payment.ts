@@ -14,6 +14,7 @@ export const sendPaymentConfirmationEmail = async (
       code_promo_amount: number;
       total_promo_products: number;
       total_weight: number | null;
+      total_giftCardUsed: number | null;
     };
     giftCards: GiftCardSendEmail[];
     products: ProductSendEmail[];
@@ -23,12 +24,13 @@ export const sendPaymentConfirmationEmail = async (
   const giftCardsList = orderDetails.giftCards;
   const productsList = orderDetails.products;
 
+  // Création du tableau des cartes cadeaux
   const giftCardsTable =
     giftCardsList.length > 0
       ? `
-    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+    <table style="width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #f9f9f9;">
       <thead>
-        <tr style="background-color: #f2f2f2;">
+        <tr style="background-color: #e0e0e0;">
           <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Code de la Carte Cadeau</th>
           <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Montant</th>
           <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Solde</th>
@@ -59,12 +61,13 @@ export const sendPaymentConfirmationEmail = async (
   `
       : "<p>Aucune carte cadeau utilisée pour cette commande.</p>";
 
+  // Création du tableau des produits
   const productsTable =
     productsList.length > 0
       ? `
-    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+    <table style="width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #f9f9f9;">
       <thead>
-        <tr style="background-color: #f2f2f2;">
+        <tr style="background-color: #e0e0e0;">
           <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Produit</th>
           <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Prix Avant Réduction</th>
           <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Pourcentage de Réduction</th>
@@ -97,12 +100,13 @@ export const sendPaymentConfirmationEmail = async (
   `
       : "<p>Aucun produit acheté dans cette commande.</p>";
 
+  // Options de l'email
   const mailOptions = {
     to: customer.email,
     subject: "Confirmation de paiement",
     html: `
       <div style="font-family: Arial, sans-serif; padding: 20px;">
-        <h2 style="text-align: center;">Merci pour votre achat, ${
+        <h2 style="text-align: center; color: #4CAF50;">Merci pour votre achat, ${
           customer.firstName || "cher client"
         } !</h2>
         <p style="font-size: 16px;">Votre commande a été confirmée avec succès.</p>
@@ -120,7 +124,12 @@ export const sendPaymentConfirmationEmail = async (
           order.total_promo_products
         } €</p>
         <p><strong>Poids total des articles :</strong> ${
-          order.total_weight ? order.total_weight + " kg" : "Non renseigné"
+          order.total_weight ? order.total_weight + " g" : "Non renseigné"
+        }</p>
+        <p><strong>Montant total des cartes cadeaux utilisées :</strong> ${
+          order.total_giftCardUsed
+            ? order.total_giftCardUsed + " €"
+            : "Aucune carte cadeau utilisée."
         }</p>
         
         <h3 style="text-align: center;">Détails des Produits</h3>

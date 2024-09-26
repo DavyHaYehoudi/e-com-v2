@@ -66,6 +66,7 @@ export const createOrderService = async (
       shippingPrice: paymentDetails.shippingPrice,
       cashBackEarned: paymentDetails.cashBack.toEarn,
       cashBackSpent,
+      totalWeight: paymentDetails.totalWeight,
     });
 
     // 4. Ajouter les adresses dans `order_address`
@@ -148,20 +149,21 @@ export const createOrderService = async (
         code_promo_amount: order.code_promo_amount,
         total_promo_products: order.total_promo_products,
         total_weight: order.total_weight,
+        total_giftCardUsed: paymentDetails.amountGiftCardUsed,
       },
       giftCards: createdGiftCards,
       products: createdOrderItems,
     };
-    
+
     // Appeler la fonction d'envoi d'email
     await sendPaymentConfirmationEmail(emailDetails, orderDetails);
-        // Retourner l'ID de commande et le numéro de confirmation
-        return {
-          order,
-          giftCards: createdGiftCards,
-          products: createdOrderItems,
-          firstName: firstNameData.first_name,
-        };
+    // Retourner l'ID de commande et le numéro de confirmation
+    return {
+      order,
+      giftCards: createdGiftCards,
+      products: createdOrderItems,
+      firstName: firstNameData.first_name,
+    };
   } catch (error) {
     await rollbackTransaction();
     throw error;

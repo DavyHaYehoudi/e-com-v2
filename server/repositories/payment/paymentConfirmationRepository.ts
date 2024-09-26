@@ -8,8 +8,8 @@ import {
 // Créer une commande dans la table `order`
 export const createOrderRepository = async (orderData: orderSchema) => {
   const sql = `
-        INSERT INTO \`order\` (customer_id, order_status_id, payment_status_id, confirmation_number, code_promo_amount, total_promo_products, total_price, shipping_price, cashback_earned, cashback_spent)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO \`order\` (customer_id, order_status_id, payment_status_id, confirmation_number, code_promo_amount, total_promo_products, total_price, shipping_price, cashback_earned, cashback_spent,total_weight)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
   const result = await query<OrderDAO>(sql, [
     orderData.customerId,
@@ -22,6 +22,7 @@ export const createOrderRepository = async (orderData: orderSchema) => {
     orderData.shippingPrice,
     orderData.cashBackEarned,
     orderData.cashBackSpent,
+    orderData.totalWeight,
   ]);
   const newOrderId = result.insertId;
   const sqlSelect = `
@@ -54,4 +55,3 @@ export const createOrderAddressRepository = async (
     orderId,
   ]);
 };
-
