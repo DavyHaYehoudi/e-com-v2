@@ -1,12 +1,6 @@
 import { query } from "../../config/req.js";
-import { RowDataPacket } from "mysql2";
-import {
-  BadRequestError,
-  NotFoundError,
-} from "../../exceptions/CustomErrors.js";
 import { OrderDAO, OrderDAORow } from "./dao/paymentConfirmation.dao.js";
 import { AddressConfirmationDTO, orderSchema } from "../../controllers/payment/entities/dto/paymentConfirmation.dto.js";
-import { CartGiftCardRow } from "../customer/dao/cart.dao.js";
 
 // Créer une commande dans la table `order`
 export const createOrderRepository = async (orderData:orderSchema) => {

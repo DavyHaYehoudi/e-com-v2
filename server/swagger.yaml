@@ -3769,45 +3769,85 @@ components:
     PaymentConfirmationResponse:
       type: object
       properties:
-        customer_id:
-          type: integer
-          example: 023948
-        payment_status: 
+        order:
+          type: object
+          properties:
+            customer_id:
+              type: integer
+              example: 023948
+            payment_status: 
+              type: string
+              example: Payée
+            order_status:
+              type: string
+              example: A traiter
+            confirmation_number:
+              type: integer
+              example: HUY78BG332
+            notes_admin:
+              type: string
+              example:
+            total_price:
+              type: integer
+              example: 175.3
+            code_promo_amount:
+              type: integer
+              example: 12.6
+            total_promo_products:
+              type: integer
+              example: 21.1
+            shipping_price:
+              type: integer
+              example: 4.9
+            cash_back_earned:
+              type: integer
+              example: 7
+            cash_back_spent:
+              type: integer
+              example: 0
+            createdAt:
+              type: string
+              example: 2024-03-21T17:50:38.100Z
+            updatedAt:
+              type: string
+              example: 2024-03-21T17:50:38.100Z
+        giftCards:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                example: UJDHYR83H
+              amount:
+                type: integer
+                example: 12
+              balance:
+                type: integer
+                example: 12
+              expirationDate:
+                type: string
+                example: 2026-12-25
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: bracelet
+              article_number:
+                type: integer
+                example: 2
+              discount_percentage:
+                type: integer
+                example: 10
+              price_before_discount:
+                type: integer
+                example: 35
+        firstName:
           type: string
-          example: Payée
-        order_status:
-          type: string
-          example: A traiter
-        confirmation_number:
-          type: integer
-          example: HUY78BG332
-        notes_admin:
-          type: string
-          example:
-        total_price:
-          type: integer
-          example: 175.3
-        code_promo_amount:
-          type: integer
-          example: 12.6
-        total_promo_products:
-          type: integer
-          example: 21.1
-        shipping_price:
-          type: integer
-          example: 4.9
-        cash_back_earned:
-          type: integer
-          example: 7
-        cash_back_spent:
-          type: integer
-          example: 0
-        createdAt:
-          type: string
-          example: 2024-03-21T17:50:38.100Z
-        updatedAt:
-          type: string
-          example: 2024-03-21T17:50:38.100Z
+          example: Thomas
 
   securitySchemes:
     api_key:

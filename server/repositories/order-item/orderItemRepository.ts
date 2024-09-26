@@ -18,6 +18,7 @@ export const createOrderItemRepository = async (
   orderId: number,
   productPromotionDetails: orderItem[]
 ) => {
+  const createdOrderItems = [];
   const sql = `
       INSERT INTO order_item (
         customer_id, order_id, product_id, article_number, price_before_discount, discount_percentage
@@ -31,6 +32,9 @@ export const createOrderItemRepository = async (
       price_before_discount,
       article_number,
     } = item;
+    // Récupérer le nom du produit depuis la table `product`
+    const selectProductSql = `SELECT name FROM product WHERE id = ?`;
+    const [product] = await query<RowDataPacket[]>(selectProductSql, [productId]);
     await query(sql, [
       customerId,
       orderId,
@@ -39,7 +43,14 @@ export const createOrderItemRepository = async (
       price_before_discount,
       discount_percentage,
     ]);
+    createdOrderItems.push({
+      name: product.name, // Récupérer le nom du produit
+      article_number,
+      discount_percentage,
+      price_before_discount,
+    });
   }
+  return createdOrderItems;
 };
 // ADMIN - Modifier un order item
 export const updateOrderItemRepository = async (

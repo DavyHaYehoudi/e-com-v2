@@ -11,13 +11,18 @@ import {
   commitTransaction,
   rollbackTransaction,
 } from "../../utils/transaction.js";
-import { getCustomerCartRepository } from "../../repositories/customer/cartRepository.js";
+import {
+  getCustomerCartRepository,
+  updateCustomerCartRepository,
+} from "../../repositories/customer/cartRepository.js";
 import {
   createGiftCardRepository,
   updateGiftCardsRepository,
 } from "../../repositories/gift-card/giftCardRepository.js";
 import { createOrderItemRepository } from "../../repositories/order-item/orderItemRepository.js";
 import { updateProductStockRepository } from "../../repositories/product/productRepository.js";
+import { query } from "../../config/req.js";
+import { RowDataPacket } from "mysql2";
 
 // Fonction principale pour créer une commande
 export const createOrderService = async (
@@ -94,9 +99,10 @@ export const createOrderService = async (
     }
 
     // 7. Créer les cartes cadeaux du panier si présentes
+    let createdGiftCards = <any>[];
     const cartCustomer = await getCustomerCartRepository(customerId);
     if (cartCustomer && cartCustomer.giftCards.length > 0) {
-      await createGiftCardRepository(
+      createdGiftCards = await createGiftCardRepository(
         customerId,
         order.id,
         cartCustomer.giftCards
@@ -104,7 +110,7 @@ export const createOrderService = async (
     }
 
     // 8. Créer les order-item
-    await createOrderItemRepository(
+    const createdOrderItems = await createOrderItemRepository(
       customerId,
       order.id,
       paymentDetails.orderItems
@@ -112,9 +118,27 @@ export const createOrderService = async (
 
     // 9. Mettre à jour le stock des produits
     await updateProductStockRepository(paymentDetails.orderItems);
+
+    // 10. Vider le panier du client
+    const cartInit = { items: [], gift_cards: [] };
+    await updateCustomerCartRepository(customerId, cartInit);
+
+    // 11. Ajouter +1 au compteur de commandes passées du client
+    const sql1 = ` UPDATE customer SET orders_count = orders_count + 1 WHERE id = ?`;
+    await query(sql1, [customerId]);
+
+    // 12. Retrouver le prénom,s'il existe, du client
+    const sql2 = " SELECT first_name FROM customer WHERE id = ?";
+    const firstName = await query<RowDataPacket[]>(sql2, [customerId]);
+
     await commitTransaction();
     // Retourner l'ID de commande et le numéro de confirmation
-    return { order, confirmationNumber };
+    return {
+      order,
+      giftCards: createdGiftCards,
+      products: createdOrderItems,
+      firstName: firstName[0].first_name,
+    };
   } catch (error) {
     await rollbackTransaction();
     throw error;

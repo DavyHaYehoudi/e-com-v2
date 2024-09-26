@@ -1,4 +1,3 @@
-import { log } from "console";
 import { PaymentAmountResponse } from "../../controllers/payment/entities/dto/paymentAmount.dto.js";
 import { BadRequestError } from "../../exceptions/CustomErrors.js";
 import { getCashBackBalanceRepository } from "../../repositories/cash-back/cashBackRepository.js";
