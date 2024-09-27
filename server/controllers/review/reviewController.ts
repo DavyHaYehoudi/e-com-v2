@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import * as reviewService from "../../services/review/reviewService.js";
 import {
   createReviewSchema,
-  updateReviewSchema,
+  updateReviewCustomerSchema,
 } from "./entities/dto/review.dto.js";
 import { CustomJwtPayload } from "../../repositories/auth/dao/auth.dao.js";
 
@@ -61,7 +61,7 @@ export const updateReviewController = async (
   try {
     const customerId = (req.user as CustomJwtPayload).id;
     const reviewId = parseInt(req.params.reviewId);
-    const reviewData = updateReviewSchema.parse(req.body);
+    const reviewData = updateReviewCustomerSchema.parse(req.body);
     await reviewService.updateReviewService(customerId, reviewId, reviewData);
     res.status(204).json();
   } catch (error) {
@@ -77,7 +77,8 @@ export const approveReviewController = async (
 ) => {
   try {
     const reviewId = parseInt(req.params.reviewId);
-    await reviewService.approveReviewService(reviewId);
+    const toggle_validate = req.body.toggle_validate;
+    await reviewService.approveReviewService(reviewId,toggle_validate);
     res.status(204).json();
   } catch (error) {
     console.error(error);

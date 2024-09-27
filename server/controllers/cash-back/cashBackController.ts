@@ -25,7 +25,6 @@ export const createCashBackCustomerFromAdminController = async (
     next(error);
   }
 };
-
 // CUSTOMER - Récupérer l'historique du cashback du customer
 export const getAllCashBackOneCustomerViaCustomerController = async (
   req: Request,

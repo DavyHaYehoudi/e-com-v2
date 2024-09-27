@@ -179,7 +179,6 @@ export const updateDeliveryRepository = async (
   // Commit de la transaction
   await commitTransaction();
 };
-
 // ADMIN - Supprimer un shipping method
 export const deleteDeliveryRepository = async (shippingMethodId: number) => {
   await beginTransaction();

@@ -3488,7 +3488,7 @@ components:
     ReviewAdminPATCH:
       type: object
       properties:
-        is_validate_by_admin:
+        toggle_validate:
           type: boolean
           example: true
     DeliveryGET:

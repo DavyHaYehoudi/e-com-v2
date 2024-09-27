@@ -1,8 +1,11 @@
-import { ResultSetHeader } from "mysql2";
+import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { query } from "../../config/req.js";
 import { NotFoundError } from "../../exceptions/CustomErrors.js";
 import { ReviewRow } from "./dao/review.dao.js";
-import { CreateReviewDTO } from "../../controllers/review/entities/dto/review.dto.js";
+import {
+  CreateReviewDTO,
+  UpdateReviewCustomerDTO,
+} from "../../controllers/review/entities/dto/review.dto.js";
 
 export const getAllReviewsRepository = async () => {
   const sql = `SELECT * FROM review`;
@@ -44,30 +47,42 @@ export const createReviewRepository = async (
 export const updateReviewRepository = async (
   customerId: number,
   reviewId: number,
-  updatedFields: Record<string, any>
+  updatedFields: UpdateReviewCustomerDTO
 ) => {
   const fields = Object.keys(updatedFields)
-    .filter((field) => field !== "is_validate_by_admin")
     .map((field) => `${field} =?`)
     .join(", ");
   const values = Object.values(updatedFields);
-  const sql = `UPDATE review SET ${fields} WHERE id =? AND customer_id =?`;
+  const sql = `UPDATE review SET ${fields} WHERE id =? AND customer_id =? AND is_validate_by_admin = ?`;
   const result = await query<ResultSetHeader>(sql, [
     ...values,
     reviewId,
     customerId,
+    false,
   ]);
   if (result.affectedRows === 0) {
     throw new NotFoundError(
-      `Review with ID ${reviewId} not found for customer ID ${customerId}`
+      `Review with ID ${reviewId} not found for customer ID ${customerId} or review already approved by admin`
     );
   }
 };
-export const approveReviewRepository = async (reviewId: number,) => {
-  const sql = `UPDATE review SET is_validate_by_admin = NOT is_validate_by_admin WHERE id = ?`;
-  const result = await query<ResultSetHeader>(sql, [reviewId]);
-  if (result.affectedRows === 0) {
+export const approveReviewRepository = async (
+  reviewId: number,
+  toggle_validate: boolean
+) => {
+  // Vérifier si le commentaire existe
+  const sqlCheck = `
+    SELECT * FROM review
+    WHERE id = ?
+  `;
+  const results = await query<RowDataPacket[]>(sqlCheck, [reviewId]);
+
+  if (results.length === 0) {
     throw new NotFoundError(`Review with ID ${reviewId} not found`);
+  }
+  if (toggle_validate) {
+    const sql = `UPDATE review SET is_validate_by_admin = NOT is_validate_by_admin WHERE id = ?`;
+    await query(sql, [reviewId]);
   }
 };
 export const deleteReviewRepository = async (
@@ -76,13 +91,17 @@ export const deleteReviewRepository = async (
 ) => {
   const sql = `
         DELETE FROM review
-        WHERE id = ? AND customer_id =?
+        WHERE id = ? AND customer_id =? AND is_validate_by_admin = ?
       `;
-  const result = await query<ResultSetHeader>(sql, [reviewId, customerId]);
+  const result = await query<ResultSetHeader>(sql, [
+    reviewId,
+    customerId,
+    false,
+  ]);
 
   if (result.affectedRows === 0) {
     throw new NotFoundError(
-      `Review with ID ${reviewId} not found for customer ID ${customerId}`
+      `Review with ID ${reviewId} not found for customer ID ${customerId} or review already approved by admin`
     );
   }
 };

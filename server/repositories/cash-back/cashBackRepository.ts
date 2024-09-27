@@ -33,6 +33,8 @@ export async function createCashBackCustomerFromAdminRepository(
   total_earned: number;
   total_spent: number;
   reason: string;
+  increase: boolean;
+  amountCashBack: number;
 }> {
   const { amountCashBack, reason, increase, reviewId } = cashBackData;
 
@@ -115,6 +117,8 @@ export async function createCashBackCustomerFromAdminRepository(
     total_earned: updatedTotalEarned, // Total cumulé de cashback gagné après la transaction
     total_spent: updatedTotalSpent, // Total cumulé de cashback dépensé après la transaction
     reason,
+    increase,
+    amountCashBack,
   };
 }
 // ADMIN + CUSTOMER - Récupérer l'historique du cashback d'un customer
@@ -176,11 +180,5 @@ export async function createCashbackOrderRepository(
   (customer_id,order_id,cash_back_earned_for_this_transaction,cash_back_spent_for_this_transaction,cash_back_reason_id)
   VALUES(?, ?, ?, ?, ?)
   `;
-  await query(sql, [
-    customerId,
-    orderId,
-    cashBackEarned,
-    cashBackSpent,
-    5,
-  ]);
+  await query(sql, [customerId, orderId, cashBackEarned, cashBackSpent, 5]);
 }

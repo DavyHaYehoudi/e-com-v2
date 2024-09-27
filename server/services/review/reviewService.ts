@@ -1,4 +1,4 @@
-import { CreateReviewDTO } from "../../controllers/review/entities/dto/review.dto";
+import { CreateReviewDTO, UpdateReviewCustomerDTO } from "../../controllers/review/entities/dto/review.dto";
 import * as reviewService from "../../repositories/review/reviewRepository.js";
 
 // Récupérer tous les commentaires
@@ -9,7 +9,6 @@ export const getAllReviewsService = async () => {
 export const getReviewService = async (reviewId: number) => {
   return await reviewService.getReviewRepository(reviewId);
 };
-
 // Créer un nouveau commentaire
 export const createReviewService = async (
   customerId: number,
@@ -25,7 +24,7 @@ export const createReviewService = async (
 export const updateReviewService = async (
   customerId: number,
   reviewId: number,
-  updatedFields: Record<string, any>
+  updatedFields: UpdateReviewCustomerDTO
 ) => {
   await reviewService.updateReviewRepository(
     customerId,
@@ -34,8 +33,8 @@ export const updateReviewService = async (
   );
 };
 // ADMIN - Approuver un commentaire
-export const approveReviewService = async (reviewId: number) => {
-  await reviewService.approveReviewRepository(reviewId);
+export const approveReviewService = async (reviewId: number,toggle_validate: boolean) => {
+  await reviewService.approveReviewRepository(reviewId,toggle_validate);
 };
 // Supprimer un commentaire
 export const deleteReviewService = async (

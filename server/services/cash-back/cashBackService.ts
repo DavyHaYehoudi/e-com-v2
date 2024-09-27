@@ -1,10 +1,16 @@
 import { UpdateCashBackDto } from "../../controllers/cash-back/entities/dto/cashBack.dto.js";
 import {
+  sendBirthdayToCustomer,
+  sendCashbackCorrectionToCustomer,
+  sendCashbackEarnedToCustomer,
+} from "../../email/subject/marketing.js";
+import {
   createCashBackCustomerFromAdminRepository,
   createCashbackOrderRepository,
   getAllCashBackOneCustomerRepository,
   getCashBackBalanceRepository,
 } from "../../repositories/cash-back/cashBackRepository.js";
+import { getCustomerProfileService } from "../customer/profileService.js";
 
 // ADMIN - Ajout/Retrait de cashback au compte du customer
 export const createCashBackCustomerFromAdminService = async (
@@ -19,6 +25,28 @@ export const createCashBackCustomerFromAdminService = async (
     cashBackData,
     balanceCashBackCustomer
   );
+  const customer = await getCustomerProfileService(customerId);
+  if (transaction.increase) {
+    if (transaction.reason === "Birthday") {
+      sendBirthdayToCustomer(
+        customer.email,
+        customer.first_name,
+        transaction.amountCashBack
+      );
+      return;
+    }
+    sendCashbackEarnedToCustomer(
+      customer.email,
+      customer.first_name,
+      transaction.amountCashBack,
+      transaction.reason
+    );
+  } else if (!transaction.increase) {
+    sendCashbackCorrectionToCustomer(
+      customer.email,
+      transaction.amountCashBack
+    );
+  }
   return {
     transaction_id: transaction.transaction.id,
     customer_id: transaction.transaction.customer_id,
