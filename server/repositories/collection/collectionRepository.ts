@@ -43,7 +43,6 @@ export const createCollectionRepository = async (
     throw error;
   }
 };
-
 export const updateCollectionRepository = async (
   collectionId: number,
   updatedFields: Record<string, any>

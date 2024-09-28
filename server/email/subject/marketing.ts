@@ -16,7 +16,7 @@ export const sendCashbackCorrectionToCustomer = async (
         <div style="max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
           <h2 style="text-align: center; color: #FF9800;">Correction de votre Cashback 🎁</h2>
           <p style="font-size: 16px; color: #333;">
-            Nous avons ajusté votre cashback suite à une erreur de notre part.
+            Nous avons ajusté votre cashback suite à une erreur de notre part 😕.
           </p>
           
           <div style="text-align: center; margin: 20px 0;">
@@ -45,18 +45,19 @@ export const sendCashbackCorrectionToCustomer = async (
   }
 };
 export const sendMarketingEmailToCustomer = async (
-  customer: { email: string; firstName: string },
+  email: string,
+  subject: string,
+  firstName: string | null,
   marketingContent: string
 ) => {
   const mailOptions = {
-    to: customer.email,
-    subject: "Offre spéciale pour vous !",
-    html: `<p>Bonjour ${customer.firstName},</p><p>${marketingContent}</p>`,
+    to: email,
+    subject: `${firstName || "Cher client"}, ${subject}`,
+    html: marketingContent,
   };
-
   try {
     await sendMarketingEmail(mailOptions);
-    console.log("Email marketing envoyé à", customer.email);
+    console.log("Email marketing envoyé à", email);
   } catch (error) {
     console.error("Erreur lors de l'envoi de l'email marketing:", error);
   }
@@ -81,12 +82,14 @@ export const sendBirthdayToCustomer = async (
 ) => {
   const mailOptions = {
     to: email,
-    subject: `Félicitations pour votre anniversaire ${firstName || ""}!`,
+    subject: `Félicitations pour votre anniversaire ${
+      firstName || "cher client"
+    }!`,
     html: `
       <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f4; color: #333;">
         <div style="max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
           <h2 style="text-align: center; color: #4CAF50;">Joyeux Anniversaire ${
-            firstName || ""
+            firstName || "cher client"
           }! 🎉</h2>
           <p style="font-size: 16px; color: #333;">
             Nous sommes ravis de célébrer votre anniversaire avec vous. À cette occasion, nous avons le plaisir de vous offrir du cashback en cadeau, pour rendre cette journée encore plus spéciale !
@@ -148,12 +151,12 @@ export const sendCashbackEarnedToCustomer = async (
 
   const mailOptions = {
     to: email,
-    subject: `Vous avez gagné du Cashback ${firstName || ""} !`,
+    subject: `Vous avez gagné du Cashback ${firstName || "cher client"} !`,
     html: `
       <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f4; color: #333;">
         <div style="max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
           <h2 style="text-align: center; color: #4CAF50;">Félicitations ${
-            firstName || ""
+            firstName || "cher client"
           } ! 🎉</h2>
           <p style="font-size: 16px; color: #333;">
             Vous venez de gagner du cashback ${reasonText}. Profitez-en pour faire des économies sur vos prochains achats !

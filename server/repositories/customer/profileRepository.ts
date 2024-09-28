@@ -80,3 +80,14 @@ export const updateAnyProfileRepository = async (
     throw new NotFoundError(`Customer with ID ${customerId} not found`);
   }
 };
+// Admin - Récupérer tous les customer ayant consenti aux emails marketing 
+export const getCustomersWithEmailMarketingConsentRepository = async () => {
+  const sql = `
+      SELECT *
+      FROM customer 
+      WHERE email_marketing_consent = true`;
+
+  const rows = await query<ProfileRow[]>(sql);
+  const customers = rows;
+  return customers;
+};

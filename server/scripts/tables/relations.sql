@@ -232,3 +232,9 @@ ON DELETE SET NULL;
 /* ********************* CODE-PROMO ********************* */
 ALTER TABLE code_promo
 ADD CONSTRAINT unique_code_promo_code UNIQUE (code);
+
+/* ********************* MARKETING ********************* */
+ALTER TABLE campaign_recipients
+ADD CONSTRAINT fk_campaign_id
+FOREIGN KEY (campaign_id) REFERENCES `campaign`(id)
+ON DELETE CASCADE;

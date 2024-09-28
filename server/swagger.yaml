@@ -21,6 +21,7 @@ tags:
   - name: code-promo
   - name: review
   - name: delivery
+  - name: marketing
   - name: payment
 paths:
   /auth/open-session:
@@ -1980,6 +1981,100 @@ paths:
           description: Not found - The discount doesn't exist.
       security:
         - api_key: []
+  /admin/marketing/campaigns:
+    get:
+      tags:
+        - marketing
+      summary: Show all marketing campaigns.
+      description: Show all marketing campaigns.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MarketingCompaignGET'  
+        '403':
+          description: Unauthorized - Admin is not authenticated
+      security:
+        - api_key: []
+    post:
+      tags:
+        - marketing
+      summary: Add a new compaign.
+      description: Add a new compaign.
+      requestBody:
+        description: Create a new compaign in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MarketingCompaignPOST'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketingCompaignGET'          
+        '403':
+          description: Unauthorized - Admin is not authenticated
+      security:
+        - api_key: []
+  /admin/marketing/campaigns/{campaignId}:
+    put:
+      tags:
+        - marketing
+      summary: Update an existing compaign.
+      description: Update an existing compaign by id.
+      parameters:
+        - name: campaignId
+          in: path
+          description: ID of compaign that needs to be updated.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: update an existent compaign in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MarketingCompaignPUT'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The compaign doesn't exist.
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - marketing
+      summary: Delete a compaign.
+      description: Delete a compaign.
+      parameters:
+        - name: campaignId
+          in: path
+          description: compaign id to delete.
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Successful operation
+        '403':
+          description: Unauthorized - Admin is not authenticated
+        '404':
+          description: Not found - The compaign doesn't exist.
+      security:
+        - api_key: []        
   /payment/amount:
     get:
       tags:
@@ -3869,6 +3964,64 @@ components:
         firstName:
           type: string
           example: Thomas
+    MarketingCompaignGET:
+      type: object
+      properties:
+        subject:
+          type: string
+          example: Fête des Mères
+        content:
+          type: string
+          example: Dimanche 25 juin est la Fête des Mères et en cette occasion...
+        send_date: 
+          type: string
+          nullable: true
+          example:
+        status:
+          type: string
+          example: prepared
+        total_sent:
+          type: integer
+          nullable: true
+          example:
+        createdAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+        updatedAt:
+          type: string
+          example: 2024-03-21T17:50:38.100Z
+    MarketingCompaignPOST:
+      type: object
+      properties:
+        subject:
+          type: string
+          example: Fête des Mères
+        content:
+          type: string
+          example: Dimanche 25 juin est la Fête des Mères et en cette occasion...
+      required:
+        - subject
+        - content
+    MarketingCompaignPUT:
+      type: object
+      properties:
+        subject:
+          type: string
+          example: The subject
+        content:
+          type: string
+          example: <h1>Du contenu dans un format html</h1>
+        status:
+          type: string
+          example: sent
+        emails:
+          type: array
+          items:
+            type: string
+          example: 
+           - john@example.com
+           - mike@gmail.com
+           - Sophie@email.com
 
   securitySchemes:
     api_key:

@@ -24,10 +24,14 @@ export const getAllCustomersProfileService = async () => {
 export const getAnyCustomerByIdService = async (customerId: number) => {
   return await profileRepository.getAnyCustomerByIdRepository(customerId);
 };
-//Admin - Mettre à jour un customer (désactiver)
+// Admin - Mettre à jour un customer (désactiver)
 export const updateAnyCustomerProfileService = async (
   customerId: number,
   profileData: ProfileInputReservedAdminDTO
 ) => {
   await profileRepository.updateAnyProfileRepository(customerId, profileData);
+};
+// Admin - Récupérer tous les customer ayant consenti aux emails marketing 
+export const getCustomersWithEmailMarketingConsentService = async () => {
+  return await profileRepository.getCustomersWithEmailMarketingConsentRepository();
 };

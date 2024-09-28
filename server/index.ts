@@ -37,7 +37,8 @@ import deliveryAdminRoutes from "./routes/admin/delivery/delivery.routes.js";
 import reviewAdminRoutes from "./routes/admin/review/review.routes.js";
 import giftCardAdminRoutes from "./routes/admin/gift-card/giftCard.routes.js";
 import orderItemAdminRoutes from "./routes/admin/order-item/orderItem.routes.js";
-import orderAdminRoutes from "./routes/admin/order/order.routes.js"
+import orderAdminRoutes from "./routes/admin/order/order.routes.js";
+import marketingAdminRoutes from "./routes/admin/marketing/marketing.routes.js";
 
 const app: Express = express();
 const port = environment.PORT;
@@ -88,6 +89,7 @@ app.use("/api/admin/reviews", verifyToken, adminAccess, reviewAdminRoutes);
 app.use("/api/admin/gift-cards", verifyToken, adminAccess, giftCardAdminRoutes);
 app.use("/api/admin/order-items", verifyToken, adminAccess, orderItemAdminRoutes); 
 app.use("/api/admin/orders", verifyToken, adminAccess, orderAdminRoutes);
+app.use("/api/admin/marketing/campaigns", verifyToken, adminAccess, marketingAdminRoutes);
 
 
 app.use(errorHandler);
