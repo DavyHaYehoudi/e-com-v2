@@ -44,3 +44,10 @@ export const updateAnyCustomerProfileSchema = z.object({
 export type ProfileInputReservedAdminDTO = z.infer<
   typeof updateAnyCustomerProfileSchema
 >;
+
+export const filtersSchema = z.object({
+  name: z.string().nullable().optional().default(null),
+});
+export type FiltersSchemaDTO = z.infer<
+  typeof filtersSchema
+>;

@@ -1,4 +1,5 @@
 import {
+  FiltersSchemaDTO,
   ProfileInputDTO,
   ProfileInputReservedAdminDTO,
 } from "../../controllers/customer/entities/dto/profile.dto.js";
@@ -15,11 +16,13 @@ export const updateCustomerProfileService = async (
 ) => {
   await profileRepository.updateProfileRepository(customerId, profileData);
 };
-//Récupérer tous les profils
-export const getAllCustomersProfileService = async () => {
-  return await profileRepository.getAllCustomersRepository();
-};
 
+// Admin - Récupérer tous les profils
+export const getAllCustomersProfileService = async (
+  filters: FiltersSchemaDTO
+) => {
+  return await profileRepository.getAllCustomersRepository(filters);
+};
 // Admin - Récupérer les données de n'importe quel customer
 export const getAnyCustomerByIdService = async (customerId: number) => {
   return await profileRepository.getAnyCustomerByIdRepository(customerId);
@@ -31,7 +34,7 @@ export const updateAnyCustomerProfileService = async (
 ) => {
   await profileRepository.updateAnyProfileRepository(customerId, profileData);
 };
-// Admin - Récupérer tous les customer ayant consenti aux emails marketing 
+// Admin - Récupérer tous les customer ayant consenti aux emails marketing
 export const getCustomersWithEmailMarketingConsentService = async () => {
   return await profileRepository.getCustomersWithEmailMarketingConsentRepository();
 };

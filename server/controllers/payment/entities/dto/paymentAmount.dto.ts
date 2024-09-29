@@ -8,8 +8,6 @@ export const paymentAmountSchema = z.object({
   cashBackToSpend: z.number().min(0).nullable().optional().default(null),
 });
 
-
-
 // Fonction de prétraitement des requêtes
 export const preprocessPaymentAmountQuery = (query: any) => {
   const preprocessedQuery: any = {};
@@ -27,11 +25,12 @@ export const preprocessPaymentAmountQuery = (query: any) => {
   }
 
   preprocessedQuery.shippingMethodId = Number(query.shippingMethodId);
-  preprocessedQuery.cashBackToSpend = query.cashBackToSpend ? Number(query.cashBackToSpend) : null;
+  preprocessedQuery.cashBackToSpend = query.cashBackToSpend
+    ? Number(query.cashBackToSpend)
+    : null;
 
   return preprocessedQuery;
 };
-
 
 // Types dérivés pour PaymentAmount
 export type PaymentAmountDTO = z.infer<typeof paymentAmountSchema>;
@@ -48,7 +47,7 @@ export interface orderItem {
   productId: number; // Id du produit
   discount_percentage: number | null; // Montant de la réduction
   price_before_discount: number; // Prix du produit avant la promotion
-  article_number:number; // Nombre de produit concernés par la promotion
+  article_number: number; // Nombre de produit concernés par la promotion
 }
 // Interface pour la réponse PaymentAmount
 export interface PaymentAmountResponse {
@@ -58,7 +57,7 @@ export interface PaymentAmountResponse {
   totalWeight: number; // Poids total de la commande
   shippingPrice: number; // Prix de la livraison
   totalPromotionAmount: number; // Montant total des promotions appliquées
-  orderItems:orderItem[]
+  orderItems: orderItem[];
   amountGiftCardUsed: number; // Montant total utilisé avec les cartes cadeau
   cashBack: CashBackDetails; // Détails du cashback
 }

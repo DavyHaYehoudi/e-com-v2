@@ -1,6 +1,7 @@
 //profileController.ts
 import { Request, Response, NextFunction } from "express";
 import {
+  filtersSchema,
   updateAnyCustomerProfileSchema,
   updateCustomerProfileSchema,
 } from "./entities/dto/profile.dto.js";
@@ -38,19 +39,23 @@ export const updateCustomerProfileController = async (
     next(error);
   }
 };
+
+// Admin - Récupérer tous les customers
 export const getAllCustomersProfileController = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const customers = await profileService.getAllCustomersProfileService();
+    const validateFilters = filtersSchema.parse(req.query);
+    const customers = await profileService.getAllCustomersProfileService(
+      validateFilters
+    );
     res.status(200).json(customers);
   } catch (error) {
     next(error);
   }
 };
-
 // Admin - Récupérer les données de n'importe quel customer
 export const getAnyCustomerByIdController = async (
   req: Request,
@@ -61,7 +66,7 @@ export const getAnyCustomerByIdController = async (
     const customerId = parseInt(req.params.customerId);
     const customer = await profileService.getAnyCustomerByIdService(customerId);
     if (!customer) {
-      throw new NotFoundError("Customer not found" );
+      throw new NotFoundError("Customer not found");
     }
     res.status(200).json(customer);
   } catch (error) {

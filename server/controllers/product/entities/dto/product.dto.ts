@@ -69,9 +69,15 @@ export const preprocessProductQueries = (query: any) => {
     preprocessedQuery.name = query.name;
   }
 
-  preprocessedQuery.category_ids = query.category_ids
-    ? query.category_ids.split(",").map(Number)
-    : []; // Défaut à un tableau vide
+  if (query.category_ids) {
+    // Si category_ids est déjà un tableau, on map les valeurs à Number
+    // Si c'est un seul élément, on le transforme en tableau
+    preprocessedQuery.category_ids = Array.isArray(query.category_ids)
+      ? query.category_ids.map(Number) // Assurer que ce sont des nombres
+      : [Number(query.category_ids)];
+  } else {
+    preprocessedQuery.category_ids = []; // Défaut à un tableau vide
+  }
 
   preprocessedQuery.tag_ids = query.tag_ids
     ? query.tag_ids.split(",").map(Number)
@@ -90,9 +96,19 @@ export const preprocessProductQueries = (query: any) => {
   preprocessedQuery.sort_by_sales =
     query.sort_by_sales === "true" ? true : undefined;
 
-  preprocessedQuery.collection_ids = query.collection_ids
-    ? query.collection_ids.split(",").map(Number)
-    : []; // Défaut à un tableau vide
+  // preprocessedQuery.collection_ids = query.collection_ids
+  //   ? query.collection_ids.split(",").map(Number)
+  //   : []; // Défaut à un tableau vide
+  if (query.collection_ids) {
+    // Si collection_ids est déjà un tableau, on map les valeurs à Number
+    // Si c'est un seul élément, on le transforme en tableau
+    preprocessedQuery.collection_ids = Array.isArray(query.collection_ids)
+      ? query.collection_ids.map(Number) // Assurer que ce sont des nombres
+      : [Number(query.collection_ids)];
+  } else {
+    preprocessedQuery.collection_ids = []; // Défaut à un tableau vide
+  }
+
   preprocessedQuery.limit = query.limit ? Number(query.limit) : undefined;
 
   return preprocessedQuery;
