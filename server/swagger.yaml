@@ -329,6 +329,13 @@ paths:
         - customer
       summary: Finds all customers.
       description: Finds all customers.
+      parameters:
+        - name: name
+          in: query
+          description: Firstname or lastname of the customer to find
+          schema:
+            type: string
+            nullable: true
       responses:
         '200':
           description: successful operation
@@ -1103,6 +1110,18 @@ paths:
         - name: is_new
           in: query
           description: News Products 
+          schema:
+              type: integer
+              nullable: true
+        - name: category_ids
+          in: query
+          description: Id of category_ids category_ids=12&category_ids=7&category_ids=9
+          schema:
+              type: integer
+              nullable: true
+        - name: collection_ids
+          in: query
+          description: Id of collection collection_ids=12&collection_ids=7&collection_ids=9
           schema:
               type: integer
               nullable: true

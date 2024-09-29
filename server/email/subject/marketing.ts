@@ -1,8 +1,11 @@
+import { RowDataPacket } from "mysql2";
+import { query } from "../../config/req.js";
 import { environment } from "../../environment.js";
 import {
   sendMarketingEmail,
   sendNewClientEmail,
 } from "../service/emailService.js";
+import cron from "node-cron";
 
 export const sendCashbackCorrectionToCustomer = async (
   email: string,
@@ -195,3 +198,46 @@ export const sendCashbackEarnedToCustomer = async (
     );
   }
 };
+
+// Programmation pour les journées d'anniversaire
+const checkBirthdaysAndSendEmails = async () => {
+  try {
+    const sql = `
+      SELECT first_name, last_name, email, birthday 
+      FROM customer 
+      WHERE DAY(birthday) = DAY(CURDATE()) 
+      AND MONTH(birthday) = MONTH(CURDATE());
+    `;
+
+    const customers = await query<RowDataPacket[]>(sql);
+
+    if (customers.length > 0) {
+      let message = "Clients ayant leur anniversaire aujourd'hui :\n\n";
+      customers.forEach((customer) => {
+        message += `- ${customer.first_name} ${customer.last_name} (${customer.email})\n`;
+      });
+
+      // Envoyer l'email à l'admin
+      await sendMarketingEmail({
+        to: `${environment.EMAIL_USERNAME_MARKETING}`,
+        subject: "Anniversaires des clients",
+        text: message,
+      });
+
+      console.log(
+        "Email envoyé à l'admin avec les clients ayant leur anniversaire."
+      );
+    } else {
+      console.log("Aucun client n'a d'anniversaire aujourd'hui.");
+    }
+  } catch (error) {
+    console.error("Erreur lors de la vérification des anniversaires :", error);
+  }
+};
+// Planifier la tâche tous les jours à 00h00
+cron.schedule("0 0 * * *", checkBirthdaysAndSendEmails);
+
+// const test = () => {
+//   console.log('cron fonctionne bien');
+// }
+// cron.schedule('* * * * * ', test);
