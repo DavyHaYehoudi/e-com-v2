@@ -1,4 +1,4 @@
-import { sendOTPEmail } from "../service/emailService.js";
+import { sendOTPEmail } from "../../email/service/emailService.js";
 
 export const sendVerificationEmail = async (email: string, OTP: string) => {
   const mailOptions = {

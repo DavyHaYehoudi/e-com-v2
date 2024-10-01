@@ -4,7 +4,7 @@ import { environment } from "../../environment.js";
 import {
   sendMarketingEmail,
   sendNewClientEmail,
-} from "../service/emailService.js";
+} from "../../email/service/emailService.js";
 import cron from "node-cron";
 
 export const sendCashbackCorrectionToCustomer = async (

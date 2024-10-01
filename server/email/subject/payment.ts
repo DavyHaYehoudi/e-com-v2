@@ -1,6 +1,6 @@
 import { GiftCardSendEmail } from "../../repositories/gift-card/dao/gift-card.dao.js";
 import { ProductSendEmail } from "../../repositories/product/dao/product.dao.js";
-import { sendPaymentEmail } from "../service/emailService.js";
+import { sendPaymentEmail } from "../../email/service/emailService.js";
 
 export const sendPaymentConfirmationEmail = async (
   customer: { email: string; firstName: string },
