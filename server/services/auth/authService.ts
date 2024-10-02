@@ -6,6 +6,7 @@ import { ForbiddenError } from "../../exceptions/CustomErrors.js";
 import { sendVerificationEmail } from "../../email/subject/session.js";
 import { sendNewClientEmailToAdmin } from "../../email/subject/marketing.js";
 
+
 // Enregistrer le code d'authentification
 export const storeAuthCodeService = async (email: string, authCode: string) => {
   const expirationTime = addMinutes(new Date(), 5); // Expiration dans 5 minutes

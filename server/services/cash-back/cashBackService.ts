@@ -1,9 +1,6 @@
 import { UpdateCashBackDto } from "../../controllers/cash-back/entities/dto/cashBack.dto.js";
-import {
-  sendBirthdayToCustomer,
-  sendCashbackCorrectionToCustomer,
-  sendCashbackEarnedToCustomer,
-} from "../../email/subject/marketing.js";
+import { sendBirthdayToCustomer, sendCashbackCorrectionToCustomer, sendCashbackEarnedToCustomer } from "../../email/subject/marketing.js";
+
 import {
   createCashBackCustomerFromAdminRepository,
   createCashbackOrderRepository,
