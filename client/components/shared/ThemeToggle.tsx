@@ -1,6 +1,6 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import { Switch } from "@/components/ui/switch"; // Import du Switch de ShadCN UI
+import { Switch } from "@/components/ui/switch";
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();

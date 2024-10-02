@@ -5,11 +5,9 @@ import {
 } from "@/components/ui/popover";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { collectionType } from "@/app/types/CollectionTypes";
 
-interface collectionType {
-  name: string;
-  categories: string[];
-}
+
 export function ProductMenu() {
   const [collections, setCollections] = useState<collectionType[]>([]);
 
@@ -48,7 +46,7 @@ export function ProductMenu() {
         <span>Produits</span>
       </PopoverTrigger>
 
-      <PopoverContent className="bg-purple-300 text-gray-500 p-4">
+      <PopoverContent className=" text-gray-500 p-4">
         {collections.map((collection) => (
           <div
             key={collection.name}

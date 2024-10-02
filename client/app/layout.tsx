@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./variables.css";
 import { ThemeProvider } from "next-themes";
 import GlobalLayout from "@/components/layout/GlobalLayout";
 

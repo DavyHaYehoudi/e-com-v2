@@ -1,12 +1,7 @@
 import { useState } from "react";
-import {
-  HeartIcon,
-  LogInIcon,
-  LogOutIcon,
-  ShoppingBagIcon,
-} from "lucide-react";
-import Image from "next/image";
+import { HeartIcon, LogInIcon, LogOutIcon, ShoppingBagIcon } from "lucide-react";
 import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export function NavIcons() {
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Simule la connexion
@@ -18,32 +13,23 @@ export function NavIcons() {
   };
 
   return (
-    <div className="flex items-center space-x-8 mr-6 text-gray-500 ">
+    <div className="flex items-center space-x-8 mr-6 text-gray-500">
       {/* Connexion / Déconnexion */}
       {isAuthenticated ? (
         <>
           {/* Avatar (si connecté) */}
           <Link href="/dashboard">
-            <Image
-              src="/images/avatar.png"
-              alt="Avatar"
-              width={40}
-              height={40}
-              className="rounded-full cursor-pointer"
-            />
+            <Avatar className="cursor-pointer">
+              <AvatarImage src="/images/avatar.png" alt="Avatar" />
+              <AvatarFallback>AB</AvatarFallback>
+            </Avatar>
           </Link>
           {/* Bouton Déconnexion */}
-          <LogOutIcon
-            className="w-6 h-6 cursor-pointer"
-            onClick={handleLoginLogout}
-          />
+          <LogOutIcon className="w-6 h-6 cursor-pointer" onClick={handleLoginLogout} />
         </>
       ) : (
         /* Bouton Connexion */
-        <LogInIcon
-          className="w-6 h-6 cursor-pointer"
-          onClick={handleLoginLogout}
-        />
+        <LogInIcon className="w-6 h-6 cursor-pointer" onClick={handleLoginLogout} />
       )}
 
       {/* Icône Wishlist avec badge */}
@@ -60,7 +46,7 @@ export function NavIcons() {
       <div className="relative">
         <ShoppingBagIcon className="w-6 h-6 cursor-pointer" />
         {cartCount > 0 && (
-          <span className="absolute bottom-4 left-4  inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+          <span className="absolute bottom-4 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
             {cartCount}
           </span>
         )}

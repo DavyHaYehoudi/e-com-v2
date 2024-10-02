@@ -1,12 +1,24 @@
-"use client";
+import React from "react";
+import { PartnerCards } from "@/components/pages/home/PartnerCards";
+import Banner from "@/components/pages/home/Banner";
+import Legals from "@/components/pages/home/Legals";
+import HeroTitles from "@/components/pages/home/HeroTitles";
+import HeroBanner from "@/components/pages/home/HeroBanner";
+import Products from "@/components/pages/home/Products";
 
-export default function Home() {
+const Home = () => {
   return (
-    <div>
-      <h1 className="font-raleway">Titre avec la police Raleway</h1>
-      <p className="font-nunito">
-        Ce paragraphe utilise la police Nunito Sans.
-      </p>
-    </div>
+    <main>
+      <HeroBanner />
+      <HeroTitles />
+      <hr />
+      <Banner pathImage="/images/home-bck-3.jpeg" />
+      <Products />
+      <Legals />
+      <Banner pathImage="/images/home-bck-4.jpeg" />
+      <PartnerCards />
+    </main>
   );
-}
+};
+
+export default Home;
