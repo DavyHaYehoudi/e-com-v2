@@ -6,7 +6,7 @@ import {
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { collectionType } from "@/app/types/CollectionTypes";
-
+import { ChevronDownIcon } from "lucide-react";
 
 export function ProductMenu() {
   const [collections, setCollections] = useState<collectionType[]>([]);
@@ -42,25 +42,18 @@ export function ProductMenu() {
 
   return (
     <Popover>
-      <PopoverTrigger style={{ letterSpacing: "0.3em" }}>
-        <span>Produits</span>
+      <PopoverTrigger className="tracking-widest flex items-center gap-2">
+        <span>Produits </span>
+        <ChevronDownIcon className="w-4 h-4" />
       </PopoverTrigger>
 
       <PopoverContent className=" text-gray-500 p-4">
         {collections.map((collection) => (
-          <div
-            key={collection.name}
-            className="mb-4"
-            style={{ letterSpacing: "0.1em" }}
-          >
+          <div key={collection.name} className="mb-4 tracking-widest">
             <h3 className="font-bold">{collection.name}</h3>
             <ul className="pl-4">
               {collection.categories.map((category) => (
-                <li
-                  key={category}
-                  className="hover:underline"
-                  style={{ letterSpacing: "0.05em" }}
-                >
+                <li key={category} className="hover:underline tracking-wide">
                   <Link href={`/products/${category.toLowerCase()}`}>
                     {category}
                   </Link>

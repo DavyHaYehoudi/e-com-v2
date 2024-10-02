@@ -1,3 +1,4 @@
+import { usePathname } from "next/navigation";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -9,12 +10,14 @@ import {
   GlobeIcon,
   MailIcon,
   TagIcon,
-} from "lucide-react"; // Changement de l'icône pour Avantages
+} from "lucide-react";
 import { ProductMenu } from "./ProductMenu";
 
 export function Navbar() {
+  const pathname = usePathname();
+
   return (
-    <nav className=" text-gray-500 p-4">
+    <nav className="text-gray-500 p-4">
       <NavigationMenu className="flex justify-center space-x-8">
         {/* Onglet Produits avec sous-menu */}
         <NavigationMenuItem>
@@ -24,27 +27,31 @@ export function Navbar() {
           </div>
         </NavigationMenuItem>
 
-        {/* Onglet Avantages avec nouvelle icône */}
+        {/* Onglet Avantages */}
         <NavigationMenuItem>
           <NavigationMenuLink
             href="/advantages"
-            className="flex items-center space-x-2"
-            style={{ letterSpacing: "0.3em" }}
+            className={`flex items-center space-x-2 relative tracking-widest ${
+              pathname === "/advantages" ? "active" : ""
+            }`}
           >
-            <EuroIcon className="w-5 h-5" /> {/* Icône de l'euro */}
-            <span>Avantages</span>
+            <EuroIcon className="tab-nav w-5 h-5" />
+            <span className="tab-nav">Avantages</span>
+            <span className="absolute bottom-0 left-1/2 h-1 w-0 bg-golden transition-all duration-300 transform -translate-x-1/2 hover:w-full"></span>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
-        {/* Onglet Moi */}
+        {/* Onglet Créatrice */}
         <NavigationMenuItem>
           <NavigationMenuLink
             href="/me"
-            className="flex items-center space-x-2"
-            style={{ letterSpacing: "0.3em" }}
+            className={`flex items-center space-x-2 relative tracking-widest ${
+              pathname === "/me" ? "active" : ""
+            }`}
           >
-            <BookOpenIcon className="w-5 h-5" />
-            <span>Créatrice</span>
+            <BookOpenIcon className="tab-nav w-5 h-5" />
+            <span className="tab-nav">Créatrice</span>
+            <span className="absolute bottom-0 left-1/2 h-1 w-0 bg-golden transition-all duration-300 transform -translate-x-1/2 hover:w-full"></span>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
@@ -52,11 +59,13 @@ export function Navbar() {
         <NavigationMenuItem>
           <NavigationMenuLink
             href="/tradition"
-            className="flex items-center space-x-2"
-            style={{ letterSpacing: "0.3em" }}
+            className={`flex items-center space-x-2 relative tracking-widest ${
+              pathname === "/tradition" ? "active" : ""
+            }`}
           >
-            <GlobeIcon className="w-5 h-5" />
-            <span>Tradition</span>
+            <GlobeIcon className="tab-nav w-5 h-5" />
+            <span className="tab-nav">Tradition</span>
+            <span className="absolute bottom-0 left-1/2 h-1 w-0 bg-golden transition-all duration-300 transform -translate-x-1/2 hover:w-full"></span>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
@@ -64,14 +73,26 @@ export function Navbar() {
         <NavigationMenuItem>
           <NavigationMenuLink
             href="/contact"
-            className="flex items-center space-x-2"
-            style={{ letterSpacing: "0.3em" }}
+            className={`flex items-center space-x-2 relative ${
+              pathname === "/contact" ? "active" : ""
+            }`}
           >
-            <MailIcon className="w-5 h-5" />
-            <span>Contact</span>
+            <MailIcon className="tab-nav w-5 h-5" />
+            <span className="tab-nav tracking-widest">Contact</span>
+            <span className="absolute bottom-0 left-1/2 h-1 w-0 bg-golden transition-all duration-300 transform -translate-x-1/2 hover:w-full"></span>
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenu>
+
+      {/* Styles pour l'onglet actif */}
+      <style jsx>{`
+        .active {
+          color: var(--text-golden);
+        }
+        .bg-golden {
+          background-color: var(--text-golden);
+        }
+      `}</style>
     </nav>
   );
 }
