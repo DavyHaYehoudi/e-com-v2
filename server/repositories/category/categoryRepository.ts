@@ -23,13 +23,12 @@ export const createCategoryRepository = async (
     throw new NotFoundError(`Collection with ID ${collectionId} not found`);
   }
   const sql2 = `
-        INSERT INTO category (label, image_url, parent_collection_id, is_archived)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO category (label, parent_collection_id, is_archived)
+        VALUES (?, ?, ?)
       `;
   try {
     const result = await query<ResultSetHeader>(sql2, [
       categoryData.label,
-      categoryData.image_url,
       categoryData.parent_collection_id,
       categoryData.is_archived,
     ]);
