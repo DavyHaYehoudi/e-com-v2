@@ -1,10 +1,9 @@
 import ThemeToggle from "@/components/shared/ThemeToggle";
 import Image from "next/image";
-
 import Link from "next/link";
-import { NavIcons } from "./NavIcons";
+import NavIcons from "./NavIcons";
 
-export function TopNavbar() {
+const TopNavbar = () => {
   return (
     <div className="flex justify-between items-center p-4 bg-whitesmoke my-8">
       {/* Groupe 1 : Bouton Switch (Dark Mode) */}
@@ -31,4 +30,5 @@ export function TopNavbar() {
       </div>
     </div>
   );
-}
+};
+export default TopNavbar;
