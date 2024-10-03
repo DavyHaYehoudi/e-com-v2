@@ -44,9 +44,9 @@ export function Navbar() {
         {/* Onglet Créatrice */}
         <NavigationMenuItem>
           <NavigationMenuLink
-            href="/me"
+            href="/creatrice"
             className={`flex items-center space-x-2 relative ${
-              pathname === "/me" ? "active" : ""
+              pathname === "/creatrice" ? "active" : ""
             }`}
           >
             <BookOpenIcon className="tab-nav w-5 h-5" />

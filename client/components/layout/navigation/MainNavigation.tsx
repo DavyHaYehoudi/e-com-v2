@@ -6,6 +6,7 @@ export function MainNavigation() {
       <nav className="container mx-auto flex justify-center p-4">
         <Navbar />
       </nav>
+      <hr></hr>
     </header>
   );
 }
