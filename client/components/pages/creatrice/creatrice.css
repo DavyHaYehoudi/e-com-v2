@@ -1,0 +1,40 @@
+#about {
+    background: var(--background-whitesmoke);
+  }
+  
+  #about-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 50px;
+  }
+  
+  #about-container .animated-container {
+    animation: slideFromTop 2s ease 0s 1 normal forwards;
+  }
+  
+  #about-container section,
+  .bottom-section {
+    margin: 50px;
+  }
+  
+  #about-container section:first-child {
+    margin-top: 0;
+  }
+  
+  .noralya-section img {
+    display: block;
+    margin: auto;
+  }
+  /* ******************** MEDIAS QUERIES ******************** */
+  @media (max-width: 576px) {
+    #about-container{
+      padding:10px;
+    }
+    .noralya-section img {
+      width: 100%;
+    }
+    #about-container section,
+  .bottom-section {
+    margin: 10px 0;
+  }
+  }
