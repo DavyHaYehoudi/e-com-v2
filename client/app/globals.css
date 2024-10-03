@@ -3,34 +3,42 @@
 @tailwind utilities;
 @import "./variables.css";
 @import "@/components/layout/navigation/navigation.css";
+@import "@/components/pages/tradition/tradition.css";
 
 
 body {
   @apply font-nunito;
+  line-height: 1.65
 }
+
 h1 {
-  @apply text-4xl font-bold tracking-wider uppercase font-raleway; /* Élargir l'espacement des lettres */
+  @apply text-4xl tracking-wider uppercase;
 }
 
 h2 {
-  @apply text-3xl font-semibold tracking-wider uppercase font-raleway; /* Espacement normal */
+  @apply text-3xl tracking-wider uppercase;
 }
 
 h3 {
-  @apply text-2xl font-medium tracking-wider uppercase font-raleway; /* Espacement normal */
+  @apply text-2xl tracking-wider uppercase;
 }
 
 h4 {
-  @apply text-xl font-normal tracking-wider uppercase font-raleway; /* Espacement légèrement réduit */
+  @apply text-xl tracking-wider uppercase;
 }
 
 h5 {
-  @apply text-lg font-normal tracking-wider uppercase font-raleway; /* Espacement légèrement réduit */
+  @apply text-lg tracking-wider uppercase;
 }
 
 h6 {
-  @apply text-base font-normal tracking-wider uppercase font-raleway; /* Espacement légèrement réduit */
+  @apply text-base tracking-wider uppercase;
 }
+
+img {
+  @apply object-cover;
+}
+
 
 @layer utilities {
   .text-balance {
@@ -66,6 +74,7 @@ h6 {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -98,81 +107,87 @@ h6 {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
 
 
-section{
+section {
   margin-top: 60px;
   margin-bottom: 60px;
 }
-footer{
+
+footer {
   background: linear-gradient(to top, #A897A9 0%, #B9A8B8 50%, #C7B7C6 80%, #D5D5D5 100%);
 }
- 
+
 @-webkit-keyframes kenburns-bottom-left {
   0% {
-      -webkit-transform: scale(1) translate(0, 0);
-      transform: scale(1) translate(0, 0);
-      -webkit-transform-origin: 16% 84%;
-      transform-origin: 16% 84%;
+    -webkit-transform: scale(1) translate(0, 0);
+    transform: scale(1) translate(0, 0);
+    -webkit-transform-origin: 16% 84%;
+    transform-origin: 16% 84%;
   }
 
   100% {
-      -webkit-transform: scale(1.25) translate(-20px, 15px);
-      transform: scale(1.25) translate(-20px, 15px);
-      -webkit-transform-origin: left bottom;
-      transform-origin: left bottom;
+    -webkit-transform: scale(1.25) translate(-20px, 15px);
+    transform: scale(1.25) translate(-20px, 15px);
+    -webkit-transform-origin: left bottom;
+    transform-origin: left bottom;
   }
 }
+
 @keyframes kenburns-bottom-left {
   0% {
-      -webkit-transform: scale(1) translate(0, 0);
-      transform: scale(1) translate(0, 0);
-      -webkit-transform-origin: 16% 84%;
-      transform-origin: 16% 84%;
+    -webkit-transform: scale(1) translate(0, 0);
+    transform: scale(1) translate(0, 0);
+    -webkit-transform-origin: 16% 84%;
+    transform-origin: 16% 84%;
   }
 
   100% {
-      -webkit-transform: scale(1.25) translate(-20px, 15px);
-      transform: scale(1.25) translate(-20px, 15px);
-      -webkit-transform-origin: left bottom;
-      transform-origin: left bottom;
+    -webkit-transform: scale(1.25) translate(-20px, 15px);
+    transform: scale(1.25) translate(-20px, 15px);
+    -webkit-transform-origin: left bottom;
+    transform-origin: left bottom;
   }
 }
-.animate-kenburns-left{
+
+.animate-kenburns-left {
   -webkit-animation: kenburns-bottom-left 60s ease-out infinite alternate-reverse both;
   animation: kenburns-bottom-left 60s ease-out infinite alternate-reverse both;
 }
+
 @keyframes pulse {
   0% {
-      animation-timing-function: ease-out;
-      transform: scale(1);
-      transform-origin: center center;
+    animation-timing-function: ease-out;
+    transform: scale(1);
+    transform-origin: center center;
   }
 
   10% {
-      animation-timing-function: ease-in;
-      transform: scale(0.91);
+    animation-timing-function: ease-in;
+    transform: scale(0.91);
   }
 
   17% {
-      animation-timing-function: ease-out;
-      transform: scale(0.98);
+    animation-timing-function: ease-out;
+    transform: scale(0.98);
   }
 
   33% {
-      animation-timing-function: ease-in;
-      transform: scale(0.87);
+    animation-timing-function: ease-in;
+    transform: scale(0.87);
   }
 
   45% {
-      animation-timing-function: ease-out;
-      transform: scale(1);
+    animation-timing-function: ease-out;
+    transform: scale(1);
   }
 }
+
 .animate-pulse {
   animation: pulse 2s ease 0s 1 normal forwards;
 }
