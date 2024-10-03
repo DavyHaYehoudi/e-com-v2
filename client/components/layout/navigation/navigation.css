@@ -2,6 +2,9 @@
     position: relative;
     color: gray;
     overflow: hidden;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    font-family: 'Nunito', sans-serif; 
 }
 
 .tab-nav::before {
