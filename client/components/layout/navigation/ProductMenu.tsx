@@ -40,7 +40,7 @@ export function ProductMenu() {
       },
       {
         name: "Accessoires",
-        categories: ["Chaussures","Broches","Peignes"],
+        categories: ["Chaussures", "Broches", "Peignes"],
       },
     ]);
   }, []);
@@ -49,17 +49,22 @@ export function ProductMenu() {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="tracking-widest text-base uppercase flex items-center m-0 ">
-             Produits 
+          <NavigationMenuTrigger className="tracking-widest text-sm uppercase flex items-center m-0 ">
+            Produits
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] lg:w-[600px]">
               {collections.map((collection) => (
                 <li key={collection.name} className="mb-4">
-                  <span className="font-bold tracking-widest">{collection.name}</span>
+                  <span className="font-bold tracking-widest">
+                    {collection.name}
+                  </span>
                   <ul className="pl-4">
                     {collection.categories.map((category) => (
-                      <li key={category} className="hover:underline tracking-wide">
+                      <li
+                        key={category}
+                        className="hover:underline tracking-wide"
+                      >
                         <Link href={`/products/${category.toLowerCase()}`}>
                           {category}
                         </Link>

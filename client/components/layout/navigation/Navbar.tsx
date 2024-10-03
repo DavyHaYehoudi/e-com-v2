@@ -36,7 +36,7 @@ export function Navbar() {
             }`}
           >
             <EuroIcon className="tab-nav w-5 h-5" />
-            <span className="tab-nav tracking-widest text-base">Avantages</span>
+            <span className="tab-nav tracking-widest text-sm">Avantages</span>
             <span className="absolute bottom-0 left-1/2 h-1 w-0 bg-golden transition-all duration-300 transform -translate-x-1/2 hover:w-full"></span>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -50,7 +50,7 @@ export function Navbar() {
             }`}
           >
             <BookOpenIcon className="tab-nav w-5 h-5" />
-            <span className="tab-nav tracking-widest text-base">Creatrice</span>
+            <span className="tab-nav tracking-widest text-sm">Creatrice</span>
             <span className="absolute bottom-0 left-1/2 h-1 w-0 bg-golden transition-all duration-300 transform -translate-x-1/2 hover:w-full"></span>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -64,7 +64,7 @@ export function Navbar() {
             }`}
           >
             <GlobeIcon className="tab-nav w-5 h-5" />
-            <span className="tab-nav tracking-widest text-base">Tradition</span>
+            <span className="tab-nav tracking-widest text-sm">Tradition</span>
             <span className="absolute bottom-0 left-1/2 h-1 w-0 bg-golden transition-all duration-300 transform -translate-x-1/2 hover:w-full"></span>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -78,7 +78,7 @@ export function Navbar() {
             }`}
           >
             <MailIcon className="tab-nav w-5 h-5" />
-            <span className="tab-nav tracking-widest text-base">Contact</span>
+            <span className="tab-nav tracking-widest text-sm">Contact</span>
             <span className="absolute bottom-0 left-1/2 h-1 w-0 bg-golden transition-all duration-300 transform -translate-x-1/2 hover:w-full"></span>
           </NavigationMenuLink>
         </NavigationMenuItem>
