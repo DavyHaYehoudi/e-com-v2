@@ -1,18 +1,19 @@
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 import { collectionType } from "@/app/types/CollectionTypes";
-import { ChevronDownIcon } from "lucide-react";
 
 export function ProductMenu() {
   const [collections, setCollections] = useState<collectionType[]>([]);
 
   useEffect(() => {
-    // Ici, on simule un fetch des collections et catégories depuis la DB
+    // Simule un fetch des collections et catégories depuis la DB
     setCollections([
       {
         name: "Pour un jour d'exception",
@@ -37,37 +38,40 @@ export function ProductMenu() {
         name: "Demoiselles d'honneur",
         categories: ["Chaussures"],
       },
+      {
+        name: "Accessoires",
+        categories: ["Chaussures","Broches","Peignes"],
+      },
     ]);
   }, []);
 
   return (
-    <Popover>
-      <PopoverTrigger className="tracking-widest flex items-center">
-        <span>Produits </span><ChevronDownIcon className="w-4 h-4" />
-      </PopoverTrigger>
-
-      <PopoverContent className=" text-gray-500 p-4">
-        {collections.map((collection) => (
-          <div
-            key={collection.name}
-            className="mb-4 tracking-widest"
-          >
-            <h3 className="font-bold">{collection.name}</h3>
-            <ul className="pl-4">
-              {collection.categories.map((category) => (
-                <li
-                  key={category}
-                  className="hover:underline tracking-wide"
-                >
-                  <Link href={`/products/${category.toLowerCase()}`}>
-                    {category}
-                  </Link>
+    <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger className="tracking-widest text-base uppercase flex items-center m-0 ">
+             Produits 
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] lg:w-[600px]">
+              {collections.map((collection) => (
+                <li key={collection.name} className="mb-4">
+                  <h3 className="font-bold tracking-widest">{collection.name}</h3>
+                  <ul className="pl-4">
+                    {collection.categories.map((category) => (
+                      <li key={category} className="hover:underline tracking-wide">
+                        <Link href={`/products/${category.toLowerCase()}`}>
+                          {category}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 </li>
               ))}
             </ul>
-          </div>
-        ))}
-      </PopoverContent>
-    </Popover>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
   );
 }
