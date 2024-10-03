@@ -1,15 +1,22 @@
-import { useState } from "react";
-import { HeartIcon, LogInIcon, LogOutIcon, ShoppingBagIcon } from "lucide-react";
+import { HeartIcon, ShoppingBagIcon } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import LoginModal from "@/components/shared/login/LoginModal";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
-export function NavIcons() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Simule la connexion
+const NavIcons = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(true); // Simule la connexion
   const [wishlistCount, setWishlistCount] = useState(3); // Simule le nombre de produits dans la wishlist
   const [cartCount, setCartCount] = useState(2); // Simule le nombre de produits dans le panier
 
   const handleLoginLogout = () => {
-    setIsAuthenticated(!isAuthenticated); // Simule la connexion/déconnexion
+    if (isAuthenticated) {
+      setIsAuthenticated(false); // Déconnexion
+    }
+  };
+  const handleAuthentication = (boolean: boolean) => {
+    setIsAuthenticated(boolean); // Connexion
   };
 
   return (
@@ -17,19 +24,22 @@ export function NavIcons() {
       {/* Connexion / Déconnexion */}
       {isAuthenticated ? (
         <>
-          {/* Avatar (si connecté) */}
           <Link href="/dashboard">
             <Avatar className="cursor-pointer">
               <AvatarImage src="/images/avatar.png" alt="Avatar" />
               <AvatarFallback>AB</AvatarFallback>
             </Avatar>
           </Link>
-          {/* Bouton Déconnexion */}
-          <LogOutIcon className="w-6 h-6 cursor-pointer" onClick={handleLoginLogout} />
+          <Button
+            className="bg-[var(--whiteSmoke)] text-gray-400
+             hover:text-gray-500 hover:bg-gray-200"
+            onClick={handleLoginLogout}
+          >
+            Déconnexion
+          </Button>
         </>
       ) : (
-        /* Bouton Connexion */
-        <LogInIcon className="w-6 h-6 cursor-pointer" onClick={handleLoginLogout} />
+        <LoginModal authenticate={handleAuthentication} />
       )}
 
       {/* Icône Wishlist avec badge */}
@@ -53,4 +63,5 @@ export function NavIcons() {
       </div>
     </div>
   );
-}
+};
+export default NavIcons;
