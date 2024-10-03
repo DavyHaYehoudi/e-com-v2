@@ -1,4 +1,4 @@
-import { usePathname } from "next/navigation";
+import { usePathname } from "next/navigation"; // Importe usePathname
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -14,7 +14,7 @@ import {
 import { ProductMenu } from "./ProductMenu";
 
 export function Navbar() {
-  const pathname = usePathname();
+  const pathname = usePathname(); // Récupère le chemin actif
 
   return (
     <nav className="text-gray-500 p-4">
@@ -22,7 +22,7 @@ export function Navbar() {
         {/* Onglet Produits avec sous-menu */}
         <NavigationMenuItem>
           <div className="flex items-center space-x-2">
-            <TagIcon className="w-5 h-5" />
+            <TagIcon className="tab-nav w-5 h-5" />
             <ProductMenu />
           </div>
         </NavigationMenuItem>
@@ -31,7 +31,7 @@ export function Navbar() {
         <NavigationMenuItem>
           <NavigationMenuLink
             href="/advantages"
-            className={`flex items-center space-x-2 relative tracking-widest ${
+            className={`flex items-center space-x-2 relative ${
               pathname === "/advantages" ? "active" : ""
             }`}
           >
@@ -45,7 +45,7 @@ export function Navbar() {
         <NavigationMenuItem>
           <NavigationMenuLink
             href="/me"
-            className={`flex items-center space-x-2 relative tracking-widest ${
+            className={`flex items-center space-x-2 relative ${
               pathname === "/me" ? "active" : ""
             }`}
           >
@@ -59,7 +59,7 @@ export function Navbar() {
         <NavigationMenuItem>
           <NavigationMenuLink
             href="/tradition"
-            className={`flex items-center space-x-2 relative tracking-widest ${
+            className={`flex items-center space-x-2 relative ${
               pathname === "/tradition" ? "active" : ""
             }`}
           >
@@ -78,21 +78,11 @@ export function Navbar() {
             }`}
           >
             <MailIcon className="tab-nav w-5 h-5" />
-            <span className="tab-nav tracking-widest">Contact</span>
+            <span className="tab-nav">Contact</span>
             <span className="absolute bottom-0 left-1/2 h-1 w-0 bg-golden transition-all duration-300 transform -translate-x-1/2 hover:w-full"></span>
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenu>
-
-      {/* Styles pour l'onglet actif */}
-      <style jsx>{`
-        .active {
-          color: var(--text-golden);
-        }
-        .bg-golden {
-          background-color: var(--text-golden);
-        }
-      `}</style>
     </nav>
   );
 }
