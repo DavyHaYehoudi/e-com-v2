@@ -6,9 +6,9 @@ const productsStar = products;
 const Products = () => {
   return (
     <section className="mb-10">
-      <h3 className="text-2xl font-semibold text-center mb-6">
-        Découvrez nos produits
-      </h3>
+      <h2 className="text-center mb-6">
+        Decouvrez nos produits
+      </h2>
       <ProductsCarousel products={productsStar} />
     </section>
   );

@@ -56,7 +56,7 @@ export function ProductMenu() {
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] lg:w-[600px]">
               {collections.map((collection) => (
                 <li key={collection.name} className="mb-4">
-                  <h3 className="font-bold tracking-widest">{collection.name}</h3>
+                  <span className="font-bold tracking-widest">{collection.name}</span>
                   <ul className="pl-4">
                     {collection.categories.map((category) => (
                       <li key={category} className="hover:underline tracking-wide">
