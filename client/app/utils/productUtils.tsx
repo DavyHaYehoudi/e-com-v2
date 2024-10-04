@@ -1,4 +1,5 @@
 import { isAfter } from "date-fns";
+import { Product } from "../types/ProductTypes";
 
 /**
  * Détermine si un produit est en promotion.
@@ -16,9 +17,15 @@ export const isProductOnSale = (discountPercentage: number | null): boolean => {
  */
 export const isProductNew = (newUntil: string | null): boolean => {
   if (!newUntil) return false;
-  
+
   const today = new Date();
   const newUntilDate = new Date(newUntil);
 
   return isAfter(newUntilDate, today);
+};
+
+export const priceProduct = (product: Product): number => {
+  return product.discount_percentage
+    ? product.price - (product.price * product.discount_percentage) / 100
+    : product.price;
 };

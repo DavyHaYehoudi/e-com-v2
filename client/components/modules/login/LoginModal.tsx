@@ -22,7 +22,7 @@ import { Input } from "@/components/ui/input"; // Assurez-vous que ce chemin est
 import {
   loginSchema,
   LoginFormValues,
-} from "@/components/shared/login/loginSchema"; // Fichier séparé pour Zod
+} from "@/components/modules/login/loginSchema"; // Fichier séparé pour Zod
 
 interface LoginModalProps {
   authenticate: (boolean: boolean) => void;

@@ -3,7 +3,7 @@ export interface ProductCardProps {
 }
 
 export interface Product {
-  _id: number;
+  id: number;
   name: string;
   SKU: string | null;
   description: string;

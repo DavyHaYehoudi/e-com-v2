@@ -12,7 +12,7 @@ const FavoriteButton: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <button
       className="absolute right-2 top-1/3 transform -translate-y-1/2"
-      onClick={() => onToggleFavorite(product._id)}
+      onClick={() => onToggleFavorite(product.id)}
     >
       {isLiked ? (
         <Heart

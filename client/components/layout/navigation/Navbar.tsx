@@ -4,12 +4,7 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
-import {
-  BookOpenIcon,
-  GlobeIcon,
-  MailIcon,
-  TagIcon,
-} from "lucide-react";
+import { BookOpenIcon, GlobeIcon, MailIcon, TagIcon } from "lucide-react";
 import { ProductMenu } from "./ProductMenu";
 
 export function Navbar() {
@@ -20,7 +15,7 @@ export function Navbar() {
       <NavigationMenu className="flex justify-center space-x-8">
         {/* Onglet Produits avec sous-menu */}
         <NavigationMenuItem>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center ">
             <TagIcon className="tab-nav w-5 h-5" />
             <ProductMenu />
           </div>
