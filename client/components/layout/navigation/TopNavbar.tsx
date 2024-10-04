@@ -7,12 +7,12 @@ const TopNavbar = () => {
   return (
     <div className="flex justify-between items-center p-4 bg-whitesmoke my-8">
       {/* Groupe 1 : Bouton Switch (Dark Mode) */}
-      <div>
+      <div className="flex-1">
         <ThemeToggle />
       </div>
 
       {/* Groupe 2 : Logo centré */}
-      <div>
+      <div className="flex-none">
         <Link href="/">
           <Image
             src="/images/logo.png"
@@ -25,7 +25,7 @@ const TopNavbar = () => {
       </div>
 
       {/* Groupe 3 : NavIcons (groupe d'éléments à droite) */}
-      <div>
+      <div className="flex-1 flex justify-end ml-auto">
         <NavIcons />
       </div>
     </div>
