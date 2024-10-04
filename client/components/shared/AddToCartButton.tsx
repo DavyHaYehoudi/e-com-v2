@@ -18,7 +18,7 @@ const AddToCartButton: React.FC<ProductCardProps> = ({ product }) => {
              hover:text-gray-500 hover:bg-gray-200 ${
                isAddedToCart && "animate-pulse"
              }`}
-          onClick={() => onToggleCart(product._id)}
+          onClick={() => onToggleCart(product.id)}
         >
           Retirer du panier
         </Button>
@@ -27,7 +27,7 @@ const AddToCartButton: React.FC<ProductCardProps> = ({ product }) => {
           className={`mx-auto block w-1/2 uppercase bg-[var(--golden-2)] hover:bg-[var(--golden-2-hover)] ${
             isAddedToCart ? "animate-pulse" : ""
           }`}
-          onClick={() => onToggleCart(product._id)}
+          onClick={() => onToggleCart(product.id)}
         >
           Ajouter au panier
         </Button>

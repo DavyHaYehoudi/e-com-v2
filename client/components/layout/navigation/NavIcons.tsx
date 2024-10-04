@@ -1,9 +1,10 @@
 import { HeartIcon, ShoppingBagIcon } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import LoginModal from "@/components/shared/login/LoginModal";
+import LoginModal from "@/components/modules/login/LoginModal";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import WishlistModal from "@/components/modules/wishlist/WishlistModal";
 
 const NavIcons = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(true); // Simule la connexion
@@ -44,9 +45,9 @@ const NavIcons = () => {
 
       {/* Icône Wishlist avec badge */}
       <div className="relative">
-        <HeartIcon className="w-6 h-6 cursor-pointer" />
+        <WishlistModal />
         {wishlistCount > 0 && (
-          <span className="absolute bottom-4 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+          <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
             {wishlistCount}
           </span>
         )}
