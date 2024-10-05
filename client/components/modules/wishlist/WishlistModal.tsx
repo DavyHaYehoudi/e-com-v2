@@ -25,5 +25,5 @@ const WishlistModal = () => {
     </Dialog>
   );
 };
-
+ 
 export default WishlistModal;

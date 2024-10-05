@@ -15,41 +15,25 @@ const NumberInput = ({
     onValueChange(value);
   }, [value]);
 
-  const increment = () => {
-    setValue((prev) => (prev < maxQuantity ? prev + 1 : prev)); 
-  };
-
-  const decrement = () => {
-    setValue((prev) => (prev > 1 ? prev - 1 : 1));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let val = parseInt(e.target.value, 10);
+    if (isNaN(val)) val = 1; // Valeur par défaut
+    val = Math.max(1, Math.min(val, maxQuantity)); // Garde la valeur dans la plage 1-maxQuantity
+    setValue(val);
   };
 
   return (
     <div className="flex flex-col items-center space-y-1">
       <span className="text-sm text-gray-500">Limité à : {maxQuantity}</span>
-      <div className="flex items-center space-x-2">
-        <button
-          onClick={decrement}
-          className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
-        >
-          -
-        </button>
+      <div className="flex items-center">
         <Input
           type="number"
           value={value}
-          onChange={(e) => {
-            const val = parseInt(e.target.value);
-            if (val >= 1 && val <= maxQuantity) {
-              setValue(val);
-            }
-          }}
+          min={1}
+          max={maxQuantity}
+          onChange={handleChange}
           className="text-center w-16"
         />
-        <button
-          onClick={increment}
-          className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
-        >
-          +
-        </button>
       </div>
     </div>
   );

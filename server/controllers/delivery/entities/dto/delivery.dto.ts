@@ -7,6 +7,7 @@ export const createDeliverySchema = z.object({
     .min(1, { message: "Le nom de la méthode de livraison est requis." }),
   icon_url: z.string().optional(),
   is_active: z.boolean().optional(),
+  is_default: z.boolean().optional(),
   rates: z.array(
     z.object({
       min_weight: z.number().min(0, {
@@ -30,6 +31,7 @@ export const updateDeliverySchema = z.object({
     .optional(),
   icon_url: z.string().optional(),
   is_active: z.boolean().optional(),
+  is_default: z.boolean().optional(),
   rates: z
     .array(
       z.object({

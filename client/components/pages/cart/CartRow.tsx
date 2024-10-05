@@ -11,6 +11,8 @@ import QuantityCalculator from "@/components/shared/QuantityCalculator";
 import NewBadge from "@/components/shared/badge/NewBadge";
 import CashbackBadge from "@/components/shared/badge/CashbackBadge";
 import CartRowPrice from "./CartRowPrice";
+import VariantBadge from "@/components/shared/badge/VariantBadge";
+import WeightBadge from "@/components/shared/badge/WeightBadge";
 
 const CartRow = () => {
   const [quantity, setQuantity] = useState(1);
@@ -31,21 +33,22 @@ const CartRow = () => {
     productsMock.map((product) => (
       <TableRow key={product.id} className="hover:bg-gray-100">
         {/* Première cellule : image et nom */}
-        <TableCell className="font-medium">
+        <TableCell className="font-medium relative">
           <ProductImageItem
             productId={product.id}
             name={product.name}
             path={product.main_image}
           />
+             {isProductNew(product.new_until) && <NewBadge additionalClasses="absolute top-0 left-0" />}{" "}
         </TableCell>
 
         <TableCell>
-          {product.name}{" "}
+          {product.name}{" "}<br/>
           {product.variant && (
-            <Badge variant="outline">{product.variant}</Badge>
-          )}{" "}
-          {isProductNew(product.new_until) && <NewBadge />}{" "}
-          {/* Badge de nouveauté */}
+            <VariantBadge productVariant={product.variant} />
+          )}{" "}<br/>
+          {product.weight&& <WeightBadge weight={product.weight}/>}
+       
         </TableCell>
 
         {/* Cellule de gestion de la quantité et du prix */}

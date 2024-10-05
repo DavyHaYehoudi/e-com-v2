@@ -4,11 +4,7 @@ import { products } from "@/app/mocks/products";
 import { Product } from "@/app/types/ProductTypes";
 import ProductImageItem from "@/components/shared/productImage/ProductImageItem";
 import AddToCartButton from "@/components/shared/AddToCartButton";
-import {
-  isProductNew,
-  isProductOnSale,
-  priceProductAfterDiscount,
-} from "@/app/utils/productUtils";
+import { isProductNew, isProductOnSale } from "@/app/utils/productUtils";
 import { formatPrice } from "@/app/utils/pricesFormat";
 import { Badge } from "@/components/ui/badge";
 import TrashIcon from "@/components/shared/TrashIcon";
@@ -27,20 +23,21 @@ const WishlistRow = () => {
     productsMock.length > 0 &&
     productsMock.map((product) => (
       <TableRow key={product.id}>
-        <TableCell className="font-medium">
+        <TableCell className="font-medium relative">
           <ProductImageItem
             productId={product.id}
             name={product.name}
             path={product.main_image}
           />{" "}
+          {isProductNew(product.new_until) && (
+            <NewBadge additionalClasses="absolute top-0 left-0" />
+          )}
         </TableCell>
         <TableCell>
-          {product.name}{" "}
+          {product.name} <br />
           {product.variant && (
             <Badge variant="outline">{product.variant}</Badge>
           )}{" "}
-          {/* Badge de nouveauté */}
-          {isProductNew(product.new_until) && <NewBadge />}
         </TableCell>
         <TableCell>
           {formatPrice(product.price)} {/* Badge de promotion */}

@@ -1,4 +1,4 @@
-import { HeartIcon, ShoppingBagIcon } from "lucide-react";
+import { ShoppingBagIcon } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import LoginModal from "@/components/modules/login/LoginModal";
@@ -56,12 +56,12 @@ const NavIcons = () => {
       {/* Icône Panier avec badge */}
       <div className="relative">
         <a href="/cart">
-        <ShoppingBagIcon className="w-6 h-6 mb-2 cursor-pointer" />
-        {cartCount > 0 && (
-          <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
-            {cartCount}
-          </span>
-        )}
+          <ShoppingBagIcon className="w-6 h-6 mb-2 cursor-pointer" />
+          {cartCount > 0 && (
+            <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+              {cartCount}
+            </span>
+          )}
         </a>
       </div>
     </div>
