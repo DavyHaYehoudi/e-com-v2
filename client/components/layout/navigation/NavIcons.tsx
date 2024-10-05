@@ -55,12 +55,14 @@ const NavIcons = () => {
 
       {/* Icône Panier avec badge */}
       <div className="relative">
-        <ShoppingBagIcon className="w-6 h-6 cursor-pointer" />
+        <a href="/cart">
+        <ShoppingBagIcon className="w-6 h-6 mb-2 cursor-pointer" />
         {cartCount > 0 && (
-          <span className="absolute bottom-4 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+          <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
             {cartCount}
           </span>
         )}
+        </a>
       </div>
     </div>
   );

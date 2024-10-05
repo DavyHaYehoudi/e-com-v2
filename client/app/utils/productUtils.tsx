@@ -24,7 +24,7 @@ export const isProductNew = (newUntil: string | null): boolean => {
   return isAfter(newUntilDate, today);
 };
 
-export const priceProduct = (product: Product): number => {
+export const priceProductAfterDiscount = (product: Product): number => {
   return product.discount_percentage
     ? product.price - (product.price * product.discount_percentage) / 100
     : product.price;
