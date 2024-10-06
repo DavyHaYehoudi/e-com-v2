@@ -22,7 +22,7 @@ const WishlistRow = () => {
     productsMock &&
     productsMock.length > 0 &&
     productsMock.map((product) => (
-      <TableRow key={product.id}>
+      <TableRow key={product.id} className="border-b border-gray-500 ">
         <TableCell className="font-medium relative">
           <ProductImageItem
             productId={product.id}
@@ -30,7 +30,7 @@ const WishlistRow = () => {
             path={product.main_image}
           />{" "}
           {isProductNew(product.new_until) && (
-            <NewBadge additionalClasses="absolute top-0 left-0" />
+            <NewBadge additionalClasses="absolute top-1 left-0" />
           )}
         </TableCell>
         <TableCell>
