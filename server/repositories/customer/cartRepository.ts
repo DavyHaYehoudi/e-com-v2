@@ -1,10 +1,6 @@
 import { query } from "../../config/req.js";
 import { ResultSetHeader } from "mysql2";
-import {
-  CartGiftCardRow,
-  CartItemRow,
-  CartRow,
-} from "./dao/cart.dao.js";
+import { CartGiftCardRow, CartItemRow, CartRow } from "./dao/cart.dao.js";
 import {
   beginTransaction,
   commitTransaction,
@@ -15,7 +11,7 @@ import { CartInputDTO } from "../../controllers/customer/entities/dto/cart.dto.j
 // Récupérer le panier du customer
 export const getCustomerCartRepository = async (customerId: number) => {
   const cartSql = `SELECT * FROM cart WHERE customer_id = ?`;
-  const cart = (await query<CartRow[]>(cartSql, [customerId]));
+  const cart = await query<CartRow[]>(cartSql, [customerId]);
 
   if (cart.length === 0) return null;
 

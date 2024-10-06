@@ -23,17 +23,17 @@ const CartDelivery: React.FC<CartDeliveryProps> = ({
         value={selectedDelivery?.id.toString()}
         onValueChange={(value) => handleDeliveryChange(parseInt(value))}
       >
-        {deliveries
-          .sort((a, b) => (b.is_default ? 1 : -1)) // Sort deliveries: default first
-          .map((delivery) => (
-            <div key={delivery.id} className="flex items-center space-x-2">
-              <RadioGroupItem
-                value={delivery.id.toString()}
-                id={`delivery-${delivery.id}`}
-              />
-              <Label htmlFor={`delivery-${delivery.id}`}>{delivery.name}</Label>
-            </div>
-          ))}
+       {deliveries
+  .sort((a, b) => (a.is_default ? -1 : 1)) // Par défaut, la livraison avec is_default=true est toujours en premier
+  .map((delivery) => (
+    <div key={delivery.id} className="flex items-center space-x-2">
+      <RadioGroupItem
+        value={delivery.id.toString()}
+        id={`delivery-${delivery.id}`}
+      />
+      <Label htmlFor={`delivery-${delivery.id}`}>{delivery.name}</Label>
+    </div>
+  ))}
       </RadioGroup>
     </TableCell>
   );

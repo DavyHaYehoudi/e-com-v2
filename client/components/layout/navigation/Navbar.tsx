@@ -4,7 +4,13 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
-import { BookOpenIcon, GlobeIcon, MailIcon, TagIcon } from "lucide-react";
+import {
+  BookOpenIcon,
+  GiftIcon,
+  GlobeIcon,
+  MailIcon,
+  TagIcon,
+} from "lucide-react";
 import { ProductMenu } from "./ProductMenu";
 
 export function Navbar() {
@@ -54,8 +60,23 @@ export function Navbar() {
             <span className="absolute bottom-0 left-1/2 h-1 w-0 bg-golden transition-all duration-300 transform -translate-x-1/2 hover:w-full"></span>
           </NavigationMenuLink>
         </NavigationMenuItem>
-                {/* Onglet Produits avec sous-menu */}
-                <NavigationMenuItem>
+        {/* Onglet Carte cadeau */}
+        <NavigationMenuItem>
+          <NavigationMenuLink
+            href="/carte-cadeau"
+            className={`flex items-center space-x-2 relative ${
+              pathname === "/carte=cadeau" ? "active" : ""
+            }`}
+          >
+            <GiftIcon className="tab-nav w-5 h-5" />
+            <span className="tab-nav tracking-widest text-sm">
+              Carte cadeau
+            </span>
+            <span className="absolute bottom-0 left-1/2 h-1 w-0 bg-golden transition-all duration-300 transform -translate-x-1/2 hover:w-full"></span>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        {/* Onglet Produits avec sous-menu */}
+        <NavigationMenuItem>
           <div className="flex items-center ">
             <TagIcon className="tab-nav w-5 h-5" />
             <ProductMenu />

@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { productsInCart } from "@/app/mocks/products";
 import { ProductCart } from "@/app/types/ProductTypes";
 import ProductImageItem from "@/components/shared/productImage/ProductImageItem";
-import { Badge } from "@/components/ui/badge";
 import { TableCell, TableRow } from "@/components/ui/table";
 import TrashIcon from "@/components/shared/TrashIcon";
 import { isProductNew } from "@/app/utils/productUtils";
@@ -14,24 +13,27 @@ import CartRowPrice from "./CartRowPrice";
 import VariantBadge from "@/components/shared/badge/VariantBadge";
 import WeightBadge from "@/components/shared/badge/WeightBadge";
 
-const CartRow = () => {
+const CartRowItem = () => {
   const [quantity, setQuantity] = useState(1);
 
   const handleQuantityChange = (newQuantity: number) => {
     setQuantity(newQuantity);
   };
 
-  const productsMock: ProductCart[] = productsInCart;
+  const productsInCartMock: ProductCart = productsInCart;
   const handleDelete = (productId: number) => {
     console.log("Product deleted:", productId);
     // Logique pour supprimer le produit
   };
 
   return (
-    productsMock &&
-    productsMock.length > 0 &&
-    productsMock.map((product) => (
-      <TableRow key={product.id} className="hover:bg-gray-100">
+    productsInCartMock &&
+    productsInCartMock.items.length > 0 &&
+    productsInCartMock.items.map((product) => (
+      <TableRow
+        key={product.id}
+        className="hover:bg-gray-100 relative border-b border-gray-500 "
+      >
         {/* Première cellule : image et nom */}
         <TableCell className="font-medium relative">
           <ProductImageItem
@@ -39,16 +41,18 @@ const CartRow = () => {
             name={product.name}
             path={product.main_image}
           />
-             {isProductNew(product.new_until) && <NewBadge additionalClasses="absolute top-0 left-0" />}{" "}
+          {isProductNew(product.new_until) && (
+            <NewBadge additionalClasses="absolute top-1 left-0" />
+          )}{" "}
         </TableCell>
 
         <TableCell>
-          {product.name}{" "}<br/>
+          {product.name} <br />
           {product.variant && (
             <VariantBadge productVariant={product.variant} />
-          )}{" "}<br/>
-          {product.weight&& <WeightBadge weight={product.weight}/>}
-       
+          )}{" "}
+          <br />
+          {product.weight && <WeightBadge weight={product.weight} />}
         </TableCell>
 
         {/* Cellule de gestion de la quantité et du prix */}
@@ -73,7 +77,10 @@ const CartRow = () => {
         {/* Cellule pour Cashback */}
         <TableCell>
           {product.cash_back && (
-            <CashbackBadge cashbackAmount={quantity * product.cash_back} />
+            <CashbackBadge
+              cashbackAmount={quantity * product.cash_back}
+              additionalClasses="absolute top-1 right-0"
+            />
           )}
         </TableCell>
 
@@ -86,4 +93,4 @@ const CartRow = () => {
   );
 };
 
-export default CartRow;
+export default CartRowItem;

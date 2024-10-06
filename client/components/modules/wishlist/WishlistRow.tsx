@@ -44,6 +44,7 @@ const WishlistRow = () => {
           {isProductOnSale(product.discount_percentage) && (
             <PromotionBadge discountPercentage={product.discount_percentage} />
           )}
+          <br />
           {/* Badge de cashback */}
           {product.cash_back && (
             <CashbackBadge cashbackAmount={product.cash_back} />

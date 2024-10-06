@@ -2266,12 +2266,88 @@ components:
           items:
             type: object
             properties:
-              product_id:
+              id:
                 type: integer
-                example: 02983475
-              quantity:
+                example: 90875643
+              name: 
+                type: string
+                example: Bracelet
+              SKU:
+                type: string
+                example: 029348752LIK98
+              quantityInCart:
                 type: integer
-                example: 2
+                example: 5
+              description:
+                type: string
+                example: Bracelet fait main.
+              weight:
+                type: integer
+                example: 250
+              discount_percentage:
+                type: integer
+                example: 10
+              continue_selling: 
+                type: boolean
+                example: true
+              quantity_in_stock:
+                type: integer
+                example: 4
+              price:
+                type: integer
+                example: 45
+              new_until:
+                type: string
+                example: 2025-10-10
+              is_published:
+                type: boolean
+                example: true
+              cash_back:
+                type: integer
+                example: 1.5
+              is_star:
+                type: boolean
+                example: false
+              is_archived:
+                type: boolean
+                example: false
+              images:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      url:
+                        type: string
+                        example: "https://example.com/image1.jpg"
+                      is_main:
+                        type: boolean
+                        example: true
+                  example:
+                    - url: https://example.com/image1.jpg
+                      is_main: true
+                    - url: https://example.com/image2.jpg
+                      is_main: false
+                    - url: https://example.com/image3.jpg
+                      is_main: false
+              categories:
+                type: array
+                items:
+                  type: string
+                example: 
+                  - 7778325
+                  - 8882343
+              tags:
+                type: array
+                items:
+                  type: string
+                example: 
+                  - 0000334
+                  - 1234545
+              variants:
+                type: array
+                items:
+                  type: string
+                  example: S/Blue, XL/Black, M/Orange
         gift_cards:
           type: array
           items:
@@ -2310,12 +2386,85 @@ components:
           items:
             type: object
             properties:
-              product_id:
+              id:
                 type: integer
-                example: 02983475
-              quantity:
+                example: 90875643
+              name: 
+                type: string
+                example: Bracelet
+              SKU:
+                type: string
+                example: 029348752LIK98
+              description:
+                type: string
+                example: Bracelet fait main.
+              weight:
                 type: integer
-                example: 2
+                example: 250
+              discount_percentage:
+                type: integer
+                example: 10
+              continue_selling: 
+                type: boolean
+                example: true
+              quantity_in_stock:
+                type: integer
+                example: 4
+              price:
+                type: integer
+                example: 45
+              new_until:
+                type: string
+                example: 2025-10-10
+              is_published:
+                type: boolean
+                example: true
+              cash_back:
+                type: integer
+                example: 1.5
+              is_star:
+                type: boolean
+                example: false
+              is_archived:
+                type: boolean
+                example: false
+              images:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      url:
+                        type: string
+                        example: "https://example.com/image1.jpg"
+                      is_main:
+                        type: boolean
+                        example: true
+                  example:
+                    - url: https://example.com/image1.jpg
+                      is_main: true
+                    - url: https://example.com/image2.jpg
+                      is_main: false
+                    - url: https://example.com/image3.jpg
+                      is_main: false
+              categories:
+                type: array
+                items:
+                  type: string
+                example: 
+                  - 7778325
+                  - 8882343
+              tags:
+                type: array
+                items:
+                  type: string
+                example: 
+                  - 0000334
+                  - 1234545
+              variants:
+                type: array
+                items:
+                  type: string
+                  example: S/Blue, XL/Black, M/Orange
         gift_cards:
           type: array
           items:
@@ -3102,6 +3251,9 @@ components:
         weight:
           type: integer
           example: 250
+        discount_percentage:
+          type: integer
+          example: 10
         continue_selling: 
           type: boolean
           example: true
@@ -3617,6 +3769,9 @@ components:
         is_active: 
           type: boolean
           example: true
+        is_default: 
+          type: boolean
+          example: true
         rates:
           type: array
           items:
@@ -3646,6 +3801,9 @@ components:
         icon_url:
           type: string
           example: https/server-storage/url
+        is_default: 
+          type: boolean
+          example: true
         rates:
           type: array
           items:
@@ -3680,6 +3838,9 @@ components:
           type: string
           example: https/server-storage/url
         is_active: 
+          type: boolean
+          example: true
+        is_default: 
           type: boolean
           example: true
         rates:

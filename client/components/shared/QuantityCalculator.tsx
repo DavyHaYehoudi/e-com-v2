@@ -8,7 +8,7 @@ const QuantityCalculator = ({
   quantity,
 }: {
   price: number;
-  maxQuantity: number;
+  maxQuantity: number | null;
   onValueChange: (value: number) => void;
   quantity: number;
 }) => {

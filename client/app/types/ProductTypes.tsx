@@ -22,7 +22,7 @@ export interface Product {
   isActive: boolean;
 }
 
-export interface ProductCart {
+export interface ProductCartItems {
   id: number;
   name: string;
   main_image: string;
@@ -34,4 +34,12 @@ export interface ProductCart {
   variant: string | null;
   quantityInCart: number;
   quantity_in_stock: number;
+}
+export interface ProductCartGiftcards {
+  amount: number;
+  quantity: number;
+}
+export interface ProductCart {
+  items: ProductCartItems[];
+  gift_cards: ProductCartGiftcards[];
 }

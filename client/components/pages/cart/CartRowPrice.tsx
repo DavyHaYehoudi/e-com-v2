@@ -19,20 +19,10 @@ const CartRowPrice: React.FC<CartRowPriceProps> = ({
 }) => {
   return (
     <>
-      {isProductOnSale(discount) ? (
+      {isProductOnSale(discount) && (
         <>
-          <PromotionBadge discountPercentage={discount} /> soit -
+          <PromotionBadge discountPercentage={discount} /> <br /> -
           {formatPrice(calculateTotalDiscountByRow(quantity, price, discount))}
-          <br /> <br />
-          Prix appliqué après réduction :{" "}
-          {formatPrice(
-            calculateTotalPriceByRow(quantity, price, discount)
-          )}{" "}
-        </>
-      ) : (
-        <>
-          Prix :{" "}
-          {formatPrice(calculateTotalPriceByRow(quantity, price, discount))}{" "}
         </>
       )}
     </>
