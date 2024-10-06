@@ -54,8 +54,8 @@ export const calculateTotalCartBeforeDiscount=(productsInCart:ProductCart[])=>{
         return sum + (product.price * product.quantityInCart);
     }, 0);
 }
-export const calculateTotalCartAfterDiscount=(productsInCart:ProductCart[])=>{
-    return calculateTotalCartBeforeDiscount(productsInCart) - calculateTotalDiscountCart(productsInCart);
+export const calculateTotalCartAfterDiscount=(productsInCart:ProductCart[],deliveryPrice:number)=>{
+    return calculateTotalCartBeforeDiscount(productsInCart) - calculateTotalDiscountCart(productsInCart) + deliveryPrice;
 }
 export const calculateTotalWeightCart=(productsInCart:ProductCart[])=>{
     return productsInCart.reduce((sum, product) => {

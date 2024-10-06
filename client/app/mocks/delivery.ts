@@ -87,4 +87,48 @@ export const deliveries = [
       },
     ],
   },
+  {
+    id: 3,
+    name: "DHL",
+    icon_url: "https/server-storage/url",
+    is_active: true,
+    is_default: false,
+    rates: [
+      {
+        min_weight: 0,
+        max_weight: 250,
+        price: 4.99,
+      },
+      {
+        min_weight: 251,
+        max_weight: 500,
+        price: 8.99,
+      },
+      {
+        min_weight: 501,
+        max_weight: 750,
+        price: 12.99,
+      },
+      {
+        min_weight: 751,
+        max_weight: 1000,
+        price: 15.99,
+      },
+      {
+        min_weight: 1001,
+        max_weight: 1500,
+        price: 19.99,
+      },
+      {
+        min_weight: 1501,
+        max_weight: 2000,
+        price: 22.99,
+      },
+      {
+        min_weight: 2001,
+        max_weight: 20000,
+        price: 32.99,
+      },
+    ],
+  },
 ];

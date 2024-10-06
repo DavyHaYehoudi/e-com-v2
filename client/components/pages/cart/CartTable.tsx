@@ -1,3 +1,4 @@
+'use client'
 import {
   Table,
   TableBody,
@@ -17,11 +18,19 @@ import {
 } from "./utils/calculUtils";
 import { productsInCart } from "@/app/mocks/products";
 import { formatWeight } from "@/app/utils/weightFormat";
-import { defaultDeliveryName } from "./utils/deliveryUtils";
-import { deliveries } from "@/app/mocks/delivery";
 import CartDelivery from "./CartDelivery";
+import { useState } from "react";
+import { calculateDeliveryPrice, defaultDelivery } from "./utils/deliveryUtils";
+import { deliveries } from "@/app/mocks/delivery";
 
 const CartTable = () => {
+    const [selectedDelivery, setSelectedDelivery] = useState(defaultDelivery(deliveries));
+    const handleDeliveryChange = (deliveryId: number) => {
+        const selected = deliveries.find((delivery) => delivery.id === deliveryId);
+        setSelectedDelivery(selected);
+      };
+      const deliveryPrice = calculateDeliveryPrice({selectedDelivery,totalWeight:calculateTotalWeightCart(productsInCart)})
+      const weightTotal = calculateTotalWeightCart(productsInCart)
   return (
     <Table>
       <TableCaption className="uppercase">
@@ -44,27 +53,21 @@ const CartTable = () => {
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell colSpan={5}>Total du cashback</TableCell>
+          <TableCell colSpan={5}>Total du cashback capitalisé pour vos prochains achats</TableCell>
           <TableCell className="text-right">
             {formatPrice(calculateTotalCashbackCart(productsInCart))}
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell colSpan={5}>Total du poids</TableCell>
+          <CartDelivery handleDeliveryChange={handleDeliveryChange} selectedDelivery={selectedDelivery} weightTotal={weightTotal} />
           <TableCell className="text-right">
-            {formatWeight(calculateTotalWeightCart(productsInCart))}
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <CartDelivery />
-          <TableCell className="text-right">
-            {formatWeight(calculateTotalWeightCart(productsInCart))}
+            {formatPrice(deliveryPrice)}
           </TableCell>
         </TableRow>
         <TableRow className="font-extrabold">
           <TableCell colSpan={5}>Total du panier</TableCell>
           <TableCell className="text-right">
-            {formatPrice(calculateTotalCartAfterDiscount(productsInCart))}
+            {formatPrice(calculateTotalCartAfterDiscount(productsInCart,deliveryPrice))}
           </TableCell>
         </TableRow>
       </TableFooter>
