@@ -13,12 +13,11 @@ export const verifyCodePromoController = async (
     const codePromoVerified = await codePromoService.verifyCodePromoService(
       codePromo
     );
-    res.json({ isValid: codePromoVerified });
+    res.json(codePromoVerified);
   } catch (error) {
     next(error);
   }
 };
-
 // Récupérer tous les codes promo
 export const getAllCodePromosController = async (
   req: Request,
@@ -32,7 +31,6 @@ export const getAllCodePromosController = async (
     next(error);
   }
 };
-
 // ADMIN - Créer un nouveau code promo
 export const createCodePromoController = async (
   req: Request,
@@ -50,7 +48,6 @@ export const createCodePromoController = async (
     next(error);
   }
 };
-
 // ADMIN - Supprimer un code promo
 export const deleteCodePromoController = async (
   req: Request,

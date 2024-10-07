@@ -10,7 +10,9 @@ import {
 import CartRowItem from "./CartRowItem";
 import { formatPrice } from "@/app/utils/pricesFormat";
 import {
-  calculateTotalCartAfterDiscount,
+  calculateCodePromoDiscountOnCartTotal,
+  calculateTotalAmountGiftCardToUse,
+  calculateTotalCartAfterCodePromo,
   calculateTotalCartBeforeDiscount,
   calculateTotalCashbackCart,
   calculateTotalDiscountCart,
@@ -22,11 +24,16 @@ import { useState } from "react";
 import { calculateDeliveryPrice, defaultDelivery } from "./utils/deliveryUtils";
 import { deliveries } from "@/app/mocks/delivery";
 import CartRowGiftcard from "./CartRowGiftcard";
+import CartCodePromo from "./codePromo/CartCodePromo";
+import GiftcardToUse from "./giftcardToUse/GiftcardToUse";
+import { GiftcardToUseType } from "@/app/types/GiftcardToUseTypes";
 
 const CartTable = () => {
   const [selectedDelivery, setSelectedDelivery] = useState(
     defaultDelivery(deliveries)
   );
+  const [codePromoPercentage, setCodePromoPercentage] = useState(0);
+  const [giftCardsToUse, setGiftCardsToUse] = useState<GiftcardToUseType[]>([]);
   const handleDeliveryChange = (deliveryId: number) => {
     const selected = deliveries.find((delivery) => delivery.id === deliveryId);
     setSelectedDelivery(selected);
@@ -36,6 +43,10 @@ const CartTable = () => {
     totalWeight: calculateTotalWeightCart(productsInCart.items),
   });
   const weightTotal = calculateTotalWeightCart(productsInCart.items);
+  const onDiscount = (discount_percentage: number) => {
+    setCodePromoPercentage(discount_percentage);
+  };
+
   return (
     <Table>
       {calculateTotalCashbackCart(productsInCart.items) > 0 && (
@@ -52,8 +63,10 @@ const CartTable = () => {
       </TableBody>
       <TableFooter>
         <TableRow>
-          <TableCell colSpan={5}>Total des produits hors promotion</TableCell>
-          <TableCell className="text-right">
+          <TableCell className="border-b border-gray-500" colSpan={5}>
+            Total des produits hors promotion
+          </TableCell>
+          <TableCell className="text-right border-b border-gray-500">
             {formatPrice(
               calculateTotalCartBeforeDiscount(
                 productsInCart.items,
@@ -62,30 +75,74 @@ const CartTable = () => {
             )}{" "}
           </TableCell>
         </TableRow>
-        <TableRow>
-          <TableCell colSpan={5}>Total des promotions</TableCell>
-          <TableCell className="text-right">
-            {formatPrice(calculateTotalDiscountCart(productsInCart.items))}{" "}
-          </TableCell>
-        </TableRow>
+
         <TableRow>
           <CartDelivery
             handleDeliveryChange={handleDeliveryChange}
             selectedDelivery={selectedDelivery}
             weightTotal={weightTotal}
           />
-          <TableCell className="text-right">
+          <TableCell className="text-right border-b border-gray-500">
             {formatPrice(deliveryPrice)}
           </TableCell>
         </TableRow>
+        <TableRow>
+          <TableCell colSpan={5} className="border-b border-gray-500">
+            Total des promotions
+          </TableCell>
+          <TableCell className="text-right border-b border-gray-500">
+            {calculateTotalDiscountCart(productsInCart.items) > 0
+              ? `- ${formatPrice(
+                  calculateTotalDiscountCart(productsInCart.items)
+                )}`
+              : 0}
+          </TableCell>
+        </TableRow>
+
+        <TableRow>
+          <GiftcardToUse
+            giftCardsToUse={giftCardsToUse}
+            setGiftCardsToUse={setGiftCardsToUse}
+          />
+          <TableCell className="text-right bg-white" colSpan={5}>
+            {calculateTotalAmountGiftCardToUse(giftCardsToUse) > 0
+              ? `- ${formatPrice(
+                  calculateTotalAmountGiftCardToUse(giftCardsToUse)
+                )}`
+              : 0}
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <CartCodePromo
+            onDiscount={onDiscount}
+            codePromoPercentage={codePromoPercentage}
+          />
+          <TableCell className="text-right bg-white" colSpan={5}>
+            {codePromoPercentage
+              ? `- ${formatPrice(
+                  calculateCodePromoDiscountOnCartTotal(
+                    productsInCart.items,
+                    deliveryPrice,
+                    productsInCart.gift_cards,
+                    giftCardsToUse,
+                    codePromoPercentage
+                  )
+                )}`
+              : 0}
+          </TableCell>
+        </TableRow>
         <TableRow className="font-extrabold">
-          <TableCell colSpan={5}>Total du panier</TableCell>
-          <TableCell className="text-right">
+          <TableCell colSpan={5} className="border-b border-gray-500">
+            Total du panier
+          </TableCell>
+          <TableCell className="text-right  border-b border-gray-500">
             {formatPrice(
-              calculateTotalCartAfterDiscount(
+              calculateTotalCartAfterCodePromo(
                 productsInCart.items,
                 deliveryPrice,
-                productsInCart.gift_cards
+                productsInCart.gift_cards,
+                giftCardsToUse,
+                codePromoPercentage
               )
             )}
           </TableCell>

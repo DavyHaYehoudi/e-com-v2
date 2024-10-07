@@ -1,5 +1,5 @@
+import { GiftcardToUseType } from "@/app/types/GiftcardToUseTypes";
 import {
-  ProductCart,
   ProductCartGiftcards,
   ProductCartItems,
 } from "@/app/types/ProductTypes";
@@ -52,18 +52,21 @@ export const calculateTotalCashbackCart = (items: ProductCartItems[]) => {
     return sum;
   }, 0);
 };
-export const calculateTotalCartBeforeDiscount = (items: ProductCartItems[],giftcards: ProductCartGiftcards[] = []) => {
-    const giftcardsTotalAmount = calculateTotalAmountGiftCard(giftcards)
+export const calculateTotalCartBeforeDiscount = (
+  items: ProductCartItems[],
+  giftcards: ProductCartGiftcards[] = []
+) => {
+  const giftcardsTotalAmount = calculateTotalAmountGiftCardToBuy(giftcards);
   return items.reduce((sum, product) => {
     return sum + product.price * product.quantityInCart;
-  }, giftcardsTotalAmount||0);
+  }, giftcardsTotalAmount || 0);
 };
 export const calculateTotalWeightCart = (items: ProductCartItems[]) => {
   return items.reduce((sum, product) => {
     return sum + (product.weight || 0) * product.quantityInCart;
   }, 0);
 };
-export const calculateTotalAmountGiftCard = (
+export const calculateTotalAmountGiftCardToBuy = (
   giftcards: ProductCartGiftcards[]
 ) => {
   return giftcards.reduce(
@@ -71,14 +74,63 @@ export const calculateTotalAmountGiftCard = (
     0
   );
 };
-export const calculateTotalCartAfterDiscount = (
+export const calculateTotalAmountGiftCardToUse = (
+  giftcards: GiftcardToUseType[]
+) => {
+  return giftcards.reduce((sum, giftcard) => sum + (giftcard.balance ?? 0), 0);
+};
+export const calculateTotalCartAfterDiscountAndGiftcardToUse = (
   items: ProductCartItems[],
   deliveryPrice: number,
-  giftcards: ProductCartGiftcards[] = []
+  giftcardsToBuy: ProductCartGiftcards[] = [],
+  giftcardsToUse: GiftcardToUseType[] = []
 ) => {
   return (
     calculateTotalCartBeforeDiscount(items) -
     calculateTotalDiscountCart(items) +
-    deliveryPrice +calculateTotalAmountGiftCard(giftcards)
+    deliveryPrice +
+    calculateTotalAmountGiftCardToBuy(giftcardsToBuy) -
+    calculateTotalAmountGiftCardToUse(giftcardsToUse)
+  );
+};
+export const calculateTotalCartAfterCodePromo = (
+  items: ProductCartItems[],
+  deliveryPrice: number,
+  giftcardsToBuy: ProductCartGiftcards[] = [],
+  giftcardsToUse: GiftcardToUseType[] = [],
+  percentage: number
+) => {
+  return (
+    calculateTotalCartAfterDiscountAndGiftcardToUse(
+      items,
+      deliveryPrice,
+      giftcardsToBuy,
+      giftcardsToUse
+    ) -
+    calculateCodePromoDiscountOnCartTotal(
+      items,
+      deliveryPrice,
+      giftcardsToBuy,
+      giftcardsToUse,
+      percentage
+    )
+  );
+};
+export const calculateCodePromoDiscountOnCartTotal = (
+  items: ProductCartItems[],
+  deliveryPrice: number,
+  giftcardsToBuy: ProductCartGiftcards[] = [],
+  giftcardsToUse: GiftcardToUseType[] = [],
+  percentage: number
+) => {
+  return (
+    (calculateTotalCartAfterDiscountAndGiftcardToUse(
+      items,
+      deliveryPrice,
+      giftcardsToBuy,
+      giftcardsToUse
+    ) *
+      percentage) /
+    100
   );
 };

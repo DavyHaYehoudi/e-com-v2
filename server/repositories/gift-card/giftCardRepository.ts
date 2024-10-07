@@ -11,6 +11,23 @@ import { CreateGiftCardDTO } from "../../controllers/gift-card/entities/dto/gift
 import { NotFoundError } from "../../exceptions/CustomErrors.js";
 import { CartGiftCardRow } from "../customer/dao/cart.dao.js";
 
+// Vérifier la validité d'une carte cadeau par son code
+export const getGiftCardByCodeRepository = async (code: string) => {
+  const sql = `SELECT * FROM gift_card
+   WHERE code = ?
+   AND expiration_date >= CURDATE() AND balance > 0
+   `;
+  const result = await query<GiftCardRow[]>(sql, [code]);
+
+  // Si aucune carte cadeau n'est trouvée, renvoie une erreur 404
+  if (result.length === 0) {
+    throw new NotFoundError(
+      "Gift card not found or invalid or balance exhausted"
+    );
+  }
+
+  return result[0];
+};
 // Récupérer pour un customer toutes ses cartes cadeaux
 export const getCustomerGiftCardsRepository = async (customerId: number) => {
   // Requête pour récupérer toutes les cartes cadeaux détenues ou utilisées par le client

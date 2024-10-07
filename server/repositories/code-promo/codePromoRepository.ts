@@ -7,9 +7,7 @@ import {
 import { CodePromoRow } from "./dao/code-promo.dao.js";
 import { CreateCodePromoDTO } from "../../controllers/code-promo/entities/dto/code-promo.dto.js";
 
-export const verifyCodePromoRepository = async (
-  codePromo: string
-): Promise<boolean> => {
+export const verifyCodePromoRepository = async (codePromo: string) => {
   const sql = `
       SELECT * FROM code_promo
       WHERE code = ? 
@@ -23,7 +21,7 @@ export const verifyCodePromoRepository = async (
     throw new NotFoundError(`Code promo '${codePromo}' is invalid or expired.`);
   }
 
-  return results.length > 0;
+  return results[0];
 };
 export const getAllCodePromosRepository = async () => {
   const sql = `SELECT * FROM code_promo`;

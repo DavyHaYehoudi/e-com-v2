@@ -17,14 +17,14 @@ const CartDelivery: React.FC<CartDeliveryProps> = ({
   weightTotal
 }) => {
   return (
-    <TableCell colSpan={5}>
+    <TableCell colSpan={5} className="border-b border-gray-500">
       Prix de la livraison ({formatWeight(weightTotal)}) : {selectedDelivery?.name}
       <RadioGroup
         value={selectedDelivery?.id.toString()}
         onValueChange={(value) => handleDeliveryChange(parseInt(value))}
       >
        {deliveries
-  .sort((a, b) => (a.is_default ? -1 : 1)) // Par défaut, la livraison avec is_default=true est toujours en premier
+  .sort((a, ) => (a.is_default ? -1 : 1)) // Par défaut, la livraison avec is_default=true est toujours en premier
   .map((delivery) => (
     <div key={delivery.id} className="flex items-center space-x-2">
       <RadioGroupItem

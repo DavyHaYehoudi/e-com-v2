@@ -12,7 +12,7 @@ import WishlistRow from "./WishlistRow";
 
 const WishlistTable = () => {
   return (
-    <Table className="min-w-full text-xl">
+    <Table className="min-w-full text-l">
       <TableCaption>
         <Button>Ajouter tous les favoris au panier</Button>{" "}
       </TableCaption>

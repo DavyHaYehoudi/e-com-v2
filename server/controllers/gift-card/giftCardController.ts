@@ -3,6 +3,20 @@ import * as giftCardService from "../../services/gift-card/giftCardService.js";
 import { CustomJwtPayload } from "../../repositories/auth/dao/auth.dao.js";
 import { createGiftCardSchema } from "./entities/dto/gift-card.dto.js";
 
+// Vérifier la validité d'une carte cadeau par son code
+export const getGiftCardByCodeController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const code = req.params.code;
+    const giftCard = await giftCardService.getGiftCardByCodeService(code);
+    res.json(giftCard);
+  } catch (error) {
+    next(error);
+  }
+};
 // Récupérer pour un customer toutes ses cartes cadeaux
 export const getCustomerGiftCardsController = async (
   req: Request,
@@ -27,7 +41,9 @@ export const getAllGiftCardsAdminController = async (
 ) => {
   try {
     const { customerId } = req.query;
-    const giftCards = await giftCardService.getAllGiftCardsAdminService(customerId as string);
+    const giftCards = await giftCardService.getAllGiftCardsAdminService(
+      customerId as string
+    );
     res.json(giftCards);
   } catch (error) {
     console.error(error);
