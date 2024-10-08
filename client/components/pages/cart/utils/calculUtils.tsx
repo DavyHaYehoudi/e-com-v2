@@ -93,29 +93,6 @@ export const calculateTotalCartAfterDiscountAndGiftcardToUse = (
     calculateTotalAmountGiftCardToUse(giftcardsToUse)
   );
 };
-export const calculateTotalCartAfterCodePromo = (
-  items: ProductCartItems[],
-  deliveryPrice: number,
-  giftcardsToBuy: ProductCartGiftcards[] = [],
-  giftcardsToUse: GiftcardToUseType[] = [],
-  percentage: number
-) => {
-  return (
-    calculateTotalCartAfterDiscountAndGiftcardToUse(
-      items,
-      deliveryPrice,
-      giftcardsToBuy,
-      giftcardsToUse
-    ) -
-    calculateCodePromoDiscountOnCartTotal(
-      items,
-      deliveryPrice,
-      giftcardsToBuy,
-      giftcardsToUse,
-      percentage
-    )
-  );
-};
 export const calculateCodePromoDiscountOnCartTotal = (
   items: ProductCartItems[],
   deliveryPrice: number,
@@ -132,5 +109,30 @@ export const calculateCodePromoDiscountOnCartTotal = (
     ) *
       percentage) /
     100
+  );
+};
+export const calculateTotalCartAfterCashback = (
+  items: ProductCartItems[],
+  deliveryPrice: number,
+  giftcardsToBuy: ProductCartGiftcards[] = [],
+  giftcardsToUse: GiftcardToUseType[] = [],
+  percentage: number,
+  selectedCashback: number|null
+) => {
+  return (
+    calculateTotalCartAfterDiscountAndGiftcardToUse(
+      items,
+      deliveryPrice,
+      giftcardsToBuy,
+      giftcardsToUse
+    ) -
+    calculateCodePromoDiscountOnCartTotal(
+      items,
+      deliveryPrice,
+      giftcardsToBuy,
+      giftcardsToUse,
+      percentage
+    ) -
+    (selectedCashback??0)
   );
 };

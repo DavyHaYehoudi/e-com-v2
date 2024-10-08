@@ -23,6 +23,7 @@ import RowPromotion from "./rowTotals/RowPromotion";
 import RowGiftcardToUse from "./rowTotals/giftcardToUse/RowGiftcardToUse";
 import RowCodePromo from "./rowTotals/codePromo/RowCodePromo";
 import RowTotalCart from "./rowTotals/RowTotalCart";
+import RowCashbackToUse from "./rowTotals/cashback/RowCashbackToUse";
 
 const CartTable = () => {
   const [selectedDelivery, setSelectedDelivery] = useState(
@@ -30,6 +31,7 @@ const CartTable = () => {
   );
   const [codePromoPercentage, setCodePromoPercentage] = useState(0);
   const [giftCardsToUse, setGiftCardsToUse] = useState<GiftcardToUseType[]>([]);
+  const [selectedCashback, setSelectedCashback] = useState<number | null>(null);
   const handleDeliveryChange = (deliveryId: number) => {
     const selected = deliveries.find((delivery) => delivery.id === deliveryId);
     setSelectedDelivery(selected);
@@ -42,7 +44,10 @@ const CartTable = () => {
   const onDiscount = (discount_percentage: number) => {
     setCodePromoPercentage(discount_percentage);
   };
-
+  const handleCashbackSelect = (amount: number) => {
+    setSelectedCashback(amount);
+    console.log("Montant sélectionné:", amount);
+  };
   return (
     <Table>
       {calculateTotalCashbackCart(productsInCart.items) > 0 && (
@@ -77,11 +82,16 @@ const CartTable = () => {
           deliveryPrice={deliveryPrice}
           giftCardsToUse={giftCardsToUse}
         />
+        <RowCashbackToUse
+          onCashbackSelect={handleCashbackSelect}
+          selectedCashback={selectedCashback}
+        />
         <RowTotalCart
           productsInCart={productsInCart}
           deliveryPrice={deliveryPrice}
           giftCardsToUse={giftCardsToUse}
           codePromoPercentage={codePromoPercentage}
+          selectedCashback={selectedCashback}
         />
       </TableFooter>
     </Table>

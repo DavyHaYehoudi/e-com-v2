@@ -1,4 +1,6 @@
-export const deliveries = [
+import { DeliveryType } from "../types/DeliveryTypes";
+
+export const deliveries: DeliveryType[] = [
   {
     id: 1,
     name: "colissimo",

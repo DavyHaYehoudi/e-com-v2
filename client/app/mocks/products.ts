@@ -1,4 +1,6 @@
-export const products = [
+import { Product, ProductCart } from "../types/ProductTypes";
+
+export const products: Product[] = [
   {
     id: 1,
     name: "Product 1",
@@ -152,7 +154,7 @@ export const products = [
     isActive: true,
   },
 ];
-export const productsInCart = {
+export const productsInCart: ProductCart = {
   items: [
     {
       id: 1,
@@ -223,10 +225,6 @@ export const productsInCart = {
   ],
 };
 export const productsInCartEmpty = {
-  items: [
-  
-  ],
-  gift_cards: [
-    
-  ],
+  items: [],
+  gift_cards: [],
 };

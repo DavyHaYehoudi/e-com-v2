@@ -1,7 +1,7 @@
 import { formatPrice } from "@/app/utils/pricesFormat";
 import { TableCell, TableRow } from "@/components/ui/table";
 import React from "react";
-import { calculateTotalCartAfterCodePromo } from "../utils/calculUtils";
+import { calculateTotalCartAfterCashback } from "../utils/calculUtils";
 import { ProductCart } from "@/app/types/ProductTypes";
 import { GiftcardToUseType } from "@/app/types/GiftcardToUseTypes";
 
@@ -10,12 +10,14 @@ interface RowTotalCartProps {
   deliveryPrice: number;
   giftCardsToUse: GiftcardToUseType[];
   codePromoPercentage: number;
+  selectedCashback: number | null;
 }
 const RowTotalCart: React.FC<RowTotalCartProps> = ({
   productsInCart,
   deliveryPrice,
   giftCardsToUse,
   codePromoPercentage,
+  selectedCashback,
 }) => {
   return (
     <TableRow className="font-extrabold">
@@ -24,12 +26,13 @@ const RowTotalCart: React.FC<RowTotalCartProps> = ({
       </TableCell>
       <TableCell className="text-right  border-b border-gray-500">
         {formatPrice(
-          calculateTotalCartAfterCodePromo(
+          calculateTotalCartAfterCashback(
             productsInCart.items,
             deliveryPrice,
             productsInCart.gift_cards,
             giftCardsToUse,
-            codePromoPercentage
+            codePromoPercentage,
+            selectedCashback
           )
         )}
       </TableCell>
