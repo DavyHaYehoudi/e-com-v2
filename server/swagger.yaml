@@ -1497,6 +1497,30 @@ paths:
           description: Not found - The tag doesn't exist.
       security:
         - api_key: []
+  /gift-cards/check-in/{code}:
+    get:
+      tags:
+        - gift-card
+      summary: Check the validity of a gift card.
+      description: Check the validity of a gift card.
+      parameters:
+        - name: code
+          in: path
+          description: code of the giftcard.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GiftCardGET'       
+        '404':
+          description: Gift card not found or invalid or balance exhausted.
   /gift-cards:
     get:
       tags:
@@ -1606,6 +1630,17 @@ paths:
       responses:
         '200':
           description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code: 
+                    type: string
+                    example: Bonjour-10
+                  discount_percentage:
+                    type: number
+                    example: 12
         '401':
           description: Unauthorized
           content:

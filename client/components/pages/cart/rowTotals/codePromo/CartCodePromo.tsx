@@ -4,12 +4,12 @@ import { TableCell } from "@/components/ui/table";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { CheckCircleIcon, XCircleIcon,PercentIcon } from "lucide-react";
+import { CheckCircleIcon, XCircleIcon, PercentIcon } from "lucide-react";
 import { promoCodeSchema } from "./promoCodeSchema";
 
 const CartCodePromo = ({
   onDiscount,
-  codePromoPercentage
+  codePromoPercentage,
 }: {
   onDiscount: (discount_percentage: number) => void;
   codePromoPercentage: number;
@@ -57,16 +57,16 @@ const CartCodePromo = ({
           className={errors.code ? "border-red-500" : ""}
         />
         <Button type="submit" disabled={!isValid}>
-          <PercentIcon className="size-4" /> <span className="ml-1">Valider</span> 
+          <PercentIcon className="size-4" />{" "}
+          <span className="ml-1">Valider</span>
         </Button>
         {/* Icône de validation */}
-        {validPromo === true &&
-        <>
-         <CheckCircleIcon className="text-green-500" />
-         <span className="text-green-500">{codePromoPercentage}%</span> 
-        </>
-
-         }
+        {validPromo === true && (
+          <>
+            <CheckCircleIcon className="text-green-500" />
+            <span className="text-green-500">{codePromoPercentage}%</span>
+          </>
+        )}
         {validPromo === false && <XCircleIcon className="text-red-500" />}
       </form>
       {/* Message d'erreur si code incorrect */}
