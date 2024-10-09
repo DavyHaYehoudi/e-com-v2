@@ -15,7 +15,9 @@ const WishlistModal = () => {
   return (
     <Dialog>
       <DialogTrigger>
-        <HeartIcon className="w-6 h-6 cursor-pointer" />
+        <span title="Liste des favoris">
+          <HeartIcon className="w-6 h-6 cursor-pointer" />
+        </span>
       </DialogTrigger>
       <DialogContent className="w-full max-w-[1200px] sm:w-[90%] md:w-[80%] lg:w-[1200px]">
         <DialogHeader>

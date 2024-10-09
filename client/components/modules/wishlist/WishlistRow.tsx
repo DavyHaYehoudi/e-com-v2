@@ -1,6 +1,5 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import React from "react";
-import { products } from "@/app/mocks/products";
 import { Product } from "@/app/types/ProductTypes";
 import ProductImageItem from "@/components/shared/productImage/ProductImageItem";
 import AddToCartButton from "@/components/shared/AddToCartButton";
@@ -12,8 +11,10 @@ import NewBadge from "@/components/shared/badge/NewBadge";
 import PromotionBadge from "@/components/shared/badge/PromotionBadge";
 import CashbackBadge from "@/components/shared/badge/CashbackBadge";
 
-const WishlistRow = () => {
-  const productsMock: Product[] = products;
+interface WislistRowProps {
+  productsMock: Product[];
+}
+const WishlistRow: React.FC<WislistRowProps> = ({ productsMock }) => {
   const handleDelete = (productId: string) => {
     console.log("Product deleted:", productId);
     // Logique pour supprimer le produit

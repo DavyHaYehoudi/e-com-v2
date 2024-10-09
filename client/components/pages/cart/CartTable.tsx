@@ -2,13 +2,10 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableFooter,
 } from "@/components/ui/table";
 import CartRowItem from "./CartRowItem";
-import { formatPrice } from "@/app/utils/pricesFormat";
 import {
-  calculateTotalCashbackCart,
   calculateTotalWeightCart,
 } from "./utils/calculUtils";
 import { productsInCart } from "@/app/mocks/products";
@@ -50,27 +47,19 @@ const CartTable = () => {
   };
   return (
     <Table>
-      {calculateTotalCashbackCart(productsInCart.items) > 0 && (
-        <TableCaption className="uppercase bg-blue-500 text-white rounded-sm p-1">
-          Total du cashback capitalisé pour vos prochains achats :{" "}
-          <span className="font-extrabold">
-            {formatPrice(calculateTotalCashbackCart(productsInCart.items))}
-          </span>
-        </TableCaption>
-      )}
       <TableBody>
         <CartRowItem />
         <CartRowGiftcard />
       </TableBody>
       <TableFooter>
         <ProductsBeforePromotion productsInCart={productsInCart} />
+        <RowPromotion productsInCart={productsInCart} />
         <RowDelivery
           handleDeliveryChange={handleDeliveryChange}
           selectedDelivery={selectedDelivery}
           weightTotal={weightTotal}
           deliveryPrice={deliveryPrice}
         />
-        <RowPromotion productsInCart={productsInCart} />
         <RowGiftcardToUse
           giftCardsToUse={giftCardsToUse}
           setGiftCardsToUse={setGiftCardsToUse}

@@ -2,7 +2,6 @@ import { formatPrice } from "@/app/utils/pricesFormat";
 import React from "react";
 import {
   calculateTotalDiscountByRow,
-  calculateTotalPriceByRow,
 } from "./utils/calculUtils";
 import { isProductOnSale } from "@/app/utils/productUtils";
 import PromotionBadge from "@/components/shared/badge/PromotionBadge";

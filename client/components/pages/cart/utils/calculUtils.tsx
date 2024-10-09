@@ -42,12 +42,10 @@ export const calculateTotalDiscountCart = (items: ProductCartItems[]) => {
     return sum;
   }, 0);
 };
-export const calculateTotalCashbackCart = (items: ProductCartItems[]) => {
+export const calculateTotalCashbackCartToEarn = (items: ProductCartItems[]) => {
   return items.reduce((sum, product) => {
     if (product.cash_back) {
-      return (
-        sum + (product.price * product.quantityInCart * product.cash_back) / 100
-      );
+      return sum + product.quantityInCart * product.cash_back;
     }
     return sum;
   }, 0);
@@ -100,7 +98,8 @@ export const calculateCodePromoDiscountOnCartTotal = (
   giftcardsToUse: GiftcardToUseType[] = [],
   percentage: number
 ) => {
-  return (
+  return Math.max(
+    0,
     (calculateTotalCartAfterDiscountAndGiftcardToUse(
       items,
       deliveryPrice,
@@ -108,7 +107,7 @@ export const calculateCodePromoDiscountOnCartTotal = (
       giftcardsToUse
     ) *
       percentage) /
-    100
+      100
   );
 };
 export const calculateTotalCartAfterCashback = (
@@ -117,22 +116,23 @@ export const calculateTotalCartAfterCashback = (
   giftcardsToBuy: ProductCartGiftcards[] = [],
   giftcardsToUse: GiftcardToUseType[] = [],
   percentage: number,
-  selectedCashback: number|null
+  selectedCashback: number | null
 ) => {
-  return (
+  return Math.max(
+    0,
     calculateTotalCartAfterDiscountAndGiftcardToUse(
       items,
       deliveryPrice,
       giftcardsToBuy,
       giftcardsToUse
     ) -
-    calculateCodePromoDiscountOnCartTotal(
-      items,
-      deliveryPrice,
-      giftcardsToBuy,
-      giftcardsToUse,
-      percentage
-    ) -
-    (selectedCashback??0)
+      calculateCodePromoDiscountOnCartTotal(
+        items,
+        deliveryPrice,
+        giftcardsToBuy,
+        giftcardsToUse,
+        percentage
+      ) -
+      (selectedCashback ?? 0)
   );
 };

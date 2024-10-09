@@ -9,9 +9,12 @@ import {
 } from "@/components/ui/table";
 import React from "react";
 import WishlistRow from "./WishlistRow";
+import { Product } from "@/app/types/ProductTypes";
+import { products } from "@/app/mocks/products";
 
+const productsMock: Product[] = products;
 const WishlistTable = () => {
-  return (
+  return productsMock && productsMock.length > 0 ? (
     <Table className="min-w-full text-l">
       <TableCaption>
         <Button>Ajouter tous les favoris au panier</Button>{" "}
@@ -26,9 +29,13 @@ const WishlistTable = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        <WishlistRow />
+        <WishlistRow productsMock={productsMock} />
       </TableBody>
     </Table>
+  ) : (
+    <p className="font-bold text-center">
+      Aucun produit dans votre liste de favoris.
+    </p>
   );
 };
 

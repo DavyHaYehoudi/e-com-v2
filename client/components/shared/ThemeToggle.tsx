@@ -19,9 +19,9 @@ export default function ThemeToggle() {
         id="theme-toggle"
         checked={theme === "dark"}
         onCheckedChange={() => setTheme(theme === "dark" ? "light" : "dark")}
-        className="bg-gray-200 dark:bg-gray-700 border-gray-300 dark:border-gray-500"
+        className="bg-gray-200 dark:bg-gray-700 border-gray-300 dark:border-gray-500 "
       />
-      <span className="text-xl">{theme === "dark" ? "🌜" : "🔆"}</span>
+      <span className="text-2xl">{theme === "dark" ? "🌜" : "🔆"}</span>
     </div>
   );
 }

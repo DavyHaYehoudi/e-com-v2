@@ -6,12 +6,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import WishlistModal from "@/components/modules/wishlist/WishlistModal";
 import { formatPrice } from "@/app/utils/pricesFormat";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 const NavIcons = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(true); // Simule la connexion
@@ -52,72 +46,45 @@ const NavIcons = () => {
       )}
 
       {/* Icône Wishlist avec badge */}
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger className="relative">
-            {" "}
-            <div>
-              <WishlistModal />
-              {wishlistCount > 0 && (
-                <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
-                  {wishlistCount}
-                </span>
-              )}
-            </div>
-          </TooltipTrigger>
-          <TooltipContent>
-            {wishlistCount > 0
-              ? `${wishlistCount} produit${
-                  wishlistCount > 1 ? "s" : ""
-                } dans votre liste de favoris.`
-              : "Votre liste de favoris est vide."}
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+
+      <div className="relative">
+        <WishlistModal />
+        {wishlistCount > 0 && (
+          <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+            {wishlistCount}
+          </span>
+        )}
+      </div>
 
       {/* Icône Panier avec badge */}
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger className="relative">
-            <div>
-              <a href="/cart">
-                <ShoppingBagIcon className="w-6 h-6 mb-2 cursor-pointer" />
-                {cartCount > 0 && (
-                  <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
-                    {cartCount}
-                  </span>
-                )}
-              </a>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent>
-            {cartCount > 0
-              ? `${cartCount} produit${
-                  cartCount > 1 ? "s" : ""
-                } dans votre panier.`
-              : "Votre panier est vide."}
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <div className="relative">
+        <a href="/cart">
+          <span title="Panier">
+            <ShoppingBagIcon className="w-6 h-6 mb-2 cursor-pointer" />
+          </span>
+
+          {cartCount > 0 && (
+            <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+              {cartCount}
+            </span>
+          )}
+        </a>
+      </div>
 
       {/* Icône Cashback avec badge */}
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger className="relative">
-            <div>
-              <BadgeEuro className="w-6 h-6 mb-2 " />
-              {cashbackCustomer > 0 && (
-                <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-blue-500 rounded-full whitespace-nowrap">
-                  {formatPrice(cashbackCustomer)}
-                </span>
-              )}
-            </div>
-          </TooltipTrigger>
-          <TooltipContent>
-            Votre cashback est de {formatPrice(cashbackCustomer)}.
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      {isAuthenticated && (
+        <div className="relative">
+          <span title="Votre cashback">
+            <BadgeEuro className="w-6 h-6 mb-2 " />
+          </span>
+
+          {cashbackCustomer > 0 && (
+            <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-s font-bold leading-none text-white bg-blue-500 rounded-full whitespace-nowrap">
+              {formatPrice(cashbackCustomer)}
+            </span>
+          )}
+        </div>
+      )}
     </div>
   );
 };

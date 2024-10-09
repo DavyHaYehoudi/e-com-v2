@@ -17,7 +17,7 @@ const CashbackToUse = ({
 }: {
   onCashbackSelect: (amount: number) => void;
 }) => {
-  const maxCashback = 5;
+  const maxCashback = 30;
   const [isSubmitted, setIsSubmitted] = useState(false);
   const {
     control,
