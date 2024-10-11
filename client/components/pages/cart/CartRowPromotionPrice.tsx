@@ -1,17 +1,15 @@
 import { formatPrice } from "@/app/utils/pricesFormat";
 import React from "react";
-import {
-  calculateTotalDiscountByRow,
-} from "./utils/calculUtils";
+import { calculateTotalDiscountByRow } from "./utils/calculUtils";
 import { isProductOnSale } from "@/app/utils/productUtils";
 import PromotionBadge from "@/components/shared/badge/PromotionBadge";
 
-interface CartRowPriceProps {
+interface CartRowPromotionPriceProps {
   quantity: number;
   price: number;
   discount: number | null;
 }
-const CartRowPrice: React.FC<CartRowPriceProps> = ({
+const CartRowPromotionPrice: React.FC<CartRowPromotionPriceProps> = ({
   quantity,
   price,
   discount,
@@ -28,4 +26,4 @@ const CartRowPrice: React.FC<CartRowPriceProps> = ({
   );
 };
 
-export default CartRowPrice;
+export default CartRowPromotionPrice;
