@@ -160,10 +160,10 @@ const ShippingForm = ({
         )}
       </div>
 
-      <div className="flex items-center space-x-2">
-        <label htmlFor="terms" className="text-sm font-medium leading-none">
+      <div className="flex items-center justify-end space-x-2">
+        <Label htmlFor="terms" className="text-m font-medium leading-none">
           Adresse de facturation identique
-        </label>
+        </Label>
         <Checkbox
           id="terms"
           onCheckedChange={(checked) => onSameAddressChange(!!checked)}
