@@ -1,6 +1,6 @@
 "use client"
 import ShippingForm from '@/components/pages/payment/ShippingForm';
-import AuthForm from '@/components/pages/payment/AuthForm';
+import Auth from '@/components/pages/payment/Auth';
 import BillingForm from '@/components/pages/payment/BillingForm';
 import ProgressBarCheckout from '@/components/pages/payment/ProgressBarCheckout';
 import PaymentMock from '@/components/pages/payment/StripeMock';
@@ -14,7 +14,7 @@ enum Step {
   PAYMENT = 4,
 }
 
-const page: React.FC = () => {
+const CheckoutPage= () => {
   const [step, setStep] = useState(Step.AUTH);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [sameAddress, setSameAddress] = useState(true); // Pour gérer si les adresses sont identiques
@@ -24,7 +24,7 @@ const page: React.FC = () => {
       <ProgressBarCheckout step={step} />
 
       {step === Step.AUTH && !isAuthenticated && (
-        <AuthForm
+        <Auth
           onSuccess={() => {
             setIsAuthenticated(true);
             setStep(Step.SHIPPING);
@@ -36,6 +36,7 @@ const page: React.FC = () => {
         <ShippingForm
           onNext={() => setStep(sameAddress ? Step.PAYMENT : Step.BILLING)}
           onSameAddressChange={(checked: boolean) => setSameAddress(checked)}
+          sameAddress={sameAddress}
         />
       )}
 
@@ -47,4 +48,4 @@ const page: React.FC = () => {
     </div>
   );
 };
-export default page;
+export default CheckoutPage;

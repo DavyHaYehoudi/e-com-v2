@@ -65,7 +65,7 @@ export function Navbar() {
           <NavigationMenuLink
             href="/carte-cadeau"
             className={`flex items-center space-x-2 relative ${
-              pathname === "/carte=cadeau" ? "active" : ""
+              pathname === "/carte-cadeau" ? "active" : ""
             }`}
           >
             <GiftIcon className="tab-nav w-5 h-5" />
