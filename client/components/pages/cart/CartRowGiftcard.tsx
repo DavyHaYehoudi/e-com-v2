@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import TrashIcon from "@/components/shared/TrashIcon";
 import QuantityCalculator from "@/components/shared/QuantityCalculator";
-import CartRowPrice from "./CartRowPrice";
 import ProductImageGiftcard from "@/components/shared/productImage/ProductImageGiftcard";
 import { productsInCart } from "@/app/mocks/products";
 import { ProductCart } from "@/app/types/ProductTypes";
@@ -45,14 +44,8 @@ const CartRowGiftcard = () => {
           />
         </TableCell>
 
-        {/* Cellule affichant le prix total avec réduction */}
-        <TableCell className="text-right">
-          <CartRowPrice
-            quantity={quantity}
-            price={giftcard.amount}
-            discount={null}
-          />
-        </TableCell>
+        {/* Cellule vide pour le prix de la réduction */}
+        <TableCell></TableCell>
 
         {/* Cellule vide pour Cashback */}
         <TableCell></TableCell>

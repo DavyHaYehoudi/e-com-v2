@@ -9,7 +9,7 @@ import { isProductNew } from "@/app/utils/productUtils";
 import QuantityCalculator from "@/components/shared/QuantityCalculator";
 import NewBadge from "@/components/shared/badge/NewBadge";
 import CashbackBadge from "@/components/shared/badge/CashbackBadge";
-import CartRowPrice from "./CartRowPrice";
+import CartRowPromotionPrice from "./CartRowPromotionPrice";
 import VariantBadge from "@/components/shared/badge/VariantBadge";
 import WeightBadge from "@/components/shared/badge/WeightBadge";
 
@@ -65,9 +65,9 @@ const CartRowItem = () => {
           />
         </TableCell>
 
-        {/* Cellule affichant le prix total avec réduction */}
+        {/* Cellule affichant le prix de la réduction */}
         <TableCell className="text-right">
-          <CartRowPrice
+          <CartRowPromotionPrice
             quantity={quantity}
             price={product.price}
             discount={product.discount_percentage}

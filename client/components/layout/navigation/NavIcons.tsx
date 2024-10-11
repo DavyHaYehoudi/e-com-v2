@@ -58,7 +58,7 @@ const NavIcons = () => {
 
       {/* Icône Panier avec badge */}
       <div className="relative">
-        <a href="/cart">
+        <a href="/panier">
           <span title="Panier">
             <ShoppingBagIcon className="w-6 h-6 mb-2 cursor-pointer" />
           </span>
