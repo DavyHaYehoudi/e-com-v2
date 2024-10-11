@@ -7,7 +7,7 @@ const TopNavbar = () => {
   return (
     <div className="flex justify-between items-center p-4 bg-whitesmoke my-8">
       {/* Groupe 1 : Bouton Switch (Dark Mode) */}
-      <div className="flex-1">
+      <div className="flex-1 ml-24">
         <ThemeToggle />
       </div>
 

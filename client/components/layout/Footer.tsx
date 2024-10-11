@@ -25,16 +25,19 @@ const Footer = () => {
           </h2>
           <ul className="mt-4">
             <li style={{ letterSpacing: letterSpacing1 }}>
-              <a href="/produits">Produits</a>
-            </li>
-            <li style={{ letterSpacing: letterSpacing1 }}>
-              <a href="/avantages">Avantages</a>
-            </li>
-            <li style={{ letterSpacing: letterSpacing1 }}>
               <a href="/creatrice">Créatrice</a>
             </li>
             <li style={{ letterSpacing: letterSpacing1 }}>
+              <a href="/tradition">Tradition</a>
+            </li>
+            <li style={{ letterSpacing: letterSpacing1 }}>
               <a href="/contact">Contact</a>
+            </li>
+            <li style={{ letterSpacing: letterSpacing1 }}>
+              <a href="/carte-cadeau">Carte cadeau</a>
+            </li>
+            <li style={{ letterSpacing: letterSpacing1 }}>
+              <a href="/produits">Produits</a>
             </li>
           </ul>
         </div>

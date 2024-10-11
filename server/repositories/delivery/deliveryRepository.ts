@@ -50,15 +50,15 @@ export const getAllDeliveriesRepository = async () => {
 export const createDeliveryRepository = async (
   shippingData: CreateDeliveryDTO
 ) => {
-  const { name, icon_url, is_active, rates } = shippingData;
+  const { name, icon_url, is_active, is_default, rates } = shippingData;
 
   await beginTransaction();
 
   try {
     // Insertion dans la table shipping_method
     const insertMethodSql = `
-        INSERT INTO shipping_method (name, icon_url, is_active)
-        VALUES (?, ?, ?)
+        INSERT INTO shipping_method (name, icon_url, is_active, is_default)
+        VALUES (?, ?, ?, ?)
       `;
     const resultMethod = await query<ResultSetHeader>(insertMethodSql, [
       name,
@@ -108,6 +108,7 @@ export const createDeliveryRepository = async (
       name: shippingMethod[0].name,
       icon_url: shippingMethod[0].icon_url,
       is_active: shippingMethod[0].is_active,
+      is_default: shippingMethod[0].is_default,
       rates: tarifs.map((tarif) => ({
         price: tarif.price,
         min_weight: tarif.min_weight,

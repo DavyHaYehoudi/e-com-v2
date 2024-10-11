@@ -15,13 +15,14 @@ import codePromoRoutes from "./routes/freeAccess/codePromo.routes.js";
 import productRoutes from "./routes/freeAccess/product.routes.js";
 import deliveryRoutes from "./routes/freeAccess/delivery.routes.js";
 import reviewRoutes from "./routes/freeAccess/review.routes.js";
+import giftCardRoutes from "./routes/freeAccess/giftcard.routes.js";
 
 // Reserved routes
 import customerPrivateRoutes from "./routes/reserved/customer.routes.js";
 import reviewReservedRoutes from "./routes/reserved/review.routes.js";
 import giftCardReservedRoutes from "./routes/reserved/giftCard.routes.js";
 import paymentReservedRoutes from "./routes/reserved/payment.routes.js";
-import orderReservedRoutes from "./routes/reserved/order.routes.js"
+import orderReservedRoutes from "./routes/reserved/order.routes.js";
 
 // Admin routes
 import profileRoutes from "./routes/admin/customer/profile.routes.js";
@@ -52,10 +53,11 @@ app.use("/api/collections", collectionRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/tags", tagRoutes);
 app.use("/api/discounts", discountRoutes);
-app.use("/api/code-promos", codePromoRoutes);
+app.use("/api/code-promos/verify-code", codePromoRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/deliveries", deliveryRoutes);
 app.use("/api/reviews", reviewRoutes);
+app.use("/api/gift-cards/check-in", giftCardRoutes);
 
 // Reserved routes
 app.use("/api/customer", customerPrivateRoutes);
@@ -87,10 +89,19 @@ app.use("/api/admin/products", verifyToken, adminAccess, productAdminRoutes);
 app.use("/api/admin/deliveries", verifyToken, adminAccess, deliveryAdminRoutes);
 app.use("/api/admin/reviews", verifyToken, adminAccess, reviewAdminRoutes);
 app.use("/api/admin/gift-cards", verifyToken, adminAccess, giftCardAdminRoutes);
-app.use("/api/admin/order-items", verifyToken, adminAccess, orderItemAdminRoutes); 
+app.use(
+  "/api/admin/order-items",
+  verifyToken,
+  adminAccess,
+  orderItemAdminRoutes
+);
 app.use("/api/admin/orders", verifyToken, adminAccess, orderAdminRoutes);
-app.use("/api/admin/marketing/campaigns", verifyToken, adminAccess, marketingAdminRoutes);
-
+app.use(
+  "/api/admin/marketing/campaigns",
+  verifyToken,
+  adminAccess,
+  marketingAdminRoutes
+);
 
 app.use(errorHandler);
 

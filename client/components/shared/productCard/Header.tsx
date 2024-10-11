@@ -2,22 +2,29 @@ import { ProductCardProps } from "@/app/types/ProductTypes";
 import { isProductNew, isProductOnSale } from "@/app/utils/productUtils";
 import Image from "next/image";
 import React from "react";
+import PromotionBadge from "../badge/PromotionBadge";
+import NewBadge from "../badge/NewBadge";
+import CashbackBadge from "../badge/CashbackBadge";
 
 const Header: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <div className="relative p-1" style={{ width: "100%", height: "65%" }}>
-      {/* Badge de promotion */}
       {isProductOnSale(product.discount_percentage) && (
-        <span className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-          -{product.discount_percentage}%
-        </span>
+        <PromotionBadge
+          discountPercentage={product.discount_percentage}
+          additionalClasses="absolute top-2 right-2"
+        />
       )}
 
-      {/* Badge de nouveauté */}
       {isProductNew(product.new_until) && (
-        <span className="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-          Nouveau
-        </span>
+        <NewBadge additionalClasses="absolute top-2 left-2 " />
+      )}
+
+      {product.cash_back && (
+        <CashbackBadge
+          cashbackAmount={product.cash_back}
+          additionalClasses="absolute top-2 left-1/2 transform -translate-x-1/2 "
+        />
       )}
 
       {/* Image du produit */}

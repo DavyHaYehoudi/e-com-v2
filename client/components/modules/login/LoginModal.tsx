@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import {
   InputOTP,
   InputOTPGroup,
-  InputOTPSeparator,
+  InputOTPSeparator, 
   InputOTPSlot,
 } from "@/components/ui/input-otp"; // Assurez-vous que ce chemin est correct
 import { Input } from "@/components/ui/input"; // Assurez-vous que ce chemin est correct

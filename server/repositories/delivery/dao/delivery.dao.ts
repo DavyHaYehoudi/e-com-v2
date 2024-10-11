@@ -4,6 +4,7 @@ export interface ShippingMethodRow extends RowDataPacket {
   id: number;
   name: string;
   is_active: boolean;
+  is_default: boolean;
   icon_url: string;
   created_at: Date;
   updated_at: Date;
@@ -26,6 +27,7 @@ export interface ShippingMethodClientFormat extends RowDataPacket {
   min_weight: number;
   max_weight: number;
   is_active: boolean;
+  is_default: boolean;
   created_at: Date;
   updated_at: Date;
 }

@@ -21,6 +21,7 @@ import {
   rollbackTransaction,
 } from "../../utils/transaction.js";
 import { orderItem } from "../../controllers/payment/entities/dto/paymentAmount.dto.js";
+import { formatAmount } from "../../utils/format_amount.js";
 
 export const getAllProductsRepository = async (filters: {
   name?: string;
@@ -148,13 +149,43 @@ export const getAllProductsRepository = async (filters: {
 export const getProductRepository = async (productId: number) => {
   // Récupérer les informations de base du produit
   const productSql = `
- SELECT id, name, SKU, description, weight, continue_selling, quantity_in_stock, 
-        price, new_until, cash_back, is_published, is_star, is_archived, 
-        created_at, updated_at
- FROM product 
- WHERE id = ?`;
+ SELECT 
+  p.id,
+  p.name, 
+  p.SKU, 
+  p.description, 
+  p.weight, 
+  p.continue_selling, 
+  p.quantity_in_stock, 
+  p.price, 
+  p.new_until, 
+  p.cash_back, 
+  p.is_published, 
+  p.is_star, 
+  p.is_archived, 
+  p.created_at, 
+  p.updated_at, 
+  d.discount_percentage
+FROM product p
+    LEFT JOIN discount d 
+      ON p.id = d.target_id 
+      AND d.target_table = 'product'
+      AND d.start_date <= CURRENT_DATE
+      AND d.end_date >= CURRENT_DATE
+    LEFT JOIN product_category pc 
+      ON p.id = pc.product_id
+    LEFT JOIN category c 
+      ON pc.category_id = c.id
+    LEFT JOIN collection cl 
+      ON c.parent_collection_id = cl.id
+WHERE p.id = ?;
+`;
 
-  const productResult = await query<ProductRow[]>(productSql, [productId]);
+  const productResult = await query<
+    (ProductRow & {
+      discount_percentage: number | null;
+    })[]
+  >(productSql, [productId]);
 
   if (productResult.length === 0) {
     throw new NotFoundError(`Product with ID ${productId} not found`);
@@ -204,12 +235,13 @@ export const getProductRepository = async (productId: number) => {
     name: product.name,
     SKU: product.SKU,
     description: product.description,
-    weight: product.weight,
+    weight: formatAmount(product.weight),
     continue_selling: product.continue_selling,
-    quantity_in_stock: product.quantity_in_stock,
-    price: product.price,
+    quantity_in_stock: formatAmount(product.quantity_in_stock),
+    discount_percentage: formatAmount(product.discount_percentage),
+    price: formatAmount(product.price),
     new_until: product.new_until,
-    cash_back: product.cash_back,
+    cash_back: formatAmount(product.cash_back),
     is_published: product.is_published,
     is_star: product.is_star,
     is_archived: product.is_archived,
