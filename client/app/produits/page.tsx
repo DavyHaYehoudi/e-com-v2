@@ -10,11 +10,10 @@ const AllProducts = () => {
   const allProducts: Product[] = products;
   return (
     <main>
-      <h1 className="uppercase text-center mt-5">tous les produits</h1>
+      <h1 className="uppercase text-center mt-[60px]">tous les produits</h1>
       <section className="flex items-center justify-around">
         <DataCounter items={allProducts} itemName="produit" />
-        <FilterByName />{" "}
-        <FilterBlock />
+        <FilterByName /> <FilterBlock />
       </section>
       <section className="w-3/4 mx-auto my-20 flex flex-wrap items-center justify-center gap-4">
         {allProducts &&

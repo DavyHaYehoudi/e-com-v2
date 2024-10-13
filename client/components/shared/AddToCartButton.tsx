@@ -1,6 +1,6 @@
+'use client'
 import React, { useState } from "react";
 import { Button } from "../ui/button";
-import { ProductCardProps } from "@/app/types/ProductTypes";
 import {
   Sheet,
   SheetTrigger,
@@ -14,8 +14,13 @@ import Header from "../pages/cart-sheet/header/Header";
 import Footer from "../pages/cart-sheet/footer/Footer";
 import Body from "../pages/cart-sheet/body/Body";
 import { ScrollArea } from "../ui/scroll-area";
+import { MasterProductType, Product } from "@/app/types/ProductTypes";
 
-const AddToCartButton: React.FC<ProductCardProps> = ({ product }) => {
+interface FavoriteButtonProps {
+  product: MasterProductType | Product;
+}
+
+const AddToCartButton: React.FC<FavoriteButtonProps> = ({ product }) => {
   const [isAddedToCart, setIsAddedToCart] = useState<boolean>(false);
   const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
 
