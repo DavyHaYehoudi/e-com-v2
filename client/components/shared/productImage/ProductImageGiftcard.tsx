@@ -22,7 +22,7 @@ import {
             <a href={`/carte-cadeau`}>
               <Image
                 className="w-full object-center rounded-[16px] cursor-pointer"
-                src={`/images/giftcard.png`}
+                src={`/images/giftcard.jpeg`}
                 alt={`Carte cadeau d'une valeur de ${amount} euros`}
                 width={150}
                 height={150}

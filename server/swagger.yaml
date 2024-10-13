@@ -3551,6 +3551,18 @@ components:
         is_archived:
           type: boolean
           example: false
+        created_at:
+          type: string
+          format: date-time
+          example: 2024-09-12T15:20:01.000Z
+        updated_at:
+          type: string
+          format: date-time
+          example: 2024-09-12T15:20:01.000Z
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryGET'
     CollectionPOST:
       required:
         - label
@@ -3587,6 +3599,14 @@ components:
         is_archived:
           type: boolean
           example: false
+        created_at:
+          type: string
+          format: date-time
+          example: 2024-09-12T15:20:42.000Z
+        updated_at:
+          type: string
+          format: date-time
+          example: 2024-09-12T15:20:42.000Z
     CategoryPOST:
       required:
         - label

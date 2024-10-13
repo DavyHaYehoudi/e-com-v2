@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   NavigationMenu,
@@ -7,44 +6,10 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { collectionType } from "@/app/types/CollectionTypes";
+import { collections } from "@/app/mocks/collections";
+import { formatLabelForURL } from "@/app/utils/FormatLabelForUrl";
 
 export function ProductMenu() {
-  const [collections, setCollections] = useState<collectionType[]>([]);
-
-  useEffect(() => {
-    // Simule un fetch des collections et catégories depuis la DB
-    setCollections([
-      {
-        name: "Pour un jour d'exception",
-        categories: [
-          "Bracelet",
-          "Colliers de dos",
-          "Colliers",
-          "Boucles d'oreilles",
-        ],
-      },
-      {
-        name: "Pour le quotidien",
-        categories: [
-          "Bracelet",
-          "Colliers",
-          "Boucles d'oreilles",
-          "Broches",
-          "Accessoires",
-        ],
-      },
-      {
-        name: "Demoiselles d'honneur",
-        categories: ["Chaussures"],
-      },
-      {
-        name: "Accessoires",
-        categories: ["Chaussures", "Broches", "Peignes"],
-      },
-    ]);
-  }, []);
-
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -53,26 +18,31 @@ export function ProductMenu() {
             Produits
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] lg:w-[600px]">
+            <ul className="grid w-[400px] gap-3 p-6 md:w-[500px] lg:w-[600px]">
               {collections.map((collection) => (
-                <li key={collection.name} className="mb-4">
+                <li key={collection.label} className="mb-4">
                   <span className="font-bold tracking-widest">
-                    {collection.name}
+                    {collection.label}
                   </span>
                   <ul className="pl-4">
                     {collection.categories.map((category) => (
                       <li
-                        key={category}
+                        key={category.id}
                         className="hover:underline tracking-wide"
                       >
-                        <Link href={`/products/${category.toLowerCase()}`}>
-                          {category}
+                        <Link
+                          href={`/categorie/${formatLabelForURL(category.label)}/produits`}
+                        >
+                          {category.label}
                         </Link>
                       </li>
                     ))}
                   </ul>
                 </li>
               ))}
+              <li className="hover:underline font-bold tracking-widest uppercase text-center">
+                <Link href={`/produits`}> tous les produits</Link>
+              </li>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
