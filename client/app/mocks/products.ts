@@ -1,4 +1,8 @@
-import { MasterProductType, Product, ProductCart } from "../types/ProductTypes";
+import {
+  MasterProductsType,
+  Product,
+  ProductCart,
+} from "../types/ProductTypes";
 
 export const products: Product[] = [
   {
@@ -82,7 +86,7 @@ export const products: Product[] = [
     isActive: true,
   },
   {
-    id: 5,
+    id: 4,
     name: "broche",
     SKU: "MlOxJD*S&RNS",
     description: "joli produit 4",
@@ -102,7 +106,7 @@ export const products: Product[] = [
     isActive: true,
   },
   {
-    id: 6,
+    id: 4,
     name: "Parapluie",
     SKU: "MlOxJD*S&RNS",
     description: "joli produit 4",
@@ -122,13 +126,13 @@ export const products: Product[] = [
     isActive: true,
   },
   {
-    id: 7,
+    id: 4,
     name: "chaussures",
     SKU: "MlOxJD*S&RNS",
     description: "joli produit 4",
     main_image: "partner1.jpeg",
-    discount_percentage: 5,
-    discount_end_date: "2024-10-15",
+    discount_percentage: null,
+    discount_end_date: null,
     weight: 75,
     continue_selling: true,
     quantity_in_stock: 10,
@@ -142,7 +146,7 @@ export const products: Product[] = [
     isActive: true,
   },
   {
-    id: 8,
+    id: 4,
     name: "boucles d'oreilles",
     SKU: "MlOxJD*S&RNS",
     description: "joli produit 4",
@@ -182,7 +186,8 @@ export const productsInCart: ProductCart = {
       id: 2,
       name: "Product 2",
       main_image: "partner2.jpeg",
-      discount_percentage: 10,discount_end_date: "2025-10-10",
+      discount_percentage: 10,
+      discount_end_date: "2025-10-10",
       weight: 1000,
       price: 23,
       new_until: "2023-10-10",
@@ -243,9 +248,9 @@ export const productsInCart: ProductCart = {
 
 // export const products:Product[] = []
 
-export const mockMasterProducts: MasterProductType[] = [
+export const mockMasterProducts: MasterProductsType[] = [
   {
-    id:1,
+    id: 1,
     name: "Bracelet",
     SKU: "029348752LIK98",
     description: "Bracelet fait main.",
@@ -262,7 +267,7 @@ export const mockMasterProducts: MasterProductType[] = [
     is_archived: false,
     images: [
       {
-        url: "logo.png",
+        url: "partner1.jpeg",
         is_main: true,
       },
       {
@@ -281,13 +286,13 @@ export const mockMasterProducts: MasterProductType[] = [
     updatedAt: "2024-03-21T17:50:38.100Z",
   },
   {
-    id:2,
+    id: 2,
     name: "Montre de luxe",
     SKU: "9876543210ABCD",
     description: "Montre de luxe en acier inoxydable.",
     weight: 150,
-    discount_percentage: 5,
-    discount_end_date: "2025-10-10",
+    discount_percentage: null,
+    discount_end_date: null,
     continue_selling: true,
     quantity_in_stock: 10,
     price: 2500,
@@ -298,8 +303,12 @@ export const mockMasterProducts: MasterProductType[] = [
     is_archived: false,
     images: [
       {
-        url: "partner4.jpeg",
+        url: "partner1.jpeg",
         is_main: true,
+      },
+      {
+        url: "partner2.jpeg",
+        is_main: false,
       },
       {
         url: "partner3.jpeg",
@@ -313,7 +322,7 @@ export const mockMasterProducts: MasterProductType[] = [
     updatedAt: "2024-02-16T12:25:45.300Z",
   },
   {
-    id:3,
+    id: 3,
     name: "Chaussures de sport",
     SKU: "A1B2C3D4E5F6",
     description: `
@@ -326,7 +335,7 @@ export const mockMasterProducts: MasterProductType[] = [
 `,
     weight: 500,
     discount_percentage: 15,
-    discount_end_date: "2024-12-12",
+    discount_end_date: "2024-10-16",
     continue_selling: false,
     quantity_in_stock: 2,
     price: 120,
@@ -350,30 +359,14 @@ export const mockMasterProducts: MasterProductType[] = [
       },
       {
         url: "partner4.jpeg",
-        is_main: false,
-      },
-      {
-        url: "logo.png",
-        is_main: false,
-      },
-      {
-        url: "partner1.jpeg",
         is_main: true,
       },
       {
-        url: "partner2.jpeg",
-        is_main: false,
-      },
-      {
-        url: "partner3.jpeg",
-        is_main: false,
-      },
-      {
-        url: "partner4.jpeg",
-        is_main: false,
-      },
-      {
         url: "logo.png",
+        is_main: false,
+      },
+      {
+        url: "giftcard.jpeg",
         is_main: false,
       },
     ],

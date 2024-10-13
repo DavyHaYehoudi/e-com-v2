@@ -14,13 +14,12 @@ import Header from "../pages/cart-sheet/header/Header";
 import Footer from "../pages/cart-sheet/footer/Footer";
 import Body from "../pages/cart-sheet/body/Body";
 import { ScrollArea } from "../ui/scroll-area";
-import { MasterProductType, Product } from "@/app/types/ProductTypes";
+import { MasterProductsType, Product } from "@/app/types/ProductTypes";
 
-interface FavoriteButtonProps {
-  product: MasterProductType | Product;
+interface AddToCartButtonProps {
+  product: Product | MasterProductsType;
 }
-
-const AddToCartButton: React.FC<FavoriteButtonProps> = ({ product }) => {
+const AddToCartButton: React.FC<AddToCartButtonProps> = ({ product }) => {
   const [isAddedToCart, setIsAddedToCart] = useState<boolean>(false);
   const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
 

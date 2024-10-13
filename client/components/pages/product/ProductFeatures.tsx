@@ -1,10 +1,11 @@
-import { MasterProductType } from "@/app/types/ProductTypes";
+
+import { MasterProductsType } from "@/app/types/ProductTypes";
 import { formatWeight } from "@/app/utils/weightFormat";
 import React from "react";
 
 
 interface ProductFeaturesProps {
-  product: MasterProductType;
+  product: MasterProductsType;
 }
 
 const ProductFeatures: React.FC<ProductFeaturesProps> = ({ product }) => {

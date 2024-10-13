@@ -4,8 +4,8 @@ import React from "react";
 import PromotionBadge from "../badge/PromotionBadge";
 import NewBadge from "../badge/NewBadge";
 import CashbackBadge from "../badge/CashbackBadge";
-import Link from "next/link";
 import { Product } from "@/app/types/ProductTypes";
+import Link from "next/link";
 
 interface HeaderProps {
   product: Product;
@@ -40,7 +40,6 @@ const Header: React.FC<HeaderProps> = ({ product }) => {
           className="w-full h-full object-cover rounded-t-2xl"
           width="450"
           height="520"
-          title="Voir la fiche du produit"
         />
       </Link>
     </div>

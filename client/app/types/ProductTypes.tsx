@@ -1,3 +1,4 @@
+
 export interface Product {
   id: number;
   name: string;
@@ -41,8 +42,8 @@ export interface ProductCart {
   items: ProductCartItems[];
   gift_cards: ProductCartGiftcards[];
 }
-export interface MasterProductType {
-  id: number;
+export interface MasterProductsType {
+  id:number,
   name: string;
   SKU: string;
   description: string;

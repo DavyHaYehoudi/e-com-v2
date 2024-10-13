@@ -1,7 +1,13 @@
 "use client";
-import { Table, TableBody, TableFooter } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableFooter,
+} from "@/components/ui/table";
 import CartRowItem from "./CartRowItem";
-import { calculateTotalWeightCart } from "./utils/calculUtils";
+import {
+  calculateTotalWeightCart,
+} from "./utils/calculUtils";
 import { productsInCart } from "@/app/mocks/products";
 import { useState } from "react";
 import { calculateDeliveryPrice, defaultDelivery } from "./utils/deliveryUtils";

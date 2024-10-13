@@ -1,9 +1,10 @@
-"use client";
+'use client'
 import React, { useState } from "react";
 import { Heart } from "lucide-react";
-import { MasterProductType, Product } from "@/app/types/ProductTypes";
-interface FavoriteButtonProps {
-  product: MasterProductType | Product;
+import { MasterProductsType, Product } from "@/app/types/ProductTypes";
+
+interface FavoriteButtonProps{
+  product: Product | MasterProductsType
 }
 
 const FavoriteButton: React.FC<FavoriteButtonProps> = ({ product }) => {

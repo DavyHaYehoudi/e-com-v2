@@ -10,13 +10,13 @@ interface CategoryPageProps {
 }
 
 const ProductByCategory = ({ params }: CategoryPageProps) => {
+  const allProducts: Product[] = products;
   const { category } = params;
 
-  const allProducts: Product[] = products;
   return (
-    <main>
-      <h1 className="uppercase text-center mt-[60px]">
-        tous les produits de la catégorie {category}{" "}
+    <div>
+      <h1 className="uppercase text-center mt-5">
+        Produits dans la catégorie : {category}
       </h1>
       <section className="w-3/4 mx-auto my-20 flex flex-wrap items-center justify-center gap-4">
         {allProducts &&
@@ -25,7 +25,7 @@ const ProductByCategory = ({ params }: CategoryPageProps) => {
             <ProductCard key={product.id} product={product} />
           ))}
       </section>
-    </main>
+    </div>
   );
 };
 export default ProductByCategory;

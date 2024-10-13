@@ -1,5 +1,5 @@
 import { isAfter } from "date-fns";
-import { MasterProductType, Product } from "../types/ProductTypes";
+import { MasterProductsType, Product } from "../types/ProductTypes";
 
 /**
  * Détermine si un produit est en promotion.
@@ -24,15 +24,15 @@ export const isProductNew = (newUntil: string | null): boolean => {
   return isAfter(newUntilDate, today);
 };
 
-export const priceProductAfterDiscount = (product: Product | MasterProductType): number => {
+export const priceProductAfterDiscount = (product: Product | MasterProductsType): number => {
   return product.discount_percentage
     ? product.price - (product.price * product.discount_percentage) / 100
     : product.price;
 };
-export const canContinueSelling = (product: Product | MasterProductType): boolean => {
+export const canContinueSelling = (product: Product | MasterProductsType): boolean => {
   return product.continue_selling || product.quantity_in_stock > 0;
 };
-const formatPromotionDate = (discount_end_date: string): string => {
+export const formatPromotionDate = (discount_end_date: string): string => {
   const now: Date = new Date();
   const promoDate: Date = new Date(discount_end_date);
 
@@ -73,6 +73,3 @@ const formatPromotionDate = (discount_end_date: string): string => {
     })}`;
   }
 };
-
-
-export default formatPromotionDate;

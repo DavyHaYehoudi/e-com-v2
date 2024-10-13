@@ -14,7 +14,8 @@ export const getAllProductsService = async (filters: {
   sort_by_sales?: boolean;
   limit?: number;
 }) => {
-  return await productService.getAllProductsRepository(filters);
+  const products = await productService.getAllProductsRepository(filters);
+  return products.map(product =>({...product,discount_end_date:product.end_date}))
 };
 // Récupérer un produit
 export const getProductService = async (productId: number) => {
