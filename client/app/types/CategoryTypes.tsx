@@ -4,4 +4,5 @@ export interface CategoryTypes {
     is_archived: boolean;
     created_at: string;
     updated_at: string;
+    parent_collection_id: number;
   }

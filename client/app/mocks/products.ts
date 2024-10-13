@@ -22,7 +22,7 @@ export const products: Product[] = [
   },
   {
     id: 2,
-    name: "Product 2",
+    name: "bracelet",
     SKU: "OKMNJ89998",
     description: "joli produit 2",
     main_image: "partner2.jpeg",
@@ -41,7 +41,7 @@ export const products: Product[] = [
   },
   {
     id: 3,
-    name: "Product 3",
+    name: "collier",
     SKU: "BV!QAS#WJS",
     description: "joli produit 3",
     main_image: "partner3.jpeg",
@@ -60,7 +60,7 @@ export const products: Product[] = [
   },
   {
     id: 4,
-    name: "Product 4Product 4Product ",
+    name: "collier de dos",
     SKU: "MlOxJD*S&RNS",
     description: "joli produit 4",
     main_image: "partner1.jpeg",
@@ -79,7 +79,7 @@ export const products: Product[] = [
   },
   {
     id: 4,
-    name: "Product 4Product 4Product ",
+    name: "broche",
     SKU: "MlOxJD*S&RNS",
     description: "joli produit 4",
     main_image: "partner1.jpeg",
@@ -98,7 +98,7 @@ export const products: Product[] = [
   },
   {
     id: 4,
-    name: "Product 4Product 4Product ",
+    name: "Parapluie",
     SKU: "MlOxJD*S&RNS",
     description: "joli produit 4",
     main_image: "partner1.jpeg",
@@ -117,7 +117,7 @@ export const products: Product[] = [
   },
   {
     id: 4,
-    name: "Product 4Product 4Product ",
+    name: "chaussures",
     SKU: "MlOxJD*S&RNS",
     description: "joli produit 4",
     main_image: "partner1.jpeg",
@@ -136,7 +136,7 @@ export const products: Product[] = [
   },
   {
     id: 4,
-    name: "Product 4Product 4Product ",
+    name: "boucles d'oreilles",
     SKU: "MlOxJD*S&RNS",
     description: "joli produit 4",
     main_image: "partner1.jpeg",
@@ -229,3 +229,5 @@ export const productsInCart: ProductCart = {
 //   items: [],
 //   gift_cards: [],
 // };
+
+// export const products:Product[] = []
