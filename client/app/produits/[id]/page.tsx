@@ -6,6 +6,8 @@ import FavoriteButton from "@/components/shared/FavoriteButton";
 import CarouselProduct from "@/components/pages/product/CarouselProduct";
 import ProductFeatures from "@/components/pages/product/ProductFeatures";
 import ProductPrice from "@/components/pages/product/ProductPrice";
+import ProductInformation from "@/components/pages/product/ProductInformation";
+import ProductsSuggested from "@/components/pages/product/ProductsSuggested";
 
 interface MasterProductProps {
   params: {
@@ -37,6 +39,8 @@ const MasterProduct = ({ params }: MasterProductProps) => {
         <ProductFeatures product={product} />
         <ProductPrice product={product} />
       </section>
+      <ProductInformation />
+      <ProductsSuggested />
     </main>
   );
 };
