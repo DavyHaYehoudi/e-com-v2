@@ -15,7 +15,7 @@ interface MasterProductProps {
   };
 }
 
-const product = mockMasterProducts[1];
+const product = mockMasterProducts[2];
 
 const MasterProduct = ({ params }: MasterProductProps) => {
   const { id } = params;

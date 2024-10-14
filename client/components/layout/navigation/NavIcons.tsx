@@ -79,7 +79,7 @@ const NavIcons = () => {
           </span>
 
           {cashbackCustomer > 0 && (
-            <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-s font-bold leading-none text-white bg-blue-500 rounded-full whitespace-nowrap">
+            <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-s font-bold leading-none bg-purple-200 text-black rounded-full whitespace-nowrap">
               {formatPrice(cashbackCustomer)}
             </span>
           )}
