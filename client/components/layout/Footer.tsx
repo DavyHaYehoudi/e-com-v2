@@ -95,13 +95,13 @@ const Footer = () => {
           </h2>
           <ul className="mt-4">
             <li style={{ letterSpacing: letterSpacing1 }}>
-              <a href="/livraisons-et-retours">Livraisons et retours</a>
+              <a href="/livraison-et-retour">Livraisons et retours</a>
             </li>
             <li style={{ letterSpacing: letterSpacing1 }}>
               <a href="/mentions-legales">Mentions légales</a>
             </li>
             <li style={{ letterSpacing: letterSpacing1 }}>
-              <a href="/condtions-generales-de-vente">
+              <a href="/conditions-generales-de-vente">
                 Conditions générales de vente
               </a>
             </li>

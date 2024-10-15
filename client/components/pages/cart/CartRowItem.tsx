@@ -71,6 +71,7 @@ const CartRowItem = () => {
             quantity={quantity}
             price={product.price}
             discount={product.discount_percentage}
+            discount_end_date={product.discount_end_date}
           />
         </TableCell>
 

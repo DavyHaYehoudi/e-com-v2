@@ -40,6 +40,7 @@ export const getAllProductsRepository = async (filters: {
       p.*, 
       pi.url AS main_image,
       d.discount_percentage,
+      d.end_date,
       IFNULL(SUM(oi.article_number), 0) AS total_sales
     FROM product p
     LEFT JOIN product_image pi 
@@ -140,6 +141,7 @@ export const getAllProductsRepository = async (filters: {
     (ProductRow & {
       main_image: string | null;
       discount_percentage: number | null;
+      end_date: string | null
       total_sales: number; // Ajout du champ total_sales
     })[]
   >(sql, params);
@@ -165,7 +167,8 @@ export const getProductRepository = async (productId: number) => {
   p.is_archived, 
   p.created_at, 
   p.updated_at, 
-  d.discount_percentage
+  d.discount_percentage,
+  d.end_date
 FROM product p
     LEFT JOIN discount d 
       ON p.id = d.target_id 
@@ -184,6 +187,7 @@ WHERE p.id = ?;
   const productResult = await query<
     (ProductRow & {
       discount_percentage: number | null;
+      end_date: string | null;
     })[]
   >(productSql, [productId]);
 
@@ -239,6 +243,7 @@ WHERE p.id = ?;
     continue_selling: product.continue_selling,
     quantity_in_stock: formatAmount(product.quantity_in_stock),
     discount_percentage: formatAmount(product.discount_percentage),
+    discount_end_date: product.end_date,
     price: formatAmount(product.price),
     new_until: product.new_until,
     cash_back: formatAmount(product.cash_back),

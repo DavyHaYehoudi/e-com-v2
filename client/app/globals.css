@@ -1,11 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "~react-image-gallery/styles/css/image-gallery.css";
 @import "./variables.css";
 @import "@/components/layout/navigation/navigation.css";
 @import "@/components/pages/tradition/tradition.css";
 @import "@/components/pages/creatrice/creatrice.css";
-
+@import "@/components/pages/product/productSuggested.css";
 
 body {
   @apply font-nunito;

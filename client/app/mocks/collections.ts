@@ -16,6 +16,7 @@ export const collections: CollectionTypes[] = [
         is_archived: false,
         created_at: "2024-09-12T15:20:42.000Z",
         updated_at: "2024-09-12T15:20:42.000Z",
+        parent_collection_id: 1,
       },
       {
         id: 2,
@@ -23,6 +24,7 @@ export const collections: CollectionTypes[] = [
         is_archived: false,
         created_at: "2024-09-12T18:32:55.000Z",
         updated_at: "2024-09-12T18:32:55.000Z",
+        parent_collection_id: 1,
       },
       {
         id: 3,
@@ -30,6 +32,7 @@ export const collections: CollectionTypes[] = [
         is_archived: false,
         created_at: "2024-09-12T18:34:16.000Z",
         updated_at: "2024-09-12T18:34:16.000Z",
+        parent_collection_id: 1,
       },
       {
         id: 4,
@@ -37,6 +40,7 @@ export const collections: CollectionTypes[] = [
         is_archived: false,
         created_at: "2024-09-12T18:34:16.000Z",
         updated_at: "2024-09-12T18:34:16.000Z",
+        parent_collection_id: 1,
       },
     ],
   },
@@ -53,6 +57,7 @@ export const collections: CollectionTypes[] = [
         is_archived: false,
         created_at: "2024-09-12T15:20:42.000Z",
         updated_at: "2024-09-12T15:20:42.000Z",
+        parent_collection_id: 2,
       },
       {
         id: 6,
@@ -60,6 +65,7 @@ export const collections: CollectionTypes[] = [
         is_archived: false,
         created_at: "2024-09-12T18:32:55.000Z",
         updated_at: "2024-09-12T18:32:55.000Z",
+        parent_collection_id: 2,
       },
     ],
   },
@@ -76,6 +82,7 @@ export const collections: CollectionTypes[] = [
         is_archived: false,
         created_at: "2024-09-12T15:20:42.000Z",
         updated_at: "2024-09-12T15:20:42.000Z",
+        parent_collection_id: 3,
       },
       {
         id: 8,
@@ -83,6 +90,7 @@ export const collections: CollectionTypes[] = [
         is_archived: false,
         created_at: "2024-09-12T18:32:55.000Z",
         updated_at: "2024-09-12T18:32:55.000Z",
+        parent_collection_id: 3,
       },
     ],
   },
@@ -99,6 +107,7 @@ export const collections: CollectionTypes[] = [
         is_archived: false,
         created_at: "2024-09-12T15:20:42.000Z",
         updated_at: "2024-09-12T15:20:42.000Z",
+        parent_collection_id: 4,
       },
       {
         id: 10,
@@ -106,6 +115,7 @@ export const collections: CollectionTypes[] = [
         is_archived: false,
         created_at: "2024-09-12T18:32:55.000Z",
         updated_at: "2024-09-12T18:32:55.000Z",
+        parent_collection_id: 4,
       },
       {
         id: 11,
@@ -113,6 +123,7 @@ export const collections: CollectionTypes[] = [
         is_archived: false,
         created_at: "2024-09-12T18:32:55.000Z",
         updated_at: "2024-09-12T18:32:55.000Z",
+        parent_collection_id: 4,
       },
     ],
   },

@@ -1,8 +1,13 @@
+'use client'
 import React, { useState } from "react";
 import { Heart } from "lucide-react";
-import { ProductCardProps } from "@/app/types/ProductTypes";
+import { MasterProductsType, Product } from "@/app/types/ProductTypes";
 
-const FavoriteButton: React.FC<ProductCardProps> = ({ product }) => {
+interface FavoriteButtonProps{
+  product: Product | MasterProductsType
+}
+
+const FavoriteButton: React.FC<FavoriteButtonProps> = ({ product }) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const onToggleFavorite = (productId: number) => {
     console.log(`ajout du produit ${productId} aux favoris`);
