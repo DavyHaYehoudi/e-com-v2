@@ -5,7 +5,7 @@ import React from "react";
 const PromotionBadge: React.FC<{
   discountPercentage: number | null;
   additionalClasses?: string;
-  discount_end_date: string | null;
+  discount_end_date?: string | null;
 }> = ({ discountPercentage, additionalClasses, discount_end_date }) => {
   return (
     <Badge

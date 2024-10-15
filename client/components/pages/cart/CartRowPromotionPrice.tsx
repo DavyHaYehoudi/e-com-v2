@@ -8,7 +8,7 @@ interface CartRowPromotionPriceProps {
   quantity: number;
   price: number;
   discount: number | null;
-  discount_end_date: string | null;
+  discount_end_date?: string | null;
 }
 const CartRowPromotionPrice: React.FC<CartRowPromotionPriceProps> = ({
   quantity,
