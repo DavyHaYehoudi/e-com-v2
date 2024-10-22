@@ -13,7 +13,7 @@ const ProductPrice: React.FC<ProductPriceProps> = ({ product }) => {
   return (
     <article className="mt-4">
       {product.discount_percentage ? (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 m-5">
           {/* Prix original barré avec un style en gris */}
           <del className="text-gray-500">{formatPrice(product.price)}</del>
           &nbsp;

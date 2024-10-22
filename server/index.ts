@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import { environment } from "./environment.js";
+import cors from "cors";
 import { checkConnection } from "./database/check-connection.js";
 import errorHandler from "./middlewares/errorMiddleware.js";
 import { verifyToken } from "./middlewares/authMiddleware.js";
@@ -44,6 +45,7 @@ import marketingAdminRoutes from "./routes/admin/marketing/marketing.routes.js";
 const app: Express = express();
 const port = environment.PORT;
 app.use(express.json());
+app.use(cors());
 
 checkConnection();
 

@@ -1,6 +1,9 @@
-import { ProductCardProps } from "@/app/types/ProductTypes";
+import { Product } from "@/app/types/ProductTypes";
 import React from "react";
 
+interface ProductCardProps{
+  product: Product;
+}
 const Body: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <div className="text-center mt-2 text-gray-500">
@@ -8,7 +11,7 @@ const Body: React.FC<ProductCardProps> = ({ product }) => {
       <div className="text-sm  uppercase" style={{ color: "var(--golden-1)" }}>
         atelier noralya
       </div>
-      <p className="text-lg">{`${product.price.toFixed(2)} €`}</p>
+      <p className="text-lg">{`${product.price} €`}</p>
     </div>
   );
 };

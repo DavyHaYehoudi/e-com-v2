@@ -192,7 +192,7 @@ const FilterBlock = () => {
             onClick={handleSubmit}
             className="bg-green-500 hover:bg-green-600 text-white rounded ml-2"
           >
-            Appliquer les filtres
+            Appliquer
           </Button>
         </div>
       </PopoverContent>

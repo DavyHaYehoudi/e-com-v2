@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { notFound } from "next/navigation";
 import { mockMasterProducts } from "@/app/mocks/products";
@@ -8,6 +9,7 @@ import ProductFeatures from "@/components/pages/product/ProductFeatures";
 import ProductPrice from "@/components/pages/product/ProductPrice";
 import ProductInformation from "@/components/pages/product/ProductInformation";
 import ProductsSuggested from "@/components/pages/product/ProductsSuggested";
+import NumberInput from "@/components/shared/NumberInput";
 
 interface MasterProductProps {
   params: {
@@ -23,6 +25,7 @@ const MasterProduct = ({ params }: MasterProductProps) => {
   if (!id) {
     notFound(); // Gère le cas où l'ID est manquant
   }
+  const handleQuantityChange = () => {};
   return (
     <main>
       <section className="contenair w-1/2 mx-auto ">
@@ -37,6 +40,11 @@ const MasterProduct = ({ params }: MasterProductProps) => {
           {product?.description}
         </article>
         <ProductFeatures product={product} />
+        <hr className="my-4" />
+        <NumberInput
+          maxQuantity={product.quantity_in_stock}
+          onValueChange={handleQuantityChange}
+        />
         <ProductPrice product={product} />
       </section>
       <ProductInformation />
