@@ -70,7 +70,6 @@ export const updateProductController = async (
     next(error);
   }
 };
-
 // ADMIN - Supprimer un produit
 export const deleteProductController = async (
   req: Request,
