@@ -26,37 +26,37 @@ const ProductsSuggested: React.FC<ProductsSuggestedProps> = ({ product }) => {
     error,
   } = useFetch<Product[]>(queryUrl);
 
-  return (
-    <LoaderWrapper loading={loading} error={error}>
-      <section className="py-8">
-        <h3 className="uppercase text-center text-2xl mb-6">
-          Produits suggérés{" "}
-          {productsSuggested &&
-          productsSuggested.filter((psugg) => psugg.id !== product.id).length >
-            0 ? (
-            <span className="lowercase">{`: ${
-              productsSuggested.filter((psugg) => psugg.id !== product.id)
-                .length
-            } proposé(s)`}</span>
-          ) : (
-            <span className="lowercase">: aucune proposition</span>
-          )}{" "}
-        </h3>
+  const filteredProducts = productsSuggested
+  ? productsSuggested.filter((psugg) => psugg.id !== product.id)
+  : [];
 
-        <div className="w-3/4 mx-auto  overflow-x-auto custom-scrollbar">
-          <div className="flex gap-4 min-w-max">
-            {productsSuggested &&
-              productsSuggested.length > 0 &&
-              productsSuggested
-                .filter((psugg) => psugg.id !== product.id)
-                .map((product, index) => (
-                  <ProductCard key={index} product={product} />
-                ))}
-          </div>
+return (
+  <LoaderWrapper loading={loading} error={error}>
+    <section className="py-8">
+      <h3 className="uppercase text-center text-2xl mb-6">
+        Produits suggeres{" "}
+        {filteredProducts.length > 0 ? (
+          <span className="lowercase">{`: ${filteredProducts.length} proposé(s)`}</span>
+        ) : (
+          <span className="lowercase">: aucune proposition</span>
+        )}
+      </h3>
+
+      <div className="w-3/4 mx-auto  overflow-x-auto custom-scrollbar">
+        <div className="flex gap-4 min-w-max">
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product, index) => (
+              <ProductCard key={index} product={product} />
+            ))
+          ) : (
+            <p>Aucun produit trouvé.</p>
+          )}
         </div>
-      </section>
-    </LoaderWrapper>
-  );
+      </div>
+    </section>
+  </LoaderWrapper>
+);
+
 };
 
 export default ProductsSuggested;
