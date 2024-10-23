@@ -1,11 +1,10 @@
-'use client'
+"use client";
 
-import React from 'react';
-import AddToCartButton from '../AddToCartButton';
-import FavoriteButton from '../FavoriteButton';
-import { Product } from '@/app/types/ProductTypes';
-import { canContinueSelling } from '@/app/utils/productUtils';
-
+import React from "react";
+import AddToCartButton from "../AddToCartButton";
+import FavoriteButton from "../FavoriteButton";
+import { Product } from "@/app/types/ProductTypes";
+import { canContinueSelling } from "@/app/utils/productUtils";
 
 interface FooterProps {
   product: Product;

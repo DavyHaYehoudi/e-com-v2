@@ -1089,6 +1089,12 @@ paths:
       summary: Finds all products.
       description: Finds all products.
       parameters:
+        - name: name
+          in: query
+          description: The name of the product (minimum 3 letters)
+          schema:
+            type: string
+            nullable: true
         - name: min_price
           in: query
           description: The minimum product price
@@ -1105,17 +1111,23 @@ paths:
           in: query
           description: Products in promotion
           schema:
-            type: integer
+            type: boolean
             nullable: true
         - name: is_new
           in: query
           description: News Products 
           schema:
-              type: integer
+              type: boolean
               nullable: true
         - name: category_ids
           in: query
           description: Id of category_ids category_ids=12&category_ids=7&category_ids=9
+          schema:
+              type: integer
+              nullable: true
+        - name: tag_ids
+          in: query
+          description: Id of tag_ids tag_ids=12&tag_ids=7&tag_ids=9
           schema:
               type: integer
               nullable: true
@@ -1129,7 +1141,13 @@ paths:
           in: query
           description: Best Products 
           schema:
-              type: integer
+              type: boolean
+              nullable: true
+        - name: is_star
+          in: query
+          description: the product highlighted 
+          schema:
+              type: boolean
               nullable: true
         - name: limit
           in: query
@@ -3238,6 +3256,9 @@ components:
         discount_percentage:
           type: integer
           example: 12
+        discount_end_date:
+          type: string
+          example: 2025-11-14T23:00:00.000Z
         weight:
           type: integer
           example: 250
@@ -3289,6 +3310,9 @@ components:
         discount_percentage:
           type: integer
           example: 10
+        discount_end_date:
+          type: string
+          example: 2025-11-14T23:00:00.000Z
         continue_selling: 
           type: boolean
           example: true

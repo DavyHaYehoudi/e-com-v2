@@ -1,7 +1,5 @@
 "use client";
 
-import { CategoryTypes } from "@/app/types/CategoryTypes";
-import { CollectionTypes } from "@/app/types/CollectionTypes";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -11,10 +9,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import React, { useState } from "react";
+import React from "react";
 import { Filter } from "lucide-react";
-import { TagTypes } from "@/app/types/TagTypes";
-import { useFetch } from "@/service/hooks/useFetch";
+import { useFilter } from "./useFilter";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface FilterBlockProps {
   onFilter: (filters: {
@@ -28,78 +26,32 @@ interface FilterBlockProps {
     isBestSeller: boolean;
   }) => void;
 }
-const FilterBlock:React.FC<FilterBlockProps> = ({onFilter}) => {
-  const [selectedCollections, setSelectedCollections] = useState<number[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
-  const [selectedTags, setSelectedTags] = useState<number[]>([]);
-  const [priceRange, setPriceRange] = useState<{ min?: number; max?: number }>({
-    min: undefined,
-    max: undefined,
-  });
-  
-  const [isOnSale, setIsOnSale] = useState<boolean>(false);
-  const [isNew, setIsNew] = useState<boolean>(false);
-  const [isBestSeller, setIsBestSeller] = useState<boolean>(false);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [name, setName] = React.useState<string>("");
-
-  const { data: collections } = useFetch<CollectionTypes[]>("/collections");
-  const { data: categories } = useFetch<CategoryTypes[]>("/categories");
-  const { data: tags } = useFetch<TagTypes[]>("/tags");
-
-  const handleCollectionChange = (id: number) => {
-    setSelectedCollections((prev) =>
-      prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]
-    );
-  };
-  const handleCategoryChange = (id: number) => {
-    setSelectedCategories((prev) =>
-      prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]
-    );
-  };
-  const handleTagChange = (id: number) => {
-    setSelectedTags((prev) =>
-      prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]
-    );
-  };
-  const handlePriceChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    type: "min" | "max"
-  ) => {
-    setPriceRange({ ...priceRange, [type]: Number(e.target.value) });
-  };
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
-  };
-  const handleSubmit = () => {
-    // Format the filters and send them to the API
-    const filters = {
-      name,
-      collections: selectedCollections,
-      categories: selectedCategories,
-      tags: selectedTags,
-      priceRange,
-      isOnSale,
-      isNew,
-      isBestSeller,
-    };
-    console.log(filters);
-    onFilter(filters); // Appelle la fonction de filtrage avec les filtres reçus
-    // Send `filters` to your API
-    setIsOpen(false); // Ferme le popover après l'application des filtres
-  };
-
-  const resetFilters = () => {
-    setSelectedCollections([]);
-    setSelectedCategories([]);
-    setSelectedTags([]);
-    setPriceRange({ min: 0, max: 100 });
-    setIsOnSale(false);
-    setIsNew(false);
-    setIsBestSeller(false);
-    setName("");
-  };
-
+const FilterBlock: React.FC<FilterBlockProps> = ({ onFilter }) => {
+  const {
+    isOpen,
+    setIsOpen,
+    collections,
+    categories,
+    tags,
+    selectedCollections,
+    selectedCategories,
+    selectedTags,
+    priceRange,
+    isOnSale,
+    setIsOnSale,
+    isNew,
+    setIsNew,
+    isBestSeller,
+    setIsBestSeller,
+    name,
+    handleCollectionChange,
+    handleCategoryChange,
+    handleTagChange,
+    handlePriceChange,
+    handleNameChange,
+    handleSubmit,
+    resetFilters,
+  } = useFilter(onFilter);
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
@@ -108,15 +60,17 @@ const FilterBlock:React.FC<FilterBlockProps> = ({onFilter}) => {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="p-4 border rounded-lg shadow-md">
+      <ScrollArea className="h-[600px]  rounded-md border p-2">
         <h2 className="text-lg font-bold mb-4">Filtres</h2>
 
-        <div className="mb-4">
+        <div className="mb-4 flex justify-center">
           <Input
             type="text"
             id="name"
             value={name}
             onChange={handleNameChange}
-            placeholder="Nom du produit - plus de 3 lettres"
+            placeholder="Nom du produit +3 lettres"
+            className="w-[95%] "
           />
         </div>
 
@@ -187,7 +141,6 @@ const FilterBlock:React.FC<FilterBlockProps> = ({onFilter}) => {
                 type="number"
                 value={priceRange.min}
                 onChange={(e) => handlePriceChange(e, "min")}
-                placeholder="Prix min (€)"
                 className="border rounded-l px-2 py-1 w-1/2"
               />
               <span className="mx-1">-</span>
@@ -199,7 +152,6 @@ const FilterBlock:React.FC<FilterBlockProps> = ({onFilter}) => {
                 type="number"
                 value={priceRange.max}
                 onChange={(e) => handlePriceChange(e, "max")}
-                placeholder="Prix max (€)"
                 className="border rounded-r px-2 py-1 w-1/2"
               />
             </div>
@@ -253,6 +205,7 @@ const FilterBlock:React.FC<FilterBlockProps> = ({onFilter}) => {
             Appliquer
           </Button>
         </div>
+        </ScrollArea>
       </PopoverContent>
     </Popover>
   );

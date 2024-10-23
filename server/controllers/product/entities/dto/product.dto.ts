@@ -57,6 +57,7 @@ export const productQueriesSchema = z.object({
   on_promotion: z.boolean().optional(), // promotion, optionnel
   is_new: z.boolean().optional(), // nouveauté, optionnel
   sort_by_sales: z.boolean().optional(), // meilleures ventes, optionnel
+  is_star: z.boolean().optional(), // produit mis en valeur
   collection_ids: z.array(z.number().int()).optional().default([]), // Défaut à un tableau vide
   limit: z.number().optional(),
 });
@@ -100,6 +101,8 @@ export const preprocessProductQueries = (query: any) => {
   preprocessedQuery.is_new = query.is_new === "true" ? true : undefined;
   preprocessedQuery.sort_by_sales =
     query.sort_by_sales === "true" ? true : undefined;
+  preprocessedQuery.is_star =
+    query.is_star === "true" ? true : undefined;
 
   // preprocessedQuery.collection_ids = query.collection_ids
   //   ? query.collection_ids.split(",").map(Number)
