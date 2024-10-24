@@ -1,5 +1,5 @@
 import { Product } from "./ProductTypes";
 
 export interface CarouselProps {
-  products: Product[];
+  products: Product[] | null;
 }

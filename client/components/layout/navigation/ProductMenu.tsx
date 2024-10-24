@@ -31,7 +31,7 @@ export function ProductMenu() {
                         className="hover:underline tracking-wide"
                       >
                         <Link
-                          href={`/categorie/${formatLabelForURL(category.label)}/produits`}
+                          href={`/categorie/${formatLabelForURL(category.label)}/${category.id}/produits`}
                         >
                           {category.label}
                         </Link>

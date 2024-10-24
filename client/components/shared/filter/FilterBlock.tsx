@@ -1,80 +1,58 @@
 "use client";
 
-import { categories } from "@/app/mocks/categories";
-import { collections } from "@/app/mocks/collections";
-import { CategoryTypes } from "@/app/types/CategoryTypes";
-import { CollectionTypes } from "@/app/types/CollectionTypes";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input"; // Assurez-vous que ce composant est importé
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"; // Assurez-vous que ce composant est importé
-import React, { useState } from "react";
+} from "@/components/ui/popover";
+import React from "react";
 import { Filter } from "lucide-react";
+import { useFilter } from "./useFilter";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { FormLabel } from "@/components/ui/form";
 
-// Mocked collections and categories
-const collectionsMock: CollectionTypes[] = collections;
-const categoriesMock: CategoryTypes[] = categories;
-
-const FilterBlock = () => {
-  const [selectedCollections, setSelectedCollections] = useState<number[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
-  const [priceRange, setPriceRange] = useState<{ min: number; max: number }>({
-    min: 0,
-    max: 100,
-  });
-  const [isOnSale, setIsOnSale] = useState<boolean>(false);
-  const [isNew, setIsNew] = useState<boolean>(false);
-  const [isBestSeller, setIsBestSeller] = useState<boolean>(false);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  const handleCollectionChange = (id: number) => {
-    setSelectedCollections((prev) =>
-      prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]
-    );
-  };
-
-  const handleCategoryChange = (id: number) => {
-    setSelectedCategories((prev) =>
-      prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]
-    );
-  };
-
-  const handlePriceChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    type: "min" | "max"
-  ) => {
-    setPriceRange({ ...priceRange, [type]: Number(e.target.value) });
-  };
-
-  const handleSubmit = () => {
-    // Format the filters and send them to the API
-    const filters = {
-      collections: selectedCollections,
-      categories: selectedCategories,
-      priceRange,
-      isOnSale,
-      isNew,
-      isBestSeller,
-    };
-    console.log(filters);
-    // Send `filters` to your API
-    setIsOpen(false); // Ferme le popover après l'application des filtres
-  };
-
-  const resetFilters = () => {
-    setSelectedCollections([]);
-    setSelectedCategories([]);
-    setPriceRange({ min: 0, max: 100 });
-    setIsOnSale(false);
-    setIsNew(false);
-    setIsBestSeller(false);
-  };
-
+interface FilterBlockProps {
+  onFilter: (filters: {
+    name: string;
+    collections: number[];
+    categories: number[];
+    tags: number[];
+    priceRange: { min?: number; max?: number };
+    isOnSale: boolean;
+    isNew: boolean;
+    isBestSeller: boolean;
+  }) => void;
+}
+const FilterBlock: React.FC<FilterBlockProps> = ({ onFilter }) => {
+  const {
+    isOpen,
+    setIsOpen,
+    collections,
+    categories,
+    tags,
+    selectedCollections,
+    selectedCategories,
+    selectedTags,
+    priceRange,
+    isOnSale,
+    setIsOnSale,
+    isNew,
+    setIsNew,
+    isBestSeller,
+    setIsBestSeller,
+    name,
+    handleCollectionChange,
+    handleCategoryChange,
+    handleTagChange,
+    handlePriceChange,
+    handleNameChange,
+    handleSubmit,
+    resetFilters,
+  } = useFilter(onFilter);
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
@@ -83,38 +61,74 @@ const FilterBlock = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="p-4 border rounded-lg shadow-md">
+      <ScrollArea className="h-[600px]  rounded-md border p-2">
         <h2 className="text-lg font-bold mb-4">Filtres</h2>
+
+        <div className="mb-4 mx-2">
+          <Label>Nom du produit (3 lettres minimum)</Label>
+          <Input
+            type="text"
+            id="name"
+            value={name}
+            onChange={handleNameChange}
+            placeholder="ex : collier"
+            className="w-[95%] "
+          />
+        </div>
 
         <div className="mb-4">
           <h3>Collections</h3>
-          {collectionsMock.map((collection) => (
-            <div key={collection.id}>
-              <Label className="flex items-center m-1">
-                <Checkbox
-                  checked={selectedCollections.includes(collection.id)}
-                  onCheckedChange={() => handleCollectionChange(collection.id)}
-                  className="mr-2 data-[state=checked]:bg-gray-500"
-                />
-                {collection.label}
-              </Label>
-            </div>
-          ))}
+          {collections &&
+            collections.length > 0 &&
+            collections.map((collection) => (
+              <div key={collection.id}>
+                <Label className="flex items-center m-1">
+                  <Checkbox
+                    checked={selectedCollections.includes(collection.id)}
+                    onCheckedChange={() =>
+                      handleCollectionChange(collection.id)
+                    }
+                    className="mr-2 data-[state=checked]:bg-gray-500"
+                  />
+                  {collection.label}
+                </Label>
+              </div>
+            ))}
         </div>
 
         <div className="mb-4">
           <h3>Catégories</h3>
-          {categoriesMock.map((category) => (
-            <div key={category.id}>
-              <Label className="flex items-center m-1">
-                <Checkbox
-                  checked={selectedCategories.includes(category.id)}
-                  onCheckedChange={() => handleCategoryChange(category.id)}
-                  className="mr-2 data-[state=checked]:bg-gray-500"
-                />
-                {category.label}
-              </Label>
-            </div>
-          ))}
+          {categories &&
+            categories.length > 0 &&
+            categories.map((category) => (
+              <div key={category.id}>
+                <Label className="flex items-center m-1">
+                  <Checkbox
+                    checked={selectedCategories.includes(category.id)}
+                    onCheckedChange={() => handleCategoryChange(category.id)}
+                    className="mr-2 data-[state=checked]:bg-gray-500"
+                  />
+                  {category.label}
+                </Label>
+              </div>
+            ))}
+        </div>
+        <div className="mb-4">
+          <h3>Tags</h3>
+          {tags &&
+            tags.length > 0 &&
+            tags.map((tag) => (
+              <div key={tag.id}>
+                <Label className="flex items-center m-1">
+                  <Checkbox
+                    checked={selectedTags.includes(tag.id)}
+                    onCheckedChange={() => handleTagChange(tag.id)}
+                    className="mr-2 data-[state=checked]:bg-gray-500"
+                  />
+                  {tag.label}
+                </Label>
+              </div>
+            ))}
         </div>
 
         <div className="mb-4">
@@ -129,7 +143,6 @@ const FilterBlock = () => {
                 type="number"
                 value={priceRange.min}
                 onChange={(e) => handlePriceChange(e, "min")}
-                placeholder="Prix min (€)"
                 className="border rounded-l px-2 py-1 w-1/2"
               />
               <span className="mx-1">-</span>
@@ -141,7 +154,6 @@ const FilterBlock = () => {
                 type="number"
                 value={priceRange.max}
                 onChange={(e) => handlePriceChange(e, "max")}
-                placeholder="Prix max (€)"
                 className="border rounded-r px-2 py-1 w-1/2"
               />
             </div>
@@ -176,7 +188,7 @@ const FilterBlock = () => {
                 onCheckedChange={() => setIsBestSeller(!isBestSeller)}
                 className="mr-2 data-[state=checked]:bg-gray-500"
               />
-              Meilleures ventes
+              Classement des meilleures ventes
             </Label>
           </p>
         </div>
@@ -195,6 +207,7 @@ const FilterBlock = () => {
             Appliquer
           </Button>
         </div>
+        </ScrollArea>
       </PopoverContent>
     </Popover>
   );

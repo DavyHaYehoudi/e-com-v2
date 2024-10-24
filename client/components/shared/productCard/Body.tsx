@@ -1,7 +1,7 @@
 import { Product } from "@/app/types/ProductTypes";
 import React from "react";
 
-interface ProductCardProps{
+interface ProductCardProps {
   product: Product;
 }
 const Body: React.FC<ProductCardProps> = ({ product }) => {

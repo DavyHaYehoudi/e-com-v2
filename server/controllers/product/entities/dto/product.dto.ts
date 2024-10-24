@@ -57,6 +57,7 @@ export const productQueriesSchema = z.object({
   on_promotion: z.boolean().optional(), // promotion, optionnel
   is_new: z.boolean().optional(), // nouveauté, optionnel
   sort_by_sales: z.boolean().optional(), // meilleures ventes, optionnel
+  is_star: z.boolean().optional(), // produit mis en valeur
   collection_ids: z.array(z.number().int()).optional().default([]), // Défaut à un tableau vide
   limit: z.number().optional(),
 });
@@ -78,10 +79,15 @@ export const preprocessProductQueries = (query: any) => {
   } else {
     preprocessedQuery.category_ids = []; // Défaut à un tableau vide
   }
-
-  preprocessedQuery.tag_ids = query.tag_ids
-    ? query.tag_ids.split(",").map(Number)
-    : []; // Défaut à un tableau vide
+  if (query.tag_ids) {
+    // Si tag_ids est déjà un tableau, on map les valeurs à Number
+    // Si c'est un seul élément, on le transforme en tableau
+    preprocessedQuery.tag_ids = Array.isArray(query.tag_ids)
+      ? query.tag_ids.map(Number) // Assurer que ce sont des nombres
+      : [Number(query.tag_ids)];
+  } else {
+    preprocessedQuery.tag_ids = []; // Défaut à un tableau vide
+  }
 
   preprocessedQuery.min_price = query.min_price
     ? Number(query.min_price)
@@ -95,6 +101,8 @@ export const preprocessProductQueries = (query: any) => {
   preprocessedQuery.is_new = query.is_new === "true" ? true : undefined;
   preprocessedQuery.sort_by_sales =
     query.sort_by_sales === "true" ? true : undefined;
+  preprocessedQuery.is_star =
+    query.is_star === "true" ? true : undefined;
 
   // preprocessedQuery.collection_ids = query.collection_ids
   //   ? query.collection_ids.split(",").map(Number)

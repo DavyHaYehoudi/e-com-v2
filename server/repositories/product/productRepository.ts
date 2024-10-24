@@ -31,6 +31,7 @@ export const getAllProductsRepository = async (filters: {
   max_price?: number;
   on_promotion?: boolean;
   is_new?: boolean;
+  is_star?: boolean;
   collection_ids?: number[];
   sort_by_sales?: boolean;
   limit?: number;
@@ -107,6 +108,11 @@ export const getAllProductsRepository = async (filters: {
   // Filtre par nouveauté
   if (filters.is_new) {
     conditions.push(`p.new_until >= CURRENT_DATE`);
+  }
+
+  // Filter par mise en valeur
+  if(filters.is_star){
+    conditions.push(`p.is_star = true`);
   }
 
   // Filtre par collections
