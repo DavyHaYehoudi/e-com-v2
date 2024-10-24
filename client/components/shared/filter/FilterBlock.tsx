@@ -13,6 +13,7 @@ import React from "react";
 import { Filter } from "lucide-react";
 import { useFilter } from "./useFilter";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { FormLabel } from "@/components/ui/form";
 
 interface FilterBlockProps {
   onFilter: (filters: {
@@ -63,13 +64,14 @@ const FilterBlock: React.FC<FilterBlockProps> = ({ onFilter }) => {
       <ScrollArea className="h-[600px]  rounded-md border p-2">
         <h2 className="text-lg font-bold mb-4">Filtres</h2>
 
-        <div className="mb-4 flex justify-center">
+        <div className="mb-4 mx-2">
+          <Label>Nom du produit (3 lettres minimum)</Label>
           <Input
             type="text"
             id="name"
             value={name}
             onChange={handleNameChange}
-            placeholder="Nom du produit +3 lettres"
+            placeholder="ex : collier"
             className="w-[95%] "
           />
         </div>
