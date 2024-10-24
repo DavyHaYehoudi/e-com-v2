@@ -17,8 +17,6 @@ export const authOpenSessionController = async (
     console.log("Generated 6-digit code:", authCode);
     await authService.storeAuthCodeService(email, authCode);
 
-    // (Optionnel) Envoi du code par email ici...
-
     res.status(201).json({
       message: "Authentication code sent",
     });

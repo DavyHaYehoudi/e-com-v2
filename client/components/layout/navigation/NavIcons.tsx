@@ -2,23 +2,61 @@ import { ShoppingBagIcon, BadgeEuro } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import LoginModal from "@/components/modules/login/LoginModal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import WishlistModal from "@/components/modules/wishlist/WishlistModal";
 import { formatPrice } from "@/app/utils/pricesFormat";
+import { jwtDecode } from "jwt-decode";
+
+// Interface pour le token décodé
+interface DecodedToken {
+  id: number;
+  email: string;
+  role: string;
+  exp: number;
+}
 
 const NavIcons = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true); // Simule la connexion
-  const [wishlistCount, setWishlistCount] = useState(3); // Simule le nombre de produits dans la wishlist
-  const [cartCount, setCartCount] = useState(2); // Simule le nombre de produits dans le panier
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [wishlistCount, setWishlistCount] = useState(3);
+  const [cartCount, setCartCount] = useState(2);
+  const [customerEmail, setCustomerEmail] = useState<string | null>(null);
 
-  const handleLoginLogout = () => {
-    if (isAuthenticated) {
-      setIsAuthenticated(false); // Déconnexion
+  // Vérifier le token au chargement de la page
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      try {
+        // Décoder le token
+        const decoded: DecodedToken = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+
+        // Vérifier si le token n'a pas expiré
+        if (decoded.exp > currentTime) {
+          setIsAuthenticated(true);
+          setCustomerEmail(decoded.email); // Stocker l'email
+        } else {
+          // Si le token est expiré, le supprimer
+          localStorage.removeItem("authToken");
+        }
+      } catch (error) {
+        console.error("Invalid token:", error);
+      }
     }
+  }, []);
+
+  // Déconnexion
+  const handleLoginLogout = () => {
+    localStorage.removeItem("authToken");
+    setIsAuthenticated(false);
+    setCustomerEmail(null);
   };
-  const handleAuthentication = (boolean: boolean) => {
-    setIsAuthenticated(boolean); // Connexion
+
+  const handleAuthentication = (token: string) => {
+    localStorage.setItem("authToken", token);
+    const decoded: DecodedToken = jwtDecode(token);
+    setIsAuthenticated(true);
+    setCustomerEmail(decoded.email);
   };
   const cashbackCustomer = 10;
 
@@ -30,7 +68,9 @@ const NavIcons = () => {
           <Link href="/dashboard">
             <Avatar className="cursor-pointer">
               <AvatarImage src="/images/avatar.png" alt="Avatar" />
-              <AvatarFallback>AB</AvatarFallback>
+              <AvatarFallback>
+                {customerEmail ? customerEmail[0].toUpperCase() : "A"}
+              </AvatarFallback>
             </Avatar>
           </Link>
           <Button
@@ -46,7 +86,6 @@ const NavIcons = () => {
       )}
 
       {/* Icône Wishlist avec badge */}
-
       <div className="relative">
         <WishlistModal />
         {wishlistCount > 0 && (
@@ -88,4 +127,5 @@ const NavIcons = () => {
     </div>
   );
 };
+
 export default NavIcons;
