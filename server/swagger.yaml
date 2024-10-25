@@ -2401,6 +2401,10 @@ components:
                 items:
                   type: string
                   example: S/Blue, XL/Black, M/Orange
+              selectedVariant: 
+                type: string
+                nullable: true
+                example: M/Or
         gift_cards:
           type: array
           items:
@@ -2426,6 +2430,10 @@ components:
               quantity:
                 type: integer
                 example: 1
+              variant:
+                type: string
+                nullable: true
+                example: M/Or
         gift_cards:
           type: array
           items: 

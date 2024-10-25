@@ -15,9 +15,10 @@ import Footer from "../pages/cart-sheet/footer/Footer";
 import Body from "../pages/cart-sheet/body/Body";
 import { ScrollArea } from "../ui/scroll-area";
 import { MasterProductsType, Product } from "@/app/types/ProductTypes";
+import { WishlistGiftCard } from "@/app/types/WishlistTypes";
 
 interface AddToCartButtonProps {
-  product: Product | MasterProductsType;
+  product: Product | MasterProductsType | WishlistGiftCard;
 }
 const AddToCartButton: React.FC<AddToCartButtonProps> = ({ product }) => {
   const [isAddedToCart, setIsAddedToCart] = useState<boolean>(false);

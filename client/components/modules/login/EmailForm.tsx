@@ -23,7 +23,9 @@ const emailSchema = z.object({
 interface EmailFormProps {
   onEmailSubmit: (email: string) => void;
 }
-
+interface OnSubmitData{
+  email: string;
+}
 const EmailForm: React.FC<EmailFormProps> = ({ onEmailSubmit }) => {
   const [error, setError] = useState("");
   const form = useForm({
@@ -35,7 +37,7 @@ const EmailForm: React.FC<EmailFormProps> = ({ onEmailSubmit }) => {
 
   const { handleSubmit } = form;
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: OnSubmitData) => {
     const bodyData = { email: data.email };
 
     try {

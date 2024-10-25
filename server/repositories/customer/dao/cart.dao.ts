@@ -12,6 +12,7 @@ export interface CartItemRow extends RowDataPacket {
   cart_id: number;
   product_id: number;
   quantity: number;
+  variant: string | null;
 }
 
 export interface CartGiftCardRow extends RowDataPacket {

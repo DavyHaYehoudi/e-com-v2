@@ -12,6 +12,7 @@ export const getCustomerCartService = async (customerId: number) => {
         return {
           ...product,
           quantityInCart: item.quantity,
+          selectedVariant: item.variant,
         };
       })
     );

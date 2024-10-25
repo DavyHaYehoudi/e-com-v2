@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import GlobalLayout from "@/components/layout/GlobalLayout";
+import { Toaster } from "@/components/ui/sonner"
 
 export const metadata: Metadata = {
   title: "Atelier Noralya",
@@ -18,6 +19,7 @@ export default function RootLayout({
       <body>
         <ThemeProvider attribute="class">
           <GlobalLayout>{children}</GlobalLayout>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

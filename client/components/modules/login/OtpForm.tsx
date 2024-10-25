@@ -19,6 +19,7 @@ import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner"
 
 const otpSchema = z.object({
   otp: z.string().length(6, "Le code OTP doit comporter 6 chiffres"),
@@ -30,6 +31,9 @@ interface OtpFormProps {
 interface AuthResponse {
   token: string;
 }
+interface OnSubmitData{
+  otp: string;
+}
 const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
   const [error, setError] = useState("");
   const form = useForm({
@@ -39,7 +43,7 @@ const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
     },
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: OnSubmitData) => {
     try {
       const bodyData = { email, otp: data.otp };
       const response = await fetch(
@@ -59,6 +63,8 @@ const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
 
       const responseData: AuthResponse = await response.json();
       authenticate(responseData.token);
+      toast("Vous êtes connecté 👍")
+
     } catch (error) {
       setError(
         error instanceof Error ? error.message : "Une erreur est survenue."
@@ -71,7 +77,7 @@ const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
         <FormField
           control={form.control}
           name="otp"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormLabel htmlFor="otp">Entrez votre code OTP</FormLabel>
               <FormControl>
