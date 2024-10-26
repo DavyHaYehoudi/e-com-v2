@@ -1,6 +1,5 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import React from "react";
-import AddToCartButton from "@/components/shared/AddToCartButton";
 import { formatPrice } from "@/app/utils/pricesFormat";
 import TrashIcon from "@/components/shared/TrashIcon";
 import { WishlistGiftCard } from "@/app/types/WishlistTypes";
@@ -26,9 +25,6 @@ const WishlistRowGiftcard: React.FC<WislistRowGiftcardProps> = ({
         </TableCell>
         <TableCell>Carte cadeau pour soi ou à offrir</TableCell>
         <TableCell>{formatPrice(product.amount)}</TableCell>
-        <TableCell>
-          <AddToCartButton product={product} />{" "}
-        </TableCell>
         <TableCell>
           <TrashIcon onClick={() => handleDelete("product-id")} />
         </TableCell>

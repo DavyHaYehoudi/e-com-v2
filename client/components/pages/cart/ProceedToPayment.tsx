@@ -1,12 +1,12 @@
 import { formatPrice } from "@/app/utils/pricesFormat";
 import React from "react";
 import { calculateTotalCashbackCartToEarn } from "./utils/calculUtils";
-import { ProductCart } from "@/app/types/ProductTypes";
 import { Button } from "@/components/ui/button";
 import Link from "next/link"; // Import du composant Link
+import { CartResponse } from "@/app/types/CartTypes";
 
 interface ProceedToPaymentProps {
-  productsInCart: ProductCart;
+  productsInCart: CartResponse;
 }
 
 const ProceedToPayment: React.FC<ProceedToPaymentProps> = ({ productsInCart }) => {

@@ -3,6 +3,7 @@ import { Product } from "@/app/types/ProductTypes";
 import LoaderWrapper from "@/components/shared/LoaderWrapper";
 import ProductCard from "@/components/shared/productCard/ProductCard";
 import { useFetch } from "@/service/hooks/useFetch";
+import { useEffect } from "react";
 
 interface CategoryPageProps {
   params: {
@@ -17,7 +18,11 @@ const ProductByCategory = ({ params }: CategoryPageProps) => {
     data: allProductsByCategory,
     loading,
     error,
+    triggerFetch,
   } = useFetch<Product[]>(`/products?category_ids=${id}`);
+  useEffect(() => {
+    triggerFetch(); // Fetch des produits par catégorie au chargement de la page
+  }, [id]);
 
   return (
     <LoaderWrapper loading={loading} error={error}>

@@ -1,4 +1,3 @@
-import { ProductCart } from "@/app/types/ProductTypes";
 import { isProductNew } from "@/app/utils/productUtils";
 import NewBadge from "@/components/shared/badge/NewBadge";
 import ProductImageItem from "@/components/shared/productImage/ProductImageItem";
@@ -9,9 +8,10 @@ import TrashIcon from "@/components/shared/TrashIcon";
 import VariantBadge from "@/components/shared/badge/VariantBadge";
 import WeightBadge from "@/components/shared/badge/WeightBadge";
 import { sumPriceArticle } from "@/app/utils/pricesFormat";
+import { CartResponse } from "@/app/types/CartTypes";
 
 interface SheetRowItemProps {
-  productsInCart: ProductCart;
+  productsInCart: CartResponse | null;
 }
 const SheetRowItem: React.FC<SheetRowItemProps> = ({ productsInCart }) => {
   const handleDelete = (productId: number) => {
@@ -20,6 +20,7 @@ const SheetRowItem: React.FC<SheetRowItemProps> = ({ productsInCart }) => {
   };
   return (
     productsInCart &&
+    productsInCart.items &&
     productsInCart.items.length > 0 &&
     productsInCart.items.map((product) => (
       <article
@@ -32,7 +33,7 @@ const SheetRowItem: React.FC<SheetRowItemProps> = ({ productsInCart }) => {
             <ProductImageItem
               productId={product.id}
               name={product.name}
-              path={product.main_image}
+              path={product.images.find((image) => image.is_main)?.url || ""}
             />
             {isProductNew(product.new_until) && (
               <NewBadge additionalClasses="absolute top-1 left-0" />
@@ -41,8 +42,8 @@ const SheetRowItem: React.FC<SheetRowItemProps> = ({ productsInCart }) => {
 
           <p>
             {product.name} <br />
-            {product.variant && (
-              <VariantBadge productVariant={product.variant} />
+            {product.selectedVariant && (
+              <VariantBadge productVariant={product.selectedVariant} />
             )}{" "}
             <br />
             {product.weight && <WeightBadge weight={product.weight} />}

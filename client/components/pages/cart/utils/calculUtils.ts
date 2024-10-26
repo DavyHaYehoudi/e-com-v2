@@ -1,8 +1,6 @@
+import { CartGiftCard, CartItemsType } from "@/app/types/CartTypes";
 import { GiftcardToUseType } from "@/app/types/GiftcardToUseTypes";
-import {
-  ProductCartGiftcards,
-  ProductCartItems,
-} from "@/app/types/ProductTypes";
+import { ProductCartGiftcards } from "@/app/types/ProductTypes";
 
 export const calculateTotalPriceByRow = (
   quantity: number,
@@ -30,7 +28,7 @@ export const calculateTotalDiscountByRow = (
   // Pas de réduction, donc pas de discount
   return 0;
 };
-export const calculateTotalDiscountCart = (items: ProductCartItems[]) => {
+export const calculateTotalDiscountCart = (items: CartItemsType[]) => {
   return items.reduce((sum, product) => {
     if (product.discount_percentage) {
       return (
@@ -42,7 +40,7 @@ export const calculateTotalDiscountCart = (items: ProductCartItems[]) => {
     return sum;
   }, 0);
 };
-export const calculateTotalCashbackCartToEarn = (items: ProductCartItems[]) => {
+export const calculateTotalCashbackCartToEarn = (items: CartItemsType[]) => {
   return items.reduce((sum, product) => {
     if (product.cash_back) {
       return sum + product.quantityInCart * product.cash_back;
@@ -51,7 +49,7 @@ export const calculateTotalCashbackCartToEarn = (items: ProductCartItems[]) => {
   }, 0);
 };
 export const calculateTotalCartBeforeDiscount = (
-  items: ProductCartItems[],
+  items: CartItemsType[],
   giftcards: ProductCartGiftcards[] = []
 ) => {
   const giftcardsTotalAmount = calculateTotalAmountGiftCardToBuy(giftcards);
@@ -59,13 +57,13 @@ export const calculateTotalCartBeforeDiscount = (
     return sum + product.price * product.quantityInCart;
   }, giftcardsTotalAmount || 0);
 };
-export const calculateTotalWeightCart = (items: ProductCartItems[]) => {
+export const calculateTotalWeightCart = (items: CartItemsType[]) => {
   return items.reduce((sum, product) => {
     return sum + (product.weight || 0) * product.quantityInCart;
   }, 0);
 };
 export const calculateTotalAmountGiftCardToBuy = (
-  giftcards: ProductCartGiftcards[]
+  giftcards:  ProductCartGiftcards[] = []
 ) => {
   return giftcards.reduce(
     (sum, giftcard) => sum + giftcard.amount * giftcard.quantity,
@@ -78,9 +76,9 @@ export const calculateTotalAmountGiftCardToUse = (
   return giftcards.reduce((sum, giftcard) => sum + (giftcard.balance ?? 0), 0);
 };
 export const calculateTotalCartAfterDiscountAndGiftcardToUse = (
-  items: ProductCartItems[],
-  deliveryPrice: number,
-  giftcardsToBuy: ProductCartGiftcards[] = [],
+  items: CartItemsType[],
+  deliveryPrice: number ,
+  giftcardsToBuy: CartGiftCard[] = [],
   giftcardsToUse: GiftcardToUseType[] = []
 ) => {
   return (
@@ -92,9 +90,9 @@ export const calculateTotalCartAfterDiscountAndGiftcardToUse = (
   );
 };
 export const calculateCodePromoDiscountOnCartTotal = (
-  items: ProductCartItems[],
+  items: CartItemsType[],
   deliveryPrice: number,
-  giftcardsToBuy: ProductCartGiftcards[] = [],
+  giftcardsToBuy: CartGiftCard[] = [],
   giftcardsToUse: GiftcardToUseType[] = [],
   percentage: number
 ) => {
@@ -111,9 +109,9 @@ export const calculateCodePromoDiscountOnCartTotal = (
   );
 };
 export const calculateTotalCartAfterCashback = (
-  items: ProductCartItems[],
+  items: CartItemsType[],
   deliveryPrice: number,
-  giftcardsToBuy: ProductCartGiftcards[] = [],
+  giftcardsToBuy: CartGiftCard[] = [],
   giftcardsToUse: GiftcardToUseType[] = [],
   percentage: number,
   selectedCashback: number | null
@@ -136,3 +134,4 @@ export const calculateTotalCartAfterCashback = (
       (selectedCashback ?? 0)
   );
 };
+ 

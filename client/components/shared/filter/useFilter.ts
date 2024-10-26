@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFetch } from "@/service/hooks/useFetch";
 import { CategoryTypes } from "@/app/types/CategoryTypes";
 import { CollectionTypes } from "@/app/types/CollectionTypes";
@@ -30,9 +30,25 @@ export const useFilter = (
   const [isBestSeller, setIsBestSeller] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
 
-  const { data: collections } = useFetch<CollectionTypes[]>("/collections");
-  const { data: categories } = useFetch<CategoryTypes[]>("/categories");
-  const { data: tags } = useFetch<TagTypes[]>("/tags");
+  const { data: collections, triggerFetch: fetchCollections } =
+    useFetch<CollectionTypes[]>("/collections");
+  const { data: categories, triggerFetch: fetchCategories } =
+    useFetch<CategoryTypes[]>("/categories");
+  const { data: tags, triggerFetch: fetchTags } = useFetch<TagTypes[]>("/tags");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await fetchCollections(); // Appel pour les collections
+        await fetchCategories(); // Appel pour les catégories
+        await fetchTags(); // Appel pour les tags
+      } catch (error) {
+        console.error("Erreur lors de la récupération des données :", error);
+      }
+    };
+
+    fetchData();
+  }, [fetchCollections, fetchCategories, fetchTags]);
 
   const handleCollectionChange = (id: number) => {
     setSelectedCollections((prev) =>

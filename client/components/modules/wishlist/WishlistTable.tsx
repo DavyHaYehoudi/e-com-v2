@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -17,7 +16,6 @@ import WishlistRowGiftcard from "./WishlistRowGiftcard";
 
 const WishlistTable = () => {
   const [productsWishlist, setProductsWishlist] = useState<WishlistResponse>();
-  console.log("productsWishlist:", productsWishlist);
   const { data, loading, error } = useFetch<WishlistResponse>(
     "/customer/wishlist",
     {
@@ -33,15 +31,12 @@ const WishlistTable = () => {
   return productsWishlist ? (
     <LoaderWrapper loading={loading} error={error}>
       <Table className="min-w-full text-l">
-        <TableCaption>
-          <Button>Ajouter tous les favoris au panier</Button>{" "}
-        </TableCaption>
+        <TableCaption></TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[300px]"></TableHead>
             <TableHead className="w-[300px]"></TableHead>
             <TableHead className="w-[300px]"></TableHead>
-            <TableHead className="w-[450px]"></TableHead>
             <TableHead className="w-[50px]"></TableHead>
           </TableRow>
         </TableHeader>

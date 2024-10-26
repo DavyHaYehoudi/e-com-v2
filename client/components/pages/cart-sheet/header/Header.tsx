@@ -1,12 +1,14 @@
-import { ProductCart } from "@/app/types/ProductTypes";
+import { CartResponse } from "@/app/types/CartTypes";
 import React from "react";
 
 interface HeaderProps {
-  productsInCart: ProductCart;
+  productsInCart: CartResponse | null;
 }
+
 const Header: React.FC<HeaderProps> = ({ productsInCart }) => {
   const isProductsInCart =
-    productsInCart.items.length > 0 || productsInCart.gift_cards.length > 0;
+    productsInCart &&
+    (productsInCart.items.length > 0 || productsInCart.giftCards.length > 0);
 
   return isProductsInCart ? (
     <p className="uppercase">votre panier</p>

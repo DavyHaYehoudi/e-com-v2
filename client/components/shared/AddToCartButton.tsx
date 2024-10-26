@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import {
@@ -8,40 +8,41 @@ import {
   SheetHeader,
   SheetTitle,
   SheetDescription,
-} from "@/components/ui/sheet"; // Assurez-vous que ce chemin est correct
-import { productsInCart } from "@/app/mocks/products";
+} from "@/components/ui/sheet";
 import Header from "../pages/cart-sheet/header/Header";
 import Footer from "../pages/cart-sheet/footer/Footer";
 import Body from "../pages/cart-sheet/body/Body";
 import { ScrollArea } from "../ui/scroll-area";
 import { MasterProductsType, Product } from "@/app/types/ProductTypes";
 import { WishlistGiftCard } from "@/app/types/WishlistTypes";
+import useCart from "@/app/panier/hooks/useCart";
+import { useCartManager } from "@/app/panier/hooks/useCartManager";
 
 interface AddToCartButtonProps {
   product: Product | MasterProductsType | WishlistGiftCard;
+  selectedVariant: string;
+  quantity: number;
 }
-const AddToCartButton: React.FC<AddToCartButtonProps> = ({ product }) => {
-  const [isAddedToCart, setIsAddedToCart] = useState<boolean>(false);
+const AddToCartButton: React.FC<AddToCartButtonProps> = ({
+  product,
+  selectedVariant,
+  quantity,
+}) => {
   const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
-
-  const onToggleCart = () => {
-    // Change l'état du bouton immédiatement
-    setIsAddedToCart(!isAddedToCart);
-    // Ouvre le composant Sheet
+  const { productsInCart } = useCart();
+  const { addOrUpdateProduct } = useCartManager();
+  const onAddToCart = () => {
+    addOrUpdateProduct({ product, selectedVariant, quantity });
     setIsSheetOpen(true);
   };
 
   return (
     <>
       <Button
-        className={`mx-auto block w-1/2 uppercase ${
-          isAddedToCart
-            ? "bg-[var(--whiteSmoke)] text-gray-400 hover:text-gray-500 hover:bg-gray-200"
-            : "bg-[var(--golden-2)] hover:bg-[var(--golden-2-hover)]"
-        }`}
-        onClick={onToggleCart}
+        className="mx-auto block w-1/2 uppercase bg-[var(--golden-2)] hover:bg-[var(--golden-2-hover)]"
+        onClick={onAddToCart}
       >
-        {isAddedToCart ? "Retirer du panier" : "Ajouter au panier"}
+        Ajouter au panier
       </Button>
 
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>

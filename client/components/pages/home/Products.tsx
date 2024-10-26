@@ -3,14 +3,18 @@ import { Product } from "@/app/types/ProductTypes";
 import LoaderWrapper from "@/components/shared/LoaderWrapper";
 import ProductsCarousel from "@/components/shared/ProductsCarousel";
 import { useFetch } from "@/service/hooks/useFetch";
-import React from "react";
+import React, { useEffect } from "react";
 
 const Products = () => {
   const {
     data: productsStar,
     loading,
     error,
+    triggerFetch,
   } = useFetch<Product[]>("/products?is_star=true");
+  useEffect(() => {
+    triggerFetch(); // Fetch des produits star au chargement de la page
+  }, []);
   return (
     <LoaderWrapper loading={loading} error={error}>
       <section className="mb-10">

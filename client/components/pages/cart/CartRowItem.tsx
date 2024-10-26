@@ -1,7 +1,5 @@
 "use client";
-import React, { useState } from "react";
-import { productsInCart } from "@/app/mocks/products";
-import { ProductCart } from "@/app/types/ProductTypes";
+import React, { useEffect, useState } from "react";
 import ProductImageItem from "@/components/shared/productImage/ProductImageItem";
 import { TableCell, TableRow } from "@/components/ui/table";
 import TrashIcon from "@/components/shared/TrashIcon";
@@ -12,24 +10,37 @@ import CashbackBadge from "@/components/shared/badge/CashbackBadge";
 import CartRowPromotionPrice from "./CartRowPromotionPrice";
 import VariantBadge from "@/components/shared/badge/VariantBadge";
 import WeightBadge from "@/components/shared/badge/WeightBadge";
+import { CartResponse } from "@/app/types/CartTypes";
+import { useFetch } from "@/service/hooks/useFetch";
 
 const CartRowItem = () => {
   const [quantity, setQuantity] = useState(1);
 
+  const [productsInCart, setProductsInCart] = useState<CartResponse | null>(
+    null
+  );
   const handleQuantityChange = (newQuantity: number) => {
     setQuantity(newQuantity);
   };
 
-  const productsInCartMock: ProductCart = productsInCart;
+  const { data } = useFetch<CartResponse>("/customer/cart", {
+    requiredCredentials: true,
+  });
+
+  useEffect(() => {
+    if (data) {
+      setProductsInCart(data);
+    }
+  }, [data]);
   const handleDelete = (productId: number) => {
     console.log("Product deleted:", productId);
     // Logique pour supprimer le produit
   };
 
   return (
-    productsInCartMock &&
-    productsInCartMock.items.length > 0 &&
-    productsInCartMock.items.map((product) => (
+    productsInCart &&
+    productsInCart.items.length > 0 &&
+    productsInCart.items.map((product) => (
       <TableRow
         key={product.id}
         className="hover:bg-gray-100 relative border-b border-gray-500 "
@@ -39,7 +50,7 @@ const CartRowItem = () => {
           <ProductImageItem
             productId={product.id}
             name={product.name}
-            path={product.main_image}
+            path={product.images.find((image) => image.is_main)?.url || ""}
           />
           {isProductNew(product.new_until) && (
             <NewBadge additionalClasses="absolute top-1 left-0" />
@@ -48,8 +59,8 @@ const CartRowItem = () => {
 
         <TableCell>
           {product.name} <br />
-          {product.variant && (
-            <VariantBadge productVariant={product.variant} />
+          {product.selectedVariant && (
+            <VariantBadge productVariant={product.selectedVariant} />
           )}{" "}
           <br />
           {product.weight && <WeightBadge weight={product.weight} />}

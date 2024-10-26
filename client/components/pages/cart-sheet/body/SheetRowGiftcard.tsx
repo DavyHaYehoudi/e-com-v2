@@ -1,11 +1,11 @@
-import { ProductCart } from "@/app/types/ProductTypes";
 import React from "react";
 import TrashIcon from "@/components/shared/TrashIcon";
 import { sumPriceArticle } from "@/app/utils/pricesFormat";
 import ProductImageGiftcard from "@/components/shared/productImage/ProductImageGiftcard";
+import { CartResponse } from "@/app/types/CartTypes";
 
 interface SheetRowGiftcardProps {
-  productsInCart: ProductCart;
+  productsInCart: CartResponse | null;
 }
 const SheetRowGiftcard: React.FC<SheetRowGiftcardProps> = ({
   productsInCart,
@@ -15,9 +15,9 @@ const SheetRowGiftcard: React.FC<SheetRowGiftcardProps> = ({
     // Logique pour supprimer le produit
   };
   return (
-    productsInCart &&
-    productsInCart.gift_cards.length > 0 &&
-    productsInCart.gift_cards.map((product, index) => (
+    productsInCart &&productsInCart.giftCards&&
+    productsInCart.giftCards.length > 0 &&
+    productsInCart.giftCards.map((product, index) => (
       <article
         key={index}
         className="hover:bg-gray-100 relative border-b border-gray-500 "

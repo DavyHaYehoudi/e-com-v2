@@ -4,7 +4,7 @@ import Footer from "./Footer";
 import { Product } from "@/app/types/ProductTypes";
 
 interface ProductCardProps {
-  product: Product ;
+  product: Product;
 }
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
@@ -16,7 +16,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         boxShadow: "0 0 5px whitesmoke",
         borderRadius: "25px",
         padding: "2px",
-        cursor: "pointer",
         background: "var(--bg-1)",
         transition: "transform 0.3s ease-in-out",
       }}

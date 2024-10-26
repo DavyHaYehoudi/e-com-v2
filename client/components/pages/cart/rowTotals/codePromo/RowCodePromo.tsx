@@ -3,14 +3,14 @@ import React from "react";
 import CartCodePromo from "./CartCodePromo";
 import { formatPrice } from "@/app/utils/pricesFormat";
 import { calculateCodePromoDiscountOnCartTotal } from "../../utils/calculUtils";
-import { ProductCart } from "@/app/types/ProductTypes";
 import { GiftcardToUseType } from "@/app/types/GiftcardToUseTypes";
+import { CartResponse } from "@/app/types/CartTypes";
 
 interface RowCodePromoProps {
   onDiscount: (discount_percentage: number) => void;
   codePromoPercentage: number;
-  productsInCart: ProductCart;
-  deliveryPrice: number;
+  productsInCart: CartResponse | null;
+  deliveryPrice: number | null;
   giftCardsToUse: GiftcardToUseType[];
 }
 const RowCodePromo: React.FC<RowCodePromoProps> = ({
@@ -27,12 +27,12 @@ const RowCodePromo: React.FC<RowCodePromoProps> = ({
         codePromoPercentage={codePromoPercentage}
       />
       <TableCell className="text-right bg-white" colSpan={5}>
-        {codePromoPercentage
+        {codePromoPercentage && productsInCart && deliveryPrice
           ? `- ${formatPrice(
               calculateCodePromoDiscountOnCartTotal(
                 productsInCart.items,
                 deliveryPrice,
-                productsInCart.gift_cards,
+                productsInCart.giftCards,
                 giftCardsToUse,
                 codePromoPercentage
               )

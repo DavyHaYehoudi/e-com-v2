@@ -19,7 +19,8 @@ import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner"
+import { toast } from "sonner";
+import { useFetch } from "@/service/hooks/useFetch";
 
 const otpSchema = z.object({
   otp: z.string().length(6, "Le code OTP doit comporter 6 chiffres"),
@@ -31,11 +32,10 @@ interface OtpFormProps {
 interface AuthResponse {
   token: string;
 }
-interface OnSubmitData{
+interface OnSubmitData {
   otp: string;
 }
 const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
-  const [error, setError] = useState("");
   const form = useForm({
     resolver: zodResolver(otpSchema),
     defaultValues: {
@@ -43,32 +43,19 @@ const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
     },
   });
 
+  const { triggerFetch } = useFetch<AuthResponse>("/auth/send-verify-otp", {
+    method: "POST",
+  });
   const onSubmit = async (data: OnSubmitData) => {
+    const bodyData = { email, otp: data.otp };
     try {
-      const bodyData = { email, otp: data.otp };
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/send-verify-otp`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(bodyData),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Erreur lors de l'envoi de l'OTP. Veuillez réessayer.");
+      const OTPresponse = await triggerFetch(bodyData);
+      if (OTPresponse) {
+        authenticate(OTPresponse.token);
+        toast("Vous êtes connecté 👍");
       }
-
-      const responseData: AuthResponse = await response.json();
-      authenticate(responseData.token);
-      toast("Vous êtes connecté 👍")
-
     } catch (error) {
-      setError(
-        error instanceof Error ? error.message : "Une erreur est survenue."
-      );
+      console.error(error);
     }
   };
   return (
@@ -107,7 +94,7 @@ const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
             </FormItem>
           )}
         />
-        {error && <p className="text-red-600">{error}</p>}
+        {/* {error && <p className="text-red-600">{error}</p>} */}
         <Button type="submit">Valider OTP</Button>
       </form>
     </Form>

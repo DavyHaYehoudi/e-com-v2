@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { notFound } from "next/navigation";
 import NewBadge from "@/components/shared/badge/NewBadge";
 import FavoriteButton from "@/components/shared/FavoriteButton";
@@ -12,6 +12,8 @@ import NumberInput from "@/components/shared/NumberInput";
 import { useFetch } from "@/service/hooks/useFetch";
 import { MasterProductsType } from "@/app/types/ProductTypes";
 import LoaderWrapper from "@/components/shared/LoaderWrapper";
+import useCart from "@/app/panier/hooks/useCart";
+import ProductVariants from "@/components/pages/product/ProductVariants";
 
 interface MasterProductProps {
   params: {
@@ -20,6 +22,10 @@ interface MasterProductProps {
 }
 
 const MasterProduct = ({ params }: MasterProductProps) => {
+  const [quantity, setQuantity] = useState<number>(1);
+  const { productsInCart } = useCart();
+  const [selectedVariant, setSelectedVariant] = useState<string>("");
+
   const { id } = params;
   if (!id) {
     notFound(); // Gère le cas où l'ID est manquant
@@ -28,8 +34,48 @@ const MasterProduct = ({ params }: MasterProductProps) => {
     data: product,
     error,
     loading,
+    triggerFetch,
   } = useFetch<MasterProductsType>(`/products/${id}`);
-  const handleQuantityChange = () => {};
+  useEffect(() => {
+    triggerFetch();
+  }, []);
+
+  const handleQuantityChange = (value: number) => {
+    setQuantity(value);
+  };
+  const handleVariantChange = (value: string) => {
+    setSelectedVariant(value);
+    if (productsInCart && productsInCart.items) {
+      const productInCart = productsInCart.items.find(
+        (p) => p.id === parseInt(id) && p.selectedVariant === value
+      );
+      if (productInCart) {
+        setQuantity(productInCart.quantityInCart);
+      }
+    }
+  };
+  useEffect(() => {
+    if (
+      productsInCart &&
+      productsInCart.items &&
+      productsInCart.items.length > 0
+    ) {
+      const productInCart = productsInCart.items.find(
+        (p) => p.id === parseInt(id)
+      );
+      if (productInCart) {
+        setQuantity(productInCart.quantityInCart);
+      } else {
+        setQuantity(1);
+      }
+      if (productInCart) {
+        setSelectedVariant(
+          productInCart.selectedVariant || productInCart.variants[0]
+        );
+      }
+    }
+  }, [productsInCart]);
+
   return (
     <LoaderWrapper error={error} loading={loading}>
       {product && (
@@ -47,11 +93,28 @@ const MasterProduct = ({ params }: MasterProductProps) => {
             </article>
             <ProductFeatures product={product} />
             <hr className="my-4" />
+            {product.variants.length > 0 && (
+              <>
+                <ProductVariants
+                  product={product}
+                  selectedVariant={selectedVariant}
+                  onVariantChange={handleVariantChange}
+                />
+                <hr className="my-4" />
+              </>
+            )}
+            <h2 className="text-xl font-semibold">Quantité :</h2>
             <NumberInput
               maxQuantity={product.quantity_in_stock}
               onValueChange={handleQuantityChange}
+              quantity={quantity}
             />
-            <ProductPrice product={product} />
+            <hr className="my-4" />
+            <ProductPrice
+              product={product}
+              selectedVariant={selectedVariant}
+              quantity={quantity}
+            />
           </section>
           <ProductInformation />
           <ProductsSuggested product={product} />

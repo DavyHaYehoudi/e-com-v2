@@ -26,7 +26,15 @@ export const useProductFilter = () => {
   });
 
   const [queryUrl, setQueryUrl] = useState("/products");
-  const { data: allProducts, loading, error } = useFetch<Product[]>(queryUrl);
+  const {
+    data: allProducts,
+    loading,
+    error,
+    triggerFetch,
+  } = useFetch<Product[]>(queryUrl);
+  useEffect(() => {
+    triggerFetch(); // Fetch des produits star au chargement de la page
+  }, [queryUrl]);
 
   // Fonction pour mettre à jour les filtres et régénérer l'URL des query params
   const handleFilterSubmit = (newFilters: Filter) => {

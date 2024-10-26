@@ -8,7 +8,7 @@ export const defaultDelivery = (
 
 interface DeliveryPrice {
   selectedDelivery: DeliveryType | undefined;
-  totalWeight: number;
+  totalWeight?: number;
 }
 export const calculateDeliveryPrice = ({
   selectedDelivery,
@@ -16,7 +16,7 @@ export const calculateDeliveryPrice = ({
 }: DeliveryPrice): number => {
   if (!selectedDelivery) return 0;
 
-  const rate = selectedDelivery.rates.find(
+  const rate =totalWeight&& selectedDelivery.rates.find(
     (r) => totalWeight >= r.min_weight && totalWeight <= r.max_weight
   );
   return rate ? rate.price : 0;

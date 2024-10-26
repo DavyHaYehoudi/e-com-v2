@@ -1,15 +1,26 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import TrashIcon from "@/components/shared/TrashIcon";
 import QuantityCalculator from "@/components/shared/QuantityCalculator";
 import ProductImageGiftcard from "@/components/shared/productImage/ProductImageGiftcard";
-import { productsInCart } from "@/app/mocks/products";
-import { ProductCart } from "@/app/types/ProductTypes";
+import { CartResponse } from "@/app/types/CartTypes";
+import { useFetch } from "@/service/hooks/useFetch";
 
 const CartRowGiftcard = () => {
   const [quantity, setQuantity] = useState(1);
+  const [productsInCart, setProductsInCart] = useState<CartResponse | null>(
+    null
+  );
+  const { data } = useFetch<CartResponse>("/customer/cart", {
+    requiredCredentials: true,
+  });
 
+  useEffect(() => {
+    if (data) {
+      setProductsInCart(data);
+    }
+  }, [data]);
   const handleQuantityChange = (newQuantity: number) => {
     setQuantity(newQuantity);
   };
@@ -18,11 +29,11 @@ const CartRowGiftcard = () => {
     console.log("Giftcard deleted:", giftcardId);
     // Logique pour supprimer la carte cadeau
   };
-  const productsInCartMock: ProductCart = productsInCart;
   return (
-    productsInCartMock &&
-    productsInCartMock.gift_cards.length > 0 &&
-    productsInCartMock.gift_cards.map((giftcard, index) => (
+    productsInCart &&
+    productsInCart.giftCards &&
+    productsInCart.giftCards.length > 0 &&
+    productsInCart.giftCards.map((giftcard, index) => (
       <TableRow
         key={index}
         className="hover:bg-gray-100 border-b border-gray-500"

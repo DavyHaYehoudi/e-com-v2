@@ -2,10 +2,10 @@ import { formatPrice } from "@/app/utils/pricesFormat";
 import { TableCell, TableRow } from "@/components/ui/table";
 import React from "react";
 import { calculateTotalCartBeforeDiscount } from "../utils/calculUtils";
-import { ProductCart } from "@/app/types/ProductTypes";
+import { CartResponse } from "@/app/types/CartTypes";
 
 interface ProductsBeforePromotionProps {
-  productsInCart: ProductCart;
+  productsInCart: CartResponse | null;
 }
 
 const ProductsBeforePromotion: React.FC<ProductsBeforePromotionProps> = ({
@@ -17,12 +17,13 @@ const ProductsBeforePromotion: React.FC<ProductsBeforePromotionProps> = ({
         Total des produits hors promotion
       </TableCell>
       <TableCell className="text-right border-b border-gray-500">
-        {formatPrice(
-          calculateTotalCartBeforeDiscount(
-            productsInCart.items,
-            productsInCart.gift_cards
-          )
-        )}
+        {productsInCart &&
+          formatPrice(
+            calculateTotalCartBeforeDiscount(
+              productsInCart.items,
+              productsInCart.giftCards
+            )
+          )}
       </TableCell>
     </TableRow>
   );

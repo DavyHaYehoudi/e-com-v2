@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import React, { useState } from "react";
+import { useFetch } from "@/service/hooks/useFetch";
 
 // Schéma de validation Zod
 const emailSchema = z.object({
@@ -23,46 +24,23 @@ const emailSchema = z.object({
 interface EmailFormProps {
   onEmailSubmit: (email: string) => void;
 }
-interface OnSubmitData{
+interface OnSubmitData {
   email: string;
 }
 const EmailForm: React.FC<EmailFormProps> = ({ onEmailSubmit }) => {
-  const [error, setError] = useState("");
   const form = useForm({
     resolver: zodResolver(emailSchema),
     defaultValues: {
       email: "",
     },
   });
-
+  const { triggerFetch } = useFetch("/auth/open-session", { method: "POST" });
   const { handleSubmit } = form;
 
   const onSubmit = async (data: OnSubmitData) => {
     const bodyData = { email: data.email };
-
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/open-session`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(bodyData),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Erreur lors de l'envoi de l'OTP. Veuillez réessayer.");
-      }
-
-      await response.json();
-      onEmailSubmit(data.email);
-    } catch (error) {
-      setError(
-        error instanceof Error ? error.message : "Une erreur est survenue."
-      );
-    }
+    await triggerFetch(bodyData);
+    onEmailSubmit(data.email);
   };
 
   return (
@@ -85,9 +63,7 @@ const EmailForm: React.FC<EmailFormProps> = ({ onEmailSubmit }) => {
               <FormDescription>
                 Entrez votre adresse e-mail pour recevoir un code OTP.
               </FormDescription>
-              <FormMessage>
-                {error && <p className="text-red-600">{error}</p>}
-              </FormMessage>
+              <FormMessage></FormMessage>
             </FormItem>
           )}
         />

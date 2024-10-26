@@ -1,4 +1,3 @@
-
 export interface Product {
   id: number;
   name: string;
@@ -20,30 +19,8 @@ export interface Product {
   isActive: boolean;
 }
 
-export interface ProductCartItems {
-  id: number;
-  name: string;
-  main_image: string;
-  discount_percentage: number | null;
-  discount_end_date: string | null;
-  weight: number | null;
-  price: number;
-  new_until: string | null;
-  cash_back: number | null;
-  variant: string | null;
-  quantityInCart: number;
-  quantity_in_stock: number;
-}
-export interface ProductCartGiftcards {
-  amount: number;
-  quantity: number;
-}
-export interface ProductCart {
-  items: ProductCartItems[];
-  gift_cards: ProductCartGiftcards[];
-}
 export interface MasterProductsType {
-  id:number,
+  id: number;
   name: string;
   SKU: string;
   description: string;
@@ -69,4 +46,8 @@ export interface MasterProductsType {
 export interface ProductImage {
   url: string;
   is_main: boolean;
+}
+export interface ProductCartGiftcards {
+  amount: number;
+  quantity: number;
 }

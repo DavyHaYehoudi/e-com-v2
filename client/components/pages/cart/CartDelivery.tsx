@@ -9,31 +9,32 @@ import { formatWeight } from "@/app/utils/weightFormat";
 interface CartDeliveryProps {
   handleDeliveryChange: (deliveryId: number) => void;
   selectedDelivery: DeliveryType | undefined;
-  weightTotal: number; 
+  weightTotal: number | null;
 }
 const CartDelivery: React.FC<CartDeliveryProps> = ({
   handleDeliveryChange,
   selectedDelivery,
-  weightTotal
+  weightTotal,
 }) => {
   return (
     <TableCell colSpan={5} className="border-b border-gray-500">
-      Prix de la livraison ({formatWeight(weightTotal)}) : {selectedDelivery?.name}
+      Prix de la livraison ({weightTotal && formatWeight(weightTotal)}) :{" "}
+      {selectedDelivery?.name}
       <RadioGroup
         value={selectedDelivery?.id.toString()}
         onValueChange={(value) => handleDeliveryChange(parseInt(value))}
       >
-       {deliveries
-  .sort((a, ) => (a.is_default ? -1 : 1)) // Par défaut, la livraison avec is_default=true est toujours en premier
-  .map((delivery) => (
-    <div key={delivery.id} className="flex items-center space-x-2">
-      <RadioGroupItem
-        value={delivery.id.toString()}
-        id={`delivery-${delivery.id}`}
-      />
-      <Label htmlFor={`delivery-${delivery.id}`}>{delivery.name}</Label>
-    </div>
-  ))}
+        {deliveries
+          .sort((a) => (a.is_default ? -1 : 1)) // Par défaut, la livraison avec is_default=true est toujours en premier
+          .map((delivery) => (
+            <div key={delivery.id} className="flex items-center space-x-2">
+              <RadioGroupItem
+                value={delivery.id.toString()}
+                id={`delivery-${delivery.id}`}
+              />
+              <Label htmlFor={`delivery-${delivery.id}`}>{delivery.name}</Label>
+            </div>
+          ))}
       </RadioGroup>
     </TableCell>
   );

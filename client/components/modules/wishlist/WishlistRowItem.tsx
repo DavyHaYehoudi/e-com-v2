@@ -2,7 +2,6 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import React from "react";
 import { MasterProductsType } from "@/app/types/ProductTypes";
 import ProductImageItem from "@/components/shared/productImage/ProductImageItem";
-import AddToCartButton from "@/components/shared/AddToCartButton";
 import { isProductNew, isProductOnSale } from "@/app/utils/productUtils";
 import { formatPrice } from "@/app/utils/pricesFormat";
 import { Badge } from "@/components/ui/badge";
@@ -14,7 +13,9 @@ import CashbackBadge from "@/components/shared/badge/CashbackBadge";
 interface WislistRowItemProps {
   productsWishlistItems: MasterProductsType[];
 }
-const WishlistRowItem: React.FC<WislistRowItemProps> = ({ productsWishlistItems }) => {
+const WishlistRowItem: React.FC<WislistRowItemProps> = ({
+  productsWishlistItems,
+}) => {
   const handleDelete = (productId: string) => {
     console.log("Product deleted:", productId);
     // Logique pour supprimer le produit
@@ -28,7 +29,7 @@ const WishlistRowItem: React.FC<WislistRowItemProps> = ({ productsWishlistItems 
           <ProductImageItem
             productId={product.id}
             name={product.name}
-            path={product.images.find(image=>image.is_main)?.url||""}
+            path={product.images.find((image) => image.is_main)?.url || ""}
           />{" "}
           {isProductNew(product.new_until) && (
             <NewBadge additionalClasses="absolute top-1 left-0" />
@@ -50,9 +51,6 @@ const WishlistRowItem: React.FC<WislistRowItemProps> = ({ productsWishlistItems 
           {product.cash_back && (
             <CashbackBadge cashbackAmount={product.cash_back} />
           )}
-        </TableCell>
-        <TableCell>
-          <AddToCartButton product={product} />{" "}
         </TableCell>
         <TableCell>
           <TrashIcon onClick={() => handleDelete("product-id")} />

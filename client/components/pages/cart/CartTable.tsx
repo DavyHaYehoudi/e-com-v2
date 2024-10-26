@@ -1,14 +1,7 @@
 "use client";
-import {
-  Table,
-  TableBody,
-  TableFooter,
-} from "@/components/ui/table";
+import { Table, TableBody, TableFooter } from "@/components/ui/table";
 import CartRowItem from "./CartRowItem";
-import {
-  calculateTotalWeightCart,
-} from "./utils/calculUtils";
-import { productsInCart } from "@/app/mocks/products";
+import { calculateTotalWeightCart } from "./utils/calculUtils";
 import { useState } from "react";
 import { calculateDeliveryPrice, defaultDelivery } from "./utils/deliveryUtils";
 import { deliveries } from "@/app/mocks/delivery";
@@ -21,8 +14,12 @@ import RowGiftcardToUse from "./rowTotals/giftcardToUse/RowGiftcardToUse";
 import RowCodePromo from "./rowTotals/codePromo/RowCodePromo";
 import RowTotalCart from "./rowTotals/RowTotalCart";
 import RowCashbackToUse from "./rowTotals/cashback/RowCashbackToUse";
+import { CartResponse } from "@/app/types/CartTypes";
 
-const CartTable = () => {
+interface CartTableProps {
+  productsInCart: CartResponse | null;
+}
+const CartTable: React.FC<CartTableProps> = ({ productsInCart }) => {
   const [selectedDelivery, setSelectedDelivery] = useState(
     defaultDelivery(deliveries)
   );
@@ -33,11 +30,14 @@ const CartTable = () => {
     const selected = deliveries.find((delivery) => delivery.id === deliveryId);
     setSelectedDelivery(selected);
   };
-  const deliveryPrice = calculateDeliveryPrice({
-    selectedDelivery,
-    totalWeight: calculateTotalWeightCart(productsInCart.items),
-  });
-  const weightTotal = calculateTotalWeightCart(productsInCart.items);
+  const deliveryPrice =
+    productsInCart &&
+    calculateDeliveryPrice({
+      selectedDelivery,
+      totalWeight: calculateTotalWeightCart(productsInCart.items),
+    });
+  const weightTotal =
+    productsInCart && calculateTotalWeightCart(productsInCart.items);
   const onDiscount = (discount_percentage: number) => {
     setCodePromoPercentage(discount_percentage);
   };
