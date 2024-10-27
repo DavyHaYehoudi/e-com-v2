@@ -15,11 +15,20 @@ import RowCodePromo from "./rowTotals/codePromo/RowCodePromo";
 import RowTotalCart from "./rowTotals/RowTotalCart";
 import RowCashbackToUse from "./rowTotals/cashback/RowCashbackToUse";
 import { CartResponse } from "@/app/types/CartTypes";
+import { useCartManager } from "@/app/panier/hooks/useCartManager";
 
-interface CartTableProps {
+interface CartRowItemProps {
   productsInCart: CartResponse | null;
+  removeProduct: (
+    productId: number,
+    variant: string | null,
+    type: string
+  ) => void;
 }
-const CartTable: React.FC<CartTableProps> = ({ productsInCart }) => {
+const CartTable: React.FC<CartRowItemProps> = ({
+  productsInCart,
+  removeProduct,
+}) => {
   const [selectedDelivery, setSelectedDelivery] = useState(
     defaultDelivery(deliveries)
   );
@@ -47,8 +56,14 @@ const CartTable: React.FC<CartTableProps> = ({ productsInCart }) => {
   return (
     <Table>
       <TableBody>
-        <CartRowItem />
-        <CartRowGiftcard productsInCart={productsInCart} />
+        <CartRowItem
+          productsInCart={productsInCart}
+          removeProduct={removeProduct}
+        />
+        <CartRowGiftcard
+          productsInCart={productsInCart}
+          removeProduct={removeProduct}
+        />
       </TableBody>
       <TableFooter>
         <ProductsBeforePromotion productsInCart={productsInCart} />

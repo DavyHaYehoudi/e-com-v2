@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useFetch } from "@/service/hooks/useFetch";
 import useCart from "./useCart";
 import { CartItemsType, CartResponse } from "@/app/types/CartTypes";
@@ -100,26 +100,56 @@ export const useCartManager = () => {
 
   // Retirer un produit du panier
   const removeProduct = useCallback(
-    (productId: number, variant: string | null) => {
+    (productId: number, variant: string | null, type: "item" | "giftCard") => {
+      // Filtre pour supprimer un item selon le type spécifié
       const updatedItems =
-        productsInCart?.items.filter(
-          (item) => !(item.id === productId && item.selectedVariant === variant)
-        ) || [];
+        type === "item"
+          ? productsInCart?.items.filter(
+              (item) =>
+                !(item.id === productId && item.selectedVariant === variant)
+            ) || []
+          : productsInCart?.items || [];
+
+      const updatedGiftCards =
+        type === "giftCard"
+          ? productsInCart?.giftCards.filter(
+              (giftCard) => giftCard.id !== productId
+            ) || []
+          : productsInCart?.giftCards || [];
 
       const updatedCart = {
         cart: productsInCart?.cart,
-        items: updatedItems || [],
-        giftCards: productsInCart?.giftCards || [],
+        items: updatedItems,
+        giftCards: updatedGiftCards,
       };
 
       setProductsInCart(updatedCart); // Mise à jour du contexte
       // Sauvegarde dans localStorage
       saveCartToLocalStorage(updatedCart);
       // Envoi à l’API avec le format correct
-      triggerFetch(formatCartForAPI(updatedItems, updatedCart.giftCards));
+      triggerFetch(formatCartForAPI(updatedItems, updatedGiftCards));
     },
     [productsInCart, setProductsInCart, triggerFetch]
   );
 
-  return { addOrUpdateProduct, removeProduct, productsInCart };
+  // Calcul du nombre total d'articles
+  const totalItemsInCart = useMemo(() => {
+    const itemsCount =
+      productsInCart?.items.reduce(
+        (acc, item) => acc + item.quantityInCart,
+        0
+      ) || 0;
+    const giftCardsCount =
+      productsInCart?.giftCards.reduce(
+        (acc, giftCard) => acc + giftCard.quantity,
+        0
+      ) || 0;
+    return itemsCount + giftCardsCount;
+  }, [productsInCart]);
+  return {
+    addOrUpdateProduct,
+    removeProduct,
+    productsInCart,
+    totalItemsInCart,
+  };
 };

@@ -2,20 +2,13 @@ import React from "react";
 import TrashIcon from "@/components/shared/TrashIcon";
 import { sumPriceArticle } from "@/app/utils/pricesFormat";
 import ProductImageGiftcard from "@/components/shared/productImage/ProductImageGiftcard";
-import { CartResponse } from "@/app/types/CartTypes";
+import { useCartManager } from "@/app/panier/hooks/useCartManager";
 
-interface SheetRowGiftcardProps {
-  productsInCart: CartResponse | null;
-}
-const SheetRowGiftcard: React.FC<SheetRowGiftcardProps> = ({
-  productsInCart,
-}) => {
-  const handleDelete = (productId: number) => {
-    console.log("Product deleted:", productId);
-    // Logique pour supprimer le produit
-  };
+const SheetRowGiftcard = () => {
+  const { removeProduct, productsInCart } = useCartManager();
   return (
-    productsInCart &&productsInCart.giftCards&&
+    productsInCart &&
+    productsInCart.giftCards &&
     productsInCart.giftCards.length > 0 &&
     productsInCart.giftCards.map((product, index) => (
       <article
@@ -36,7 +29,9 @@ const SheetRowGiftcard: React.FC<SheetRowGiftcardProps> = ({
           {/* Cellule pour le bouton de suppression */}
         </div>
         <p className="flex justify-center my-2">
-          <TrashIcon onClick={() => handleDelete(index)} />
+          <TrashIcon
+            onClick={() => removeProduct(product.id, null, "giftCard")}
+          />
         </p>
       </article>
     ))

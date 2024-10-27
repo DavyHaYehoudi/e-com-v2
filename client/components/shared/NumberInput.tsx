@@ -1,19 +1,23 @@
 "use client";
+import { MasterProductsType } from "@/app/types/ProductTypes";
 import { sumPriceArticle } from "@/app/utils/pricesFormat";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 
 const NumberInput = ({
-  maxQuantity,
   onValueChange,
   quantity,
-  price,
+  product,
 }: {
-  maxQuantity: number | null;
   onValueChange: (value: number) => void;
   quantity: number;
-  price: number;
+  product: MasterProductsType;
 }) => {
+  const {
+    quantity_in_stock: quantityInStock,
+    price: price,
+    continue_selling: continueSelling,
+  } = product;
   const [value, setValue] = useState<number>(quantity);
 
   // Synchronise `value` avec `quantity` en cas de changement externe
@@ -25,9 +29,9 @@ const NumberInput = ({
     let val = parseInt(e.target.value, 10);
     if (isNaN(val)) val = 1; // Valeur par défaut
 
-    // Limite la valeur à la plage 1 - maxQuantity
-    if (maxQuantity) {
-      val = Math.max(1, Math.min(val, maxQuantity));
+    // Applique la limite de stock uniquement si `continueSelling` est `false`
+    if (!continueSelling && quantityInStock !== null) {
+      val = Math.max(1, Math.min(val, quantityInStock));
     }
 
     setValue(val);
@@ -37,9 +41,10 @@ const NumberInput = ({
   return (
     <article>
       <div className="flex flex-col items-center space-y-1">
-        {maxQuantity && maxQuantity > 0 && (
+        {/* Affiche l’indication de limite uniquement si `continueSelling` est `false` et que `quantityInStock` est défini */}
+        {!continueSelling && quantityInStock && (
           <span className="text-sm text-gray-500">
-            Limité à : {maxQuantity}
+            Limité à : {quantityInStock}
           </span>
         )}
 
@@ -48,11 +53,12 @@ const NumberInput = ({
             type="number"
             value={value}
             min={1}
-            max={maxQuantity ?? undefined}
+            max={!continueSelling ? quantityInStock ?? undefined : undefined}
             onChange={handleChange}
             className="text-center w-16"
           />
         </div>
+
         <p>{sumPriceArticle(quantity, price)} </p>
       </div>
     </article>

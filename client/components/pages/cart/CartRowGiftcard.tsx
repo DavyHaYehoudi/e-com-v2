@@ -8,19 +8,18 @@ import { sumPriceArticle } from "@/app/utils/pricesFormat";
 
 interface CartRowGiftcardProps {
   productsInCart: CartResponse | null;
+  removeProduct: (
+    productId: number,
+    variant: string | null,
+    type: string
+  ) => void;
 }
 const CartRowGiftcard: React.FC<CartRowGiftcardProps> = ({
   productsInCart,
+  removeProduct,
 }) => {
   const [quantity, setQuantity] = useState(1);
-  const handleQuantityChange = (newQuantity: number) => {
-    setQuantity(newQuantity);
-  };
 
-  const handleDelete = (giftcardId: number) => {
-    console.log("Giftcard deleted:", giftcardId);
-    // Logique pour supprimer la carte cadeau
-  };
   return (
     productsInCart &&
     productsInCart.giftCards &&
@@ -48,7 +47,9 @@ const CartRowGiftcard: React.FC<CartRowGiftcardProps> = ({
 
         {/* Cellule pour le bouton de suppression */}
         <TableCell align="right">
-          <TrashIcon onClick={() => handleDelete(index)} />
+          <TrashIcon
+            onClick={() => removeProduct(giftcard.id, null, "giftCard")}
+          />
         </TableCell>
       </TableRow>
     ))

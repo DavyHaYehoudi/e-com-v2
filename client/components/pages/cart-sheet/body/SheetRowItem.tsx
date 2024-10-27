@@ -28,7 +28,7 @@ const SheetRowItem = () => {
             <ProductImageItem
               productId={product.id}
               name={product.name}
-              path={product.images.find((image) => image.is_main)?.url || ""}
+              path={product?.images?.find((image) => image.is_main)?.url || ""}
             />
             {isProductNew(product.new_until) && (
               <NewBadge additionalClasses="absolute top-1 left-0" />
@@ -68,7 +68,7 @@ const SheetRowItem = () => {
         </div>
         <p className="flex justify-center my-2">
           <TrashIcon
-            onClick={() => removeProduct(product.id, product.selectedVariant)}
+            onClick={() => removeProduct(product.id, product.selectedVariant,"item")}
           />
         </p>
       </article>

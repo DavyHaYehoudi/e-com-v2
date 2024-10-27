@@ -14,11 +14,20 @@ import { sumPriceArticle } from "@/app/utils/pricesFormat";
 import { useCartManager } from "@/app/panier/hooks/useCartManager";
 import useCart from "@/app/panier/hooks/useCart";
 
-
-const CartRowItem = () => {
+interface CartRowItemProps {
+  productsInCart: CartResponse | null;
+  removeProduct: (
+    productId: number,
+    variant: string | null,
+    type: string
+  ) => void;
+}
+const CartRowItem: React.FC<CartRowItemProps> = ({
+  productsInCart,
+  removeProduct,
+}) => {
   // Initialiser l'état des quantités avec l'ID et le variant du produit comme clé
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
-  const { removeProduct, productsInCart } = useCartManager();
 
   useEffect(() => {
     // Initialiser les quantités depuis productsInCart une seule fois lors du chargement du composant
@@ -93,7 +102,9 @@ const CartRowItem = () => {
           {/* Cellule pour le bouton de suppression */}
           <TableCell align="right">
             <TrashIcon
-              onClick={() => removeProduct(product.id, product.selectedVariant)}
+              onClick={() =>
+                removeProduct(product.id, product.selectedVariant, "item")
+              }
             />
           </TableCell>
         </TableRow>

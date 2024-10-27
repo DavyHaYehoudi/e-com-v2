@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import WishlistModal from "@/components/modules/wishlist/WishlistModal";
 import { formatPrice } from "@/app/utils/pricesFormat";
 import { jwtDecode } from "jwt-decode";
+import { useCartManager } from "@/app/panier/hooks/useCartManager";
 
 // Interface pour le token décodé
 interface DecodedToken {
@@ -19,7 +20,7 @@ interface DecodedToken {
 const NavIcons = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [wishlistCount, setWishlistCount] = useState(3);
-  const [cartCount, setCartCount] = useState(2);
+  const { totalItemsInCart } = useCartManager();
   const [customerEmail, setCustomerEmail] = useState<string | null>(null);
 
   // Vérifier le token au chargement de la page
@@ -102,9 +103,9 @@ const NavIcons = () => {
             <ShoppingBagIcon className="w-6 h-6 mb-2 cursor-pointer" />
           </span>
 
-          {cartCount > 0 && (
+          {totalItemsInCart >0&& (
             <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
-              {cartCount}
+              {totalItemsInCart}
             </span>
           )}
         </a>

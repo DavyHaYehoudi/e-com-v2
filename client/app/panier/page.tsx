@@ -3,10 +3,10 @@ import CartTable from "@/components/pages/cart/CartTable";
 import React from "react";
 import ProceedToPayment from "@/components/pages/cart/ProceedToPayment";
 import { calculateTotalCashbackCartToEarn } from "@/components/pages/cart/utils/calculUtils";
-import useCart from "./hooks/useCart";
+import { useCartManager } from "./hooks/useCartManager";
 
 const Cart = () => {
-  const { productsInCart } = useCart();
+  const { removeProduct, productsInCart } = useCartManager();
 
   return (
     <main>
@@ -17,7 +17,10 @@ const Cart = () => {
         (productsInCart.items.length > 0 ||
           productsInCart.giftCards.length > 0) ? (
           <div className="w-full sm:w-full md:w-3/4 lg:w-1/2">
-            <CartTable productsInCart={productsInCart} />
+            <CartTable
+              productsInCart={productsInCart}
+              removeProduct={removeProduct}
+            />
             {calculateTotalCashbackCartToEarn(productsInCart.items) > 0 && (
               <ProceedToPayment productsInCart={productsInCart} />
             )}

@@ -54,6 +54,7 @@ const MasterProduct = ({ params }: MasterProductProps) => {
       }
     }
   };
+console.log("product :",product);
 
   useEffect(() => {
     if (
@@ -109,10 +110,9 @@ const MasterProduct = ({ params }: MasterProductProps) => {
             )}
             <h2 className="text-xl font-semibold">Quantité :</h2>
             <NumberInput
-              maxQuantity={product.quantity_in_stock}
               onValueChange={handleQuantityChange}
               quantity={quantity}
-              price={product.price}
+              product={product}
             />
             <hr className="my-4" />
             <ProductPrice
