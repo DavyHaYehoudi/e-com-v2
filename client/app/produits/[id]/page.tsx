@@ -54,25 +54,29 @@ const MasterProduct = ({ params }: MasterProductProps) => {
       }
     }
   };
+
   useEffect(() => {
     if (
       productsInCart &&
       productsInCart.items &&
       productsInCart.items.length > 0
     ) {
+      // Le produit est-il déjà dans le panier
       const productInCart = productsInCart.items.find(
         (p) => p.id === parseInt(id)
       );
+      // Si c'est un produit déjà ajouté au panier
       if (productInCart) {
         setQuantity(productInCart.quantityInCart);
-      } else {
-        setQuantity(1);
-      }
-      if (productInCart) {
         setSelectedVariant(
           productInCart.selectedVariant || productInCart.variants[0]
         );
+      } else if (!productInCart && product) {
+        setQuantity(1);
+        setSelectedVariant(product.variants[0]);
       }
+    } else if (productsInCart && !productsInCart.items && product) {
+      setSelectedVariant(product.variants[0]);
     }
   }, [productsInCart]);
 
@@ -108,12 +112,14 @@ const MasterProduct = ({ params }: MasterProductProps) => {
               maxQuantity={product.quantity_in_stock}
               onValueChange={handleQuantityChange}
               quantity={quantity}
+              price={product.price}
             />
             <hr className="my-4" />
             <ProductPrice
               product={product}
               selectedVariant={selectedVariant}
               quantity={quantity}
+              productsInCart={productsInCart}
             />
           </section>
           <ProductInformation />

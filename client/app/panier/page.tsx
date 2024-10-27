@@ -7,12 +7,13 @@ import useCart from "./hooks/useCart";
 
 const Cart = () => {
   const { productsInCart } = useCart();
-  
+
   return (
     <main>
       <h1 className="uppercase text-center m-10">mon panier</h1>
       <section className="w-full flex justify-center">
         {productsInCart &&
+        productsInCart.items &&
         (productsInCart.items.length > 0 ||
           productsInCart.giftCards.length > 0) ? (
           <div className="w-full sm:w-full md:w-3/4 lg:w-1/2">

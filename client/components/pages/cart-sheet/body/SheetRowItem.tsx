@@ -8,16 +8,11 @@ import TrashIcon from "@/components/shared/TrashIcon";
 import VariantBadge from "@/components/shared/badge/VariantBadge";
 import WeightBadge from "@/components/shared/badge/WeightBadge";
 import { sumPriceArticle } from "@/app/utils/pricesFormat";
-import { CartResponse } from "@/app/types/CartTypes";
+import { useCartManager } from "@/app/panier/hooks/useCartManager";
 
-interface SheetRowItemProps {
-  productsInCart: CartResponse | null;
-}
-const SheetRowItem: React.FC<SheetRowItemProps> = ({ productsInCart }) => {
-  const handleDelete = (productId: number) => {
-    console.log("Product deleted:", productId);
-    // Logique pour supprimer le produit
-  };
+const SheetRowItem = () => {
+  const { removeProduct, productsInCart } = useCartManager();
+
   return (
     productsInCart &&
     productsInCart.items &&
@@ -46,10 +41,10 @@ const SheetRowItem: React.FC<SheetRowItemProps> = ({ productsInCart }) => {
               <VariantBadge productVariant={product.selectedVariant} />
             )}{" "}
             <br />
-            {product.weight && <WeightBadge weight={product.weight} />}
+            {product.weight ? <WeightBadge weight={product.weight} /> : ""}
           </p>
         </div>
-        <div className="flex items-center justify-between p-2 my-2">
+        <div className="flex items-center justify-between p-2 my-2 flex-wrap">
           <p>{sumPriceArticle(product.quantityInCart, product.price)}</p>
           {/* Cellule affichant le prix de la réduction */}
           <p className="text-right">
@@ -61,17 +56,20 @@ const SheetRowItem: React.FC<SheetRowItemProps> = ({ productsInCart }) => {
           </p>
           {/* Cellule pour Cashback */}
           <p>
-            {product.cash_back && (
+            {product.cash_back ? (
               <CashbackBadge
                 cashbackAmount={product.quantityInCart * product.cash_back}
-                //   additionalClasses="absolute top-1 right-0"
               />
+            ) : (
+              ""
             )}
           </p>
           {/* Cellule pour le bouton de suppression */}
         </div>
         <p className="flex justify-center my-2">
-          <TrashIcon onClick={() => handleDelete(product.id)} />
+          <TrashIcon
+            onClick={() => removeProduct(product.id, product.selectedVariant)}
+          />
         </p>
       </article>
     ))

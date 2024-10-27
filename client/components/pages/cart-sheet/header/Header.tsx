@@ -8,6 +8,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ productsInCart }) => {
   const isProductsInCart =
     productsInCart &&
+    productsInCart.items &&
     (productsInCart.items.length > 0 || productsInCart.giftCards.length > 0);
 
   return isProductsInCart ? (

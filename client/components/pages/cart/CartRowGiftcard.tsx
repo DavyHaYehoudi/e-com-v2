@@ -1,26 +1,18 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import TrashIcon from "@/components/shared/TrashIcon";
-import QuantityCalculator from "@/components/shared/QuantityCalculator";
 import ProductImageGiftcard from "@/components/shared/productImage/ProductImageGiftcard";
 import { CartResponse } from "@/app/types/CartTypes";
-import { useFetch } from "@/service/hooks/useFetch";
+import { sumPriceArticle } from "@/app/utils/pricesFormat";
 
-const CartRowGiftcard = () => {
+interface CartRowGiftcardProps {
+  productsInCart: CartResponse | null;
+}
+const CartRowGiftcard: React.FC<CartRowGiftcardProps> = ({
+  productsInCart,
+}) => {
   const [quantity, setQuantity] = useState(1);
-  const [productsInCart, setProductsInCart] = useState<CartResponse | null>(
-    null
-  );
-  const { data } = useFetch<CartResponse>("/customer/cart", {
-    requiredCredentials: true,
-  });
-
-  useEffect(() => {
-    if (data) {
-      setProductsInCart(data);
-    }
-  }, [data]);
   const handleQuantityChange = (newQuantity: number) => {
     setQuantity(newQuantity);
   };
@@ -45,15 +37,8 @@ const CartRowGiftcard = () => {
 
         <TableCell>Carte cadeau pour soi ou à offrir.</TableCell>
 
-        {/* Cellule de gestion de la quantité et du prix */}
-        <TableCell>
-          <QuantityCalculator
-            quantity={quantity}
-            onValueChange={handleQuantityChange}
-            maxQuantity={null}
-            price={giftcard.amount}
-          />
-        </TableCell>
+        {/* Cellule de la quantité et du prix */}
+        <TableCell>{sumPriceArticle(quantity, giftcard.amount)}</TableCell>
 
         {/* Cellule vide pour le prix de la réduction */}
         <TableCell></TableCell>

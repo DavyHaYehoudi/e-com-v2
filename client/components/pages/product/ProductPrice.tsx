@@ -1,3 +1,4 @@
+import { CartResponse } from "@/app/types/CartTypes";
 import { MasterProductsType } from "@/app/types/ProductTypes";
 import { formatPrice } from "@/app/utils/pricesFormat";
 import {
@@ -5,6 +6,7 @@ import {
   canContinueSelling,
 } from "@/app/utils/productUtils";
 import AddToCartButton from "@/components/shared/AddToCartButton";
+import CashbackBadge from "@/components/shared/badge/CashbackBadge";
 import PromotionBadge from "@/components/shared/badge/PromotionBadge";
 import React from "react";
 
@@ -12,12 +14,14 @@ interface ProductPriceProps {
   product: MasterProductsType;
   selectedVariant: string;
   quantity: number;
+  productsInCart: CartResponse | null;
 }
 
 const ProductPrice: React.FC<ProductPriceProps> = ({
   product,
   selectedVariant,
   quantity,
+  productsInCart,
 }) => {
   return (
     <article className="mt-4">
@@ -41,10 +45,15 @@ const ProductPrice: React.FC<ProductPriceProps> = ({
         </>
       ) : (
         // Si pas de réduction, afficher simplement le prix normal
-        <>
+        <p className="flex items-center gap-2">
           <span>{formatPrice(product.price)}</span>
+          {product.cash_back ? (
+            <CashbackBadge cashbackAmount={product.cash_back} />
+          ) : (
+            ""
+          )}
           <hr className="my-4" />
-        </>
+        </p>
       )}
       {/* Vérification si le produit est disponible à la vente */}
       {canContinueSelling(product) ? (
@@ -52,6 +61,7 @@ const ProductPrice: React.FC<ProductPriceProps> = ({
           product={product}
           selectedVariant={selectedVariant}
           quantity={quantity}
+          productsInCart={productsInCart}
         />
       ) : (
         <div className="mx-auto block w-1/2 text-red-600 font-bold text-center">

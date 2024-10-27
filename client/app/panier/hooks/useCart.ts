@@ -10,12 +10,14 @@ const useCart = () => {
     null
   );
   const { isAuthenticated, isVisitor, isTokenExpired } = useAuthStatus();
-  const { data,triggerFetch } = useFetch<CartResponse>("/customer/cart", {
+  const { data, triggerFetch } = useFetch<CartResponse>("/customer/cart", {
     requiredCredentials: true,
   });
-  useEffect(()=>{
-    triggerFetch()
-  },[])
+  useEffect(() => {
+    if (isAuthenticated) {
+      triggerFetch();
+    }
+  }, [isAuthenticated]);
 
   useEffect(() => {
     if (isAuthenticated && data) {
@@ -40,7 +42,7 @@ const useCart = () => {
     }
   }, [data, isAuthenticated, isVisitor, isTokenExpired]);
 
-  return { productsInCart,setProductsInCart };
+  return { productsInCart, setProductsInCart };
 };
 
 export default useCart;

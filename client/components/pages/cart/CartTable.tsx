@@ -43,13 +43,12 @@ const CartTable: React.FC<CartTableProps> = ({ productsInCart }) => {
   };
   const handleCashbackSelect = (amount: number) => {
     setSelectedCashback(amount);
-    console.log("Montant sélectionné:", amount);
   };
   return (
     <Table>
       <TableBody>
         <CartRowItem />
-        <CartRowGiftcard />
+        <CartRowGiftcard productsInCart={productsInCart} />
       </TableBody>
       <TableFooter>
         <ProductsBeforePromotion productsInCart={productsInCart} />

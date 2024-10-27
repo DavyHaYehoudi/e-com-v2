@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useFetch } from "@/service/hooks/useFetch";
 import useCart from "./useCart";
-import { CartItemsType } from "@/app/types/CartTypes";
+import { CartItemsType, CartResponse } from "@/app/types/CartTypes";
 import { ProductCartGiftcards } from "@/app/types/ProductTypes";
 
 interface ProductProps {
@@ -12,7 +12,6 @@ interface ProductProps {
 
 export const useCartManager = () => {
   const { productsInCart, setProductsInCart } = useCart();
-  console.log('productsInCart dans useCartManager:', productsInCart)
   const { triggerFetch } = useFetch("/customer/cart", {
     method: "PUT",
     requiredCredentials: true,
@@ -33,6 +32,10 @@ export const useCartManager = () => {
       quantity: giftCard.quantity,
     })),
   });
+  // Helper pour sauvegarder le panier dans localStorage
+  const saveCartToLocalStorage = (cart: CartResponse) => {
+    localStorage.setItem("cartCustomer", JSON.stringify(cart));
+  };
 
   // Ajouter ou mettre à jour un produit dans le panier
   const addOrUpdateProduct = useCallback(
@@ -87,7 +90,8 @@ export const useCartManager = () => {
       };
 
       setProductsInCart(updatedCart); // Mise à jour du contexte
-
+      // Sauvegarde dans localStorage
+      saveCartToLocalStorage(updatedCart);
       // Envoi à l’API avec le format correct
       triggerFetch(formatCartForAPI(updatedItems, updatedCart.giftCards));
     },
@@ -96,7 +100,7 @@ export const useCartManager = () => {
 
   // Retirer un produit du panier
   const removeProduct = useCallback(
-    (productId: number, variant: string) => {
+    (productId: number, variant: string | null) => {
       const updatedItems =
         productsInCart?.items.filter(
           (item) => !(item.id === productId && item.selectedVariant === variant)
@@ -109,12 +113,13 @@ export const useCartManager = () => {
       };
 
       setProductsInCart(updatedCart); // Mise à jour du contexte
-
+      // Sauvegarde dans localStorage
+      saveCartToLocalStorage(updatedCart);
       // Envoi à l’API avec le format correct
       triggerFetch(formatCartForAPI(updatedItems, updatedCart.giftCards));
     },
     [productsInCart, setProductsInCart, triggerFetch]
   );
 
-  return { addOrUpdateProduct, removeProduct };
+  return { addOrUpdateProduct, removeProduct, productsInCart };
 };

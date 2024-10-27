@@ -1,4 +1,5 @@
 "use client";
+import { sumPriceArticle } from "@/app/utils/pricesFormat";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 
@@ -6,10 +7,12 @@ const NumberInput = ({
   maxQuantity,
   onValueChange,
   quantity,
+  price,
 }: {
   maxQuantity: number | null;
   onValueChange: (value: number) => void;
   quantity: number;
+  price: number;
 }) => {
   const [value, setValue] = useState<number>(quantity);
 
@@ -34,7 +37,7 @@ const NumberInput = ({
   return (
     <article>
       <div className="flex flex-col items-center space-y-1">
-        {maxQuantity && (
+        {maxQuantity && maxQuantity > 0 && (
           <span className="text-sm text-gray-500">
             Limité à : {maxQuantity}
           </span>
@@ -50,6 +53,7 @@ const NumberInput = ({
             className="text-center w-16"
           />
         </div>
+        <p>{sumPriceArticle(quantity, price)} </p>
       </div>
     </article>
   );
