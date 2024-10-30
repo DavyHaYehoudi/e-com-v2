@@ -2,7 +2,7 @@ import { CartResponse } from "@/app/types/CartTypes";
 import React from "react";
 
 interface HeaderProps {
-  productsInCart: CartResponse | null;
+  productsInCart?: CartResponse | null;
 }
 
 const Header: React.FC<HeaderProps> = ({ productsInCart }) => {

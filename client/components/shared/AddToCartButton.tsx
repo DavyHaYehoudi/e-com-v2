@@ -18,10 +18,12 @@ import { useCartManager } from "@/app/panier/hooks/useCartManager";
 import { CartResponse } from "@/app/types/CartTypes";
 
 interface AddToCartButtonProps {
-  product: Product | MasterProductsType ;
-  selectedVariant: string;
+  product?: Product | MasterProductsType;
+  selectedVariant?: string;
   quantity: number;
-  productsInCart: CartResponse | null;
+  productsInCart?: CartResponse | null;
+  amount?: number;
+  type: "item" | "giftCard";
 }
 
 const AddToCartButton: React.FC<AddToCartButtonProps> = ({
@@ -29,12 +31,14 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   selectedVariant,
   quantity,
   productsInCart,
+  amount,
+  type = "item",
 }) => {
   const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
   const { addOrUpdateProduct } = useCartManager();
 
   const onAddToCart = () => {
-    addOrUpdateProduct({ product, selectedVariant, quantity });
+    addOrUpdateProduct({ product, selectedVariant, quantity, amount, type });
     setIsSheetOpen(true);
   };
 

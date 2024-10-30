@@ -6,9 +6,11 @@ import { ProductCartGiftcards } from "@/app/types/ProductTypes";
 import useAuthStatus from "@/app/hooks/useAuthStatus";
 
 interface ProductProps {
-  product: { id: number };
-  selectedVariant: string;
+  product?: { id: number };
+  selectedVariant?: string;
   quantity: number;
+  amount?: number;
+  type: "item" | "giftCard";
 }
 
 export const useCartManager = () => {
@@ -37,66 +39,87 @@ export const useCartManager = () => {
   const saveCartToLocalStorage = (cart: CartResponse) => {
     localStorage.setItem("cartCustomer", JSON.stringify(cart));
   };
- 
+
   // Ajouter ou mettre à jour un produit dans le panier
   const addOrUpdateProduct = useCallback(
-    ({ product, selectedVariant, quantity }: ProductProps) => {
-      const updatedItems = productsInCart?.items
-        ? [...productsInCart.items]
-        : [];
+    ({ product, selectedVariant, quantity, amount, type }: ProductProps) => {
+      const updatedItems =
+        type === "item" && product && selectedVariant
+          ? (() => {
+              // Vérifier si le produit existe déjà dans les items du panier
+              const existingItemIndex = productsInCart?.items.findIndex(
+                (item) =>
+                  item.id === product.id &&
+                  (selectedVariant
+                    ? item.selectedVariant === selectedVariant
+                    : true)
+              );
 
-      // Trouver le produit dans le panier
-      const existingItemIndex = updatedItems.findIndex(
-        (item) =>
-          item.id === product.id &&
-          (selectedVariant ? item.selectedVariant === selectedVariant : true)
-      );
+              if (existingItemIndex && existingItemIndex !== -1) {
+                // Mettre à jour la quantité de l'article existant
+                const itemsCopy = [...(productsInCart?.items || [])];
+                itemsCopy[existingItemIndex].quantityInCart = quantity;
+                return itemsCopy;
+              } else {
+                // Ajouter un nouvel item
+                return [
+                  ...(productsInCart?.items || []),
+                  {
+                    id: product.id,
+                    selectedVariant,
+                    quantityInCart: quantity,
+                    name: "",
+                    SKU: "",
+                    description: "",
+                    weight: null,
+                    continue_selling: true,
+                    quantity_in_stock: 0,
+                    discount_percentage: null,
+                    discount_end_date: null,
+                    price: 0,
+                    new_until: "",
+                    cash_back: null,
+                    is_published: true,
+                    is_star: false,
+                    is_archived: false,
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString(),
+                    images: [],
+                    categories: [],
+                    tags: [],
+                    variants: [],
+                  },
+                ];
+              }
+            })()
+          : productsInCart?.items || [];
 
-      if (existingItemIndex !== -1) {
-        // Mise à jour de la quantité
-        updatedItems[existingItemIndex].quantityInCart = quantity;
-      } else {
-        // Ajouter un nouvel élément
-        updatedItems.push({
-          id: product.id,
-          selectedVariant,
-          quantityInCart: quantity,
-          // Autres propriétés nécessaires uniquement dans le panier local
-          name: "",
-          SKU: "",
-          description: "",
-          weight: null,
-          continue_selling: true,
-          quantity_in_stock: 0,
-          discount_percentage: null,
-          discount_end_date: null,
-          price: 0,
-          new_until: "",
-          cash_back: null,
-          is_published: true,
-          is_star: false,
-          is_archived: false,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-          images: [],
-          categories: [],
-          tags: [],
-          variants: [],
-        });
-      }
+      const updatedGiftCards =
+        type === "giftCard" && amount
+          ? [
+              ...(productsInCart?.giftCards || []),
+              {
+                amount,
+                quantity,
+                id: Math.floor(Math.random() * 1000000) + Date.now(), // ID aléatoire unique et temporaire
+                cart_id: 0,
+                created_at: "",
+                updated_at: "",
+              },
+            ]
+          : productsInCart?.giftCards || [];
 
       const updatedCart = {
         cart: productsInCart?.cart,
         items: updatedItems,
-        giftCards: productsInCart?.giftCards || [],
+        giftCards: updatedGiftCards,
       };
 
       setProductsInCart(updatedCart); // Mise à jour du contexte
-      // Sauvegarde dans localStorage
-      saveCartToLocalStorage(updatedCart);
-      // Envoi à l’API avec le format correct
+      saveCartToLocalStorage(updatedCart); // Sauvegarde dans localStorage
+
       if (isAuthenticated) {
-        triggerFetch(formatCartForAPI(updatedItems, updatedCart.giftCards));
+        triggerFetch(formatCartForAPI(updatedItems, updatedGiftCards)); // Envoi à l'API
       }
     },
     [productsInCart, setProductsInCart, triggerFetch]
