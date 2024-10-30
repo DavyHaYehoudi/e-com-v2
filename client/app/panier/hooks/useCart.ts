@@ -37,10 +37,19 @@ const useCart = () => {
       }
     }
 
-    if (isTokenExpired) {
+    if (isTokenExpired&& isAuthenticated) {
       toast.warning("Votre session a expiré. Veuillez vous reconnecter.");
     }
   }, [data, isAuthenticated, isVisitor, isTokenExpired]);
+  useEffect(() => {
+    // Mise à jour du localStorage pour les visiteurs uniquement
+    if (isVisitor && productsInCart) {
+      localStorage.setItem(
+        "cartCustomer",
+        JSON.stringify(productsInCart)
+      );
+    }
+  }, [productsInCart, isVisitor]);
 
   return { productsInCart, setProductsInCart };
 };

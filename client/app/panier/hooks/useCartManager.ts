@@ -3,6 +3,7 @@ import { useFetch } from "@/service/hooks/useFetch";
 import useCart from "./useCart";
 import { CartItemsType, CartResponse } from "@/app/types/CartTypes";
 import { ProductCartGiftcards } from "@/app/types/ProductTypes";
+import useAuthStatus from "@/app/hooks/useAuthStatus";
 
 interface ProductProps {
   product: { id: number };
@@ -16,7 +17,7 @@ export const useCartManager = () => {
     method: "PUT",
     requiredCredentials: true,
   });
-
+  const { isAuthenticated } = useAuthStatus();
   // Helper pour formater les items pour l'API
   const formatCartForAPI = (
     items: CartItemsType[],
@@ -36,7 +37,7 @@ export const useCartManager = () => {
   const saveCartToLocalStorage = (cart: CartResponse) => {
     localStorage.setItem("cartCustomer", JSON.stringify(cart));
   };
-
+ 
   // Ajouter ou mettre à jour un produit dans le panier
   const addOrUpdateProduct = useCallback(
     ({ product, selectedVariant, quantity }: ProductProps) => {
@@ -47,7 +48,8 @@ export const useCartManager = () => {
       // Trouver le produit dans le panier
       const existingItemIndex = updatedItems.findIndex(
         (item) =>
-          item.id === product.id && item.selectedVariant === selectedVariant
+          item.id === product.id &&
+          (selectedVariant ? item.selectedVariant === selectedVariant : true)
       );
 
       if (existingItemIndex !== -1) {
@@ -93,7 +95,9 @@ export const useCartManager = () => {
       // Sauvegarde dans localStorage
       saveCartToLocalStorage(updatedCart);
       // Envoi à l’API avec le format correct
-      triggerFetch(formatCartForAPI(updatedItems, updatedCart.giftCards));
+      if (isAuthenticated) {
+        triggerFetch(formatCartForAPI(updatedItems, updatedCart.giftCards));
+      }
     },
     [productsInCart, setProductsInCart, triggerFetch]
   );
@@ -127,7 +131,9 @@ export const useCartManager = () => {
       // Sauvegarde dans localStorage
       saveCartToLocalStorage(updatedCart);
       // Envoi à l’API avec le format correct
-      triggerFetch(formatCartForAPI(updatedItems, updatedGiftCards));
+      if (isAuthenticated) {
+        triggerFetch(formatCartForAPI(updatedItems, updatedGiftCards));
+      }
     },
     [productsInCart, setProductsInCart, triggerFetch]
   );

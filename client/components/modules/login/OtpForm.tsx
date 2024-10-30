@@ -46,8 +46,51 @@ const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
   const { triggerFetch } = useFetch<AuthResponse>("/auth/send-verify-otp", {
     method: "POST",
   });
+  const getWishlistData = () => {
+    const wishlist = localStorage.getItem("wishlistCustomer");
+    if (!wishlist) return [];
+
+    try {
+      const parsedWishlist = JSON.parse(wishlist);
+      return parsedWishlist.items.map((item: { id: number }) => ({
+        product_id: item.id,
+      }));
+    } catch (error) {
+      console.error("Erreur lors de la récupération de la wishlist:", error);
+      return [];
+    }
+  };
+
+  const getCartData = () => {
+    const cart = localStorage.getItem("cartCustomer");
+    if (!cart) return { items: [], giftCards: [] };
+
+    try {
+      const parsedCart = JSON.parse(cart);
+      const items = parsedCart.items.map((item: any) => ({
+        product_id: item.id,
+        quantity: item.quantityInCart,
+        variant: item.selectedVariant,
+      }));
+
+      const giftCards = parsedCart.giftCards.map((giftCard: any) => ({
+        amount: giftCard.amount,
+        quantity: giftCard.quantity,
+      }));
+
+      return { items, gift_cards:giftCards };
+    } catch (error) {
+      console.error("Erreur lors de la récupération du panier:", error);
+      return { items: [], gift_cards: [] };
+    }
+  };
   const onSubmit = async (data: OnSubmitData) => {
-    const bodyData = { email, otp: data.otp };
+    const bodyData = {
+      email,
+      otp: data.otp,
+      wishlist: getWishlistData(),
+      cart: getCartData(),
+    };
     try {
       const OTPresponse = await triggerFetch(bodyData);
       if (OTPresponse) {

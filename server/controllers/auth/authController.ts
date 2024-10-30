@@ -33,8 +33,11 @@ export const authVerifyOTPController = async (
 ) => {
   try {
     const authData = authRequestSchema.parse(req.body);
-    const { email, otp } = authData;
-    const result = await authService.verifyAuthCodeService(email, otp);
+    const { email, otp,wishlist,cart } = authData;
+    console.log('authData:', authData)
+    console.log("authData.cart :",authData.cart,"authData.wishlist :",authData.wishlist);
+    
+    const result = await authService.verifyAuthCodeService(email, otp,wishlist,cart);
     res.status(201).json({ token: result.token });
   } catch (error: any) {
     next(error);
