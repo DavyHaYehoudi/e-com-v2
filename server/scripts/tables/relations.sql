@@ -72,11 +72,6 @@ ADD CONSTRAINT fk_cart
 FOREIGN KEY (cart_id) REFERENCES `cart`(id)
 ON DELETE SET NULL;
 
-ALTER TABLE wishlist_gift_card
-ADD CONSTRAINT fk_wishlist
-FOREIGN KEY (wishlist_id) REFERENCES `wishlist`(id)
-ON DELETE SET NULL;
-
 ALTER TABLE gift_card_usage
 ADD CONSTRAINT fk_gift_card_usage_gift_card
 FOREIGN KEY (gift_card_id) REFERENCES `gift_card`(id)

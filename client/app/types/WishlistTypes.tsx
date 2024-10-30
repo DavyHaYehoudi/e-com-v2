@@ -1,14 +1,4 @@
-import { MasterProductsType } from "./ProductTypes";
-
-// Type pour une carte cadeau
-export type WishlistGiftCard = {
-  id: number;
-  quantity: number;
-  wishlist_id: number;
-  created_at: string;
-  updated_at: string;
-  amount: number;
-};
+import { MasterProductsType, Product } from "./ProductTypes";
 
 // Type pour la wishlist
 export type Wishlist = {
@@ -20,7 +10,6 @@ export type Wishlist = {
 
 // Type pour la réponse globale
 export type WishlistResponse = {
-  wishlist: Wishlist;
-  items: MasterProductsType[];
-  giftCards: WishlistGiftCard[];
+  wishlist?: Wishlist;
+  items: MasterProductsType[] ;
 };

@@ -35,7 +35,7 @@ export const updateCustomerWishlistController = async (
     const customerId = (req.user as CustomJwtPayload).id;
     const wishlistData = WishlistInputSchema.parse(req.body);
     await updateCustomerWishlistService(customerId, wishlistData);
-    return res.status(204).json();
+    return res.status(200).json({});
   } catch (error) {
     next(error);
   }

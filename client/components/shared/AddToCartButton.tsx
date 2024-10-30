@@ -14,12 +14,11 @@ import Footer from "../pages/cart-sheet/footer/Footer";
 import Body from "../pages/cart-sheet/body/Body";
 import { ScrollArea } from "../ui/scroll-area";
 import { MasterProductsType, Product } from "@/app/types/ProductTypes";
-import { WishlistGiftCard } from "@/app/types/WishlistTypes";
 import { useCartManager } from "@/app/panier/hooks/useCartManager";
 import { CartResponse } from "@/app/types/CartTypes";
 
 interface AddToCartButtonProps {
-  product: Product | MasterProductsType | WishlistGiftCard;
+  product: Product | MasterProductsType ;
   selectedVariant: string;
   quantity: number;
   productsInCart: CartResponse | null;
