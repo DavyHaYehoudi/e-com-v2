@@ -3,6 +3,8 @@ import { MasterProductsType, Product } from "@/app/types/ProductTypes";
 import useWishlist from "./useWishlist";
 import { WishlistResponse } from "@/app/types/WishlistTypes";
 import useAuthStatus from "@/app/hooks/useAuthStatus";
+import { useDispatch } from "react-redux";
+import { toggleItem } from "@/redux/slice/wishlistSlice";
 
 export const useWishlistManager = () => {
   const { productsWishlist, getWishlist, setProductsWishlist } = useWishlist();
@@ -11,6 +13,7 @@ export const useWishlistManager = () => {
     requiredCredentials: true,
   });
   const { isAuthenticated, isVisitor } = useAuthStatus();
+  const dispatch = useDispatch();
 
   // Helper pour formater les items pour l'API
   const formatWishlistForAPI = (item: MasterProductsType) => ({
@@ -87,6 +90,7 @@ export const useWishlistManager = () => {
         await triggerFetch(formatWishlistForAPI(newItem));
         await getWishlist();
       }
+      dispatch(toggleItem(newItem));
     } catch (error) {
       console.log(error);
     }

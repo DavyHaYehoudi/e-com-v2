@@ -4,11 +4,14 @@ import { toast } from "sonner";
 import { useFetch } from "@/service/hooks/useFetch";
 import useAuthStatus from "@/app/hooks/useAuthStatus";
 import { WishlistResponse } from "@/app/types/WishlistTypes";
+import { useDispatch } from "react-redux";
+import { setWishlist } from "@/redux/slice/wishlistSlice";
 
 const useWishlist = () => {
   const [productsWishlist, setProductsWishlist] =
     useState<WishlistResponse | null>(null);
   const { isAuthenticated, isVisitor, isTokenExpired } = useAuthStatus();
+  const dispatch = useDispatch();
   const { data, triggerFetch } = useFetch<WishlistResponse>(
     "/customer/wishlist",
     {
@@ -32,6 +35,7 @@ const useWishlist = () => {
   useEffect(() => {
     if (isAuthenticated && data) {
       setProductsWishlist(data);
+      dispatch(setWishlist(data));
     } else if (isVisitor) {
       const wishlistCustomer = localStorage.getItem("wishlistCustomer");
       if (wishlistCustomer) {
@@ -40,6 +44,7 @@ const useWishlist = () => {
             wishlistCustomer
           ) as WishlistResponse;
           setProductsWishlist(parsedWishlist);
+          dispatch(setWishlist(parsedWishlist));
         } catch (error) {
           console.error(
             "Erreur lors du parsing de la liste des favoris:",

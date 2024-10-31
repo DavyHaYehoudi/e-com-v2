@@ -1,4 +1,4 @@
-import { MasterProductsType, Product } from "./ProductTypes";
+import { MasterProductsType } from "./ProductTypes";
 
 // Type pour la wishlist
 export type Wishlist = {

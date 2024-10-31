@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import NewBadge from "@/components/shared/badge/NewBadge";
 import PromotionBadge from "@/components/shared/badge/PromotionBadge";
 import CashbackBadge from "@/components/shared/badge/CashbackBadge";
+import FavoriteButton from "@/components/shared/FavoriteButton";
 
 interface WislistRowItemProps {
   productsWishlistItems: MasterProductsType[];
@@ -19,7 +20,7 @@ const WishlistRowItem: React.FC<WislistRowItemProps> = ({
     productsWishlistItems &&
     productsWishlistItems.length > 0 &&
     productsWishlistItems.map((product, index) => (
-      <TableRow key={index} className="border-b border-gray-500 ">
+      <TableRow key={index} className="border-b border-gray-500 relative">
         <TableCell className="font-medium relative">
           <ProductImageItem
             productId={product.id}
@@ -51,7 +52,9 @@ const WishlistRowItem: React.FC<WislistRowItemProps> = ({
             <CashbackBadge cashbackAmount={product.cash_back} />
           )}
         </TableCell>
-        <TableCell></TableCell>
+        <TableCell>
+          <FavoriteButton product={product}  />
+        </TableCell>
       </TableRow>
     ))
   );

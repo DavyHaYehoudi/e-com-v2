@@ -8,6 +8,8 @@ import WishlistModal from "@/components/modules/wishlist/WishlistModal";
 import { formatPrice } from "@/app/utils/pricesFormat";
 import { jwtDecode } from "jwt-decode";
 import { useCartManager } from "@/app/panier/hooks/useCartManager";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
 
 // Interface pour le token décodé
 interface DecodedToken {
@@ -19,9 +21,10 @@ interface DecodedToken {
 
 const NavIcons = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [wishlistCount, setWishlistCount] = useState(3);
   const { totalItemsInCart } = useCartManager();
   const [customerEmail, setCustomerEmail] = useState<string | null>(null);
+  const wishlist = useSelector((state: RootState) => state.wishlist);
+  console.log('wishlist:', wishlist)
 
   // Vérifier le token au chargement de la page
   useEffect(() => {
@@ -89,9 +92,9 @@ const NavIcons = () => {
       {/* Icône Wishlist avec badge */}
       <div className="relative">
         <WishlistModal />
-        {wishlistCount > 0 && (
+        {wishlist.items.length > 0 && (
           <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
-            {wishlistCount}
+            {wishlist.items.length}
           </span>
         )}
       </div>
