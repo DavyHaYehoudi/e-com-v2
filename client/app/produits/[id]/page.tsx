@@ -54,7 +54,6 @@ const MasterProduct = ({ params }: MasterProductProps) => {
       }
     }
   };
-console.log("product :",product);
 
   useEffect(() => {
     if (
@@ -79,7 +78,7 @@ console.log("product :",product);
     } else if (productsInCart && !productsInCart.items && product) {
       setSelectedVariant(product.variants[0]);
     }
-  }, [productsInCart]);
+  }, [productsInCart,id,product]);
 
   return (
     <LoaderWrapper error={error} loading={loading}>

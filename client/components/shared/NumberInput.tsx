@@ -34,7 +34,6 @@ const NumberInput = ({
       val = Math.max(1, Math.min(val, quantityInStock));
     }
 
-    setValue(val);
     onValueChange(val);
   };
 

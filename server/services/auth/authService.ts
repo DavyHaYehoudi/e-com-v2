@@ -48,9 +48,9 @@ export const verifyAuthCodeService = async (
             { items: [item] }
           )
       );
-      if (cart.items.length > 0 || cart.gift_cards.length > 0) {
-        await cartRepository.updateCustomerCartRepository(newCustomer.id, cart);
-      }
+    }
+    if (cart.items.length > 0 || cart.gift_cards.length > 0) {
+      await cartRepository.updateCustomerCartRepository(newCustomer.id, cart);
     }
     customer = await profileRepository.getCustomerByEmailRepository(email);
   }

@@ -2,12 +2,12 @@ import { useCallback, useMemo } from "react";
 import { useFetch } from "@/service/hooks/useFetch";
 import useCart from "./useCart";
 import { CartItemsType, CartResponse } from "@/app/types/CartTypes";
-import { ProductCartGiftcards } from "@/app/types/ProductTypes";
+import { Product, ProductCartGiftcards } from "@/app/types/ProductTypes";
 import useAuthStatus from "@/app/hooks/useAuthStatus";
 
 interface ProductProps {
-  product?: { id: number };
-  selectedVariant?: string;
+  product?: Product;
+  selectedVariant: string;
   quantity: number;
   amount?: number;
   type: "item" | "giftCard";
@@ -44,7 +44,7 @@ export const useCartManager = () => {
   const addOrUpdateProduct = useCallback(
     ({ product, selectedVariant, quantity, amount, type }: ProductProps) => {
       const updatedItems =
-        type === "item" && product && selectedVariant
+        type === "item" && product
           ? (() => {
               // Vérifier si le produit existe déjà dans les items du panier
               const existingItemIndex = productsInCart?.items.findIndex(
@@ -68,26 +68,27 @@ export const useCartManager = () => {
                     id: product.id,
                     selectedVariant,
                     quantityInCart: quantity,
-                    name: "",
-                    SKU: "",
-                    description: "",
-                    weight: null,
-                    continue_selling: true,
-                    quantity_in_stock: 0,
-                    discount_percentage: null,
-                    discount_end_date: null,
-                    price: 0,
-                    new_until: "",
-                    cash_back: null,
-                    is_published: true,
-                    is_star: false,
-                    is_archived: false,
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString(),
+                    name: product.name,
+                    SKU: product.SKU,
+                    description: product.description,
+                    weight: product.weight,
+                    continue_selling: product.continue_selling,
+                    quantity_in_stock: product.quantity_in_stock,
+                    discount_percentage: product.discount_percentage,
+                    discount_end_date: product.discount_end_date,
+                    price: product.price,
+                    new_until: product.new_until,
+                    cash_back: product.cash_back,
+                    is_published: product.is_published,
+                    is_star: product.is_star,
+                    is_archived: product.isArchived,
                     images: [],
+                    main_image: product.main_image,
                     categories: [],
                     tags: [],
                     variants: [],
+                    createdAt: "",
+                    updatedAt: "",
                   },
                 ];
               }
@@ -122,7 +123,7 @@ export const useCartManager = () => {
         triggerFetch(formatCartForAPI(updatedItems, updatedGiftCards)); // Envoi à l'API
       }
     },
-    [productsInCart, setProductsInCart, triggerFetch]
+    [productsInCart, setProductsInCart, triggerFetch, isAuthenticated]
   );
 
   // Retirer un produit du panier
@@ -158,7 +159,7 @@ export const useCartManager = () => {
         triggerFetch(formatCartForAPI(updatedItems, updatedGiftCards));
       }
     },
-    [productsInCart, setProductsInCart, triggerFetch]
+    [productsInCart, setProductsInCart, triggerFetch, isAuthenticated]
   );
 
   // Calcul du nombre total d'articles

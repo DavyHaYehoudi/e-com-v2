@@ -13,14 +13,13 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import React, { useState } from "react";
+import React from "react";
 import { useFetch } from "@/service/hooks/useFetch";
 
 // Schéma de validation Zod
 const emailSchema = z.object({
   email: z.string().email("L'email doit être valide"),
 });
-
 interface EmailFormProps {
   onEmailSubmit: (email: string) => void;
 }

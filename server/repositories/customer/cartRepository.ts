@@ -73,10 +73,10 @@ export const updateCustomerCartRepository = async (
 
       if (existingItem.length > 0) {
         // Si l'item existe, mettre à jour la quantité
-        await query(
-          `UPDATE cart_item SET quantity = quantity + ? WHERE id = ?`,
-          [item.quantity, existingItem[0].id]
-        );
+        await query(`UPDATE cart_item SET quantity = ? WHERE id = ?`, [
+          item.quantity,
+          existingItem[0].id,
+        ]);
       } else {
         // Si l'item n'existe pas, l'insérer
         await query(

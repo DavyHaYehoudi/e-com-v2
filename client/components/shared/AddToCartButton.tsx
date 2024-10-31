@@ -28,7 +28,7 @@ interface AddToCartButtonProps {
 
 const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   product,
-  selectedVariant,
+  selectedVariant = "",
   quantity,
   productsInCart,
   amount,

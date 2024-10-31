@@ -61,15 +61,15 @@ const GiftcardPage = () => {
             <p>
               Achetez une carte cadeau et elle sera ajoutée automatiquement à
               votre compte. Un code secret lui sera attribué et vous seul en
-              aurez l'accès.
+              aurez l&apos;accès.
             </p>
             <p>
-              Si vous souhaitez l'offrir, il vous suffira simplement de
+              Si vous souhaitez l&apos;offrir, il vous suffira simplement de
               communiquer le code secret à la personne de votre choix.
             </p>
             <p>
-              Au moment du règlement des achats, la personne pourra l'utiliser
-              en fournissant le code secret.
+              Au moment du règlement des achats, la personne pourra
+              l&apos;utiliser en fournissant le code secret.
             </p>
             <p>
               La carte cadeau permet de réaliser plusieurs achats si son montant

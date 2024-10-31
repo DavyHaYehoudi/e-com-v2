@@ -23,6 +23,8 @@ const ProductPrice: React.FC<ProductPriceProps> = ({
   quantity,
   productsInCart,
 }) => {
+  console.log("quantity dans product price :", quantity);
+
   return (
     <article className="mt-4">
       <h2 className="text-xl font-semibold">Prix :</h2>
@@ -62,6 +64,7 @@ const ProductPrice: React.FC<ProductPriceProps> = ({
           selectedVariant={selectedVariant}
           quantity={quantity}
           productsInCart={productsInCart}
+          type={"item"}
         />
       ) : (
         <div className="mx-auto block w-1/2 text-red-600 font-bold text-center">

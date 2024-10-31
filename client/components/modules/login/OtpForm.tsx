@@ -15,7 +15,7 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import React, { useState } from "react";
+import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -34,6 +34,15 @@ interface AuthResponse {
 }
 interface OnSubmitData {
   otp: string;
+}
+interface CartItemsToApi{
+  id:number;
+  quantityInCart: number;
+  selectedVariant:string;
+}
+interface CartGiftCardsToApi{
+  quantity: number;
+  amount: number;
 }
 const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
   const form = useForm({
@@ -62,18 +71,19 @@ const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
   };
 
   const getCartData = () => {
+    console.log('getCartData:')
     const cart = localStorage.getItem("cartCustomer");
     if (!cart) return { items: [], giftCards: [] };
 
     try {
       const parsedCart = JSON.parse(cart);
-      const items = parsedCart.items.map((item: any) => ({
+      const items = parsedCart.items.map((item: CartItemsToApi) => ({
         product_id: item.id,
         quantity: item.quantityInCart,
         variant: item.selectedVariant,
       }));
 
-      const giftCards = parsedCart.giftCards.map((giftCard: any) => ({
+      const giftCards = parsedCart.giftCards.map((giftCard: CartGiftCardsToApi) => ({
         amount: giftCard.amount,
         quantity: giftCard.quantity,
       }));
@@ -131,13 +141,12 @@ const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
                 </InputOTP>
               </FormControl>
               <FormDescription>
-                Le code OTP a été envoyé à votre email.
+                Le code OTP a été envoyé à votre email {email}
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        {/* {error && <p className="text-red-600">{error}</p>} */}
         <Button type="submit">Valider OTP</Button>
       </form>
     </Form>
