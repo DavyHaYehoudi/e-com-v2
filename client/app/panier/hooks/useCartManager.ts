@@ -1,10 +1,10 @@
-import { useCallback, useMemo } from "react";
 import { useFetch } from "@/service/hooks/useFetch";
 import useCart from "./useCart";
-import { CartItemsType, CartResponse } from "@/app/types/CartTypes";
+import { CartItemsType } from "@/app/types/CartTypes";
 import { Product, ProductCartGiftcards } from "@/app/types/ProductTypes";
-import {useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
+import { addProduct, deleteProduct } from "@/redux/slice/cartSlice";
 
 interface ProductProps {
   product?: Product;
@@ -15,14 +15,13 @@ interface ProductProps {
 }
 
 export const useCartManager = () => {
-  const { productsInCart, setProductsInCart } = useCart();
+  const { productsInCart } = useCart();
   const { triggerFetch } = useFetch("/customer/cart", {
     method: "PUT",
     requiredCredentials: true,
   });
-  const { isAuthenticated } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   // Helper pour formater les items pour l'API
   const formatCartForAPI = (
     items: CartItemsType[],
@@ -38,151 +37,120 @@ export const useCartManager = () => {
       quantity: giftCard.quantity,
     })),
   });
-  // Helper pour sauvegarder le panier dans localStorage
-  const saveCartToLocalStorage = (cart: CartResponse) => {
-    localStorage.setItem("cartCustomer", JSON.stringify(cart));
-  };
 
   // Ajouter ou mettre à jour un produit dans le panier
-  const addOrUpdateProduct = useCallback(
-    ({ product, selectedVariant, quantity, amount, type }: ProductProps) => {
-      const updatedItems =
-        type === "item" && product
-          ? (() => {
-              // Vérifier si le produit existe déjà dans les items du panier
-              const existingItemIndex = productsInCart?.items.findIndex(
-                (item) =>
-                  item.id === product.id &&
-                  (selectedVariant
-                    ? item.selectedVariant === selectedVariant
-                    : true)
-              );
+  const addOrUpdateProduct = async ({
+    product,
+    selectedVariant,
+    quantity,
+    amount,
+    type,
+  }: ProductProps) => {
+    const updatedItems =
+      type === "item" && product
+        ? (() => {
+            // Vérifier si le produit existe déjà dans les items du panier
+            const existingItemIndex = productsInCart?.items.findIndex(
+              (item) =>
+                item.id === product.id &&
+                (selectedVariant
+                  ? item.selectedVariant === selectedVariant
+                  : true)
+            );
 
-              if (existingItemIndex && existingItemIndex !== -1) {
-                // Mettre à jour la quantité de l'article existant
-                const itemsCopy = [...(productsInCart?.items || [])];
-                itemsCopy[existingItemIndex].quantityInCart = quantity;
-                return itemsCopy;
-              } else {
-                // Ajouter un nouvel item
-                return [
-                  ...(productsInCart?.items || []),
-                  {
-                    id: product.id,
-                    selectedVariant,
-                    quantityInCart: quantity,
-                    name: product.name,
-                    SKU: product.SKU,
-                    description: product.description,
-                    weight: product.weight,
-                    continue_selling: product.continue_selling,
-                    quantity_in_stock: product.quantity_in_stock,
-                    discount_percentage: product.discount_percentage,
-                    discount_end_date: product.discount_end_date,
-                    price: product.price,
-                    new_until: product.new_until,
-                    cash_back: product.cash_back,
-                    is_published: product.is_published,
-                    is_star: product.is_star,
-                    is_archived: product.isArchived,
-                    images: [],
-                    main_image: product.main_image,
-                    categories: [],
-                    tags: [],
-                    variants: [],
-                    createdAt: "",
-                    updatedAt: "",
-                  },
-                ];
-              }
-            })()
-          : productsInCart?.items || [];
+            if (existingItemIndex && existingItemIndex !== -1) {
+              // Mettre à jour la quantité de l'article existant
+              const itemsCopy = [...(productsInCart?.items || [])];
+              itemsCopy[existingItemIndex].quantityInCart = quantity;
+              return itemsCopy;
+            } else {
+              // Ajouter un nouvel item
+              return [
+                ...(productsInCart?.items || []),
+                {
+                  id: product.id,
+                  selectedVariant,
+                  quantityInCart: quantity,
+                  name: product.name,
+                  SKU: product.SKU,
+                  description: product.description,
+                  weight: product.weight,
+                  continue_selling: product.continue_selling,
+                  quantity_in_stock: product.quantity_in_stock,
+                  discount_percentage: product.discount_percentage,
+                  discount_end_date: product.discount_end_date,
+                  price: product.price,
+                  new_until: product.new_until,
+                  cash_back: product.cash_back,
+                  is_published: product.is_published,
+                  is_star: product.is_star,
+                  is_archived: product.isArchived,
+                  images: [],
+                  main_image: product.main_image,
+                  categories: [],
+                  tags: [],
+                  variants: [],
+                  created_at: "",
+                  updated_at: "",
+                },
+              ];
+            }
+          })()
+        : productsInCart?.items || [];
 
-      const updatedGiftCards =
-        type === "giftCard" && amount
-          ? [
-              ...(productsInCart?.giftCards || []),
-              {
-                amount,
-                quantity,
-                id: Math.floor(Math.random() * 1000000) + Date.now(), // ID aléatoire unique et temporaire
-                cart_id: 0,
-                created_at: "",
-                updated_at: "",
-              },
-            ]
-          : productsInCart?.giftCards || [];
+    const updatedGiftCards =
+      type === "giftCard" && amount
+        ? [
+            ...(productsInCart?.giftCards || []),
+            {
+              amount,
+              quantity,
+              id: Math.floor(Math.random() * 1000000) + Date.now(), // ID aléatoire unique et temporaire
+              cart_id: 0,
+              created_at: "",
+              updated_at: "",
+            },
+          ]
+        : productsInCart?.giftCards || [];
 
-      const updatedCart = {
-        cart: productsInCart?.cart,
-        items: updatedItems,
-        giftCards: updatedGiftCards,
-      };
-
-      setProductsInCart(updatedCart); // Mise à jour du contexte
-      saveCartToLocalStorage(updatedCart); // Sauvegarde dans localStorage
-
-      if (isAuthenticated) {
-        triggerFetch(formatCartForAPI(updatedItems, updatedGiftCards)); // Envoi à l'API
-      }
-    },
-    [productsInCart, setProductsInCart, triggerFetch, isAuthenticated]
-  );
+    if (isAuthenticated) {
+      await triggerFetch(formatCartForAPI(updatedItems, updatedGiftCards)); // Envoi à l'API
+    }
+    dispatch(addProduct({ product, selectedVariant, quantity, amount, type }));
+  };
 
   // Retirer un produit du panier
-  const removeProduct = useCallback(
-    (productId: number, variant: string | null, type: "item" | "giftCard") => {
-      // Filtre pour supprimer un item selon le type spécifié
-      const updatedItems =
-        type === "item"
-          ? productsInCart?.items.filter(
-              (item) =>
-                !(item.id === productId && item.selectedVariant === variant)
-            ) || []
-          : productsInCart?.items || [];
+  const removeProduct = async (
+    productId: number,
+    variant: string | null,
+    type: "item" | "giftCard"
+  ) => {
+    // Filtre pour supprimer un item selon le type spécifié
+    const updatedItems =
+      type === "item"
+        ? productsInCart?.items.filter(
+            (item) =>
+              !(item.id === productId && item.selectedVariant === variant)
+          ) || []
+        : productsInCart?.items || [];
 
-      const updatedGiftCards =
-        type === "giftCard"
-          ? productsInCart?.giftCards.filter(
-              (giftCard) => giftCard.id !== productId
-            ) || []
-          : productsInCart?.giftCards || [];
+    const updatedGiftCards =
+      type === "giftCard"
+        ? productsInCart?.giftCards.filter(
+            (giftCard) => giftCard.id !== productId
+          ) || []
+        : productsInCart?.giftCards || [];
 
-      const updatedCart = {
-        cart: productsInCart?.cart,
-        items: updatedItems,
-        giftCards: updatedGiftCards,
-      };
+    // Envoi à l’API avec le format correct
+    if (isAuthenticated) {
+      await triggerFetch(formatCartForAPI(updatedItems, updatedGiftCards));
+    }
+    dispatch(deleteProduct({ productId, variant, type }));
+  };
 
-      setProductsInCart(updatedCart); // Mise à jour du contexte
-      // Sauvegarde dans localStorage
-      saveCartToLocalStorage(updatedCart);
-      // Envoi à l’API avec le format correct
-      if (isAuthenticated) {
-        triggerFetch(formatCartForAPI(updatedItems, updatedGiftCards));
-      }
-    },
-    [productsInCart, setProductsInCart, triggerFetch, isAuthenticated]
-  );
-
-  // Calcul du nombre total d'articles
-  const totalItemsInCart = useMemo(() => {
-    const itemsCount =
-      productsInCart?.items.reduce(
-        (acc, item) => acc + item.quantityInCart,
-        0
-      ) || 0;
-    const giftCardsCount =
-      productsInCart?.giftCards.reduce(
-        (acc, giftCard) => acc + giftCard.quantity,
-        0
-      ) || 0;
-    return itemsCount + giftCardsCount;
-  }, [productsInCart]);
   return {
     addOrUpdateProduct,
     removeProduct,
     productsInCart,
-    totalItemsInCart,
   };
 };

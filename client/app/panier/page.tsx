@@ -4,10 +4,14 @@ import React from "react";
 import ProceedToPayment from "@/components/pages/cart/ProceedToPayment";
 import { calculateTotalCashbackCartToEarn } from "@/components/pages/cart/utils/calculUtils";
 import { useCartManager } from "./hooks/useCartManager";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
 
 const Cart = () => {
-  const { removeProduct, productsInCart } = useCartManager();
-
+  const { removeProduct } = useCartManager();
+  const cartCustomer = useSelector((state: RootState) => state.cart);
+  const { cart, items, giftCards } = cartCustomer;
+  const productsInCart = { cart, items, giftCards };
   return (
     <main>
       <h1 className="uppercase text-center m-10">mon panier</h1>

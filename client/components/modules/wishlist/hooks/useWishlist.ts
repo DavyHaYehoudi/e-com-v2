@@ -16,9 +16,7 @@ const useWishlist = () => {
   const wishlistCustomer = useSelector((state: RootState) => state.wishlist);
   const { data, triggerFetch } = useFetch<WishlistResponse>(
     "/customer/wishlist",
-    {
-      requiredCredentials: true,
-    }
+    { requiredCredentials: true }
   );
 
   useEffect(() => {

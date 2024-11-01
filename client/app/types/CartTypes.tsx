@@ -4,9 +4,9 @@ import { ProductImage } from "./ProductTypes";
 export type CartGiftCard = {
   id: number;
   quantity: number;
-  cart_id: number;
-  created_at: string;
-  updated_at: string;
+  cart_id?: number;
+  created_at?: string;
+  updated_at?: string;
   amount: number;
 };
 
@@ -22,7 +22,7 @@ export type Cart = {
 export type CartItemsType = {
   id: number;
   name: string;
-  SKU: string;
+  SKU: string | null;
   description: string;
   weight: number | null;
   continue_selling: boolean;
@@ -30,7 +30,7 @@ export type CartItemsType = {
   discount_percentage: number | null;
   discount_end_date: string | null;
   price: number;
-  new_until: string;
+  new_until: string | null;
   cash_back: number | null;
   is_published: boolean;
   is_star: boolean;
@@ -47,7 +47,7 @@ export type CartItemsType = {
 
 // Type pour la réponse globale
 export type CartResponse = {
-  cart?: Cart ;
+  cart?: Cart;
   items: CartItemsType[];
   giftCards: CartGiftCard[];
 };

@@ -8,11 +8,20 @@ import TrashIcon from "@/components/shared/TrashIcon";
 import VariantBadge from "@/components/shared/badge/VariantBadge";
 import WeightBadge from "@/components/shared/badge/WeightBadge";
 import { sumPriceArticle } from "@/app/utils/pricesFormat";
-import { useCartManager } from "@/app/panier/hooks/useCartManager";
+import { CartResponse } from "@/app/types/CartTypes";
 
-const SheetRowItem = () => {
-  const { removeProduct, productsInCart } = useCartManager();
-
+interface SheetRowItemProps {
+  productsInCart: CartResponse | null;
+  removeProduct: (
+    productId: number,
+    variant: string | null,
+    type: "item" | "giftCard"
+  ) => void;
+}
+const SheetRowItem: React.FC<SheetRowItemProps> = ({
+  productsInCart,
+  removeProduct,
+}) => {
   return (
     productsInCart &&
     productsInCart.items &&
@@ -24,7 +33,7 @@ const SheetRowItem = () => {
       >
         <div className="flex items-center justify-between gap-2 p-2 my-2">
           {/* Première cellule : image et nom */}
-          <p className="font-medium relative">
+          <div className="font-medium relative">
             <ProductImageItem
               productId={product.id}
               name={product.name}
@@ -33,29 +42,29 @@ const SheetRowItem = () => {
             {isProductNew(product.new_until) && (
               <NewBadge additionalClasses="absolute top-1 left-0" />
             )}{" "}
-          </p>
+          </div>
 
-          <p>
+          <div>
             {product.name} <br />
             {product.selectedVariant && (
               <VariantBadge productVariant={product.selectedVariant} />
             )}{" "}
             <br />
             {product.weight ? <WeightBadge weight={product.weight} /> : ""}
-          </p>
+          </div>
         </div>
         <div className="flex items-center justify-between p-2 my-2 flex-wrap">
           <p>{sumPriceArticle(product.quantityInCart, product.price)}</p>
           {/* Cellule affichant le prix de la réduction */}
-          <p className="text-right">
+          <div className="text-right">
             <CartRowPromotionPrice
               quantity={product.quantityInCart}
               price={product.price}
               discount={product.discount_percentage}
             />
-          </p>
+          </div>
           {/* Cellule pour Cashback */}
-          <p>
+          <div>
             {product.cash_back ? (
               <CashbackBadge
                 cashbackAmount={product.quantityInCart * product.cash_back}
@@ -63,14 +72,16 @@ const SheetRowItem = () => {
             ) : (
               ""
             )}
-          </p>
+          </div>
           {/* Cellule pour le bouton de suppression */}
         </div>
-        <p className="flex justify-center my-2">
+        <div className="flex justify-center my-2">
           <TrashIcon
-            onClick={() => removeProduct(product.id, product.selectedVariant,"item")}
+            onClick={() =>
+              removeProduct(product.id, product.selectedVariant, "item")
+            }
           />
-        </p>
+        </div>
       </article>
     ))
   );

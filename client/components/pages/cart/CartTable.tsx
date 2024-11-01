@@ -22,7 +22,7 @@ interface CartRowItemProps {
   removeProduct: (
     productId: number,
     variant: string | null,
-    type: string
+    type: "item" | "giftCard"
   ) => void;
 }
 const CartTable: React.FC<CartRowItemProps> = ({

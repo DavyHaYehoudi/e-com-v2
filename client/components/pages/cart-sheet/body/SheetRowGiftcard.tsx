@@ -2,10 +2,20 @@ import React from "react";
 import TrashIcon from "@/components/shared/TrashIcon";
 import { sumPriceArticle } from "@/app/utils/pricesFormat";
 import ProductImageGiftcard from "@/components/shared/productImage/ProductImageGiftcard";
-import { useCartManager } from "@/app/panier/hooks/useCartManager";
+import { CartResponse } from "@/app/types/CartTypes";
 
-const SheetRowGiftcard = () => {
-  const { removeProduct, productsInCart } = useCartManager();
+interface SheetRowGiftcardProps {
+  productsInCart: CartResponse | null;
+  removeProduct: (
+    productId: number,
+    variant: string | null,
+    type: "item" | "giftCard"
+  ) => void;
+}
+const SheetRowGiftcard: React.FC<SheetRowGiftcardProps> = ({
+  productsInCart,
+  removeProduct,
+}) => {
   return (
     productsInCart &&
     productsInCart.giftCards &&

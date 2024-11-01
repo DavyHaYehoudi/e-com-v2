@@ -1,58 +1,40 @@
 // src/hooks/useCart.ts
 import { useState, useEffect } from "react";
-import { toast } from "sonner";
 import { useFetch } from "@/service/hooks/useFetch";
 import { CartResponse } from "@/app/types/CartTypes";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
+import { setCart } from "@/redux/slice/cartSlice";
 
 const useCart = () => {
   const [productsInCart, setProductsInCart] = useState<CartResponse | null>(
     null
   );
-  const { isAuthenticated, isVisitor, isTokenExpired } = useSelector(
+  const dispatch = useDispatch();
+  const { isAuthenticated, isVisitor } = useSelector(
     (state: RootState) => state.auth
   );
+  const cartCustomer = useSelector((state: RootState) => state.cart);
   const { data, triggerFetch } = useFetch<CartResponse>("/customer/cart", {
     requiredCredentials: true,
   });
   useEffect(() => {
+    // Récupération initiale du panier pour les utilisateurs authentifiés
     if (isAuthenticated) {
       triggerFetch();
     }
-  }, [isAuthenticated]);
-
+  }, [isAuthenticated, triggerFetch]);
   useEffect(() => {
     if (isAuthenticated && data) {
       setProductsInCart(data);
-    } else if (isVisitor) {
-      const cartCustomer = localStorage.getItem("cartCustomer");
-      if (cartCustomer) {
-        try {
-          const parsedCart = JSON.parse(cartCustomer) as CartResponse;
-          setProductsInCart(parsedCart);
-        } catch (error) {
-          console.error("Erreur lors du parsing du panier:", error);
-        }
-      } else {
-        // Initialiser un panier vide pour le visiteur
-        setProductsInCart({ items: [], giftCards: [] });
-      }
+      dispatch(setCart(data));
     }
-
-    if (isTokenExpired&& isAuthenticated) {
-      toast.warning("Votre session a expiré. Veuillez vous reconnecter.");
-    }
-  }, [data, isAuthenticated, isVisitor, isTokenExpired]);
+  }, [data, isAuthenticated, dispatch]);
   useEffect(() => {
-    // Mise à jour du localStorage pour les visiteurs uniquement
-    if (isVisitor && productsInCart) {
-      localStorage.setItem(
-        "cartCustomer",
-        JSON.stringify(productsInCart)
-      );
+    if (isVisitor && cartCustomer) {
+      setProductsInCart(cartCustomer);
     }
-  }, [productsInCart, isVisitor]);
+  }, [isVisitor, cartCustomer]);
 
   return { productsInCart, setProductsInCart };
 };

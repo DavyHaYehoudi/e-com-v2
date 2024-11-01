@@ -21,6 +21,10 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useFetch } from "@/service/hooks/useFetch";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
+import { CartItemsType } from "@/app/types/CartTypes";
+import { ProductCartGiftcards } from "@/app/types/ProductTypes";
 
 const otpSchema = z.object({
   otp: z.string().length(6, "Le code OTP doit comporter 6 chiffres"),
@@ -35,15 +39,6 @@ interface AuthResponse {
 interface OnSubmitData {
   otp: string;
 }
-interface CartItemsToApi{
-  id:number;
-  quantityInCart: number;
-  selectedVariant:string;
-}
-interface CartGiftCardsToApi{
-  quantity: number;
-  amount: number;
-}
 const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
   const form = useForm({
     resolver: zodResolver(otpSchema),
@@ -55,44 +50,30 @@ const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
   const { triggerFetch } = useFetch<AuthResponse>("/auth/send-verify-otp", {
     method: "POST",
   });
-  const getWishlistData = () => {
-    const wishlist = localStorage.getItem("wishlistCustomer");
-    if (!wishlist) return [];
+  const wishlistCustomer = useSelector((state: RootState) => state.wishlist);
+  const cartCustomer = useSelector((state: RootState) => state.cart);
 
-    try {
-      const parsedWishlist = JSON.parse(wishlist);
-      return parsedWishlist.items.map((item: { id: number }) => ({
-        product_id: item.id,
-      }));
-    } catch (error) {
-      console.error("Erreur lors de la récupération de la wishlist:", error);
-      return [];
-    }
+  const getWishlistData = () => {
+    return wishlistCustomer.items.map((item: { id: number }) => ({
+      product_id: item.id,
+    }));
   };
 
   const getCartData = () => {
-    console.log('getCartData:')
-    const cart = localStorage.getItem("cartCustomer");
-    if (!cart) return { items: [], giftCards: [] };
+    const items = cartCustomer.items.map((item: CartItemsType) => ({
+      product_id: item.id,
+      quantity: item.quantityInCart,
+      variant: item.selectedVariant,
+    }));
 
-    try {
-      const parsedCart = JSON.parse(cart);
-      const items = parsedCart.items.map((item: CartItemsToApi) => ({
-        product_id: item.id,
-        quantity: item.quantityInCart,
-        variant: item.selectedVariant,
-      }));
-
-      const giftCards = parsedCart.giftCards.map((giftCard: CartGiftCardsToApi) => ({
+    const giftCards = cartCustomer.giftCards.map(
+      (giftCard: ProductCartGiftcards) => ({
         amount: giftCard.amount,
         quantity: giftCard.quantity,
-      }));
+      })
+    );
 
-      return { items, gift_cards:giftCards };
-    } catch (error) {
-      console.error("Erreur lors de la récupération du panier:", error);
-      return { items: [], gift_cards: [] };
-    }
+    return { items, gift_cards: giftCards };
   };
   const onSubmit = async (data: OnSubmitData) => {
     const bodyData = {

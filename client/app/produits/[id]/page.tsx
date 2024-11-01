@@ -78,7 +78,7 @@ const MasterProduct = ({ params }: MasterProductProps) => {
     } else if (productsInCart && !productsInCart.items && product) {
       setSelectedVariant(product.variants[0]);
     }
-  }, [productsInCart,id,product]);
+  }, [productsInCart, id, product]);
 
   return (
     <LoaderWrapper error={error} loading={loading}>
