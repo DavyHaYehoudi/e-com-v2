@@ -1,5 +1,10 @@
 "use client";
-import { Table, TableBody, TableFooter } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+} from "@/components/ui/table";
 import CartRowItem from "./CartRowItem";
 import { calculateTotalWeightCart } from "./utils/calculUtils";
 import { useState } from "react";
@@ -74,21 +79,29 @@ const CartTable: React.FC<CartRowItemProps> = ({
           weightTotal={weightTotal}
           deliveryPrice={deliveryPrice}
         />
-        <RowGiftcardToUse
-          giftCardsToUse={giftCardsToUse}
-          setGiftCardsToUse={setGiftCardsToUse}
-        />
-        <RowCodePromo
-          onDiscount={onDiscount}
-          codePromoPercentage={codePromoPercentage}
-          productsInCart={productsInCart}
-          deliveryPrice={deliveryPrice}
-          giftCardsToUse={giftCardsToUse}
-        />
-        <RowCashbackToUse
-          onCashbackSelect={handleCashbackSelect}
-          selectedCashback={selectedCashback}
-        />
+        <div className="flex flex-col">
+          <TableCell className="w-full">
+            <RowGiftcardToUse
+              giftCardsToUse={giftCardsToUse}
+              setGiftCardsToUse={setGiftCardsToUse}
+            />
+          </TableCell>
+          <TableCell className="w-full">
+            <RowCodePromo
+              onDiscount={onDiscount}
+              codePromoPercentage={codePromoPercentage}
+              productsInCart={productsInCart}
+              deliveryPrice={deliveryPrice}
+              giftCardsToUse={giftCardsToUse}
+            />
+          </TableCell>
+          <TableCell className="w-full">
+            <RowCashbackToUse
+              onCashbackSelect={handleCashbackSelect}
+              selectedCashback={selectedCashback}
+            />
+          </TableCell>
+        </div>
         <RowTotalCart
           productsInCart={productsInCart}
           deliveryPrice={deliveryPrice}

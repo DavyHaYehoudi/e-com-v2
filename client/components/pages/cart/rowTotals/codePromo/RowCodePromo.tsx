@@ -26,7 +26,7 @@ const RowCodePromo: React.FC<RowCodePromoProps> = ({
         onDiscount={onDiscount}
         codePromoPercentage={codePromoPercentage}
       />
-      <TableCell className="text-right bg-white" colSpan={5}>
+      <TableCell className="text-right bg-white dark bg-dark" colSpan={5}>
         {codePromoPercentage && productsInCart && deliveryPrice
           ? `- ${formatPrice(
               calculateCodePromoDiscountOnCartTotal(

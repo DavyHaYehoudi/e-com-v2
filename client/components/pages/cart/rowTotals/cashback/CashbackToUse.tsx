@@ -55,7 +55,7 @@ const CashbackToUse = ({
   };
 
   return (
-    <TableCell className="flex w-full max-w-sm items-center space-x-2">
+    <TableCell className="flex w-full items-center space-x-2">
       <Controller
         name="cashbackAmount"
         control={control}

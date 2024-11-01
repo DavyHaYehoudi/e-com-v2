@@ -27,7 +27,7 @@ const CartRowGiftcard: React.FC<CartRowGiftcardProps> = ({
     productsInCart.giftCards.map((giftcard, index) => (
       <TableRow
         key={index}
-        className="hover:bg-gray-100 border-b border-gray-500 dark:hover:bg-black"
+        className="hover:bg-gray-100 border-b border-gray-500 dark:hover:bg-[var(--dark-more)]"
       >
         {/* Première cellule : image et nom */}
         <TableCell className="font-medium relative">
