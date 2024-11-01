@@ -49,7 +49,7 @@ const CartRowItem: React.FC<CartRowItemProps> = ({
       return (
         <TableRow
           key={key}
-          className="hover:bg-gray-100 relative border-b border-gray-500"
+          className="hover:bg-gray-100 relative border-b border-gray-500 dark:hover:bg-black"
         >
           {/* Première cellule : image et nom */}
           <TableCell className="font-medium relative">

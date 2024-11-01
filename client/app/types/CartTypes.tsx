@@ -34,7 +34,7 @@ export type CartItemsType = {
   cash_back: number | null;
   is_published: boolean;
   is_star: boolean;
-  is_archived: boolean;
+  is_archived?: boolean;
   created_at: string;
   updated_at: string;
   images: ProductImage[];
@@ -43,6 +43,7 @@ export type CartItemsType = {
   variants: string[];
   quantityInCart: number;
   selectedVariant: string | null;
+  isArchived?:boolean ;
 };
 
 // Type pour la réponse globale

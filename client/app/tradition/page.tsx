@@ -12,7 +12,7 @@ const TraditionPage = () => {
     <main>
       <div id="tradition">
         <div className="animated-container">
-          <section className="hero block">
+          <section className="hero block dark text-dark">
             <div className="hero-content block-content right">
               <div className="text">
                 <p className="first">
@@ -45,7 +45,7 @@ const TraditionPage = () => {
               </div>
             </div>
           </section>
-          <section className="title">
+          <section className="title dark text-dark">
             <div className="title-content">
               <h1>La Tradition</h1>
               <p className="first">
@@ -67,7 +67,7 @@ const TraditionPage = () => {
               </p>
             </div>
           </section>
-          <section className="somethingOld block">
+          <section className="somethingOld block dark text-dark">
             <div className="somethingOld-content block-content left">
               <div className="illustration left">
                 <Image
@@ -91,7 +91,7 @@ const TraditionPage = () => {
               </div>
             </div>
           </section>
-          <section className="somethingNew block">
+          <section className="somethingNew block dark text-dark">
             <div className="somethingNew-content block-content right">
               <div className="text">
                 <h2>Something New</h2>
@@ -112,7 +112,7 @@ const TraditionPage = () => {
               </div>
             </div>
           </section>
-          <section className="somethingBorrowed block">
+          <section className="somethingBorrowed block dark text-dark">
             <div className="somethingBorrowed block-content left">
               <div className="illustration left">
                 <Image
@@ -135,7 +135,7 @@ const TraditionPage = () => {
               </div>
             </div>
           </section>
-          <section className="somethingBlue block">
+          <section className="somethingBlue block dark text-dark">
             <div className="somethingBlue-content block-content right">
               <div className="text">
                 <h2>Something Blue</h2>

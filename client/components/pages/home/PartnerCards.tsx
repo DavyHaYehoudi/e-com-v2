@@ -53,7 +53,7 @@ export function PartnerCards() {
               />
             </CardHeader>
             <CardContent className="flex flex-col items-center justify-center text-center">
-              <CardTitle className="mt-4">
+              <CardTitle className="mt-4 dark text-dark">
                 Partenaire {partner.id + 1}
               </CardTitle>
             </CardContent>

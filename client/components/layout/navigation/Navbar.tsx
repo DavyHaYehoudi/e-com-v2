@@ -77,7 +77,7 @@ export function Navbar() {
         </NavigationMenuItem>
         {/* Onglet Produits avec sous-menu */}
         <NavigationMenuItem>
-          <div className="flex items-center ">
+          <div className="flex items-center">
             <TagIcon className="tab-nav w-5 h-5" />
             <ProductMenu />
           </div>

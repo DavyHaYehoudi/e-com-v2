@@ -23,7 +23,7 @@ const Auth = () => {
   const { handleAuthentication } = useAuth();
 
   return (
-    <div className="p-4 bg-white shadow-md rounded-lg">
+    <div className="p-4 bg-white shadow-md rounded-lg dark bg-dark">
       {step === 1 && <EmailForm onSubmit={handleEmailSubmit} />}
       {step === 2 && <OtpForm authenticate={handleAuthentication}email={emailData} />}
     </div>

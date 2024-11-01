@@ -109,15 +109,15 @@ const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
                   }
                 >
                   <InputOTPGroup>
-                    <InputOTPSlot index={0} />
-                    <InputOTPSlot index={1} />
-                    <InputOTPSlot index={2} />
+                    <InputOTPSlot index={0} className="dark:text-whitesmoke dark:border-[var(--whitesmoke)] border border-[var(--whitesmoke)]" />
+                    <InputOTPSlot index={1} className="dark:text-whitesmoke dark:border-[var(--whitesmoke)] border border-[var(--whitesmoke)]" />
+                    <InputOTPSlot index={2} className="dark:text-whitesmoke dark:border-[var(--whitesmoke)] border border-[var(--whitesmoke)]" />
                   </InputOTPGroup>
                   <InputOTPSeparator />
                   <InputOTPGroup>
-                    <InputOTPSlot index={3} />
-                    <InputOTPSlot index={4} />
-                    <InputOTPSlot index={5} />
+                    <InputOTPSlot index={3} className="dark:text-whitesmoke dark:border-[var(--whitesmoke)] border border-[var(--whitesmoke)]" />
+                    <InputOTPSlot index={4} className="dark:text-whitesmoke dark:border-[var(--whitesmoke)] border border-[var(--whitesmoke)]" />
+                    <InputOTPSlot index={5} className="dark:text-whitesmoke dark:border-[var(--whitesmoke)] border border-[var(--whitesmoke)]" />
                   </InputOTPGroup>
                 </InputOTP>
               </FormControl>

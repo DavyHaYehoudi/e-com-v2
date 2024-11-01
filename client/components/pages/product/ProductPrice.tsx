@@ -1,4 +1,3 @@
-import { CartResponse } from "@/app/types/CartTypes";
 import { MasterProductsType } from "@/app/types/ProductTypes";
 import { formatPrice } from "@/app/utils/pricesFormat";
 import {
@@ -14,14 +13,12 @@ interface ProductPriceProps {
   product: MasterProductsType;
   selectedVariant: string;
   quantity: number;
-  productsInCart: CartResponse | null;
 }
 
 const ProductPrice: React.FC<ProductPriceProps> = ({
   product,
   selectedVariant,
   quantity,
-  productsInCart,
 }) => {
   return (
     <article className="mt-4">
@@ -61,7 +58,6 @@ const ProductPrice: React.FC<ProductPriceProps> = ({
           product={product}
           selectedVariant={selectedVariant}
           quantity={quantity}
-          productsInCart={productsInCart}
           type={"item"}
         />
       ) : (

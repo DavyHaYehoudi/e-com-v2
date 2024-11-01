@@ -115,7 +115,18 @@ img {
   }
 }
 
-
+.dark body {
+  background-color: var(--dark-mode-black);
+}
+.dark .bg-dark{
+  background-color: var(--dark-mode-black);
+}
+.dark .text-dark{
+  color: var(--dark-mode-black);
+}
+.dark .text-whitesmoke{
+  color: var(--whiteSmoke);
+}
 section {
   margin-top: 60px;
   margin-bottom: 60px;

@@ -26,7 +26,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ authenticate }) => {
           Se connecter
         </Button>
       </DialogTrigger>
-      <DialogContent aria-describedby={undefined}>
+      <DialogContent aria-describedby={undefined} className="dark bg-dark" >
         <DialogHeader>
           <DialogTitle>Connexion</DialogTitle>
           <DialogDescription asChild>

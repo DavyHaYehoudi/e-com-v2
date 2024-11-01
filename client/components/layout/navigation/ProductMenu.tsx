@@ -14,11 +14,11 @@ export function ProductMenu() {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="tracking-widest text-sm uppercase flex items-center m-0 ">
+          <NavigationMenuTrigger className="tracking-widest text-sm uppercase flex items-center m-0 dark bg-dark">
             Produits
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-6 md:w-[500px] lg:w-[600px]">
+            <ul className="grid w-[400px] gap-3 p-6 md:w-[500px] lg:w-[600px] dark bg-dark">
               {collections.map((collection) => (
                 <li key={collection.label} className="mb-4">
                   <span className="font-bold tracking-widest">

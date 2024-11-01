@@ -1,13 +1,16 @@
 import { useFetch } from "@/service/hooks/useFetch";
-import useCart from "./useCart";
 import { CartItemsType } from "@/app/types/CartTypes";
-import { Product, ProductCartGiftcards } from "@/app/types/ProductTypes";
+import {
+  MasterProductsType,
+  Product,
+  ProductCartGiftcards,
+} from "@/app/types/ProductTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { addProduct, deleteProduct } from "@/redux/slice/cartSlice";
 
 interface ProductProps {
-  product?: Product;
+  product?: Product | MasterProductsType;
   selectedVariant: string;
   quantity: number;
   amount?: number;
@@ -15,7 +18,9 @@ interface ProductProps {
 }
 
 export const useCartManager = () => {
-  const { productsInCart } = useCart();
+  const cartCustomer = useSelector((state: RootState) => state.cart);
+  const { cart, items, giftCards } = cartCustomer;
+  const productsInCart = { cart, items, giftCards };
   const { triggerFetch } = useFetch("/customer/cart", {
     method: "PUT",
     requiredCredentials: true,
@@ -58,7 +63,7 @@ export const useCartManager = () => {
                   : true)
             );
 
-            if (existingItemIndex && existingItemIndex !== -1) {
+            if (existingItemIndex !== -1) {
               // Mettre à jour la quantité de l'article existant
               const itemsCopy = [...(productsInCart?.items || [])];
               itemsCopy[existingItemIndex].quantityInCart = quantity;

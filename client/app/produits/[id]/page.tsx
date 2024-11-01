@@ -14,6 +14,8 @@ import { MasterProductsType } from "@/app/types/ProductTypes";
 import LoaderWrapper from "@/components/shared/LoaderWrapper";
 import useCart from "@/app/panier/hooks/useCart";
 import ProductVariants from "@/components/pages/product/ProductVariants";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
 
 interface MasterProductProps {
   params: {
@@ -23,7 +25,9 @@ interface MasterProductProps {
 
 const MasterProduct = ({ params }: MasterProductProps) => {
   const [quantity, setQuantity] = useState<number>(1);
-  const { productsInCart } = useCart();
+  const cartCustomer = useSelector((state: RootState) => state.cart);
+  const { cart, items, giftCards } = cartCustomer;
+  const productsInCart = { cart, items, giftCards };
   const [selectedVariant, setSelectedVariant] = useState<string>("");
 
   const { id } = params;
@@ -118,7 +122,6 @@ const MasterProduct = ({ params }: MasterProductProps) => {
               product={product}
               selectedVariant={selectedVariant}
               quantity={quantity}
-              productsInCart={productsInCart}
             />
           </section>
           <ProductInformation />

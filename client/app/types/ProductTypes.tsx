@@ -3,7 +3,7 @@ export interface Product {
   name: string;
   SKU: string | null;
   description: string;
-  main_image: string;
+  main_image?: string;
   discount_percentage: number | null;
   discount_end_date: string | null;
   weight: number | null;
@@ -13,10 +13,10 @@ export interface Product {
   new_until: string | null;
   is_published: boolean;
   cash_back: number | null;
-  variant: string | null;
+  variant?: string | null;
   is_star: boolean;
-  isArchived: boolean;
-  isActive: boolean;
+  isArchived?: boolean;
+  isActive?: boolean;
 }
 
 export interface MasterProductsType {
@@ -42,6 +42,8 @@ export interface MasterProductsType {
   variants: string[]; // Liste des variantes sous forme de string
   createdAt: string; // Date sous format ISO (YYYY-MM-DDTHH:mm:ss.sssZ)
   updatedAt: string; // Date sous format ISO (YYYY-MM-DDTHH:mm:ss.sssZ)
+  isArchived?: boolean;
+  isActive?:boolean;
 }
 
 export interface ProductImage {

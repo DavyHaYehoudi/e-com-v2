@@ -15,13 +15,11 @@ import Body from "../pages/cart-sheet/body/Body";
 import { ScrollArea } from "../ui/scroll-area";
 import { MasterProductsType, Product } from "@/app/types/ProductTypes";
 import { useCartManager } from "@/app/panier/hooks/useCartManager";
-import { CartResponse } from "@/app/types/CartTypes";
 
 interface AddToCartButtonProps {
   product?: Product | MasterProductsType;
   selectedVariant?: string;
   quantity: number;
-  productsInCart?: CartResponse | null;
   amount?: number;
   type: "item" | "giftCard";
 }
@@ -30,7 +28,6 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   product,
   selectedVariant = "",
   quantity,
-  productsInCart,
   amount,
   type = "item",
 }) => {
@@ -53,10 +50,10 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
 
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetTrigger />
-        <SheetContent className="flex flex-col h-full">
+        <SheetContent className="flex flex-col h-full dark bg-dark">
           <SheetHeader>
             <SheetTitle>
-              <Header productsInCart={productsInCart} />
+              <Header />
             </SheetTitle>
           </SheetHeader>
           <SheetDescription className="flex-grow">
