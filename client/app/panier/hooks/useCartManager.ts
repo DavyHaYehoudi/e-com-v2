@@ -3,7 +3,8 @@ import { useFetch } from "@/service/hooks/useFetch";
 import useCart from "./useCart";
 import { CartItemsType, CartResponse } from "@/app/types/CartTypes";
 import { Product, ProductCartGiftcards } from "@/app/types/ProductTypes";
-import useAuthStatus from "@/app/hooks/useAuthStatus";
+import {useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
 
 interface ProductProps {
   product?: Product;
@@ -19,7 +20,9 @@ export const useCartManager = () => {
     method: "PUT",
     requiredCredentials: true,
   });
-  const { isAuthenticated } = useAuthStatus();
+  const { isAuthenticated } = useSelector(
+    (state: RootState) => state.auth
+  );
   // Helper pour formater les items pour l'API
   const formatCartForAPI = (
     items: CartItemsType[],

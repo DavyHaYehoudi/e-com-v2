@@ -1,17 +1,19 @@
 // src/hooks/useWishlist.ts
 import { useState, useEffect } from "react";
-import { toast } from "sonner";
 import { useFetch } from "@/service/hooks/useFetch";
-import useAuthStatus from "@/app/hooks/useAuthStatus";
 import { WishlistResponse } from "@/app/types/WishlistTypes";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setWishlist } from "@/redux/slice/wishlistSlice";
+import { RootState } from "@/redux/store/store";
 
 const useWishlist = () => {
   const [productsWishlist, setProductsWishlist] =
     useState<WishlistResponse | null>(null);
-  const { isAuthenticated, isVisitor, isTokenExpired } = useAuthStatus();
   const dispatch = useDispatch();
+  const { isAuthenticated, isVisitor } = useSelector(
+    (state: RootState) => state.auth
+  );
+  const wishlistCustomer = useSelector((state: RootState) => state.wishlist);
   const { data, triggerFetch } = useFetch<WishlistResponse>(
     "/customer/wishlist",
     {
@@ -19,60 +21,27 @@ const useWishlist = () => {
     }
   );
 
-  const getWishlist = async () => {
-    if (isAuthenticated) {
-      await triggerFetch();
-    }
-  };
-
   useEffect(() => {
     // Récupération initiale de la wishlist pour les utilisateurs authentifiés
     if (isAuthenticated) {
-      getWishlist();
+      triggerFetch();
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, triggerFetch]);
 
   useEffect(() => {
     if (isAuthenticated && data) {
       setProductsWishlist(data);
       dispatch(setWishlist(data));
-    } else if (isVisitor) {
-      const wishlistCustomer = localStorage.getItem("wishlistCustomer");
-      if (wishlistCustomer) {
-        try {
-          const parsedWishlist = JSON.parse(
-            wishlistCustomer
-          ) as WishlistResponse;
-          setProductsWishlist(parsedWishlist);
-          dispatch(setWishlist(parsedWishlist));
-        } catch (error) {
-          console.error(
-            "Erreur lors du parsing de la liste des favoris:",
-            error
-          );
-        }
-      } else {
-        // Initialiser une liste de favoris vide pour le visiteur
-        setProductsWishlist({ items: [] });
-      }
     }
-
-    if (isTokenExpired && isAuthenticated) {
-      toast.warning("Votre session a expiré. Veuillez vous reconnecter.");
-    }
-  }, [data, isAuthenticated, isVisitor, isTokenExpired]);
+  }, [data, isAuthenticated, dispatch]);
 
   useEffect(() => {
-    // Mise à jour du localStorage pour les visiteurs uniquement
-    if (isVisitor && productsWishlist) {
-      localStorage.setItem(
-        "wishlistCustomer",
-        JSON.stringify(productsWishlist)
-      );
+    if (isVisitor && wishlistCustomer) {
+      setProductsWishlist(wishlistCustomer);
     }
-  }, [productsWishlist, isVisitor]);
+  }, [isVisitor, wishlistCustomer]);
 
-  return { productsWishlist, getWishlist, setProductsWishlist };
+  return { productsWishlist, setProductsWishlist };
 };
 
 export default useWishlist;

@@ -1,34 +1,23 @@
 import { useFetch } from "@/service/hooks/useFetch";
 import { MasterProductsType, Product } from "@/app/types/ProductTypes";
 import useWishlist from "./useWishlist";
-import { WishlistResponse } from "@/app/types/WishlistTypes";
-import useAuthStatus from "@/app/hooks/useAuthStatus";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleItem } from "@/redux/slice/wishlistSlice";
+import { RootState } from "@/redux/store/store";
 
 export const useWishlistManager = () => {
-  const { productsWishlist, getWishlist, setProductsWishlist } = useWishlist();
+  const { productsWishlist } = useWishlist();
   const { triggerFetch } = useFetch("/customer/wishlist", {
     method: "PATCH",
     requiredCredentials: true,
   });
-  const { isAuthenticated, isVisitor } = useAuthStatus();
   const dispatch = useDispatch();
-
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   // Helper pour formater les items pour l'API
   const formatWishlistForAPI = (item: MasterProductsType) => ({
     items: [{ product_id: item.id }],
   });
 
-  // Helper pour sauvegarder la liste de favoris dans localStorage
-  const saveWishlistToLocalStorage = (wishlist: WishlistResponse) => {
-    localStorage.setItem("wishlistCustomer", JSON.stringify(wishlist));
-  };
-  // Fonction pour récupérer la wishlist du localStorage pour les visiteurs
-  const getWishlistFromLocalStorage = (): WishlistResponse => {
-    const wishlistCustomer = localStorage.getItem("wishlistCustomer");
-    return wishlistCustomer ? JSON.parse(wishlistCustomer) : { items: [] };
-  };
   // Ajouter ou mettre à jour un produit dans la liste de favoris
   const toggleProductInWishlist = async (
     product: Product | MasterProductsType
@@ -58,47 +47,15 @@ export const useWishlistManager = () => {
       updatedAt: "",
     };
 
-    try {
-      let updatedItems;
-      if (isVisitor) {
-        // Pour les visiteurs, récupère la wishlist actuelle du localStorage
-        const localWishlist = getWishlistFromLocalStorage();
-        const isInWishlist = localWishlist.items.some(
-          (p) => p.id === product.id
-        );
-
-        if (isInWishlist) {
-          // Si le produit est déjà dans la liste, on le retire
-          updatedItems = localWishlist.items.filter((p) => p.id !== product.id);
-        } else {
-          // Sinon, on ajoute le produit
-          updatedItems = [...localWishlist.items, newItem];
-        }
-
-        const updatedWishlist = {
-          wishlist: localWishlist.wishlist,
-          items: updatedItems,
-        };
-
-        // Met à jour le state et le localStorage
-        setProductsWishlist(updatedWishlist);
-        saveWishlistToLocalStorage(updatedWishlist);
-      }
-
-      // Envoi à l'API pour les utilisateurs authentifiés
-      if (isAuthenticated) {
-        await triggerFetch(formatWishlistForAPI(newItem));
-        await getWishlist();
-      }
-      dispatch(toggleItem(newItem));
-    } catch (error) {
-      console.log(error);
+    // Envoi à l'API pour les utilisateurs authentifiés
+    if (isAuthenticated) {
+      await triggerFetch(formatWishlistForAPI(newItem));
     }
+    dispatch(toggleItem(newItem));
   };
 
   return {
     toggleProductInWishlist,
     productsWishlist,
-    getWishlist,
   };
 };

@@ -1,6 +1,8 @@
 "use client";
 import { useState, useCallback } from "react";
 import { httpHelper } from "../http";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
@@ -20,7 +22,7 @@ export const useFetch = <T, B = unknown>(
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const token = localStorage.getItem("authToken");
+  const token = useSelector((state: RootState) => state.auth.token);
 
   const triggerFetch = useCallback(
     async (bodyData?: B) => {
@@ -73,7 +75,7 @@ export const useFetch = <T, B = unknown>(
         }
 
         setData(result);
-        return result; 
+        return result;
       } catch (err) {
         console.error(err);
         setError("An error occurred while fetching data");

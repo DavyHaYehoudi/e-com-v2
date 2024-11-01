@@ -53,7 +53,7 @@ const WishlistRowItem: React.FC<WislistRowItemProps> = ({
           )}
         </TableCell>
         <TableCell>
-          <FavoriteButton product={product}  />
+          <FavoriteButton product={product} />
         </TableCell>
       </TableRow>
     ))

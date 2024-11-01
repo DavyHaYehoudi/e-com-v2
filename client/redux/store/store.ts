@@ -2,8 +2,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import wishlistReducer from "../slice/wishlistSlice";
 import { combineReducers } from "redux";
+import wishlistReducer from "../slice/wishlistSlice";
+import authReducer from "../slice/authSlice"; 
 
 // Configuration de persistance
 const persistConfig = {
@@ -14,7 +15,7 @@ const persistConfig = {
 // Combinez vos reducers, s'il y en a plusieurs
 const rootReducer = combineReducers({
   wishlist: wishlistReducer,
-  // ...autres reducers
+  auth:authReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

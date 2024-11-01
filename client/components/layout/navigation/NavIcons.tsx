@@ -2,14 +2,14 @@ import { ShoppingBagIcon, BadgeEuro } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import LoginModal from "@/components/modules/login/LoginModal";
-import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import WishlistModal from "@/components/modules/wishlist/WishlistModal";
 import { formatPrice } from "@/app/utils/pricesFormat";
 import { jwtDecode } from "jwt-decode";
 import { useCartManager } from "@/app/panier/hooks/useCartManager";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
+import { login, logout } from "@/redux/slice/authSlice";
 
 // Interface pour le token décodé
 interface DecodedToken {
@@ -20,47 +20,30 @@ interface DecodedToken {
 }
 
 const NavIcons = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { totalItemsInCart } = useCartManager();
-  const [customerEmail, setCustomerEmail] = useState<string | null>(null);
   const wishlist = useSelector((state: RootState) => state.wishlist);
-  console.log('wishlist:', wishlist)
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
+  const customerEmail = useSelector(
+    (state: RootState) => state.auth.user?.email
+  );
+  const dispatch = useDispatch();
 
-  // Vérifier le token au chargement de la page
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      try {
-        // Décoder le token
-        const decoded: DecodedToken = jwtDecode(token);
-        const currentTime = Date.now() / 1000;
-
-        // Vérifier si le token n'a pas expiré
-        if (decoded.exp > currentTime) {
-          setIsAuthenticated(true);
-          setCustomerEmail(decoded.email); // Stocker l'email
-        } else {
-          // Si le token est expiré, le supprimer
-          localStorage.removeItem("authToken");
-        }
-      } catch (error) {
-        console.error("Invalid token:", error);
-      }
-    }
-  }, []);
-
-  // Déconnexion
+  // LOGOUT
   const handleLoginLogout = () => {
-    localStorage.removeItem("authToken");
-    setIsAuthenticated(false);
-    setCustomerEmail(null);
+    dispatch(logout());
   };
 
+  // LOGIN
   const handleAuthentication = (token: string) => {
-    localStorage.setItem("authToken", token);
     const decoded: DecodedToken = jwtDecode(token);
-    setIsAuthenticated(true);
-    setCustomerEmail(decoded.email);
+    const user = {
+      id: decoded.id,
+      email: decoded.email,
+      role: decoded.role,
+    };
+    dispatch(login({ token, user }));
   };
   const cashbackCustomer = 10;
 
@@ -106,7 +89,7 @@ const NavIcons = () => {
             <ShoppingBagIcon className="w-6 h-6 mb-2 cursor-pointer" />
           </span>
 
-          {totalItemsInCart >0&& (
+          {totalItemsInCart > 0 && (
             <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
               {totalItemsInCart}
             </span>

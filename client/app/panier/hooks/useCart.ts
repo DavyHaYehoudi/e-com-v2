@@ -2,14 +2,17 @@
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { useFetch } from "@/service/hooks/useFetch";
-import useAuthStatus from "@/app/hooks/useAuthStatus";
 import { CartResponse } from "@/app/types/CartTypes";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
 
 const useCart = () => {
   const [productsInCart, setProductsInCart] = useState<CartResponse | null>(
     null
   );
-  const { isAuthenticated, isVisitor, isTokenExpired } = useAuthStatus();
+  const { isAuthenticated, isVisitor, isTokenExpired } = useSelector(
+    (state: RootState) => state.auth
+  );
   const { data, triggerFetch } = useFetch<CartResponse>("/customer/cart", {
     requiredCredentials: true,
   });

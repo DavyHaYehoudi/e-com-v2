@@ -10,7 +10,7 @@ interface FavoriteButtonProps {
 }
 
 const FavoriteButton: React.FC<FavoriteButtonProps> = ({ product }) => {
-  const { toggleProductInWishlist, getWishlist } = useWishlistManager();
+  const { toggleProductInWishlist } = useWishlistManager();
 
   const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
 
@@ -19,7 +19,6 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({ product }) => {
 
   const onToggleFavorite = async () => {
     await toggleProductInWishlist(product);
-    await getWishlist();
   };
 
   return (
