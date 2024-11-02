@@ -127,6 +127,9 @@ img {
 .dark .text-whitesmoke{
   color: var(--whiteSmoke);
 }
+.dark .bg-whitesmoke{
+  background-color: var(--whiteSmoke);
+}
 section {
   margin-top: 60px;
   margin-bottom: 60px;

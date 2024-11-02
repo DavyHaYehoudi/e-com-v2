@@ -12,8 +12,8 @@ export default function GlobalLayout({
     <div>
       <TopNavbar />
       <MainNavigation />
-      {children}
-      <Footer />
+      {/* {children}
+      <Footer /> */}
     </div>
   );
 }

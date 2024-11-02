@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import EmailForm from "./EmailForm";
 import OtpForm from "./OtpForm";
+import { UserRound } from "lucide-react";
 
 interface LoginModalProps {
   authenticate: (token: string) => void;
@@ -23,10 +24,10 @@ const LoginModal: React.FC<LoginModalProps> = ({ authenticate }) => {
     <Dialog>
       <DialogTrigger asChild>
         <Button className="bg-[var(--golden-2)] hover:bg-[var(--golden-2-hover)]">
-          Se connecter
+          <UserRound />
         </Button>
       </DialogTrigger>
-      <DialogContent aria-describedby={undefined} className="dark bg-dark" >
+      <DialogContent aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle>Connexion</DialogTitle>
           <DialogDescription asChild>

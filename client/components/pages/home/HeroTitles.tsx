@@ -8,17 +8,16 @@ const HeroTitles = () => {
         d&apos;emprunté, Quelque chose de bleu
       </h1>
 
-      <p className="mb-8 uppercase leading-loose">
-        Laissez-vous séduire par cette ancienne coutume et créons ensemble un
+      <p className="mb-8 uppercase leading-loose space-x-5 tracking-wider">
+        Laissez-vous seduire par cette ancienne coutume et creons ensemble un
         bijou, LE bijou qui vous ressemble, qui vous honore et qui rend hommage
-        à votre lignée familiale.
+        à votre lignee familiale.
       </p>
       <a
         href="/tradition"
-        className="bg-gray-800 py-2 px-4 rounded-md shadow-md"
-        style={{ color: "var(--whiteSmoke)" }}
+        className="bg-gray-800 py-2 px-4 rounded-md shadow-md text-[var(--whiteSmoke)] tracking-wider"
       >
-        Êtes-vous curieuse ? Si oui, c&apos;est par ici ➡️
+        Etes-vous curieuse ? Si oui, c&apos;est par ici ➡️
       </a>
     </section>
   );
