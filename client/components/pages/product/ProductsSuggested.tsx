@@ -20,7 +20,13 @@ const ProductsSuggested: React.FC<ProductsSuggestedProps> = ({ product }) => {
   };
   const queryUrl = formatUrlFromTags(product.tags);
 
-  const { data } = useFetch<Product[]>(queryUrl);
+  const { data,triggerFetch } = useFetch<Product[]>(queryUrl);
+  useEffect(() => {
+    if (product) {
+       triggerFetch();
+    }
+  }, [product]);
+
   useEffect(() => {
     if (data) {
       setProductSuggested(data);
@@ -42,14 +48,14 @@ const ProductsSuggested: React.FC<ProductsSuggestedProps> = ({ product }) => {
         )}
       </h3>
 
-      <div className="w-3/4 mx-auto  overflow-x-auto custom-scrollbar">
+      <div className="lg:w-3/4 mx-auto  overflow-x-auto custom-scrollbar">
         <div className="flex gap-4 min-w-max">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product, index) => (
               <ProductCard key={index} product={product} />
             ))
           ) : (
-            <p>Aucun produit trouvé.</p>
+            <p className="m-2">Aucun produit trouvé.</p>
           )}
         </div>
       </div>

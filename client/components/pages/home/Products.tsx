@@ -1,7 +1,7 @@
 "use client";
 import { Product } from "@/app/types/ProductTypes";
 import LoaderWrapper from "@/components/shared/LoaderWrapper";
-import ProductsCarousel from "@/components/shared/ProductsCarousel";
+import ProductCard from "@/components/shared/productCard/ProductCard";
 import { useFetch } from "@/service/hooks/useFetch";
 import React, { useEffect } from "react";
 
@@ -17,10 +17,16 @@ const Products = () => {
   }, []);
   return (
     <LoaderWrapper loading={loading} error={error}>
-      <section className="mb-10">
-        <h2 className="text-center mb-6">Decouvrez nos produits</h2>
-        <ProductsCarousel products={productsStar} />
-      </section>
+      {productsStar && productsStar.length > 0 && (
+        <section className="mb-10 mx-2">
+          <h2 className="text-center mb-6">Decouvrez nos produits</h2>
+          <div className="flex items-center justify-around gap-5 flex-wrap">
+            {productsStar.map((product) => (
+              <ProductCard product={product} />
+            ))}
+          </div>
+        </section>
+      )}
     </LoaderWrapper>
   );
 };

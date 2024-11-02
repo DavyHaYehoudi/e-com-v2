@@ -2,8 +2,8 @@ import React from "react";
 
 const HeroTitles = () => {
   return (
-    <section className="container w-1/3 mx-auto text-center mb-10">
-      <h1 className="italic mb-4 uppercase leading-relaxed">
+    <section className="container 2xl:w-1/3 xl:w-1/2 w-full mx-auto text-center mb-10 ">
+      <h1 className="italic mb-4 uppercase leading-relaxed md:text-3xl sm:text-2xl xs:text-xl">
         Quelque chose de vieux, Quelque chose de neuf, Quelque chose
         d&apos;emprunté, Quelque chose de bleu
       </h1>
@@ -15,7 +15,7 @@ const HeroTitles = () => {
       </p>
       <a
         href="/tradition"
-        className="bg-gray-800 py-2 px-4 rounded-md shadow-md text-[var(--whiteSmoke)] tracking-wider"
+        className="inline-block bg-[var(--dark-mode-black)] py-2 px-4 rounded-md shadow-md text-[var(--whiteSmoke)] tracking-wider dark:bg-[var(--whiteSmoke)] dark:text-[var(--dark-mode-black)]"
       >
         Etes-vous curieuse ? Si oui, c&apos;est par ici ➡️
       </a>

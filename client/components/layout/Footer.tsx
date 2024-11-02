@@ -6,12 +6,12 @@ const letterSpacing2 = "0.3em";
 const Footer = () => {
   return (
     <footer
-      className="p-10"
+      className="p-4 lg:p-10"
       style={{
         color: "var(--whiteSmoke)",
       }}
     >
-      <div className="flex justify-around">
+      <div className="flex flex-wrap  gap-20 md:gap-5 md:justify-around">
         {/* Colonne 1 : Menu principal */}
         <div>
           <h2

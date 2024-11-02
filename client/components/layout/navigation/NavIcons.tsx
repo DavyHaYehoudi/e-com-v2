@@ -40,13 +40,13 @@ const NavIcons = () => {
           <Button
             className="bg-dark text-gray-500 hover:text-gray-500 hover:bg-gray-200 mb-2 p-2"
             onClick={handleLogout}
-            title="Se déconnecter"
+            title="Me déconnecter"
           >
             <LogOut className="w-6 h-6 cursor-pointer" />
           </Button>
         </div>
       ) : (
-        <div className="hidden md:block">
+        <div className="hidden lg:block" title="Me connecter">
           <LoginModal authenticate={handleAuthentication} />
         </div>
       )}
@@ -61,7 +61,7 @@ const NavIcons = () => {
       </div>
 
       {/* Icône Panier avec badge */}
-      <div className="relative">
+      <div className="relative" title="Mon panier">
         <Link href="/panier">
           <ShoppingBagIcon className="w-6 h-6 mb-2 cursor-pointer" />
           {cartCountArticles > 0 && (
@@ -74,7 +74,7 @@ const NavIcons = () => {
 
       {/* Icône Cashback avec badge */}
       {isAuthenticated && (
-        <div className="relative hidden lg:flex ">
+        <div className="relative hidden lg:flex" title="Mon cashback">
           <BadgeEuro className="w-6 h-6 mb-2" />
           {cashbackCustomer > 0 && (
             <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none bg-purple-200 text-black rounded-full">

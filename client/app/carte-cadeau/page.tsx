@@ -45,8 +45,8 @@ const GiftcardPage = () => {
   return (
     <main>
       <h1 className="text-center mt-5">carte cadeau</h1>
-      <section className="container mx-auto w-3/4">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+      <section className="container w-full mx-auto lg:w-3/4">
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-8 mx-2">
           <div className="flex-1">
             <Image
               src="/images/giftcard.jpeg"
@@ -54,10 +54,11 @@ const GiftcardPage = () => {
               width={800}
               height={200}
               className="rounded"
+       
             />
           </div>
 
-          <div className="flex-1 space-y-4 text-justify">
+          <div className="flex-1 space-y-4 text-justify mx-2">
             <p>
               Achetez une carte cadeau et elle sera ajoutée automatiquement à
               votre compte. Un code secret lui sera attribué et vous seul en
@@ -79,8 +80,10 @@ const GiftcardPage = () => {
               Un historique est tenu à jour dans votre espace compte. Vous voyez
               les différentes utilisations et le solde restant.
             </p>
-            <div>
-              <div className="flex flex-col gap-2 m-2">
+          </div>
+        </div>
+            <div className="mt-20 mx-2 lg:mx-auto lg:w-3/4 shadow-xl dark:shadow-xl rounded p-4">
+              <div className="mt-5 w-full flex justify-center items-center gap-2 flex-wrap">
                 <Label>
                   Montant de la carte cadeau
                   <br />
@@ -98,7 +101,7 @@ const GiftcardPage = () => {
                   <p className="text-red-500">{errors.amount}</p>
                 )}
               </div>
-              <div className="flex flex-col gap-2 m-2">
+              <div className="mt-5 w-full flex justify-center items-center gap-2 flex-wrap">
                 <Label>Nombre de cartes cadeaux pour ce montant</Label>
                 <Input
                   type="number"
@@ -112,7 +115,7 @@ const GiftcardPage = () => {
                   <p className="text-red-500">{errors.quantity}</p>
                 )}
               </div>
-              <div className="mt-5">
+              <div className="mt-5 w-full">
                 <AddToCartButton
                   amount={amount}
                   quantity={quantity}
@@ -120,8 +123,6 @@ const GiftcardPage = () => {
                 />
               </div>
             </div>
-          </div>
-        </div>
       </section>
     </main>
   );

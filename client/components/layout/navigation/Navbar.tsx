@@ -4,6 +4,7 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
+import React from "react";
 import {
   BookOpenIcon,
   GiftIcon,
@@ -11,9 +12,9 @@ import {
   MailIcon,
   TagIcon,
 } from "lucide-react";
-import { ProductMenu } from "./ProductMenu";
+import ProductMenu from "./ProductMenu";
 
-export function Navbar() {
+const Navbar = () => {
   const pathname = usePathname(); // Récupère le chemin actif
 
   return (
@@ -85,4 +86,5 @@ export function Navbar() {
       </NavigationMenu>
     </nav>
   );
-}
+};
+export default Navbar;

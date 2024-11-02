@@ -29,7 +29,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ authenticate }) => {
       </DialogTrigger>
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>Connexion</DialogTitle>
+          <DialogTitle><UserRound className="w-6 h-6 cursor-pointer" /></DialogTitle>
           <DialogDescription asChild>
             {!emailSent ? (
               <EmailForm

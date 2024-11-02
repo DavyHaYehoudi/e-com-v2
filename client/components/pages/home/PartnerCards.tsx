@@ -36,7 +36,7 @@ export function PartnerCards() {
       <h2 className="text-center mb-6">
         Mes Partenaires
       </h2>
-      <div className="flex justify-around">
+      <div className="flex justify-around flex-wrap gap-2">
         {partners.map((partner) => (
           <Card
             key={partner.id}

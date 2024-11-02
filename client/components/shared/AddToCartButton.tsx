@@ -42,7 +42,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   return (
     <>
       <Button
-        className="mx-auto block w-1/2 uppercase bg-[var(--golden-2)] hover:bg-[var(--golden-2-hover)]"
+        className="mx-auto block lg:w-1/2 uppercase bg-[var(--golden-2)] hover:bg-[var(--golden-2-hover)]"
         onClick={onAddToCart}
       >
         Ajouter au panier

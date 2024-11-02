@@ -6,10 +6,11 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import React from "react";
 import { collections } from "@/app/mocks/collections";
 import { formatLabelForURL } from "@/app/utils/FormatLabelForUrl";
 
-export function ProductMenu() {
+const ProductMenu = () => {
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -51,4 +52,5 @@ export function ProductMenu() {
       </NavigationMenuList>
     </NavigationMenu>
   );
-}
+};
+export default ProductMenu;

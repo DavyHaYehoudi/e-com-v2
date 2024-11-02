@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Navbar } from "./Navbar";
+import Navbar from "./Navbar";
 import { Button } from "@/components/ui/button";
 import { BadgeEuro, LogOut, Menu, X } from "lucide-react";
 import { useSelector } from "react-redux";
@@ -20,6 +20,7 @@ export function MainNavigation() {
     (state: RootState) => state.auth.user?.email
   );
   const { handleAuthentication, handleLogout } = useAuth();
+  // Fonction pour fermer le menu
   const cashbackCustomer = 10;
   return (
     <header className="bg-dark">
@@ -62,25 +63,33 @@ export function MainNavigation() {
             </>
           )}
           {/* Avatar du compte */}
-          <Link href="/dashboard" className="flex items-center gap-2 py-2">
-            <Avatar className="cursor-pointer mb-2">
-              <AvatarImage src="/images/avatar.png" alt="Avatar" />
-              <AvatarFallback>
-                {customerEmail ? customerEmail[0].toUpperCase() : "A"}
-              </AvatarFallback>
-            </Avatar>
-            <span>{customerEmail} </span>
-          </Link>
-          <hr className="border-t-1 border-[#282c34] dark:border-[var(--whiteSmoke)]" />
+          {isAuthenticated && (
+            <>
+              <Link href="/dashboard" className="flex items-center gap-2 py-2">
+                <Avatar className="cursor-pointer mb-2">
+                  <AvatarImage src="/images/avatar.png" alt="Avatar" />
+                  <AvatarFallback>
+                    {customerEmail ? customerEmail[0].toUpperCase() : "A"}
+                  </AvatarFallback>
+                </Avatar>
+                <span>{customerEmail} </span>
+              </Link>
+              <hr className="border-t-1 border-[#282c34] dark:border-[var(--whiteSmoke)]" />
+            </>
+          )}
+
           {/* Bouton de connexion/déconnexion pour mobile */}
           <div className="mt-4">
             {isAuthenticated ? (
               <Button variant="ghost" onClick={handleLogout} className="p-0">
                 <LogOut />
-                <span className="ml-2"> Se déconnecter</span>
+                <span className="ml-2"> Me déconnecter</span>
               </Button>
             ) : (
-              <LoginModal authenticate={handleAuthentication} />
+              <>
+                <LoginModal authenticate={handleAuthentication} />
+                <span className="ml-2"> Me connecter</span>
+              </>
             )}
           </div>
         </div>

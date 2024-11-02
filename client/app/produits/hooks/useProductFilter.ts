@@ -32,6 +32,7 @@ export const useProductFilter = () => {
     error,
     triggerFetch,
   } = useFetch<Product[]>(queryUrl);
+  
   useEffect(() => {
     triggerFetch(); // Fetch des produits star au chargement de la page
   }, [queryUrl]);
