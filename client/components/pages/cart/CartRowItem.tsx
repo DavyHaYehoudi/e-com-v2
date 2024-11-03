@@ -11,8 +11,6 @@ import VariantBadge from "@/components/shared/badge/VariantBadge";
 import WeightBadge from "@/components/shared/badge/WeightBadge";
 import { CartResponse } from "@/app/types/CartTypes";
 import { sumPriceArticle } from "@/app/utils/pricesFormat";
-import { useCartManager } from "@/app/panier/hooks/useCartManager";
-import useCart from "@/app/panier/hooks/useCart";
 
 interface CartRowItemProps {
   productsInCart: CartResponse | null;
@@ -74,7 +72,9 @@ const CartRowItem: React.FC<CartRowItemProps> = ({
 
           {/* Cellule de la quantité et du prix */}
           <TableCell>
-            {sumPriceArticle(quantities[key], product.price)}
+            <span className="whitespace-nowrap">
+              {sumPriceArticle(quantities[key], product.price)}
+            </span>
           </TableCell>
 
           {/* Cellule affichant le prix de la réduction */}

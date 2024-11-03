@@ -23,7 +23,7 @@ const SheetRowGiftcard: React.FC<SheetRowGiftcardProps> = ({
     productsInCart.giftCards.map((product, index) => (
       <article
         key={index}
-        className="hover:bg-gray-100 relative border-b border-gray-500 "
+        className="hover:bg-gray-100 relative border-b border-gray-500 dark:hover:bg-[#1c2028]"
       >
         <div className="flex items-center justify-between gap-2 p-2 my-2">
           {/* Première cellule : image et nom */}

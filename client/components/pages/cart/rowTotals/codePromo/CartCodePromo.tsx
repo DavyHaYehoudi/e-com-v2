@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { CheckCircleIcon, XCircleIcon, PercentIcon } from "lucide-react";
 import { promoCodeSchema } from "./promoCodeSchema";
+import { Label } from "@/components/ui/label";
 
 const CartCodePromo = ({
   onDiscount,
@@ -45,29 +46,29 @@ const CartCodePromo = ({
   };
 
   return (
-    <TableCell className="flex w-full max-w-sm items-center space-x-2">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex w-full space-x-2 items-center"
-      >
-        <Input
-          type="text"
-          placeholder="Code de réduction"
-          {...register("code")}
-          className={errors.code ? "border-red-500" : ""}
-        />
-        <Button type="submit" disabled={!isValid}>
-          <PercentIcon className="size-4" />{" "}
-          <span className="ml-1">Valider</span>
-        </Button>
-        {/* Icône de validation */}
-        {validPromo === true && (
-          <>
-            <CheckCircleIcon className="text-green-500" />
-            <span className="text-green-500">{codePromoPercentage}%</span>
-          </>
-        )}
-        {validPromo === false && <XCircleIcon className="text-red-500" />}
+    <TableCell colSpan={5}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Label>Code de réduction</Label>
+        <div className="flex items-center gap-2">
+          <Input
+            type="text"
+            placeholder="Code de réduction"
+            {...register("code")}
+            className={errors.code ? "border-red-500" : ""}
+          />
+          <Button type="submit" disabled={!isValid}>
+            <PercentIcon className="size-4" />{" "}
+            <span className="ml-1">Valider</span>
+          </Button>
+          {/* Icône de validation */}
+          {validPromo === true && (
+            <>
+              <CheckCircleIcon className="text-green-500" />
+              <span className="text-green-500">{codePromoPercentage}%</span>
+            </>
+          )}
+          {validPromo === false && <XCircleIcon className="text-red-500" />}
+        </div>
       </form>
       {/* Message d'erreur si code incorrect */}
       {apiError && <p className="text-red-500">{apiError}</p>}

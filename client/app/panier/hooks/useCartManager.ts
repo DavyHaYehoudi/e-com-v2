@@ -66,7 +66,10 @@ export const useCartManager = () => {
             if (existingItemIndex !== -1) {
               // Mettre à jour la quantité de l'article existant
               const itemsCopy = [...(productsInCart?.items || [])];
-              itemsCopy[existingItemIndex].quantityInCart = quantity;
+              itemsCopy[existingItemIndex] = {
+                ...itemsCopy[existingItemIndex], // Copie de l'item existant
+                quantityInCart: quantity, // Mise à jour de la quantité
+              };
               return itemsCopy;
             } else {
               // Ajouter un nouvel item

@@ -2,7 +2,6 @@
 import {
   Table,
   TableBody,
-  TableCell,
   TableFooter,
 } from "@/components/ui/table";
 import CartRowItem from "./CartRowItem";
@@ -79,29 +78,21 @@ const CartTable: React.FC<CartRowItemProps> = ({
           weightTotal={weightTotal}
           deliveryPrice={deliveryPrice}
         />
-        <div className="flex flex-col">
-          <TableCell className="w-full">
-            <RowGiftcardToUse
-              giftCardsToUse={giftCardsToUse}
-              setGiftCardsToUse={setGiftCardsToUse}
-            />
-          </TableCell>
-          <TableCell className="w-full">
-            <RowCodePromo
-              onDiscount={onDiscount}
-              codePromoPercentage={codePromoPercentage}
-              productsInCart={productsInCart}
-              deliveryPrice={deliveryPrice}
-              giftCardsToUse={giftCardsToUse}
-            />
-          </TableCell>
-          <TableCell className="w-full">
-            <RowCashbackToUse
-              onCashbackSelect={handleCashbackSelect}
-              selectedCashback={selectedCashback}
-            />
-          </TableCell>
-        </div>
+        <RowGiftcardToUse
+          giftCardsToUse={giftCardsToUse}
+          setGiftCardsToUse={setGiftCardsToUse}
+        />
+        <RowCodePromo
+          onDiscount={onDiscount}
+          codePromoPercentage={codePromoPercentage}
+          productsInCart={productsInCart}
+          deliveryPrice={deliveryPrice}
+          giftCardsToUse={giftCardsToUse}
+        />
+        <RowCashbackToUse
+          onCashbackSelect={handleCashbackSelect}
+          selectedCashback={selectedCashback}
+        />
         <RowTotalCart
           productsInCart={productsInCart}
           deliveryPrice={deliveryPrice}

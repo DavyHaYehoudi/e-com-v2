@@ -78,7 +78,9 @@ const NavIcons = () => {
           <BadgeEuro className="w-6 h-6 mb-2" />
           {cashbackCustomer > 0 && (
             <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none bg-purple-200 text-black rounded-full">
-              {formatPrice(cashbackCustomer)}
+              <span className="whitespace-nowrap">
+                {formatPrice(cashbackCustomer)}
+              </span>
             </span>
           )}
         </div>

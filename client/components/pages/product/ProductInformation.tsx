@@ -25,12 +25,12 @@ const ProductInformation = () => {
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>
-                <span className="flex items-cente dark:text-[var(--dark-mode-black)]">
-                  <Box className="mr-2" /> Fabrication des produits
+                <span className="flex items-center dark:text-[var(--dark-mode-black)]">
+                  <Box className="mx-2" /> Fabrication des produits
                 </span>
               </AccordionTrigger>
               <AccordionContent>
-                <article className="p-6 bg-white text-[var(--dark-mode-black)]">
+                <article className="p-6 bg-white dark:text-[var(--whiteSmoke)] bg-dark">
                   Les bijoux sont fabriqués avec délicatesse dans mon atelier
                   provençal.
                 </article>
@@ -41,11 +41,11 @@ const ProductInformation = () => {
               <AccordionTrigger>
                 <span className="flex items-center text-[var(--dark-mode-black)]">
                   {" "}
-                  <Truck className="mr-2" /> Livraison & retour
+                  <Truck className="mx-2" /> Livraison & retour
                 </span>
               </AccordionTrigger>
               <AccordionContent>
-                <article className="p-6 bg-white text-[var(--dark-mode-black)]">
+                <article className="p-6 bg-white dark:text-[var(--whiteSmoke)] bg-dark">
                   Standard : 2 à 4 jours ouvrés
                   <br />
                   <br />
@@ -76,11 +76,11 @@ const ProductInformation = () => {
               <AccordionTrigger>
                 <span className="flex items-center text-[var(--dark-mode-black)]">
                   {" "}
-                  <Clock className="mr-2" /> Délais de confection
+                  <Clock className="mx-2" /> Délais de confection
                 </span>
               </AccordionTrigger>
               <AccordionContent>
-                <article className="p-6 bg-white text-[var(--dark-mode-black)]">
+                <article className="p-6 bg-white dark:text-[var(--whiteSmoke)] bg-dark">
                   Les bijoux sont confectionnés à la main dès la validation de
                   la commande et nécessite un délai de fabrication compris entre
                   5 et 10 jours.
@@ -100,11 +100,11 @@ const ProductInformation = () => {
             <AccordionItem value="item-4">
               <AccordionTrigger>
                 <span className="flex items-center text-[var(--dark-mode-black)]">
-                  <Shield className="mr-2" /> Guide d'entretien
+                  <Shield className="mx-2" /> Guide d'entretien
                 </span>
               </AccordionTrigger>
               <AccordionContent>
-                <article className="p-6 bg-white text-[var(--dark-mode-black)]">
+                <article className="p-6 bg-white dark:text-[var(--whiteSmoke)] bg-dark">
                   <h2 className="text-2xl font-bold mb-4">Le Gold Filled</h2>
                   <p className="mb-4">
                     Le Gold Filled est une ancienne technique qui consiste à

@@ -125,21 +125,32 @@ img {
 .dark body {
   background-color: var(--dark-mode-black);
 }
-.dark .bg-dark{
+
+.dark .bg-dark {
   background-color: var(--dark-mode-black);
 }
-.dark .text-dark{
+
+.dark .text-dark {
   color: var(--dark-mode-black);
 }
-.dark .text-whitesmoke{
+
+.dark .text-whitesmoke {
   color: var(--whiteSmoke);
 }
-.dark .bg-whitesmoke{
+
+.dark .bg-whitesmoke {
   background-color: var(--whiteSmoke);
 }
-.dark input,.dark textarea{
+
+.dark input,
+.dark textarea {
   border: 1px solid whitesmoke;
 }
+
+.dark hr {
+  border-color: var(--whiteSmoke);
+}
+
 section {
   margin-top: 60px;
   margin-bottom: 60px;

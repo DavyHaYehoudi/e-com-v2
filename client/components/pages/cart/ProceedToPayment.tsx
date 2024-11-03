@@ -11,17 +11,17 @@ interface ProceedToPaymentProps {
 
 const ProceedToPayment: React.FC<ProceedToPaymentProps> = ({ productsInCart }) => {
   return (
-    <div className="wrapper flex items-center justify-between my-5 gap-5">
+    <div className="wrapper flex flex-wrap items-center justify-center xl:justify-between my-5 gap-5">
       <div className="text-blue-500 p-2 rounded">
         Total du cashback capitalisé pour vos prochains achats :{" "}
-        <span className="font-extrabold">
+        <span className="font-extrabold whitespace-nowrap">
           {formatPrice(calculateTotalCashbackCartToEarn(productsInCart.items))}
         </span>
       </div>
 
       {/* Utilisation de Link pour la navigation */}
       <Link href="/payment/checkout" passHref>
-        <Button className="bg-green-500 hover:bg-green-600">
+        <Button className="bg-green-500 hover:bg-green-600 dark:text-[var(--whiteSmoke)]">
           Procéder au payment
         </Button>
       </Link>

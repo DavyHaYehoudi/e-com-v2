@@ -15,11 +15,13 @@ const RowPromotion: React.FC<RowPromotionProps> = ({ productsInCart }) => {
       </TableCell>
       <TableCell className="text-right border-b border-gray-500">
         {productsInCart &&
-          (calculateTotalDiscountCart(productsInCart.items) > 0
-            ? `- ${formatPrice(
-                calculateTotalDiscountCart(productsInCart.items)
-              )}`
-            : 0)}
+          (calculateTotalDiscountCart(productsInCart.items) > 0 ? (
+            <span className="whitespace-nowrap text-green-500">
+              - {formatPrice(calculateTotalDiscountCart(productsInCart.items))}
+            </span>
+          ) : (
+            0
+          ))}
       </TableCell>
     </TableRow>
   );

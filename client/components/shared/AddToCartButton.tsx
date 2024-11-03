@@ -42,7 +42,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   return (
     <>
       <Button
-        className="mx-auto block lg:w-1/2 uppercase bg-[var(--golden-2)] hover:bg-[var(--golden-2-hover)]"
+        className="mx-auto block lg:w-1/2 uppercase bg-[var(--golden-2)] hover:bg-[var(--golden-2-hover)] dark:text-[var(--whiteSmoke)]"
         onClick={onAddToCart}
       >
         Ajouter au panier
@@ -50,14 +50,14 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
 
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetTrigger />
-        <SheetContent className="flex flex-col h-full dark bg-dark">
+        <SheetContent className="flex flex-col h-full p-1 ">
           <SheetHeader>
             <SheetTitle>
               <Header />
             </SheetTitle>
           </SheetHeader>
           <SheetDescription className="flex-grow">
-            <ScrollArea className="h-[1000px] w-[350px] rounded-md border p-1">
+            <ScrollArea className="h-[875px] rounded-md border">
               <Body />
             </ScrollArea>
           </SheetDescription>

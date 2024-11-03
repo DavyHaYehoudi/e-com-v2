@@ -19,12 +19,14 @@ const RowGiftcardToUse: React.FC<RowGiftcardToUseProps> = ({
         giftCardsToUse={giftCardsToUse}
         setGiftCardsToUse={setGiftCardsToUse}
       />
-      <TableCell className="text-right bg-white dark bg-dark" colSpan={5}>
-        {calculateTotalAmountGiftCardToUse(giftCardsToUse) > 0
-          ? `- ${formatPrice(
-              calculateTotalAmountGiftCardToUse(giftCardsToUse)
-            )}`
-          : 0}
+      <TableCell className="text-right bg-white bg-dark whitespace-nowrap">
+        {calculateTotalAmountGiftCardToUse(giftCardsToUse) > 0 ? (
+          <span className="whitespace-nowrap text-green-500">
+            - {formatPrice(calculateTotalAmountGiftCardToUse(giftCardsToUse))}
+          </span>
+        ) : (
+          0
+        )}
       </TableCell>
     </TableRow>
   );

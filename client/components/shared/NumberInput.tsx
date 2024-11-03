@@ -1,4 +1,3 @@
-"use client";
 import { MasterProductsType } from "@/app/types/ProductTypes";
 import { sumPriceArticle } from "@/app/utils/pricesFormat";
 import { Input } from "@/components/ui/input";
@@ -15,34 +14,35 @@ const NumberInput = ({
 }) => {
   const {
     quantity_in_stock: quantityInStock,
-    price: price,
+    price,
     continue_selling: continueSelling,
   } = product;
+
   const [value, setValue] = useState<number>(quantity);
 
-  // Synchronise `value` avec `quantity` en cas de changement externe
   useEffect(() => {
-    setValue(quantity);
+    if (value !== quantity) {
+      setValue(quantity);
+    }
   }, [quantity]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let val = parseInt(e.target.value, 10);
-    if (isNaN(val)) val = 1; // Valeur par défaut
+    if (isNaN(val)) val = 1;
 
-    // Applique la limite de stock uniquement si `continueSelling` est `false`
     if (!continueSelling && quantityInStock !== null) {
       val = Math.max(1, Math.min(val, quantityInStock));
     }
 
-    onValueChange(val);
+    setValue(val);
+    // onValueChange(val);
   };
 
   return (
     <article>
-      <div className="flex flex-col items-center space-y-1">
-        {/* Affiche l’indication de limite uniquement si `continueSelling` est `false` et que `quantityInStock` est défini */}
+      <div className="flex flex-col items-center gap-3">
         {!continueSelling && quantityInStock && (
-          <span className="text-sm text-gray-500">
+          <span className="text-sm text-gray-500 dark:text-[var(--whiteSmoke)]">
             Limité à : {quantityInStock}
           </span>
         )}
@@ -58,7 +58,7 @@ const NumberInput = ({
           />
         </div>
 
-        <p>{sumPriceArticle(quantity, price)} </p>
+        <p className="whitespace-nowrap">{sumPriceArticle(value, price)}</p>
       </div>
     </article>
   );

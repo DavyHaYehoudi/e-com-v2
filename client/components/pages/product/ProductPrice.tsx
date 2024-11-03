@@ -21,7 +21,7 @@ const ProductPrice: React.FC<ProductPriceProps> = ({
   quantity,
 }) => {
   return (
-    <article className="mt-4">
+    <article className="mt-16">
       <h2 className="text-xl font-semibold">Prix :</h2>
       {product.discount_percentage ? (
         <>
@@ -54,12 +54,14 @@ const ProductPrice: React.FC<ProductPriceProps> = ({
       )}
       {/* Vérification si le produit est disponible à la vente */}
       {canContinueSelling(product) ? (
-        <AddToCartButton
-          product={product}
-          selectedVariant={selectedVariant}
-          quantity={quantity}
-          type={"item"}
-        />
+        <div className="my-5">
+          <AddToCartButton
+            product={product}
+            selectedVariant={selectedVariant}
+            quantity={quantity}
+            type={"item"}
+          />
+        </div>
       ) : (
         <div className="mx-auto block w-1/2 text-red-600 font-bold text-center">
           Epuisé...

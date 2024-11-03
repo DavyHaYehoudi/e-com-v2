@@ -7,6 +7,7 @@ import { TableCell } from "@/components/ui/table";
 import { CheckCircleIcon, BadgeEuro } from "lucide-react";
 import { cashbackToUseSchema } from "./cashbackToUseSchema";
 import { formatPrice } from "@/app/utils/pricesFormat";
+import { Label } from "@/components/ui/label";
 
 type FormValues = {
   cashbackAmount: number;
@@ -55,38 +56,50 @@ const CashbackToUse = ({
   };
 
   return (
-    <TableCell className="flex w-full items-center space-x-2">
+    <TableCell colSpan={5}>
       <Controller
         name="cashbackAmount"
         control={control}
         render={({ field }) => (
-          <Input
-            type="number"
-            placeholder="Montant du cashback"
-            {...field}
-            value={field.value || ""}
-            onChange={(e) => handleCashbackChange(e.target.value)}
-          />
+          <>
+            <Label>Montant du cashback</Label>
+            <div className="flex items-center gap-2">
+              <Input
+                type="number"
+                placeholder="Montant du cashback"
+                {...field}
+                value={field.value || ""}
+                onChange={(e) => handleCashbackChange(e.target.value)}
+                className="w-full"
+              />
+              {errors.cashbackAmount && (
+                <span className="text-red-500">
+                  {errors.cashbackAmount.message}
+                </span>
+              )}
+
+              <Button
+                type="button"
+                onClick={handleSubmit}
+                disabled={isButtonDisabled}
+              >
+                <BadgeEuro className="size-4" />
+                <span className="ml-1">Utiliser</span>
+              </Button>
+
+              {/* Affichage du montant et cercle de validation seulement après soumission */}
+              {isSubmitted && isValidAmount && (
+                <>
+                  <CheckCircleIcon className="text-green-500" />
+                  <span className="text-green-500 whitespace-nowrap">
+                    {formatPrice(cashbackAmount)}
+                  </span>
+                </>
+              )}
+            </div>
+          </>
         )}
       />
-      {errors.cashbackAmount && (
-        <span className="text-red-500">{errors.cashbackAmount.message}</span>
-      )}
-
-      <Button type="button" onClick={handleSubmit} disabled={isButtonDisabled}>
-        <BadgeEuro className="size-4" />
-        <span className="ml-1">Utiliser</span>
-      </Button>
-
-      {/* Affichage du montant et cercle de validation seulement après soumission */}
-      {isSubmitted && isValidAmount && (
-        <>
-          <CheckCircleIcon className="text-green-500" />
-          <span className="text-green-500 whitespace-nowrap">
-            {formatPrice(cashbackAmount)}
-          </span>
-        </>
-      )}
     </TableCell>
   );
 };

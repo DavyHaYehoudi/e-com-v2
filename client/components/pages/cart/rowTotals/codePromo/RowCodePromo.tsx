@@ -26,9 +26,11 @@ const RowCodePromo: React.FC<RowCodePromoProps> = ({
         onDiscount={onDiscount}
         codePromoPercentage={codePromoPercentage}
       />
-      <TableCell className="text-right bg-white dark bg-dark" colSpan={5}>
-        {codePromoPercentage && productsInCart && deliveryPrice
-          ? `- ${formatPrice(
+      <TableCell className="text-right bg-white dark bg-dark whitespace-nowrap">
+        {codePromoPercentage && productsInCart && deliveryPrice ? (
+          <span className="whitespace-nowrap text-green-500">
+            -{" "}
+            {formatPrice(
               calculateCodePromoDiscountOnCartTotal(
                 productsInCart.items,
                 deliveryPrice,
@@ -36,8 +38,11 @@ const RowCodePromo: React.FC<RowCodePromoProps> = ({
                 giftCardsToUse,
                 codePromoPercentage
               )
-            )}`
-          : 0}
+            )}
+          </span>
+        ) : (
+          0
+        )}
       </TableCell>
     </TableRow>
   );

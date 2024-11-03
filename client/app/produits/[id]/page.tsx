@@ -59,23 +59,51 @@ const MasterProduct = ({ params }: MasterProductProps) => {
     }
   };
 
+  // useEffect(() => {
+  //   if (
+  //     productsInCart &&
+  //     productsInCart.items &&
+  //     productsInCart.items.length > 0
+  //   ) {
+  //     // Le produit est-il déjà dans le panier
+  //     const productInCart = productsInCart.items.find(
+  //       (p) => p.id === parseInt(id)
+  //     );
+  //     // Si c'est un produit déjà ajouté au panier
+  //     if (productInCart) {
+  //       setQuantity(productInCart.quantityInCart);
+  //       setSelectedVariant(
+  //         productInCart.selectedVariant || productInCart.variants[0]
+  //       );
+  //     } else if (!productInCart && product) {
+  //       setQuantity(1);
+  //       setSelectedVariant(product.variants[0]);
+  //     }
+  //   } else if (productsInCart && !productsInCart.items && product) {
+  //     setSelectedVariant(product.variants[0]);
+  //   }
+  // }, [productsInCart, id, product]);
+
   useEffect(() => {
     if (
       productsInCart &&
       productsInCart.items &&
       productsInCart.items.length > 0
     ) {
-      // Le produit est-il déjà dans le panier
       const productInCart = productsInCart.items.find(
         (p) => p.id === parseInt(id)
       );
-      // Si c'est un produit déjà ajouté au panier
+  
       if (productInCart) {
-        setQuantity(productInCart.quantityInCart);
+        // Ne mettez à jour `quantity` que si cela est nécessaire
+        if (quantity !== productInCart.quantityInCart) {
+          setQuantity(productInCart.quantityInCart);
+        }
+  
         setSelectedVariant(
           productInCart.selectedVariant || productInCart.variants[0]
         );
-      } else if (!productInCart && product) {
+      } else if (product) {
         setQuantity(1);
         setSelectedVariant(product.variants[0]);
       }
@@ -83,18 +111,21 @@ const MasterProduct = ({ params }: MasterProductProps) => {
       setSelectedVariant(product.variants[0]);
     }
   }, [productsInCart, id, product]);
+  
 
   return (
     <LoaderWrapper error={error} loading={loading}>
       {product && (
         <main>
-          <section className="contenair w-1/2 mx-auto ">
-            <h1 className="text-2xl font-bold relative text-center mt-5">
+          <section className="contenair m-2 lg:w-1/2 lg:mx-auto ">
+            <h1 className="text-2xl font-bold text-center mt-5">
               {" "}
               {product?.name}{" "}
-              <NewBadge additionalClasses="absolute top:0 right:0" />{" "}
-              <FavoriteButton product={product} />{" "}
             </h1>
+            <div className="flex justify-center items-center gap-2 mt-5 relative">
+              {" "}
+              <NewBadge /> <FavoriteButton product={product} />{" "}
+            </div>
             <CarouselProduct product={product} />
             <article className="bg-purple-50 p-4 rounded-md text-gray-700 text-base leading-relaxed mt-4">
               {product?.description}
@@ -111,7 +142,7 @@ const MasterProduct = ({ params }: MasterProductProps) => {
                 <hr className="my-4" />
               </>
             )}
-            <h2 className="text-xl font-semibold">Quantité :</h2>
+            <h2 className="text-xl font-semibold mt-16">Quantité :</h2>
             <NumberInput
               onValueChange={handleQuantityChange}
               quantity={quantity}

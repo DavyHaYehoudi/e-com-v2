@@ -24,7 +24,7 @@ const RowTotalCart: React.FC<RowTotalCartProps> = ({
       <TableCell colSpan={5} className="border-b border-gray-500">
         Total du panier
       </TableCell>
-      <TableCell className="text-right  border-b border-gray-500">
+      <TableCell className="text-right border-b border-gray-500 whitespace-nowrap">
         {productsInCart &&
           deliveryPrice &&
           formatPrice(
