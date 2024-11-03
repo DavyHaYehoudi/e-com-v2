@@ -12,10 +12,10 @@ import NumberInput from "@/components/shared/NumberInput";
 import { useFetch } from "@/service/hooks/useFetch";
 import { MasterProductsType } from "@/app/types/ProductTypes";
 import LoaderWrapper from "@/components/shared/LoaderWrapper";
-import useCart from "@/app/panier/hooks/useCart";
 import ProductVariants from "@/components/pages/product/ProductVariants";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
+import { useCartManager } from "@/app/panier/hooks/useCartManager";
 
 interface MasterProductProps {
   params: {
@@ -29,6 +29,7 @@ const MasterProduct = ({ params }: MasterProductProps) => {
   const { cart, items, giftCards } = cartCustomer;
   const productsInCart = { cart, items, giftCards };
   const [selectedVariant, setSelectedVariant] = useState<string>("");
+  const { addOrUpdateProduct } = useCartManager();
 
   const { id } = params;
   if (!id) {
@@ -45,73 +46,50 @@ const MasterProduct = ({ params }: MasterProductProps) => {
   }, []);
 
   const handleQuantityChange = (value: number) => {
-    setQuantity(value);
+    if (product) {
+      addOrUpdateProduct({
+        product,
+        selectedVariant,
+        quantity: value,
+        type: "item",
+      });
+    }
   };
   const handleVariantChange = (value: string) => {
     setSelectedVariant(value);
-    if (productsInCart && productsInCart.items) {
-      const productInCart = productsInCart.items.find(
-        (p) => p.id === parseInt(id) && p.selectedVariant === value
-      );
-      if (productInCart) {
-        setQuantity(productInCart.quantityInCart);
-      }
-    }
   };
 
-  // useEffect(() => {
-  //   if (
-  //     productsInCart &&
-  //     productsInCart.items &&
-  //     productsInCart.items.length > 0
-  //   ) {
-  //     // Le produit est-il déjà dans le panier
-  //     const productInCart = productsInCart.items.find(
-  //       (p) => p.id === parseInt(id)
-  //     );
-  //     // Si c'est un produit déjà ajouté au panier
-  //     if (productInCart) {
-  //       setQuantity(productInCart.quantityInCart);
-  //       setSelectedVariant(
-  //         productInCart.selectedVariant || productInCart.variants[0]
-  //       );
-  //     } else if (!productInCart && product) {
-  //       setQuantity(1);
-  //       setSelectedVariant(product.variants[0]);
-  //     }
-  //   } else if (productsInCart && !productsInCart.items && product) {
-  //     setSelectedVariant(product.variants[0]);
-  //   }
-  // }, [productsInCart, id, product]);
-
   useEffect(() => {
+    // Il existe des produits dans le panier
     if (
       productsInCart &&
       productsInCart.items &&
       productsInCart.items.length > 0
     ) {
+      // Le produit est-il dans le panier
       const productInCart = productsInCart.items.find(
-        (p) => p.id === parseInt(id)
+        (p) =>
+          p.id === parseInt(id) &&
+          (selectedVariant ? p.selectedVariant === selectedVariant : true)
       );
-  
+      // Le produit est dans le panier
       if (productInCart) {
-        // Ne mettez à jour `quantity` que si cela est nécessaire
-        if (quantity !== productInCart.quantityInCart) {
-          setQuantity(productInCart.quantityInCart);
-        }
-  
-        setSelectedVariant(
-          productInCart.selectedVariant || productInCart.variants[0]
-        );
-      } else if (product) {
+        setQuantity(productInCart.quantityInCart);
+        setSelectedVariant(productInCart?.selectedVariant || selectedVariant);
+        // Le produit n'est pas dans le panier
+      } else {
         setQuantity(1);
-        setSelectedVariant(product.variants[0]);
+        if (product && !selectedVariant) {
+          setSelectedVariant(product.variants[0]);
+        }
       }
-    } else if (productsInCart && !productsInCart.items && product) {
-      setSelectedVariant(product.variants[0]);
+      // Le panier est vide
+    } else if (product) {
+      setSelectedVariant(
+        selectedVariant ? selectedVariant : product.variants[0]
+      );
     }
-  }, [productsInCart, id, product]);
-  
+  }, [productsInCart, product, id, selectedVariant]);
 
   return (
     <LoaderWrapper error={error} loading={loading}>

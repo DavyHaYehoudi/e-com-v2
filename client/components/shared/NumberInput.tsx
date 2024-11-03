@@ -35,7 +35,7 @@ const NumberInput = ({
     }
 
     setValue(val);
-    // onValueChange(val);
+    onValueChange(val);
   };
 
   return (
