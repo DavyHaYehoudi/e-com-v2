@@ -7,17 +7,21 @@ import { GiftcardToUseType } from "@/app/types/GiftcardToUseTypes";
 
 interface RowGiftcardToUseProps {
   giftCardsToUse: GiftcardToUseType[];
-  setGiftCardsToUse: React.Dispatch<React.SetStateAction<GiftcardToUseType[]>>;
+  onGiftcardToUse: (
+    code: string,
+    action: "add" | "remove",
+    balance?: number
+  ) => void;
 }
 const RowGiftcardToUse: React.FC<RowGiftcardToUseProps> = ({
   giftCardsToUse,
-  setGiftCardsToUse,
+  onGiftcardToUse,
 }) => {
   return (
     <TableRow>
       <GiftcardToUse
         giftCardsToUse={giftCardsToUse}
-        setGiftCardsToUse={setGiftCardsToUse}
+        onGiftcardToUse={onGiftcardToUse}
       />
       <TableCell className="text-right bg-white bg-dark whitespace-nowrap">
         {calculateTotalAmountGiftCardToUse(giftCardsToUse) > 0 ? (

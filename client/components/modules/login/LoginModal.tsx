@@ -23,13 +23,15 @@ const LoginModal: React.FC<LoginModalProps> = ({ authenticate }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="bg-[var(--golden-2)] hover:bg-[var(--golden-2-hover)]">
-          <UserRound />
+        <Button className="bg-[var(--golden-2)] hover:bg-[var(--golden-2-hover)] p-2 mb-2">
+          <UserRound className="w-6 h-6" />
         </Button>
       </DialogTrigger>
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle><UserRound className="w-6 h-6 cursor-pointer" /></DialogTitle>
+          <DialogTitle>
+            <UserRound className="w-6 h-6 cursor-pointer" />
+          </DialogTitle>
           <DialogDescription asChild>
             {!emailSent ? (
               <EmailForm

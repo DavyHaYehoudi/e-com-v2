@@ -9,7 +9,7 @@ export const verifyCodePromoController = async (
   next: NextFunction
 ) => {
   try {
-    const codePromo = req.query.codePromo as string;
+    const codePromo = req.body.code;
     const codePromoVerified = await codePromoService.verifyCodePromoService(
       codePromo
     );

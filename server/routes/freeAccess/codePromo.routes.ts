@@ -4,6 +4,6 @@ import { verifyCodePromoController } from "../../controllers/code-promo/codeProm
 const router = Router();
 
 // code promo
-router.get("/", verifyCodePromoController);
+router.post("/", verifyCodePromoController);
 
 export default router;

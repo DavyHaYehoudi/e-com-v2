@@ -7,6 +7,8 @@ import { useState } from "react";
 import { CheckCircleIcon, XCircleIcon, PercentIcon } from "lucide-react";
 import { promoCodeSchema } from "./promoCodeSchema";
 import { Label } from "@/components/ui/label";
+import { CodePromoVerifyTypes } from "@/app/types/CodePromoVerifyTypes";
+import { useFetch } from "@/service/hooks/useFetch";
 
 const CartCodePromo = ({
   onDiscount,
@@ -26,22 +28,23 @@ const CartCodePromo = ({
     resolver: zodResolver(promoCodeSchema),
     mode: "onChange",
   });
-
-  // Définir manuellement si le code promo est valide ou non
-  const isValidPromoCode = (code: string) => {
-    return code === "Bonjour-15"; // Modifier pour tester avec le bon code
-  };
-
+  const { triggerFetch } = useFetch<CodePromoVerifyTypes>(
+    "/code-promos/verify-code",
+    {
+      method: "POST",
+    }
+  );
   // Gestion de la soumission du formulaire
-  const onSubmit = (data: { code: string }) => {
-    if (isValidPromoCode(data.code)) {
-      onDiscount(15); // Remonter 15% de réduction au parent si le code est valide
-      setApiError(null); // Pas d'erreur
-      setValidPromo(true); // Code promo valide
+  const onSubmit = async (data: { code: string }) => {
+    const codePromo = await triggerFetch({ code: data.code });
+    if (codePromo) {
+      onDiscount(codePromo?.discount_percentage);
+      setApiError(null);
+      setValidPromo(true); // Code valide  // On appelle la fonction onDiscount avec la valeur du code de réduction
     } else {
-      setApiError("Code promo incorrect.");
-      setValidPromo(false); // Code promo incorrect
       onDiscount(0); // Pas de réduction
+      setApiError("Code de réduction invalide");
+      setValidPromo(false); // Code non valide
     }
   };
 

@@ -197,7 +197,7 @@ paths:
             schema:
               $ref: '#/components/schemas/CustomerCartPUT' 
       responses:
-        '204':
+        '200':
           description: successful operation
         '400':
           description: Bad Request - Invalid content
@@ -316,8 +316,6 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
                   $ref: '#/components/schemas/CustomerCashBackGET'       
         '401':
           description: Unauthorized - Customer is not authenticated
@@ -1515,28 +1513,30 @@ paths:
           description: Not found - The tag doesn't exist.
       security:
         - api_key: []
-  /gift-cards/check-in/{code}:
-    get:
+  /gift-cards/check-in:
+    post:
       tags:
         - gift-card
       summary: Check the validity of a gift card.
-      description: Check the validity of a gift card.
-      parameters:
-        - name: code
-          in: path
-          description: code of the giftcard.
-          required: true
-          schema:
-            type: string
+      requestBody:
+        description: Check the validity of a gift card.
+        content:
+          application/json:
+            schema:
+                required:
+                  - code
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: KJU897NHB
       responses:
         '200':
           description: successful operation
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/GiftCardGET'       
+                  $ref: '#/components/schemas/GiftCardCheckInPOST'       
         '404':
           description: Gift card not found or invalid or balance exhausted.
   /gift-cards:
@@ -1632,22 +1632,27 @@ paths:
       security:
         - api_key: []
   /code-promos/verify-code:
-    get:
+    post:
       tags:
         - code-promo
       summary: Check the code.
       description: This route checks one promotional code. If the code is verified then the reduction on the total price of the cart applies with the percentage returned by the API.
-      parameters:
-        - name: code
-          in: query
-          description: code promo
-          required: true
-          schema:
-            type: string
-            example: Bonjour-15
+      requestBody:
+        description: Check the validity of a code promo.
+        content:
+          application/json:
+            schema:
+                required:
+                  - code
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: Bonjour-10
       responses:
         '200':
           description: successful operation
+          
           content:
             application/json:
               schema:
@@ -3659,6 +3664,34 @@ components:
         label:
           type: string
           example: Elégance
+    GiftCardCheckInPOST:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 23
+        first_holder_id:
+          type: string
+          example: 098754838475987
+        code:
+          type: string
+          example: 09hdf987BSK987
+        order_id:
+          type: number
+          nullable: true
+          example: null
+        initial_value:
+          type: integer
+          example: 50
+        balance:
+          type: integer
+          example: 30
+        is_issued_by_admin:
+          type: boolean
+          example: false
+        expiration_date:
+          type: string
+          example: 08/08/2025
     GiftCardGET:
       type: object
       properties:

@@ -4,7 +4,10 @@ import Image from "next/image";
 
 const CreatricePage = () => {
   return (
-    <div id="about">
+    <div
+      id="about"
+      className=" 2xl:w-1/2 lg:w-3/4 mx-auto pb-5 px-2 text-justify"
+    >
       <div id="about-container">
         <div className="animated-container m-2">
           <section className="story-section">
@@ -56,7 +59,7 @@ const CreatricePage = () => {
               height={400}
               className="rounded"
             />
-            <h2>NORALYA</h2>
+            <h2 className="mt-10">NORALYA</h2>
             <p>
               Certains me demandent parfois la signification du nom de mon
               Atelier.

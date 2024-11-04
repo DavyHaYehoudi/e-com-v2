@@ -4,6 +4,6 @@ import { getGiftCardByCodeController } from "../../controllers/gift-card/giftCar
 const router = Router();
 
 // giftcard check-in
-router.get("/:code", getGiftCardByCodeController);
+router.post("/", getGiftCardByCodeController);
 
 export default router;

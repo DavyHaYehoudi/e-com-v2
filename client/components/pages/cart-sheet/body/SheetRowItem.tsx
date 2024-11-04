@@ -26,9 +26,9 @@ const SheetRowItem: React.FC<SheetRowItemProps> = ({
     productsInCart &&
     productsInCart.items &&
     productsInCart.items.length > 0 &&
-    productsInCart.items.map((product) => (
-      <article
-        key={product.id}
+    productsInCart.items.map((product, index) => (
+      <div
+        key={index}
         className="hover:bg-gray-100 relative border-b border-gray-500 dark:hover:bg-[#1c2028]"
       >
         <div className="flex items-center justify-between gap-2 p-2 my-2">
@@ -54,7 +54,7 @@ const SheetRowItem: React.FC<SheetRowItemProps> = ({
           </div>
         </div>
         <div className="flex items-center justify-between p-2 my-2 flex-wrap">
-          <p>{sumPriceArticle(product.quantityInCart, product.price)}</p>
+          <div>{sumPriceArticle(product.quantityInCart, product.price)}</div>
           {/* Cellule affichant le prix de la réduction */}
           <div className="text-right">
             <CartRowPromotionPrice
@@ -82,7 +82,7 @@ const SheetRowItem: React.FC<SheetRowItemProps> = ({
             }
           />
         </div>
-      </article>
+      </div>
     ))
   );
 };

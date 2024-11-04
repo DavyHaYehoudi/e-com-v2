@@ -7,6 +7,7 @@ import {
   getAllCashBackOneCustomerRepository,
   getCashBackBalanceRepository,
 } from "../../repositories/cash-back/cashBackRepository.js";
+import { formatAmount } from "../../utils/format_amount.js";
 import { getCustomerProfileService } from "../customer/profileService.js";
 
 // ADMIN - Ajout/Retrait de cashback au compte du customer
@@ -78,8 +79,8 @@ export const getAllCashBackOneCustomerService = async (customerId: number) => {
 
   return {
     cashBacks,
-    total_earned: history.total_earned,
-    total_spent: history.total_spent,
+    total_earned: formatAmount(history.total_earned),
+    total_spent: formatAmount(history.total_spent),
   };
 };
 // CUSTOMER - Ajout/Retrait de cashback suite à une création d'une commande

@@ -1,9 +1,15 @@
 import { CreateGiftCardDTO } from "../../controllers/gift-card/entities/dto/gift-card.dto";
 import * as giftCardService from "../../repositories/gift-card/giftCardRepository.js";
+import { formatAmount } from "../../utils/format_amount.js";
 
 // Vérifier la validité d'une carte cadeau par son code
 export const getGiftCardByCodeService = async (code: string) => {
-  return await giftCardService.getGiftCardByCodeRepository(code);
+  const giftcard = await giftCardService.getGiftCardByCodeRepository(code);
+  return {
+    ...giftcard,
+    balance: formatAmount(giftcard.balance),
+    initial_value: formatAmount(giftcard.initial_value),
+  };
 };
 // Récupérer pour un customer toutes ses cartes cadeaux
 export const getCustomerGiftCardsService = async (customerId: number) => {

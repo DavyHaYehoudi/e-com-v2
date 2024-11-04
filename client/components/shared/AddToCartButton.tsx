@@ -56,7 +56,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
               <Header />
             </SheetTitle>
           </SheetHeader>
-          <SheetDescription className="flex-grow">
+          <SheetDescription className="flex-grow" asChild>
             <ScrollArea className="h-[875px] rounded-md border">
               <Body />
             </ScrollArea>

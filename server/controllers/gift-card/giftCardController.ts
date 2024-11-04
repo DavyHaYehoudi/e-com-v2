@@ -10,7 +10,7 @@ export const getGiftCardByCodeController = async (
   next: NextFunction
 ) => {
   try {
-    const code = req.params.code;
+    const code = req.body.code;
     const giftCard = await giftCardService.getGiftCardByCodeService(code);
     res.json(giftCard);
   } catch (error) {

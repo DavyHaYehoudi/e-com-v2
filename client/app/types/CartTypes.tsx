@@ -43,7 +43,7 @@ export type CartItemsType = {
   variants: string[];
   quantityInCart: number;
   selectedVariant: string | null;
-  isArchived?:boolean ;
+  isArchived?: boolean;
 };
 
 // Type pour la réponse globale

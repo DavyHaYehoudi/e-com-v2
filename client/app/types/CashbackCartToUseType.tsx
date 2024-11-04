@@ -11,6 +11,6 @@ interface CashBackTransaction {
 
 export interface CashBackCartToUseType {
   cashBacks: CashBackTransaction[];
-  total_earned: string; // Assuming it's a string representing a decimal value
-  total_spent: string; // Same assumption as above
+  total_earned: number; // Assuming it's a string representing a decimal value
+  total_spent: number; // Same assumption as above
 }

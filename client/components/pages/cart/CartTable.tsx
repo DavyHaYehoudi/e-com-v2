@@ -1,9 +1,5 @@
 "use client";
-import {
-  Table,
-  TableBody,
-  TableFooter,
-} from "@/components/ui/table";
+import { Table, TableBody, TableFooter } from "@/components/ui/table";
 import CartRowItem from "./CartRowItem";
 import { calculateTotalWeightCart } from "./utils/calculUtils";
 import { useState } from "react";
@@ -19,7 +15,8 @@ import RowCodePromo from "./rowTotals/codePromo/RowCodePromo";
 import RowTotalCart from "./rowTotals/RowTotalCart";
 import RowCashbackToUse from "./rowTotals/cashback/RowCashbackToUse";
 import { CartResponse } from "@/app/types/CartTypes";
-import { useCartManager } from "@/app/panier/hooks/useCartManager";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
 
 interface CartRowItemProps {
   productsInCart: CartResponse | null;
@@ -39,6 +36,9 @@ const CartTable: React.FC<CartRowItemProps> = ({
   const [codePromoPercentage, setCodePromoPercentage] = useState(0);
   const [giftCardsToUse, setGiftCardsToUse] = useState<GiftcardToUseType[]>([]);
   const [selectedCashback, setSelectedCashback] = useState<number | null>(null);
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
   const handleDeliveryChange = (deliveryId: number) => {
     const selected = deliveries.find((delivery) => delivery.id === deliveryId);
     setSelectedDelivery(selected);
@@ -56,6 +56,25 @@ const CartTable: React.FC<CartRowItemProps> = ({
   };
   const handleCashbackSelect = (amount: number) => {
     setSelectedCashback(amount);
+  };
+  const handleGiftcardToUse = (
+    code: string,
+    action: "add" | "remove",
+    balance?: number
+  ) => {
+    if (action === "add") {
+      setGiftCardsToUse((prev) => {
+        const isCodeExists = prev.some((giftCard) => giftCard.code === code);
+        if (isCodeExists) {
+          return prev; // Ne rien faire si le code existe déjà
+        }
+        return [...prev, { code, balance }];
+      });
+    } else if (action === "remove") {
+      setGiftCardsToUse((prev) =>
+        prev.filter((giftcard) => giftcard.code !== code)
+      );
+    }
   };
   return (
     <Table>
@@ -80,7 +99,7 @@ const CartTable: React.FC<CartRowItemProps> = ({
         />
         <RowGiftcardToUse
           giftCardsToUse={giftCardsToUse}
-          setGiftCardsToUse={setGiftCardsToUse}
+          onGiftcardToUse={handleGiftcardToUse}
         />
         <RowCodePromo
           onDiscount={onDiscount}
@@ -89,10 +108,12 @@ const CartTable: React.FC<CartRowItemProps> = ({
           deliveryPrice={deliveryPrice}
           giftCardsToUse={giftCardsToUse}
         />
-        <RowCashbackToUse
-          onCashbackSelect={handleCashbackSelect}
-          selectedCashback={selectedCashback}
-        />
+        {isAuthenticated && (
+          <RowCashbackToUse
+            onCashbackSelect={handleCashbackSelect}
+            selectedCashback={selectedCashback}
+          />
+        )}
         <RowTotalCart
           productsInCart={productsInCart}
           deliveryPrice={deliveryPrice}
