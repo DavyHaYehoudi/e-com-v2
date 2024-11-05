@@ -24,8 +24,13 @@ const CartRowPromotionPrice: React.FC<CartRowPromotionPriceProps> = ({
             discountPercentage={discount}
             discount_end_date={discount_end_date}
           />{" "}
-          <br /> -
-          {formatPrice(calculateTotalDiscountByRow(quantity, price, discount))}
+          <br />{" "}
+          <span className="whitespace-nowrap text-green-500">
+            -{" "}
+            {formatPrice(
+              calculateTotalDiscountByRow(quantity, price, discount)
+            )}
+          </span>
         </>
       )}
     </>

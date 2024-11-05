@@ -26,7 +26,7 @@ const BillingForm = ({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-md space-y-4"
+      className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-md space-y-4 dark bg-dark"
     >
       <div>
         <Label>Prénom</Label>

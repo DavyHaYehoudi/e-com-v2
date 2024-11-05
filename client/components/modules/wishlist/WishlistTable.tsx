@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+"use client";
 import {
   Table,
   TableBody,
@@ -8,28 +8,24 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import React from "react";
-import WishlistRow from "./WishlistRow";
-import { Product } from "@/app/types/ProductTypes";
-import { products } from "@/app/mocks/products";
+import WishlistRowItem from "./WishlistRowItem";
+import { useWishlistManager } from "./hooks/useWishlistManager";
 
-const productsMock: Product[] = products;
 const WishlistTable = () => {
-  return productsMock && productsMock.length > 0 ? (
+  const { productsWishlist } = useWishlistManager();
+  return productsWishlist ? (
     <Table className="min-w-full text-l">
-      <TableCaption>
-        <Button>Ajouter tous les favoris au panier</Button>{" "}
-      </TableCaption>
+      <TableCaption></TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[300px]"></TableHead>
           <TableHead className="w-[300px]"></TableHead>
           <TableHead className="w-[300px]"></TableHead>
-          <TableHead className="w-[450px]"></TableHead>
           <TableHead className="w-[50px]"></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        <WishlistRow productsMock={productsMock} />
+        <WishlistRowItem productsWishlistItems={productsWishlist.items} />
       </TableBody>
     </Table>
   ) : (

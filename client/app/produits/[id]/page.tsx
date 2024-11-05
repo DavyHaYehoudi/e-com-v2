@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { notFound } from "next/navigation";
 import NewBadge from "@/components/shared/badge/NewBadge";
 import FavoriteButton from "@/components/shared/FavoriteButton";
@@ -12,6 +12,10 @@ import NumberInput from "@/components/shared/NumberInput";
 import { useFetch } from "@/service/hooks/useFetch";
 import { MasterProductsType } from "@/app/types/ProductTypes";
 import LoaderWrapper from "@/components/shared/LoaderWrapper";
+import ProductVariants from "@/components/pages/product/ProductVariants";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
+import { useCartManager } from "@/app/panier/hooks/useCartManager";
 
 interface MasterProductProps {
   params: {
@@ -20,6 +24,13 @@ interface MasterProductProps {
 }
 
 const MasterProduct = ({ params }: MasterProductProps) => {
+  const [quantity, setQuantity] = useState<number>(1);
+  const cartCustomer = useSelector((state: RootState) => state.cart);
+  const { cart, items, giftCards } = cartCustomer;
+  const productsInCart = { cart, items, giftCards };
+  const [selectedVariant, setSelectedVariant] = useState<string>("");
+  const { addOrUpdateProduct } = useCartManager();
+
   const { id } = params;
   if (!id) {
     notFound(); // Gère le cas où l'ID est manquant
@@ -28,30 +39,99 @@ const MasterProduct = ({ params }: MasterProductProps) => {
     data: product,
     error,
     loading,
+    triggerFetch,
   } = useFetch<MasterProductsType>(`/products/${id}`);
-  const handleQuantityChange = () => {};
+  useEffect(() => {
+    triggerFetch();
+  }, []);
+
+  const handleQuantityChange = (value: number) => {
+    if (product) {
+      addOrUpdateProduct({
+        product,
+        selectedVariant,
+        quantity: value,
+        type: "item",
+      });
+    }
+  };
+  const handleVariantChange = (value: string) => {
+    setSelectedVariant(value);
+  };
+
+  useEffect(() => {
+    // Il existe des produits dans le panier
+    if (
+      productsInCart &&
+      productsInCart.items &&
+      productsInCart.items.length > 0
+    ) {
+      // Le produit est-il dans le panier
+      const productInCart = productsInCart.items.find(
+        (p) =>
+          p.id === parseInt(id) &&
+          (selectedVariant ? p.selectedVariant === selectedVariant : true)
+      );
+      // Le produit est dans le panier
+      if (productInCart) {
+        setQuantity(productInCart.quantityInCart);
+        setSelectedVariant(productInCart?.selectedVariant || selectedVariant);
+        // Le produit n'est pas dans le panier
+      } else {
+        setQuantity(1);
+        if (product && !selectedVariant) {
+          setSelectedVariant(product.variants[0]);
+        }
+      }
+      // Le panier est vide
+    } else if (product) {
+      setSelectedVariant(
+        selectedVariant ? selectedVariant : product.variants[0]
+      );
+    }
+  }, [productsInCart, product, id, selectedVariant]);
+
   return (
     <LoaderWrapper error={error} loading={loading}>
       {product && (
         <main>
-          <section className="contenair w-1/2 mx-auto ">
-            <h1 className="text-2xl font-bold relative text-center mt-5">
+          <section className="contenair m-2 lg:w-1/2 lg:mx-auto ">
+            <h1 className="text-2xl font-bold text-center mt-5">
               {" "}
               {product?.name}{" "}
-              <NewBadge additionalClasses="absolute top:0 right:0" />{" "}
-              <FavoriteButton product={product} />{" "}
             </h1>
+            <div className="flex justify-center items-center gap-2 mt-5 relative">
+              {" "}
+              <NewBadge /> <FavoriteButton product={product} />{" "}
+            </div>
             <CarouselProduct product={product} />
             <article className="bg-purple-50 p-4 rounded-md text-gray-700 text-base leading-relaxed mt-4">
               {product?.description}
             </article>
             <ProductFeatures product={product} />
             <hr className="my-4" />
+            {product.variants.length > 0 && (
+              <>
+                <ProductVariants
+                  product={product}
+                  selectedVariant={selectedVariant}
+                  onVariantChange={handleVariantChange}
+                />
+                <hr className="my-4" />
+              </>
+            )}
+            <h2 className="text-xl font-semibold mt-16">Quantité :</h2>
             <NumberInput
-              maxQuantity={product.quantity_in_stock}
               onValueChange={handleQuantityChange}
+              quantity={quantity}
+              product={product}
             />
-            <ProductPrice product={product} />
+            <hr className="my-4" />
+            <ProductPrice
+              product={product}
+              selectedVariant={selectedVariant}
+              quantity={quantity}
+            />
           </section>
           <ProductInformation />
           <ProductsSuggested product={product} />

@@ -1,19 +1,27 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { TableCell } from "@/components/ui/table";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckCircle, XCircle, Trash } from "lucide-react";
+import { CheckCircle, XCircle } from "lucide-react";
 import { giftCardToUseSchema } from "./giftcardToUseSchema";
 import { GiftIcon } from "lucide-react";
 import { GiftcardToUseType } from "@/app/types/GiftcardToUseTypes";
+import { Label } from "@/components/ui/label";
+import TrashIcon from "@/components/shared/TrashIcon";
+import { useFetch } from "@/service/hooks/useFetch";
 
 const GiftcardToUse = ({
   giftCardsToUse,
-  setGiftCardsToUse,
+  onGiftcardToUse,
 }: {
   giftCardsToUse: GiftcardToUseType[];
-  setGiftCardsToUse: React.Dispatch<React.SetStateAction<GiftcardToUseType[]>>;
+  onGiftcardToUse: (
+    code: string,
+    action: "add" | "remove",
+    balance?: number
+  ) => void;
 }) => {
   const {
     register,
@@ -24,76 +32,59 @@ const GiftcardToUse = ({
     resolver: zodResolver(giftCardToUseSchema),
     mode: "onChange",
   });
-
-  const giftCardData: Record<string, { balance?: number; error?: string }> = {
-    VALID123: { balance: 50 },
-    VALID456: { balance: 100 },
-  };
-
-  const isValidGiftCard = (code: string) => {
-    return giftCardData[code] || { error: "Carte cadeau non valide" };
-  };
-
-  const onSubmit = (data: { code: string }) => {
-    const cardValidation = isValidGiftCard(data.code);
-    if (cardValidation.balance) {
-      setGiftCardsToUse((prev) => [
-        ...prev,
-        { code: data.code, balance: cardValidation.balance },
-      ]);
-    } else {
-      setGiftCardsToUse((prev) => [
-        ...prev,
-        { code: data.code, error: cardValidation.error },
-      ]);
+  const { triggerFetch } = useFetch<GiftcardToUseType>(
+    "/gift-cards/check-in",
+    {
+      method: "POST",
     }
+  );
 
+  const onSubmit = async (data: { code: string }) => {
+    const giftcardDetails = await triggerFetch({ code: data.code });
+    onGiftcardToUse(data.code, "add", giftcardDetails?.balance);
     reset();
   };
 
   const removeGiftCard = (code: string) => {
-    setGiftCardsToUse((prev) => prev.filter((card) => card.code !== code));
+    onGiftcardToUse(code, "remove");
   };
 
   return (
-    <TableCell className="flex flex-col space-y-2 w-full max-w-sm ">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex space-x-2">
-        <Input
-          type="text"
-          placeholder="Code carte cadeau"
-          {...register("code")}
-          className={errors.code ? "border-red-500" : ""}
-        />
-        <Button type="submit" disabled={!isValid}>
-          <GiftIcon className="size-4" /> <span className="ml-1">Ajouter</span>
-        </Button>
+    <TableCell colSpan={5}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Label>Code carte cadeau</Label>
+        <div className="flex items-center gap-2">
+          <Input
+            type="text"
+            placeholder="Code carte cadeau"
+            {...register("code")}
+            className={errors.code ? "border-red-500" : ""}
+          />
+          <Button type="submit" disabled={!isValid}>
+            <GiftIcon className="size-4" />{" "}
+            <span className="ml-1">Ajouter</span>
+          </Button>
+        </div>
       </form>
 
       {errors.code && <p className="text-red-500">{errors.code.message}</p>}
 
       <div className="mt-4 space-y-2">
-        {giftCardsToUse.map((card, index) => (
+        {giftCardsToUse.map((giftcard, index) => (
           <div key={index} className="flex items-center space-x-2">
-            <p className="text-sm">{card.code}</p>
-            {card.balance ? (
+            <p className="text-sm">{giftcard.code}</p>
+            {giftcard.balance ? (
               <>
                 <CheckCircle className="text-green-500 w-5 h-5" />
-                <p className="text-green-500">Solde: {card.balance}€</p>
+                <p className="text-green-500">Solde: {giftcard.balance}€</p>
               </>
             ) : (
               <>
                 <XCircle className="text-red-500 w-5 h-5" />
-                <p className="text-red-500">{card.error}</p>
+                <p className="text-red-500">"Carte cadeau non valide" </p>
               </>
             )}
-            <Button
-              type="button"
-              variant="outline"
-              className="p-1"
-              onClick={() => removeGiftCard(card.code)}
-            >
-              <Trash className="text-gray-500 w-4 h-4" />
-            </Button>
+            <TrashIcon onClick={() => removeGiftCard(giftcard.code)} />
           </div>
         ))}
       </div>

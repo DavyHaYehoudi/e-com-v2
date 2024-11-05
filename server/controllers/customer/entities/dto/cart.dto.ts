@@ -4,6 +4,7 @@ import { z } from "zod";
 export const CartItemSchema = z.object({
   product_id: z.number(),
   quantity: z.number().min(1),
+  variant: z.string().nullable().optional().default(null),
 });
 
 // Schéma pour les gift cards dans le panier

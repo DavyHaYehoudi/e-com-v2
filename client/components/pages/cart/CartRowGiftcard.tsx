@@ -2,30 +2,32 @@
 import React, { useState } from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import TrashIcon from "@/components/shared/TrashIcon";
-import QuantityCalculator from "@/components/shared/QuantityCalculator";
 import ProductImageGiftcard from "@/components/shared/productImage/ProductImageGiftcard";
-import { productsInCart } from "@/app/mocks/products";
-import { ProductCart } from "@/app/types/ProductTypes";
+import { CartResponse } from "@/app/types/CartTypes";
+import { sumPriceArticle } from "@/app/utils/pricesFormat";
 
-const CartRowGiftcard = () => {
+interface CartRowGiftcardProps {
+  productsInCart: CartResponse | null;
+  removeProduct: (
+    productId: number,
+    variant: string | null,
+    type: "item" | "giftCard"
+  ) => void;
+}
+const CartRowGiftcard: React.FC<CartRowGiftcardProps> = ({
+  productsInCart,
+  removeProduct,
+}) => {
   const [quantity, setQuantity] = useState(1);
 
-  const handleQuantityChange = (newQuantity: number) => {
-    setQuantity(newQuantity);
-  };
-
-  const handleDelete = (giftcardId: number) => {
-    console.log("Giftcard deleted:", giftcardId);
-    // Logique pour supprimer la carte cadeau
-  };
-  const productsInCartMock: ProductCart = productsInCart;
   return (
-    productsInCartMock &&
-    productsInCartMock.gift_cards.length > 0 &&
-    productsInCartMock.gift_cards.map((giftcard, index) => (
+    productsInCart &&
+    productsInCart.giftCards &&
+    productsInCart.giftCards.length > 0 &&
+    productsInCart.giftCards.map((giftcard, index) => (
       <TableRow
         key={index}
-        className="hover:bg-gray-100 border-b border-gray-500"
+        className="hover:bg-gray-100 border-b border-gray-500 dark:hover:bg-[var(--dark-more)]"
       >
         {/* Première cellule : image et nom */}
         <TableCell className="font-medium relative">
@@ -34,15 +36,8 @@ const CartRowGiftcard = () => {
 
         <TableCell>Carte cadeau pour soi ou à offrir.</TableCell>
 
-        {/* Cellule de gestion de la quantité et du prix */}
-        <TableCell>
-          <QuantityCalculator
-            quantity={quantity}
-            onValueChange={handleQuantityChange}
-            maxQuantity={null}
-            price={giftcard.amount}
-          />
-        </TableCell>
+        {/* Cellule de la quantité et du prix */}
+        <TableCell>{sumPriceArticle(quantity, giftcard.amount)}</TableCell>
 
         {/* Cellule vide pour le prix de la réduction */}
         <TableCell></TableCell>
@@ -52,7 +47,9 @@ const CartRowGiftcard = () => {
 
         {/* Cellule pour le bouton de suppression */}
         <TableCell align="right">
-          <TrashIcon onClick={() => handleDelete(index)} />
+          <TrashIcon
+            onClick={() => removeProduct(giftcard.id, null, "giftCard")}
+          />
         </TableCell>
       </TableRow>
     ))

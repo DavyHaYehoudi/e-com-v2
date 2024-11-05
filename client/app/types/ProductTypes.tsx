@@ -1,10 +1,9 @@
-
 export interface Product {
   id: number;
   name: string;
   SKU: string | null;
   description: string;
-  main_image: string;
+  main_image?: string;
   discount_percentage: number | null;
   discount_end_date: string | null;
   weight: number | null;
@@ -14,59 +13,45 @@ export interface Product {
   new_until: string | null;
   is_published: boolean;
   cash_back: number | null;
-  variant: string | null;
+  variant?: string | null;
   is_star: boolean;
-  isArchived: boolean;
-  isActive: boolean;
+  isArchived?: boolean;
+  isActive?: boolean;
 }
 
-export interface ProductCartItems {
+export interface MasterProductsType {
   id: number;
   name: string;
-  main_image: string;
-  discount_percentage: number | null;
-  discount_end_date: string | null;
-  weight: number | null;
-  price: number;
-  new_until: string | null;
-  cash_back: number | null;
-  variant: string | null;
-  quantityInCart: number;
-  quantity_in_stock: number;
-}
-export interface ProductCartGiftcards {
-  amount: number;
-  quantity: number;
-}
-export interface ProductCart {
-  items: ProductCartItems[];
-  gift_cards: ProductCartGiftcards[];
-}
-export interface MasterProductsType {
-  id:number,
-  name: string;
-  SKU: string;
+  SKU: string | null;
   description: string;
-  weight: number;
+  weight: number | null;
   discount_percentage: number | null;
   discount_end_date: string | null;
   continue_selling: boolean;
   quantity_in_stock: number;
   price: number;
-  new_until: string; // Date sous format ISO (YYYY-MM-DD)
+  new_until: string | null; // Date sous format ISO (YYYY-MM-DD)
   is_published: boolean;
-  cash_back: number;
+  cash_back: number | null;
   is_star: boolean;
   is_archived: boolean;
   images: ProductImage[];
+  main_image?: string;
   categories: number[]; // Liste des IDs des catégories
   tags: number[]; // Liste des IDs des tags
   variants: string[]; // Liste des variantes sous forme de string
   createdAt: string; // Date sous format ISO (YYYY-MM-DDTHH:mm:ss.sssZ)
   updatedAt: string; // Date sous format ISO (YYYY-MM-DDTHH:mm:ss.sssZ)
+  isArchived?: boolean;
+  isActive?:boolean;
 }
 
 export interface ProductImage {
   url: string;
   is_main: boolean;
+}
+export interface ProductCartGiftcards {
+  id?: number;
+  amount: number;
+  quantity: number;
 }

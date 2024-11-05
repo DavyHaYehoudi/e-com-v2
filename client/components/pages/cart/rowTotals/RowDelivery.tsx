@@ -7,8 +7,8 @@ import { DeliveryType } from "@/app/types/DeliveryTypes";
 interface RowDeliveryProps {
   handleDeliveryChange: (deliveryId: number) => void;
   selectedDelivery: DeliveryType | undefined;
-  weightTotal: number;
-  deliveryPrice: number;
+  weightTotal: number | null;
+  deliveryPrice: number | null;
 }
 const RowDelivery: React.FC<RowDeliveryProps> = ({
   handleDeliveryChange,
@@ -23,8 +23,8 @@ const RowDelivery: React.FC<RowDeliveryProps> = ({
         selectedDelivery={selectedDelivery}
         weightTotal={weightTotal}
       />
-      <TableCell className="text-right border-b border-gray-500">
-        {formatPrice(deliveryPrice)}
+      <TableCell className="text-right border-b border-gray-500 whitespace-nowrap">
+        {deliveryPrice && formatPrice(deliveryPrice)}
       </TableCell>
     </TableRow>
   );

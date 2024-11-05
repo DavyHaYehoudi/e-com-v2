@@ -31,7 +31,7 @@ const ShippingForm = ({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="p-6 bg-white shadow-md rounded-md space-y-4"
+      className="p-6 bg-white shadow-md rounded-md space-y-4 dark bg-dark"
     >
       <div>
         <Label>Prénom</Label>

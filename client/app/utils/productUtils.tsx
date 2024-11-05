@@ -24,13 +24,20 @@ export const isProductNew = (newUntil: string | null): boolean => {
   return isAfter(newUntilDate, today);
 };
 
-export const priceProductAfterDiscount = (product: Product | MasterProductsType): number => {
+export const priceProductAfterDiscount = (
+  product: Product | MasterProductsType
+): number => {
   return product.discount_percentage
     ? product.price - (product.price * product.discount_percentage) / 100
     : product.price;
 };
-export const canContinueSelling = (product: Product | MasterProductsType): boolean => {
-  return product.continue_selling || product.quantity_in_stock > 0;
+export const canContinueSelling = (
+  product: Product | MasterProductsType
+): boolean => {
+  return (
+    product.continue_selling ||
+    (!product.continue_selling && product.quantity_in_stock > 0)
+  );
 };
 export const formatPromotionDate = (discount_end_date: string): string => {
   const now: Date = new Date();
@@ -38,7 +45,7 @@ export const formatPromotionDate = (discount_end_date: string): string => {
 
   // Vérifier si la promotion est déjà terminée
   if (promoDate <= now) {
-    return ''; // Ou retourne un message comme "Promotion terminée"
+    return ""; // Ou retourne un message comme "Promotion terminée"
   }
 
   // Calcul du temps restant en millisecondes
@@ -52,18 +59,18 @@ export const formatPromotionDate = (discount_end_date: string): string => {
   // Gestion du cas où le temps restant est inférieur à une heure
   if (timeDiff <= oneHour) {
     const minutesLeft = Math.floor(timeDiff / oneMinute);
-    return `Encore ${minutesLeft} minute${minutesLeft > 1 ? 's' : ''}`;
-  } 
+    return `Encore ${minutesLeft} minute${minutesLeft > 1 ? "s" : ""}`;
+  }
   // Gestion du cas où le temps restant est inférieur à un jour
   else if (timeDiff <= oneDay) {
     const hoursLeft = Math.floor(timeDiff / oneHour);
-    return `Encore ${hoursLeft} heure${hoursLeft > 1 ? 's' : ''}`;
-  } 
+    return `Encore ${hoursLeft} heure${hoursLeft > 1 ? "s" : ""}`;
+  }
   // Gestion du cas où le temps restant est inférieur à une semaine
   else if (timeDiff <= oneDay * 7) {
     const daysLeft = Math.floor(timeDiff / oneDay);
-    return `Plus que ${daysLeft} jour${daysLeft > 1 ? 's' : ''}`;
-  } 
+    return `Plus que ${daysLeft} jour${daysLeft > 1 ? "s" : ""}`;
+  }
   // Si la promotion dure plus longtemps, afficher la date de fin
   else {
     return `Jusqu'au ${promoDate.toLocaleDateString("fr-FR", {

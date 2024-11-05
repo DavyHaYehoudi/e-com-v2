@@ -63,12 +63,27 @@ export const updateCustomerCartRepository = async (
       cartId = result.insertId;
     }
 
-    // Insérer les items dans cart_item
+    // Insérer ou mettre à jour les items dans cart_item
     for (const item of cartData.items) {
-      await query(
-        `INSERT INTO cart_item (cart_id, product_id, quantity) VALUES (?, ?, ?)`,
-        [cartId, item.product_id, item.quantity]
+      // Vérifier si un item avec le même product_id et variant existe déjà
+      const existingItem = await query<CartItemRow[]>(
+        `SELECT * FROM cart_item WHERE cart_id = ? AND product_id = ? AND variant <=> ?`,
+        [cartId, item.product_id, item.variant]
       );
+
+      if (existingItem.length > 0) {
+        // Si l'item existe, mettre à jour la quantité
+        await query(`UPDATE cart_item SET quantity = ? WHERE id = ?`, [
+          item.quantity,
+          existingItem[0].id,
+        ]);
+      } else {
+        // Si l'item n'existe pas, l'insérer
+        await query(
+          `INSERT INTO cart_item (cart_id, product_id, quantity, variant) VALUES (?, ?, ?, ?)`,
+          [cartId, item.product_id, item.quantity, item.variant]
+        );
+      }
     }
 
     // Insérer les gift cards dans cart_gift_cards

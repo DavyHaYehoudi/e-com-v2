@@ -2,10 +2,10 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import React from "react";
 import { calculateTotalDiscountCart } from "../utils/calculUtils";
 import { formatPrice } from "@/app/utils/pricesFormat";
-import { ProductCart } from "@/app/types/ProductTypes";
+import { CartResponse } from "@/app/types/CartTypes";
 
 interface RowPromotionProps {
-  productsInCart: ProductCart;
+  productsInCart: CartResponse | null;
 }
 const RowPromotion: React.FC<RowPromotionProps> = ({ productsInCart }) => {
   return (
@@ -14,9 +14,14 @@ const RowPromotion: React.FC<RowPromotionProps> = ({ productsInCart }) => {
         Total des promotions
       </TableCell>
       <TableCell className="text-right border-b border-gray-500">
-        {calculateTotalDiscountCart(productsInCart.items) > 0
-          ? `- ${formatPrice(calculateTotalDiscountCart(productsInCart.items))}`
-          : 0}
+        {productsInCart &&
+          (calculateTotalDiscountCart(productsInCart.items) > 0 ? (
+            <span className="whitespace-nowrap text-green-500">
+              - {formatPrice(calculateTotalDiscountCart(productsInCart.items))}
+            </span>
+          ) : (
+            0
+          ))}
       </TableCell>
     </TableRow>
   );

@@ -36,7 +36,7 @@ export function PartnerCards() {
       <h2 className="text-center mb-6">
         Mes Partenaires
       </h2>
-      <div className="flex justify-around">
+      <div className="flex justify-around flex-wrap gap-2">
         {partners.map((partner) => (
           <Card
             key={partner.id}
@@ -53,7 +53,7 @@ export function PartnerCards() {
               />
             </CardHeader>
             <CardContent className="flex flex-col items-center justify-center text-center">
-              <CardTitle className="mt-4">
+              <CardTitle className="mt-4 dark text-dark">
                 Partenaire {partner.id + 1}
               </CardTitle>
             </CardContent>

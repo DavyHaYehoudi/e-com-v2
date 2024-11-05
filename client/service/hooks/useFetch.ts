@@ -1,20 +1,20 @@
-import { useState, useEffect } from "react";
+"use client";
+import { useState, useCallback } from "react";
 import { httpHelper } from "../http";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
 interface useFetchOptions<B = unknown> {
   method?: HttpMethod;
-  bodyData?: B; // Les données pour POST, PUT, PATCH
   requestOptions?: RequestInit; // Autres options pour l'appel API
   requiredCredentials?: boolean;
 }
-
 export const useFetch = <T, B = unknown>(
   url: string,
   {
     method = "GET",
-    bodyData,
     requestOptions,
     requiredCredentials,
   }: useFetchOptions<B> = {}
@@ -22,38 +22,39 @@ export const useFetch = <T, B = unknown>(
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const token = localStorage.getItem("token");
+  const token = useSelector((state: RootState) => state.auth.token);
 
-  useEffect(() => {
-    const fetchData = async () => {
+  const triggerFetch = useCallback(
+    async (bodyData?: B) => {
       setLoading(true);
       setError(null);
 
       try {
+        // Si bodyData est undefined, le rendre par défaut à un objet vide
+        const payload = bodyData !== undefined ? bodyData : ({} as B);
         let result: T;
 
-        // Utilisation du httpHelper pour chaque méthode
         switch (method) {
           case "POST":
-            result = await httpHelper.post<T, typeof bodyData>(
+            result = await httpHelper.post<T, B>(
               url,
-              bodyData,
+              payload,
               requiredCredentials ? token : null,
               requestOptions
             );
             break;
           case "PUT":
-            result = await httpHelper.put<T, typeof bodyData>(
+            result = await httpHelper.put<T, B>(
               url,
-              bodyData,
+              payload,
               requiredCredentials ? token : null,
               requestOptions
             );
             break;
           case "PATCH":
-            result = await httpHelper.patch<T, typeof bodyData>(
+            result = await httpHelper.patch<T, B>(
               url,
-              bodyData,
+              payload,
               requiredCredentials ? token : null,
               requestOptions
             );
@@ -65,7 +66,7 @@ export const useFetch = <T, B = unknown>(
               requestOptions
             );
             break;
-          default: // "GET" par défaut
+          default:
             result = await httpHelper.get<T>(
               url,
               requiredCredentials ? token : null,
@@ -74,16 +75,16 @@ export const useFetch = <T, B = unknown>(
         }
 
         setData(result);
+        return result;
       } catch (err) {
         console.error(err);
         setError("An error occurred while fetching data");
       } finally {
         setLoading(false);
       }
-    };
+    },
+    [url, method, token, requiredCredentials, requestOptions]
+  );
 
-    fetchData();
-  }, [url, method, bodyData, token, requiredCredentials, requestOptions]);
-
-  return { data, loading, error };
+  return { data, loading, error, triggerFetch };
 };

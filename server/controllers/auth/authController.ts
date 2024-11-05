@@ -17,8 +17,6 @@ export const authOpenSessionController = async (
     console.log("Generated 6-digit code:", authCode);
     await authService.storeAuthCodeService(email, authCode);
 
-    // (Optionnel) Envoi du code par email ici...
-
     res.status(201).json({
       message: "Authentication code sent",
     });
@@ -35,8 +33,13 @@ export const authVerifyOTPController = async (
 ) => {
   try {
     const authData = authRequestSchema.parse(req.body);
-    const { email, otp } = authData;
-    const result = await authService.verifyAuthCodeService(email, otp);
+    const { email, otp, wishlist, cart } = authData;
+    const result = await authService.verifyAuthCodeService(
+      email,
+      otp,
+      wishlist,
+      cart
+    );
     res.status(201).json({ token: result.token });
   } catch (error: any) {
     next(error);

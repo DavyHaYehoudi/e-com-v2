@@ -5,8 +5,8 @@
 @import "./variables.css";
 @import "@/components/layout/navigation/navigation.css";
 @import "@/components/pages/tradition/tradition.css";
-@import "@/components/pages/creatrice/creatrice.css";
 @import "@/components/pages/product/productSuggested.css";
+@import "@/components/shared/productCard/productCard.css";
 
 body {
   @apply font-nunito;
@@ -16,6 +16,13 @@ body {
 h1 {
   @apply text-4xl tracking-wider uppercase;
 }
+
+@media (max-width: 475px) {
+  h1 {
+    @apply text-2xl;
+  }
+}
+
 
 h2 {
   @apply text-3xl tracking-wider uppercase;
@@ -115,6 +122,34 @@ img {
   }
 }
 
+.dark body {
+  background-color: var(--dark-mode-black);
+}
+
+.dark .bg-dark {
+  background-color: var(--dark-mode-black);
+}
+
+.dark .text-dark {
+  color: var(--dark-mode-black);
+}
+
+.dark .text-whitesmoke {
+  color: var(--whiteSmoke);
+}
+
+.dark .bg-whitesmoke {
+  background-color: var(--whiteSmoke);
+}
+
+.dark input,
+.dark textarea {
+  border: 1px solid whitesmoke;
+}
+
+.dark hr {
+  border-color: var(--whiteSmoke);
+}
 
 section {
   margin-top: 60px;

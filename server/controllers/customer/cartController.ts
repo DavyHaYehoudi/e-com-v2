@@ -34,7 +34,7 @@ export const updateCustomerCartController = async (
     const cartData = CartInputSchema.parse(req.body);
     const customerId = (req.user as CustomJwtPayload).id;
     await updateCustomerCartService(customerId, cartData);
-    return res.status(204).json();
+    return res.status(200).json({});
   } catch (error) {
     next(error);
   }

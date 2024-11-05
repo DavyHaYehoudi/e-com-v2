@@ -40,7 +40,7 @@ export const httpHelper = {
     options?: RequestInit
   ): Promise<T> => {
     return fetchWrapper<T>(url, token, {
-      method: "PUT",
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
       ...options,

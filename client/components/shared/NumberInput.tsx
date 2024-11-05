@@ -1,47 +1,66 @@
-'use client'
+import { MasterProductsType } from "@/app/types/ProductTypes";
+import { sumPriceArticle } from "@/app/utils/pricesFormat";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 
 const NumberInput = ({
-  maxQuantity,
   onValueChange,
+  quantity,
+  product,
 }: {
-  maxQuantity: number | null;
   onValueChange: (value: number) => void;
+  quantity: number;
+  product: MasterProductsType;
 }) => {
-  const [value, setValue] = useState(1);
+  const {
+    quantity_in_stock: quantityInStock,
+    price,
+    continue_selling: continueSelling,
+  } = product;
 
-  // Mise à jour du parent quand la valeur change
+  const [value, setValue] = useState<number>(quantity);
+
   useEffect(() => {
-    onValueChange(value);
-  }, [value]);
+    if (value !== quantity) {
+      setValue(quantity);
+    }
+  }, [quantity]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let val = parseInt(e.target.value, 10);
-    if (isNaN(val)) val = 1; // Valeur par défaut
-    if (maxQuantity) {
-      val = Math.max(1, Math.min(val, maxQuantity)); // Garde la valeur dans la plage 1-maxQuantity
+    if (isNaN(val)) val = 1;
+
+    if (!continueSelling && quantityInStock !== null) {
+      val = Math.max(1, Math.min(val, quantityInStock));
     }
+
     setValue(val);
+    onValueChange(val);
   };
 
   return (
-    <div className="flex flex-col items-center space-y-1">
-      {maxQuantity && (
-        <span className="text-sm text-gray-500">Limité à : {maxQuantity}</span>
-      )}
+    <article>
+      <div className="flex flex-col items-center gap-3">
+        {!continueSelling && quantityInStock && (
+          <span className="text-sm text-gray-500 dark:text-[var(--whiteSmoke)]">
+            Limité à : {quantityInStock}
+          </span>
+        )}
 
-      <div className="flex items-center">
-        <Input
-          type="number"
-          value={value}
-          min={1}
-          max={maxQuantity ?? undefined}
-          onChange={handleChange}
-          className="text-center w-16"
-        />
+        <div className="flex items-center">
+          <Input
+            type="number"
+            value={value}
+            min={1}
+            max={!continueSelling ? quantityInStock ?? undefined : undefined}
+            onChange={handleChange}
+            className="text-center w-16"
+          />
+        </div>
+
+        <p className="whitespace-nowrap">{sumPriceArticle(value, price)}</p>
       </div>
-    </div>
+    </article>
   );
 };
 

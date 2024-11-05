@@ -26,7 +26,7 @@ router.get("/profile", verifyToken, getCustomerProfileController);
 router.get("/cart", verifyToken, getCustomerCartController);
 router.put("/cart", verifyToken, updateCustomerCartController);
 router.get("/wishlist", verifyToken, getCustomerWishlistController);
-router.put("/wishlist", verifyToken, updateCustomerWishlistController);
+router.patch("/wishlist", verifyToken, updateCustomerWishlistController);
 router.get("/address", verifyToken, getCustomerAddressController);
 router.put("/address", verifyToken, updateCustomerAddressController);
 router.get(

@@ -155,4 +155,7 @@
     #tradition .particularity h3 {
         text-align: center;
     }
+    #tradition section.title{
+        padding: 10px;
+    }
 }

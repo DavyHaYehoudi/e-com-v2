@@ -14,8 +14,14 @@ const RowCashbackToUse: React.FC<RowCashbackToUseProps> = ({
   return (
     <TableRow>
       <CashbackToUse onCashbackSelect={onCashbackSelect} />
-      <TableCell className="text-right bg-white" colSpan={5}>
-        {selectedCashback ? `- ${formatPrice(selectedCashback)}` : 0}
+      <TableCell className="text-right bg-white dark bg-dark whitespace-nowrap">
+        {selectedCashback ? (
+          <span className="whitespace-nowrap text-green-500">
+            - {formatPrice(selectedCashback)}
+          </span>
+        ) : (
+          0
+        )}
       </TableCell>
     </TableRow>
   );

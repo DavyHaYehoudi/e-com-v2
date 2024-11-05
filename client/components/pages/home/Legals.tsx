@@ -3,7 +3,7 @@ import React from "react";
 const Legals = () => {
   return (
     <section>
-      <div className="container mx-auto flex justify-between items-center gap-6 py-4">
+      <div className="container mx-auto flex justify-center lg:justify-between items-center gap-6 flex-wrap py-4">
         <a
           href="/deliveries-returns"
           className="flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-lg p-4 shadow transition duration-300"
