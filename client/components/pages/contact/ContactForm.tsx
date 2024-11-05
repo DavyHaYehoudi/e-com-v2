@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -19,6 +19,7 @@ import {
   ContactFormValues,
 } from "@/components/pages/contact/contactSchema";
 import { CheckCircle, XCircle, Loader, Unlock } from "lucide-react";
+import emailjs from "@emailjs/browser";
 
 const ContactForm = () => {
   const [status, setStatus] = useState<
@@ -34,22 +35,25 @@ const ContactForm = () => {
       message: "",
     },
   });
-
+  const formRef = useRef<HTMLFormElement | null>(null);
+  const publicKey = process.env.NEXT_PUBLIC_FORMULAIRE_PUBLIC_API_KEY;
+  const template_id = process.env.NEXT_PUBLIC_FORMULAIRE_TEMPLATE_KEY || "";
+  const service_id = process.env.NEXT_PUBLIC_FORMULAIRE_SERVICE_KEY || "";
   const onSubmit = async (data: ContactFormValues) => {
-    try {
-      console.log(data);
-      setStatus("loading");
-      // Simuler un délai d'envoi pour afficher le spinner
-      setTimeout(() => {
-        if (Math.random() > 0.5) {
-          setStatus("success"); // Simuler un succès
-        } else {
-          setStatus("error"); // Simuler une erreur
-        }
-      }, 2000);
-    } catch (error) {
-      console.error("Erreur lors de l'envoi du message:", error);
-      setStatus("error");
+    setStatus("loading");
+    if (formRef.current) {
+      emailjs
+        .sendForm(service_id, template_id, formRef.current, { publicKey })
+        .then((res) => {
+          setStatus("success");
+        })
+        .catch((error) => {
+          console.log(
+            "Erreur dans l'envoi de mail formulaire contact :",
+            error
+          );
+          setStatus("error");
+        });
     }
   };
 
@@ -97,7 +101,11 @@ const ContactForm = () => {
         </div>
       ) : (
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-4"
+            ref={formRef}
+          >
             <FormField
               control={form.control}
               name="firstName"

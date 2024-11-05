@@ -4,7 +4,7 @@ import SheetRowItem from "./SheetRowItem";
 import SheetRowGiftcard from "./SheetRowGiftcard";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import { useCartManager } from "@/app/panier/hooks/useCartManager";
+import { useCartManager } from "@/app/panier/hooks/useCartManager"; 
 
 const Body = () => {
   const { removeProduct } = useCartManager();
