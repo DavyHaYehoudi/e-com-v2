@@ -8,8 +8,7 @@ import { CheckCircleIcon, BadgeEuro } from "lucide-react";
 import { cashbackToUseSchema } from "./cashbackToUseSchema";
 import { formatPrice } from "@/app/utils/pricesFormat";
 import { Label } from "@/components/ui/label";
-import { useFetch } from "@/service/hooks/useFetch";
-import { CashBackCartToUseType } from "@/app/types/CashbackCartToUseType";
+import useCashback from "@/app/hooks/useCashback";
 
 type FormValues = {
   cashbackAmount: number;
@@ -20,19 +19,10 @@ const CashbackToUse = ({
 }: {
   onCashbackSelect: (amount: number) => void;
 }) => {
-  const [cashbackCustomer, setCashbackCustomer] = useState(0);
-  const { data, triggerFetch } = useFetch<CashBackCartToUseType>(
-    "/customer/cash-back-history",
-    { requiredCredentials: true }
-  );
+  const { availableCashback: cashbackCustomer, getCashbackOneCustomer } =
+    useCashback();
   useEffect(() => {
-    if (data) {
-      const cashbackSold = data?.total_earned - data?.total_spent;
-      setCashbackCustomer(cashbackSold);
-    }
-  }, [data]);
-  useEffect(() => {
-    triggerFetch(); // Fetch des produits star au chargement de la page
+    getCashbackOneCustomer();
   }, []);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const {
@@ -79,11 +69,10 @@ const CashbackToUse = ({
         render={({ field }) => (
           <>
             <Label>
-              Montant du cashback{" "}
-              <span className="text-blue-500 font-bold mx-1">
+              Montant du cashback disponible :{" "}
+              <span className="bg-blue-500 text-[var(--whiteSmoke)] px-1 pt-1 rounded font-bold ">
                 {formatPrice(cashbackCustomer)}
               </span>{" "}
-              de disponible{" "}
             </Label>
             <div className="flex items-center gap-2">
               <Input

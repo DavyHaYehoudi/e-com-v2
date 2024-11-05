@@ -61,7 +61,7 @@ const ContactForm = () => {
         className="flex items-center space-x-2 text-sm text-gray-600"
       >
         <Unlock size={24} className="mr-2 text-green-500" />
-        <span>
+        <span className="dark:text-[var(--whiteSmoke)]">
           Les informations saisies sur cette page sont confidentielles et
           sécurisées
         </span>

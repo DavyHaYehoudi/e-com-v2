@@ -1,3 +1,4 @@
+"use client";
 import { ShoppingBagIcon, BadgeEuro, LogOut } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -8,6 +9,8 @@ import { formatPrice } from "@/app/utils/pricesFormat";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import useAuth from "@/app/hooks/useAuth";
+import useCashback from "@/app/hooks/useCashback";
+import { useEffect } from "react";
 
 const NavIcons = () => {
   const wishlist = useSelector((state: RootState) => state.wishlist);
@@ -21,8 +24,11 @@ const NavIcons = () => {
     (state: RootState) => state.auth.user?.email
   );
   const { handleAuthentication, handleLogout } = useAuth();
-
-  const cashbackCustomer = 10;
+  const { availableCashback: cashbackCustomer, getCashbackOneCustomer } =
+    useCashback();
+  useEffect(() => {
+    getCashbackOneCustomer();
+  }, []);
 
   return (
     <div className="flex items-center gap-6 text-gray-500">
@@ -77,7 +83,7 @@ const NavIcons = () => {
         <div className="relative hidden lg:flex" title="Mon cashback">
           <BadgeEuro className="w-6 h-6 mb-2" />
           {cashbackCustomer > 0 && (
-            <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none bg-purple-200 text-black rounded-full">
+            <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none bg-blue-500 text-white rounded-full">
               <span className="whitespace-nowrap">
                 {formatPrice(cashbackCustomer)}
               </span>

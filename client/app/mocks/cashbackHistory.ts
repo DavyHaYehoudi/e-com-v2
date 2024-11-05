@@ -43,6 +43,6 @@ export const mockCashBackHistory: CashBackCartToUseType = {
             reason: "Order"
         }
     ],
-    total_earned: "998.00",
-    total_spent: "166.00"
+    total_earned: 998.00,
+    total_spent: 166.00
 };

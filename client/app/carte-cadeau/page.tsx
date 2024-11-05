@@ -54,7 +54,6 @@ const GiftcardPage = () => {
               width={800}
               height={200}
               className="rounded"
-       
             />
           </div>
 
@@ -82,47 +81,47 @@ const GiftcardPage = () => {
             </p>
           </div>
         </div>
-            <div className="mt-20 mx-2 lg:mx-auto lg:w-3/4 shadow-xl dark:shadow-xl rounded p-4">
-              <div className="mt-5 w-full flex justify-center items-center gap-2 flex-wrap">
-                <Label>
-                  Montant de la carte cadeau
-                  <br />
-                  (minimum 20€)
-                </Label>
-                <Input
-                  type="number"
-                  placeholder="20"
-                  className="w-1/4"
-                  min={20}
-                  value={amount}
-                  onChange={handleAmountChange}
-                />
-                {errors.amount && (
-                  <p className="text-red-500">{errors.amount}</p>
-                )}
-              </div>
-              <div className="mt-5 w-full flex justify-center items-center gap-2 flex-wrap">
-                <Label>Nombre de cartes cadeaux pour ce montant</Label>
-                <Input
-                  type="number"
-                  placeholder="1"
-                  className="w-1/4"
-                  min={1}
-                  value={quantity}
-                  onChange={handleQuantityChange}
-                />
-                {errors.quantity && (
-                  <p className="text-red-500">{errors.quantity}</p>
-                )}
-              </div>
-              <div className="mt-5 w-full">
-                <AddToCartButton
-                  amount={amount}
-                  quantity={quantity}
-                  type="giftCard"
-                />
-              </div>
-            </div>
+        <div className="mt-20 mx-2 lg:mx-auto lg:w-3/4 shadow-xl rounded p-4 dark:shadow-xl dark:border-2 dark:border-white">
+          <div className="mt-5 w-full flex justify-center items-center gap-2 flex-wrap">
+            <Label>
+              Montant de la carte cadeau
+              <br />
+              <span className="p-2 italic">- minimum 20€ -</span>
+            </Label>
+            <Input
+              type="number"
+              className="w-1/4"
+              min={20}
+              value={amount}
+              onChange={handleAmountChange}
+            />
+            {errors.amount && <p className="text-red-500">{errors.amount}</p>}
+          </div>
+          <div className="mt-5 w-full flex justify-center items-center gap-2 flex-wrap">
+            <Label>
+              Nombre de cartes cadeaux
+              <br /> pour ce montant
+            </Label>
+            <Input
+              type="number"
+              placeholder="1"
+              className="w-1/4"
+              min={1}
+              value={quantity}
+              onChange={handleQuantityChange}
+            />
+            {errors.quantity && (
+              <p className="text-red-500">{errors.quantity}</p>
+            )}
+          </div>
+          <div className="mt-5 w-full">
+            <AddToCartButton
+              amount={amount}
+              quantity={quantity}
+              type="giftCard"
+            />
+          </div>
+        </div>
       </section>
     </main>
   );
