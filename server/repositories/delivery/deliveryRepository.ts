@@ -34,6 +34,7 @@ export const getAllDeliveriesRepository = async () => {
       name: method.name,
       icon_url: method.icon_url,
       is_active: method.is_active,
+      is_default: method.is_default,
       rates: tarifs
         .filter((tarif) => tarif.shipping_method_id === method.id)
         .map((tarif) => ({

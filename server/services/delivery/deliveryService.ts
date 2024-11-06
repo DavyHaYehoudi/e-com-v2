@@ -1,10 +1,24 @@
 import { CreateDeliveryDTO } from "../../controllers/delivery/entities/dto/delivery.dto";
 import * as deliveryService from "../../repositories/delivery/deliveryRepository.js";
+import { formatAmount } from "../../utils/format_amount.js";
 
 // Récupérer toutes les méthodes de livraison
 export const getAllDeliveriesRepository = async () => {
-  return await deliveryService.getAllDeliveriesRepository();
+  // Récupération de toutes les livraisons
+  const deliveries = await deliveryService.getAllDeliveriesRepository();
+
+  // Formatage des données de chaque livraison
+  return deliveries.map((delivery) => ({
+    ...delivery,
+    rates: delivery.rates.map((rate) => ({
+      ...rate,
+      price: formatAmount(rate.price),
+      min_weight: formatAmount(rate.min_weight),
+      max_weight: formatAmount(rate.max_weight),
+    })),
+  }));
 };
+
 // ADMIN - Créer une méthode de livraison
 export const createDeliveryService = async (
   deliveryData: CreateDeliveryDTO

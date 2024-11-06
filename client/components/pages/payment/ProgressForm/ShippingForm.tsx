@@ -3,13 +3,18 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { AddressFormValues, AddressSchema } from "./schema/addressesSchema";
+import { AddressFormValues, AddressSchema } from "../schema/addressesSchema";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 
-const BillingForm = ({
+const ShippingForm = ({
   onNext,
+  onSameAddressChange,
+  sameAddress,
 }: {
   onNext: () => void;
+  onSameAddressChange: (checked: boolean) => void;
+  sameAddress: boolean;
 }) => {
   const {
     register,
@@ -26,7 +31,7 @@ const BillingForm = ({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-md space-y-4 dark bg-dark"
+      className="p-6 bg-white shadow-md rounded-md space-y-4 dark bg-dark"
     >
       <div>
         <Label>Prénom</Label>
@@ -155,6 +160,17 @@ const BillingForm = ({
         )}
       </div>
 
+      <div className="flex items-center justify-end space-x-2">
+        <Label htmlFor="terms" className="text-m font-medium leading-none">
+          Adresse de facturation identique
+        </Label>
+        <Checkbox
+          id="terms"
+          onCheckedChange={(checked) => onSameAddressChange(!!checked)}
+          checked={sameAddress}
+        />
+      </div>
+
       <Button
         type="submit"
         className="w-full p-2 mt-4 bg-green-500 hover:bg-green-600 text-white rounded-md "
@@ -164,4 +180,4 @@ const BillingForm = ({
     </form>
   );
 };
-export default BillingForm;
+export default ShippingForm;

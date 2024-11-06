@@ -1,6 +1,5 @@
 import { TableCell } from "@/components/ui/table";
 import React from "react";
-import { deliveries } from "@/app/mocks/delivery";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { DeliveryType } from "@/app/types/DeliveryTypes";
@@ -8,13 +7,15 @@ import { formatWeight } from "@/app/utils/weightFormat";
 
 interface CartDeliveryProps {
   handleDeliveryChange: (deliveryId: number) => void;
-  selectedDelivery: DeliveryType | undefined;
+  selectedDelivery: DeliveryType | null;
   weightTotal: number | null;
+  deliveries: Array<DeliveryType>;
 }
 const CartDelivery: React.FC<CartDeliveryProps> = ({
   handleDeliveryChange,
   selectedDelivery,
   weightTotal,
+  deliveries
 }) => {
   return (
     <TableCell colSpan={5} className="border-b border-gray-500">

@@ -10,7 +10,8 @@ interface RowGiftcardToUseProps {
   onGiftcardToUse: (
     code: string,
     action: "add" | "remove",
-    balance?: number
+    balance?: number,
+    id?: number
   ) => void;
 }
 const RowGiftcardToUse: React.FC<RowGiftcardToUseProps> = ({

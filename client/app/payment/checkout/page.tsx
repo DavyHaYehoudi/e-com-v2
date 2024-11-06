@@ -1,12 +1,12 @@
 "use client";
-import ShippingForm from "@/components/pages/payment/ShippingForm";
-import Auth from "@/components/pages/payment/Auth";
-import BillingForm from "@/components/pages/payment/BillingForm";
-import ProgressBarCheckout from "@/components/pages/payment/ProgressBarCheckout";
-import PaymentMock from "@/components/pages/payment/StripeMock";
+import ShippingForm from "@/components/pages/payment/ProgressForm/ShippingForm";
+import Auth from "@/components/pages/payment/ProgressForm/Auth";
+import BillingForm from "@/components/pages/payment/ProgressForm/BillingForm";
+import ProgressBarCheckout from "@/components/pages/payment/ProgressForm/ProgressBarCheckout";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
+import CheckoutSection from "@/components/pages/payment/CheckoutSection";
 
 // Les étapes
 enum Step {
@@ -45,7 +45,7 @@ const CheckoutPage = () => {
         <BillingForm onNext={() => setStep(Step.PAYMENT)} />
       )}
 
-      {step === Step.PAYMENT && <PaymentMock />}
+      {step === Step.PAYMENT && <CheckoutSection />}
     </div>
   );
 };

@@ -6,15 +6,17 @@ import { DeliveryType } from "@/app/types/DeliveryTypes";
 
 interface RowDeliveryProps {
   handleDeliveryChange: (deliveryId: number) => void;
-  selectedDelivery: DeliveryType | undefined;
+  selectedDelivery: DeliveryType | null;
   weightTotal: number | null;
   deliveryPrice: number | null;
+  deliveries : Array<DeliveryType>
 }
 const RowDelivery: React.FC<RowDeliveryProps> = ({
   handleDeliveryChange,
   selectedDelivery,
   weightTotal,
   deliveryPrice,
+  deliveries
 }) => {
   return (
     <TableRow>
@@ -22,6 +24,7 @@ const RowDelivery: React.FC<RowDeliveryProps> = ({
         handleDeliveryChange={handleDeliveryChange}
         selectedDelivery={selectedDelivery}
         weightTotal={weightTotal}
+        deliveries={deliveries}
       />
       <TableCell className="text-right border-b border-gray-500 whitespace-nowrap">
         {deliveryPrice && formatPrice(deliveryPrice)}

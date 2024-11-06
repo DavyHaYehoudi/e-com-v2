@@ -9,6 +9,8 @@ import { cashbackToUseSchema } from "./cashbackToUseSchema";
 import { formatPrice } from "@/app/utils/pricesFormat";
 import { Label } from "@/components/ui/label";
 import useCashback from "@/app/hooks/useCashback";
+import { useDispatch } from "react-redux";
+import { setCashBackToSpend } from "@/redux/slice/priceAdjustmentsSlice";
 
 type FormValues = {
   cashbackAmount: number;
@@ -36,6 +38,7 @@ const CashbackToUse = ({
       cashbackAmount: 0,
     },
   });
+  const dispatch = useDispatch()
 
   const cashbackAmount = watch("cashbackAmount");
   const isButtonDisabled = cashbackAmount <= 0;
@@ -57,6 +60,7 @@ const CashbackToUse = ({
   const handleSubmit = () => {
     if (isValidAmount) {
       onCashbackSelect(cashbackAmount); // Appel de la fonction de rappel
+      dispatch(setCashBackToSpend(cashbackAmount))
       setIsSubmitted(true); // Met à jour isSubmitted lorsque le montant est valide
     }
   };

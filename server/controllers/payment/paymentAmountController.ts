@@ -14,10 +14,12 @@ export const getPaymentAmountController = async (
 ) => {
   try {
     const customerId = (req.user as CustomJwtPayload).id;
+    console.log('req.query):', req.query) 
     const preprocessedQuery = preprocessPaymentAmountQuery(req.query);
     const validatedData = paymentAmountSchema.parse(preprocessedQuery);
     const { codePromo, giftCardIds, shippingMethodId, cashBackToSpend } =
       validatedData;
+      console.log('validatedData:', validatedData)
     const paymentAmount = await paymentService.getPaymentAmountService(
       customerId,
       shippingMethodId,

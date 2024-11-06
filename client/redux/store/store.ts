@@ -6,6 +6,7 @@ import { combineReducers } from "redux";
 import wishlistReducer from "../slice/wishlistSlice";
 import authReducer from "../slice/authSlice";
 import cartReducer from "../slice/cartSlice";
+import priceAdjustmentsReducer from "../slice/priceAdjustmentsSlice";
 import { PersistPartial } from "redux-persist/es/persistReducer";
 
 // Configuration de persistance
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   wishlist: wishlistReducer,
   cart: cartReducer,
+  priceAdjustments: priceAdjustmentsReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
