@@ -1,23 +1,26 @@
 import { Elements } from '@stripe/react-stripe-js';
-// import { loadStripe } from '@stripe/stripe-js';
 import CheckoutForm from './CheckoutForm';
 import getStripe from './utils/get-stripejs';
+import useClientSecret from './hooks/useClientSecret';
 
-// const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY||"");
-
-const  CheckoutSection=()=> {
+const CheckoutSection = () => {
+  const  {clientSecret,amount}  = useClientSecret();
   const appearance = {
     theme: "stripe",
   };
   const options = {
-    // clientSecret,
+    clientSecret, // Ajout de clientSecret dans les options
     appearance,
   };
-  const stripePromise=  getStripe()
+  const stripePromise = getStripe();
+
   return (
-    <Elements stripe={stripePromise} options={options} >
-      <CheckoutForm />
-    </Elements>
+    clientSecret && (
+      <Elements stripe={stripePromise} options={options}>
+        <CheckoutForm amount={amount} />
+      </Elements>
+    )
   );
-}
+};
+
 export default CheckoutSection;

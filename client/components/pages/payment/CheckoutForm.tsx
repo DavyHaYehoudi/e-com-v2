@@ -1,42 +1,49 @@
-import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
-import { useState } from 'react';
+import React from "react";
+import { PaymentElement } from "@stripe/react-stripe-js";
+import usePaymentForm from "./hooks/usePaymentForm";
+import MoonLoader from "react-spinners/MoonLoader";
+import { formatPrice } from "@/app/utils/pricesFormat";
 
-const CheckoutForm = () => {
-  const stripe = useStripe();
-  const elements = useElements();
-  const [error, setError] = useState(null);
-  const [isProcessing, setIsProcessing] = useState(false);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!stripe || !elements) return;
-
-    setIsProcessing(true);
-
-    const { error, paymentIntent } = await stripe.confirmCardPayment('{CLIENT_SECRET}', {
-      payment_method: {
-        card: elements.getElement(CardElement),
-      },
-    });
-
-    if (error) {
-      setError(error.message);
-    } else {
-      console.log('Payment successful:', paymentIntent);
-    }
-
-    setIsProcessing(false);
-  };
+interface CheckoutProps{
+    amount: number;
+  
+}
+const CheckoutForm:React.FC<CheckoutProps> = ({amount}) => {
+  const {
+    handleSubmit,
+    paymentElementOptions,
+    isLoading,
+    stripe,
+    elements,
+    message,
+  } = usePaymentForm();
 
   return (
-    <form onSubmit={handleSubmit}>
-      <CardElement />
-      <button type="submit" disabled={!stripe || isProcessing}>
-        {isProcessing ? 'Processing…' : 'Pay'}
-      </button>
-      {error && <div>{error}</div>}
-    </form>
+    <div className="form-card">
+      <form id="payment-form" onSubmit={handleSubmit}>
+        <PaymentElement id="payment-element" options={paymentElementOptions} />
+        <button
+          className="pay_button"
+          disabled={isLoading || !stripe || !elements}
+          id="submit"
+        >
+          <div id="button-text">
+            {isLoading ? (
+              <div className="loader">
+                <MoonLoader color="whitesmoke" />
+                <p>Veuillez patienter, paiement en cours...</p>
+              </div>
+            ) : (
+              <p>
+                Payer : {formatPrice(amount)} <br />
+                Livraison comprise{" "}
+              </p>
+            )}
+          </div>
+        </button>
+        {message && <div id="payment-message">{message}</div>}
+      </form>
+    </div>
   );
 };
 

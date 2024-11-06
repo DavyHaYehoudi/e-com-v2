@@ -4,14 +4,12 @@ import { calculateTotalCashbackCartToEarn } from "./utils/calculUtils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link"; // Import du composant Link
 import { CartResponse } from "@/app/types/CartTypes";
-import useAmountApi from "../payment/hooks/useAmountAPI";
 
 interface ProceedToPaymentProps {
   productsInCart: CartResponse;
 }
 
 const ProceedToPayment: React.FC<ProceedToPaymentProps> = ({ productsInCart }) => {
-  // const{amountApi}=useAmountApi()
   return (
     <div className="wrapper flex flex-wrap items-center justify-center xl:justify-between my-5 gap-5">
       <div className="bg-blue-500 text-[var(--whiteSmoke)] p-1 rounded m-1 text-center">
@@ -25,7 +23,6 @@ const ProceedToPayment: React.FC<ProceedToPaymentProps> = ({ productsInCart }) =
       <Link href="/payment/checkout" passHref>
         <Button className="bg-green-500 hover:bg-green-600 dark:text-[var(--whiteSmoke)]">
           Procéder au payment 
-          {/* {amountApi} */}
         </Button>
       </Link>
     </div>

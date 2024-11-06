@@ -6,6 +6,7 @@ export const paymentAmountSchema = z.object({
   giftCardIds: z.array(z.number().int()).optional().default([]), // Ajout d'un tableau vide par défaut
   shippingMethodId: z.number().int(),
   cashBackToSpend: z.number().min(0).nullable().optional().default(null),
+  emailCustomer: z.string().email().nullable().optional().default(null)
 });
 
 // Fonction de prétraitement des requêtes
