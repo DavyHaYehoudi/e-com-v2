@@ -10,11 +10,16 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { CheckCircle, ArrowRightCircle, Home } from "lucide-react";
-import { useSearchParams } from "next/navigation";
 import { useFetch } from "@/service/hooks/useFetch";
+// import { useSelector } from "react-redux";
+// import { RootState } from "@/redux/store/store";
+import { useSearchParams } from "next/navigation";
 
 const PaymentSuccess = () => {
   const [isOpen, setIsOpen] = useState(true);
+//   const orderPendingCreated = useSelector(
+//     (state: RootState) => state.payment.createPendingOrder
+//   );
   const searchParams = useSearchParams();
   const confirmationNumber = searchParams.get("confirmation_number");
   const { triggerFetch } = useFetch("/payment/accepted", {
@@ -22,8 +27,10 @@ const PaymentSuccess = () => {
     requiredCredentials: true,
   });
   useEffect(() => {
-    triggerFetch();
-  }, [triggerFetch]);
+    if (confirmationNumber) {
+      triggerFetch({ bodyData: confirmationNumber });
+    }
+  }, [triggerFetch, confirmationNumber]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -38,9 +45,12 @@ const PaymentSuccess = () => {
           </DialogDescription>
         </DialogHeader>
         <div className="py-4 text-center">
-          <p className="text-lg">
-            Votre numéro de commande : <strong>{confirmationNumber}</strong>
-          </p>
+          {confirmationNumber && (
+            <p className="text-lg">
+              Votre numéro de commande :{" "}
+              <strong>{confirmationNumber}</strong>
+            </p>
+          )}
         </div>
         <DialogFooter className="flex flex-col gap-2 sm:flex-row sm:justify-between">
           <Button

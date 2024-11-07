@@ -3,7 +3,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface PriceAdjustmentsState {
-  promoCode: string | null;
+  promoCode: string;
   giftCards: Array<number>;
   shippingMethod: number | null;
   cashBackToSpend: number | null;
@@ -12,7 +12,7 @@ interface PriceAdjustmentsState {
 }
 
 const initialState: PriceAdjustmentsState = {
-  promoCode: null,
+  promoCode: "", 
   giftCards: [],
   shippingMethod: null,
   cashBackToSpend: 0,

@@ -1,10 +1,9 @@
 import { z } from "zod";
 
 export const paymentAcceptedQuerySchema = z.object({
-  confirmation_number: z
+  bodyData: z
     .string()
-    .nonempty("Le champ confirmation_number est requis"),
+    .nonempty("Le champ bodyData est requis"),
 });
-export type paymentAcceptedQueryDTO = z.infer<
-  typeof paymentAcceptedQuerySchema
->;
+
+export type paymentAcceptedQueryDTO = z.infer<typeof paymentAcceptedQuerySchema>;

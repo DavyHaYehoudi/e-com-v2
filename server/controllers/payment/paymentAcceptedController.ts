@@ -10,16 +10,17 @@ export const getPaymentAcceptedController = async (
 ) => {
   try {
     const customerId = (req.user as CustomJwtPayload).id;
-    console.log('req.body:', req.body)
-    const validatedData = paymentAcceptedQuerySchema.parse(req.body.bodyData);
+    console.log('req.body de getPaymentAcceptedController:', req.body)
+    const validatedData = paymentAcceptedQuerySchema.parse(req.body);
 
     await getPaymentAcceptedService(
       customerId,
-      validatedData.confirmation_number
+      validatedData.bodyData
     );
     res.status(200).json({});
   } catch (error) {
     console.error(error);
     next(error);
   }
-};
+};  
+ 

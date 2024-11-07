@@ -1,13 +1,14 @@
 "use client";
 import { OrderResponse } from "@/app/types/OrderCreate";
+import { setCreatePendingOrder } from "@/redux/slice/paymentSlice";
 import { RootState } from "@/redux/store/store";
 import { useFetch } from "@/service/hooks/useFetch";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const useCreatePendingOrder = () => {
-  const [createOrder, setCreateOrder] = useState<OrderResponse | null>(null);
-  const [isTriggered, setIsTriggered] = useState(false); // état pour savoir si l'appel a été déclenché
+  const [isTriggered, setIsTriggered] = useState(false);
+  const dispatch = useDispatch();
 
   const giftCardIds = useSelector(
     (state: RootState) => state.priceAdjustments.giftCards
@@ -46,19 +47,19 @@ const useCreatePendingOrder = () => {
   );
 
   // Cette fonction va être appelée pour lancer le fetch
-  const triggerOrderCreation = () => {
-    setIsTriggered(true);
-    triggerFetch(formatData);
-  };
+  // const triggerOrderCreation = async () => {
+  //   setIsTriggered(true);
+  //   await triggerFetch(formatData);
+  // };
 
   // Lorsque les données sont récupérées, on met à jour l'état `createOrder`
-  useEffect(() => {
-    if (pendingOrder && isTriggered) {
-      setCreateOrder(pendingOrder);
-    }
-  }, [pendingOrder, isTriggered]);
+  // useEffect(() => {
+  //   if (pendingOrder && isTriggered) {
+  //     dispatch(setCreatePendingOrder(pendingOrder));
+  //   }
+  // }, [pendingOrder, isTriggered, dispatch]);
 
-  return { createOrder, triggerOrderCreation }; // On expose la fonction trigger
+  return { triggerOrderCreation };
 };
 
 export default useCreatePendingOrder;

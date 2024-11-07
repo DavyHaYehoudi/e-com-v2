@@ -20,7 +20,7 @@ export const getPaymentAcceptedRepository = async (
 
   // Mettre à jour le statut de paiement
   await query(
-    `UPDATE \`order\` SET payment_status = 2 WHERE confirmation_number = ? AND customer_id = ?`,
+    `UPDATE \`order\` SET payment_status_id = 1 WHERE confirmation_number = ? AND customer_id = ?`,
     [confirmation_number, customerId]
   );
 };

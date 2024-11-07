@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { reset } from "@/redux/slice/priceAdjustmentsSlice";
-import useCreatePendingOrder from "./useCreatePendingOrder";
+import { RootState } from "@/redux/store/store";
+import { useFetch } from "@/service/hooks/useFetch";
+import { OrderResponse } from "@/app/types/OrderCreate";
+import { setCreatePendingOrder } from "@/redux/slice/paymentSlice";
 
 const usePaymentForm = () => {
   const stripe = useStripe();
@@ -10,8 +13,54 @@ const usePaymentForm = () => {
 
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [pendingOrder, setPendingOrder] = useState<OrderResponse | null>(null);
+
   const dispatch = useDispatch();
-  const { createOrder, triggerOrderCreation } = useCreatePendingOrder();
+
+  const giftCardIds = useSelector(
+    (state: RootState) => state.priceAdjustments.giftCards
+  );
+  const codePromo = useSelector(
+    (state: RootState) => state.priceAdjustments.promoCode
+  );
+  const shippingMethodId = useSelector(
+    (state: RootState) => state.priceAdjustments.shippingMethod
+  );
+  const cashBackToSpend = useSelector(
+    (state: RootState) => state.priceAdjustments.cashBackToSpend
+  );
+  const order_address_shipping = useSelector(
+    (state: RootState) => state.addresses.shipping
+  );
+  const order_address_billing = useSelector(
+    (state: RootState) => state.addresses.billing
+  );
+
+  const formatData = {
+    giftCardIds,
+    shippingMethodId,
+    cashBackToSpend,
+    codePromo,
+    order_address_billing,
+    order_address_shipping,
+  };
+
+  const { data: pendingOrderCreated, triggerFetch } = useFetch<OrderResponse>(
+    "/payment/confirm",
+    {
+      method: "POST",
+      requiredCredentials: true,
+    }
+  );
+  useEffect(() => {
+    triggerFetch(formatData);
+  }, []);
+  useEffect(() => {
+    if (pendingOrderCreated) {
+      dispatch(setCreatePendingOrder(pendingOrderCreated));
+      setPendingOrder(pendingOrderCreated);
+    }
+  }, [pendingOrderCreated, dispatch]);
 
   useEffect(() => {
     if (!stripe) {
@@ -46,11 +95,10 @@ const usePaymentForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(reset());
-    triggerOrderCreation();
-    let query = ``;
-    if (createOrder) {
-      query = `?confirmation_number=${createOrder.order.confirmation_number}`;
+    if (pendingOrder) {
+      dispatch(setCreatePendingOrder(pendingOrder));
     }
+
     if (!stripe || !elements) {
       return;
     }
@@ -60,7 +108,7 @@ const usePaymentForm = () => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/payment/success${query}`,
+        return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/payment/success?confirmation_number=${pendingOrder?.order.confirmation_number}`,
       },
     });
 

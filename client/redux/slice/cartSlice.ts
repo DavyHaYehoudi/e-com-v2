@@ -15,7 +15,7 @@ const initialState: CartResponse & { totalItemsCount: number } = {
   cart: undefined,
   items: [],
   giftCards: [],
-  totalItemsCount: 0,
+  totalItemsCount: 0, 
 };
 
 const calculateTotalItemsCount = (

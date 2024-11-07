@@ -43,7 +43,7 @@ export const createOrderAddressRepository = async (
     `;
   await query(sql, [
     type,
-    addressData.company,
+    addressData.company || "",
     addressData.first_name,
     addressData.last_name,
     addressData.email,

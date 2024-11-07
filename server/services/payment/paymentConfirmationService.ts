@@ -147,7 +147,7 @@ export const createOrderService = async (
         cashback_earned: order.cashback_earned,
         cashback_spent: order.cashback_spent,
         code_promo_amount: order.code_promo_amount,
-        total_promo_products: order.total_promo_products,
+        total_promo_products: order.total_promo_products, 
         total_weight: order.total_weight,
         total_giftCardUsed: paymentDetails.amountGiftCardUsed,
       },
@@ -166,6 +166,7 @@ export const createOrderService = async (
     };
   } catch (error) {
     await rollbackTransaction();
+    console.error(error);
     throw error;
   }
 };
