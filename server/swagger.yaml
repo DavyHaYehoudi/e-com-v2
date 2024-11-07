@@ -2548,6 +2548,12 @@ components:
         company:
           type: string
           example: name company
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example : Doe
         email:
           type: string
           example: john@example.com
@@ -2584,6 +2590,12 @@ components:
         company:
           type: string
           example: new name
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example : Doe
         email:
           type: string
           example: new@example.com
@@ -4027,6 +4039,9 @@ components:
         shippingMethodId:
           type: number
           example: 2
+        cashBackToSpend:
+          type: number
+          example: 7
     PaymentAmountGET:
       type: object
       properties:
@@ -4109,6 +4124,12 @@ components:
             company:
               type: string
               example: name company
+            first_name:
+              type: string
+              example: John
+            last_name:
+              type: string
+              example : Doe
             email:
               type: string
               example: john@example.com
@@ -4139,6 +4160,12 @@ components:
             company:
               type: string
               example: name company
+            first_name:
+              type: string
+              example: John
+            last_name:
+              type: string
+              example : Doe
             email:
               type: string
               example: john@example.com

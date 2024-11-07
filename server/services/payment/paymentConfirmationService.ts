@@ -58,7 +58,7 @@ export const createOrderService = async (
     const order = await createOrderRepository({
       customerId,
       orderStatusId: 1,
-      paymentStatusId: 1,
+      paymentStatusId: 2,
       confirmationNumber,
       codePromoAmount: paymentDetails.codePromoAmount,
       totalPromoProducts: paymentDetails.totalPromotionAmount,

@@ -1,5 +1,5 @@
-'use client'
-import { useState } from "react";
+"use client";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,10 +10,20 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { CheckCircle, ArrowRightCircle, Home } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { useFetch } from "@/service/hooks/useFetch";
 
 const PaymentSuccess = () => {
   const [isOpen, setIsOpen] = useState(true);
-const orderNumber = 123456789
+  const searchParams = useSearchParams();
+  const confirmationNumber = searchParams.get("confirmation_number");
+  const { triggerFetch } = useFetch("/payment/accepted", {
+    method: "PUT",
+    requiredCredentials: true,
+  });
+  useEffect(() => {
+    triggerFetch();
+  }, [triggerFetch]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -29,7 +39,7 @@ const orderNumber = 123456789
         </DialogHeader>
         <div className="py-4 text-center">
           <p className="text-lg">
-            Votre numéro de commande : <strong>{orderNumber}</strong>
+            Votre numéro de commande : <strong>{confirmationNumber}</strong>
           </p>
         </div>
         <DialogFooter className="flex flex-col gap-2 sm:flex-row sm:justify-between">

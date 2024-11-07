@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { useDispatch } from "react-redux";
 import { reset } from "@/redux/slice/priceAdjustmentsSlice";
+import useCreatePendingOrder from "./useCreatePendingOrder";
 
 const usePaymentForm = () => {
   const stripe = useStripe();
@@ -10,6 +11,7 @@ const usePaymentForm = () => {
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+  const { createOrder, triggerOrderCreation } = useCreatePendingOrder();
 
   useEffect(() => {
     if (!stripe) {
@@ -44,8 +46,11 @@ const usePaymentForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(reset());
-    // const { orderNumber } = await handleCreateOrder();
-
+    triggerOrderCreation();
+    let query = ``;
+    if (createOrder) {
+      query = `?confirmation_number=${createOrder.order.confirmation_number}`;
+    }
     if (!stripe || !elements) {
       return;
     }
@@ -55,7 +60,7 @@ const usePaymentForm = () => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/cart/payment/success?orderNumber=${orderNumber}`,
+        return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/payment/success${query}`,
       },
     });
 
@@ -70,7 +75,7 @@ const usePaymentForm = () => {
   };
 
   const paymentElementOptions = {
-    layout: "tabs" as const, // Typage explicite pour éviter l'erreur
+    layout: "tabs" as const,
   };
 
   return {

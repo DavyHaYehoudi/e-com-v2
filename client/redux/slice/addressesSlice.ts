@@ -32,26 +32,9 @@ const addressesSlice = createSlice({
         state.billing = action.payload.billing;
       }
     },
-
-    // Action pour mettre à jour une adresse spécifique (shipping ou billing)
-    updateAddress(
-      state,
-      action: PayloadAction<{
-        type: "shipping" | "billing";
-        updatedAddress: Address;
-      }>
-    ) {
-      const { type, updatedAddress } = action.payload;
-      // On vérifie le type d'adresse et on met à jour le state correspondant
-      if (type === "shipping") {
-        state.shipping = updatedAddress;
-      } else if (type === "billing") {
-        state.billing = updatedAddress;
-      }
-    },
   },
 });
 
-export const { setAddresses, updateAddress } = addressesSlice.actions;
+export const { setAddresses } = addressesSlice.actions;
 
 export default addressesSlice.reducer;
