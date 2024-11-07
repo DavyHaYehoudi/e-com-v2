@@ -43,7 +43,6 @@ const priceAdjustmentsSlice = createSlice({
         state.giftCards = [...state.giftCards, action.payload.id];
       }
     },
-
     setShippingMethod(state, action: PayloadAction<number>) {
       state.shippingMethod = action.payload;
     },
@@ -56,6 +55,9 @@ const priceAdjustmentsSlice = createSlice({
     setTotalFees(state, action: PayloadAction<number>) {
       state.totalFees = action.payload;
     },
+    reset(state) {
+      Object.assign(state, initialState);
+    },
   },
 });
 
@@ -66,6 +68,7 @@ export const {
   setCashBackToSpend,
   setTotalDiscount,
   setTotalFees,
+  reset,
 } = priceAdjustmentsSlice.actions;
 
 export default priceAdjustmentsSlice.reducer;

@@ -18,12 +18,12 @@ export async function getPaymentIntentService(
     codePromo,
     cashBackToSpend
   );
-  const amount = formatAmount(amounts.orderAmount) ;
+  const amount = formatAmount(amounts.orderAmount);
 
   try {
     // Rechercher un client existant par email
     const existingCustomers = await stripe.customers.list({
-      email: emailCustomer,
+      email: emailCustomer || undefined,
     });
 
     let customer;
@@ -33,7 +33,7 @@ export async function getPaymentIntentService(
     } else {
       // Créer un nouveau client
       customer = await stripe.customers.create({
-        email: emailCustomer,
+        email: emailCustomer || undefined,
       });
     }
 
@@ -46,6 +46,6 @@ export async function getPaymentIntentService(
       customer: customerId,
     });
 
-    return { clientSecret: paymentIntent.client_secret,amount };
+    return { clientSecret: paymentIntent.client_secret, amount };
   } catch (error) {}
 }

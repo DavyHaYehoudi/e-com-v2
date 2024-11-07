@@ -14,7 +14,7 @@ const ProductsBeforePromotion: React.FC<ProductsBeforePromotionProps> = ({
   return (
     <TableRow>
       <TableCell className="border-b border-gray-500" colSpan={5}>
-        Total des produits hors promotion
+        Total des produits
       </TableCell>
       <TableCell className="text-right border-b border-gray-500">
         {productsInCart &&

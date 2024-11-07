@@ -6,7 +6,7 @@ import useClientSecret from './hooks/useClientSecret';
 const CheckoutSection = () => {
   const  {clientSecret,amount}  = useClientSecret();
   const appearance = {
-    theme: "stripe",
+    theme: "stripe" as const, 
   };
   const options = {
     clientSecret, // Ajout de clientSecret dans les options

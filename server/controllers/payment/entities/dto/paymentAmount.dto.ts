@@ -14,6 +14,7 @@ export const preprocessPaymentAmountQuery = (query: any) => {
   const preprocessedQuery: any = {};
 
   preprocessedQuery.codePromo = query.codePromo || null;
+  preprocessedQuery.emailCustomer = query.emailCustomer || null; 
 
   if (query.giftCardIds) {
     // Si giftCardIds est déjà un tableau, on map les valeurs à Number

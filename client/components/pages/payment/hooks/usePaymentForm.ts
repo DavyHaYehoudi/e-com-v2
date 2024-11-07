@@ -51,7 +51,7 @@ const usePaymentForm = () => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${process.env.REACT_APP_BASE_URL_CLIENT}/cart/payment/success?orderNumber=${orderNumber}`,
+        return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/cart/payment/success?orderNumber=${orderNumber}`,
       },
     });
 
@@ -66,7 +66,7 @@ const usePaymentForm = () => {
   };
 
   const paymentElementOptions = {
-    layout: "tabs",
+    layout: "tabs" as const,  // Typage explicite pour éviter l'erreur
   };
 
   return {

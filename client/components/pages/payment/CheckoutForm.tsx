@@ -1,14 +1,14 @@
 import React from "react";
 import { PaymentElement } from "@stripe/react-stripe-js";
 import usePaymentForm from "./hooks/usePaymentForm";
-import MoonLoader from "react-spinners/MoonLoader";
+import { Loader } from "lucide-react";
 import { formatPrice } from "@/app/utils/pricesFormat";
+import { Button } from "@/components/ui/button";
 
-interface CheckoutProps{
-    amount: number;
-  
+interface CheckoutProps {
+  amount: number;
 }
-const CheckoutForm:React.FC<CheckoutProps> = ({amount}) => {
+const CheckoutForm: React.FC<CheckoutProps> = ({ amount }) => {
   const {
     handleSubmit,
     paymentElementOptions,
@@ -19,29 +19,27 @@ const CheckoutForm:React.FC<CheckoutProps> = ({amount}) => {
   } = usePaymentForm();
 
   return (
-    <div className="form-card">
-      <form id="payment-form" onSubmit={handleSubmit}>
+    <div>
+      <form onSubmit={handleSubmit}>
         <PaymentElement id="payment-element" options={paymentElementOptions} />
-        <button
-          className="pay_button"
-          disabled={isLoading || !stripe || !elements}
-          id="submit"
-        >
-          <div id="button-text">
-            {isLoading ? (
-              <div className="loader">
-                <MoonLoader color="whitesmoke" />
-                <p>Veuillez patienter, paiement en cours...</p>
-              </div>
-            ) : (
-              <p>
-                Payer : {formatPrice(amount)} <br />
-                Livraison comprise{" "}
-              </p>
-            )}
-          </div>
-        </button>
-        {message && <div id="payment-message">{message}</div>}
+
+        <div className="text-center m-5">
+          {isLoading ? (
+            <div className="flex justify-center items-center gap-5">
+              <Loader className="animate-spin text-gray-500" size={48} />
+              <p>Veuillez patienter, paiement en cours...</p>
+            </div>
+          ) : (
+            <Button
+              className="bg-green-500 hover:bg-green-600 dark:text-[var(--whiteSmoke)] font-bold"
+              disabled={isLoading || !stripe || !elements}
+              type="submit"
+            >
+              Payer : {formatPrice(amount)}
+            </Button>
+          )}
+        </div>
+        {message && <div className="text-red-700">{message}</div>}
       </form>
     </div>
   );

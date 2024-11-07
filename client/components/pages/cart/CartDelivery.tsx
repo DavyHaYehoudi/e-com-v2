@@ -24,6 +24,7 @@ const CartDelivery: React.FC<CartDeliveryProps> = ({
       <RadioGroup
         value={selectedDelivery?.id.toString()}
         onValueChange={(value) => handleDeliveryChange(parseInt(value))}
+        className="m-4"
       >
         {deliveries
           .sort((a) => (a.is_default ? -1 : 1)) // Par défaut, la livraison avec is_default=true est toujours en premier

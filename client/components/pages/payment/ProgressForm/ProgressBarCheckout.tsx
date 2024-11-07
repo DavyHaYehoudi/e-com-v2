@@ -3,7 +3,7 @@ import { Progress } from "@/components/ui/progress";
 
 const ProgressBarCheckout = ({ step }: { step: number }) => {
   const totalSteps = 4; // Nombre total d'étapes
-  const progressValue = (step / totalSteps) * 100; // Calcul du pourcentage
+  const progressValue = ((step - 1) / totalSteps) * 100; // Calcul du pourcentage
   return (
     <div className="flex items-center flex-wrap gap-5 mb-8 relative">
       <div

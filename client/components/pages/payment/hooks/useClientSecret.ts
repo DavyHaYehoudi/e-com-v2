@@ -10,8 +10,10 @@ interface ClientSecretType {
 
 const useClientSecret = () => {
   const [clientSecret, setClientSecret] = useState("");
-  const [amount,setAmount]=useState(0)
-  const giftCardIds = useSelector((state: RootState) => state.priceAdjustments.giftCards);
+  const [amount, setAmount] = useState(0);
+  const giftCardIds = useSelector(
+    (state: RootState) => state.priceAdjustments.giftCards
+  );
   const codePromo = useSelector(
     (state: RootState) => state.priceAdjustments.promoCode
   );
@@ -44,6 +46,6 @@ const useClientSecret = () => {
       setAmount(data.amount);
     }
   }, [data]);
-  return {clientSecret,amount};
+  return { clientSecret, amount };
 };
 export default useClientSecret;
