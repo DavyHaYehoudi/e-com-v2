@@ -1,43 +1,39 @@
 "use client";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { AddressFormValues, AddressSchema } from "../schema/addressesSchema";
 import { Label } from "@/components/ui/label";
+import useBillingForm from "./hooks/useBillingForm";
 
-const BillingForm = ({
-  onNext,
-}: {
-  onNext: () => void;
-}) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<AddressFormValues>({
-    resolver: zodResolver(AddressSchema),
+const BillingForm = ({ onNext }: { onNext: () => void }) => {
+  const { register, handleSubmit, onSubmit, errors } = useBillingForm({
+    onNext,
   });
-
-  const onSubmit = (data: AddressFormValues) => {
-    onNext();
-  };
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-md space-y-4 dark bg-dark"
     >
       <div>
+        <Label>Société</Label>
+        <Input
+          {...register("company")}
+          placeholder="Société"
+          className="w-full p-2 border rounded-md"
+        />
+        {errors.company && (
+          <p className="text-red-600 text-sm mt-1">{errors.company.message}</p>
+        )}
+      </div>
+      <div>
         <Label>Prénom</Label>
         <Input
-          {...register("firstName")}
+          {...register("first_name")}
           placeholder="Prénom"
           className="w-full p-2 border rounded-md"
         />
-        {errors.firstName && (
+        {errors.first_name && (
           <p className="text-red-600 text-sm mt-1">
-            {errors.firstName.message}
+            {errors.first_name.message}
           </p>
         )}
       </div>
@@ -45,12 +41,14 @@ const BillingForm = ({
       <div>
         <Label>Nom</Label>
         <Input
-          {...register("lastName")}
+          {...register("last_name")}
           placeholder="Nom"
           className="w-full p-2 border rounded-md"
         />
-        {errors.lastName && (
-          <p className="text-red-600 text-sm mt-1">{errors.lastName.message}</p>
+        {errors.last_name && (
+          <p className="text-red-600 text-sm mt-1">
+            {errors.last_name.message}
+          </p>
         )}
       </div>
 
@@ -119,13 +117,13 @@ const BillingForm = ({
       <div>
         <Label>Code postal</Label>
         <Input
-          {...register("postalCode")}
+          {...register("postal_code")}
           placeholder="Code postal"
           className="w-full p-2 border rounded-md"
         />
-        {errors.postalCode && (
+        {errors.postal_code && (
           <p className="text-red-600 text-sm mt-1">
-            {errors.postalCode.message}
+            {errors.postal_code.message}
           </p>
         )}
       </div>

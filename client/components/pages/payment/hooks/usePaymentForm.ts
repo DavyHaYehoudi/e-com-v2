@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
+import { useDispatch } from "react-redux";
+import { reset } from "@/redux/slice/priceAdjustmentsSlice";
 
 const usePaymentForm = () => {
   const stripe = useStripe();
@@ -7,6 +9,7 @@ const usePaymentForm = () => {
 
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!stripe) {
@@ -21,7 +24,7 @@ const usePaymentForm = () => {
       return;
     }
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      switch (paymentIntent&&paymentIntent.status) {
+      switch (paymentIntent && paymentIntent.status) {
         case "succeeded":
           setMessage("Payment réussi !");
           break;
@@ -40,6 +43,7 @@ const usePaymentForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch(reset());
     // const { orderNumber } = await handleCreateOrder();
 
     if (!stripe || !elements) {
@@ -57,7 +61,7 @@ const usePaymentForm = () => {
 
     if (error) {
       if (error.type === "card_error" || error.type === "validation_error") {
-        setMessage(error.message||"");
+        setMessage(error.message || "");
       } else {
         setMessage("An unexpected error occurred.");
       }
@@ -66,7 +70,7 @@ const usePaymentForm = () => {
   };
 
   const paymentElementOptions = {
-    layout: "tabs" as const,  // Typage explicite pour éviter l'erreur
+    layout: "tabs" as const, // Typage explicite pour éviter l'erreur
   };
 
   return {

@@ -8,7 +8,7 @@ const ProgressBarCheckout = ({ step }: { step: number }) => {
     <div className="flex items-center flex-wrap gap-5 mb-8 relative">
       <div
         className={`flex items-center ${
-          step >= 1 ? "text-green-500" : "text-gray-400"
+          step > 1 ? "text-green-500" : "text-gray-400"
         }`}
       >
         <Mail className="w-6 h-6 mr-2" />
@@ -16,7 +16,7 @@ const ProgressBarCheckout = ({ step }: { step: number }) => {
       </div>
       <div
         className={`flex items-center ${
-          step >= 2 ? "text-green-500" : "text-gray-400"
+          step > 2 ? "text-green-500" : "text-gray-400"
         }`}
       >
         <Home className="w-6 h-6 mr-2" />
@@ -24,7 +24,7 @@ const ProgressBarCheckout = ({ step }: { step: number }) => {
       </div>
       <div
         className={`flex items-center ${
-          step >= 3 ? "text-green-500" : "text-gray-400"
+          step > 3 ? "text-green-500" : "text-gray-400"
         }`}
       >
         <MapPin className="w-6 h-6 mr-2" />
@@ -32,7 +32,7 @@ const ProgressBarCheckout = ({ step }: { step: number }) => {
       </div>
       <div
         className={`flex items-center ${
-          step >= 4 ? "text-green-500" : "text-gray-400"
+          step > 4 ? "text-green-500" : "text-gray-400"
         }`}
       >
         <CreditCard className="w-6 h-6 mr-2" />

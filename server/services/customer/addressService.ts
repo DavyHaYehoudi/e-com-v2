@@ -25,7 +25,7 @@ export const updateCustomerAddressService = async (
       type,
       addressData
     );
-  } else {
+  } else {    
     await addressRepository.createCustomerAddressRepository(
       customerId,
       type,

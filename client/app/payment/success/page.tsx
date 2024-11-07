@@ -14,9 +14,6 @@ import { CheckCircle, ArrowRightCircle, Home } from "lucide-react";
 const PaymentSuccess = () => {
   const [isOpen, setIsOpen] = useState(true);
 const orderNumber = 123456789
-  const handleClose = () => {
-    setIsOpen(false);
-  };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

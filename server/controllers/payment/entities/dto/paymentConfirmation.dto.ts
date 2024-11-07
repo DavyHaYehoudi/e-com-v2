@@ -3,6 +3,8 @@ import { z } from "zod";
 // Schéma pour valider l'adresse dans une commande
 export const addressSchema = z.object({
   company: z.string().optional(),
+  first_name: z.string().optional(),
+  last_name: z.string().optional(),
   email: z.string().email(),
   phone: z.string(),
   street_number: z.string(),

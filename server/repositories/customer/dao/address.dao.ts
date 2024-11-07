@@ -1,8 +1,10 @@
-import { RowDataPacket } from 'mysql2';
+import { RowDataPacket } from "mysql2";
 
 export interface AddressRow extends RowDataPacket {
   id: number;
   company: string;
+  first_name: string;
+  last_name: string;
   email: string;
   phone: string;
   street_number: string;

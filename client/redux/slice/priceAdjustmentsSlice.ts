@@ -40,7 +40,9 @@ const priceAdjustmentsSlice = createSlice({
           (id) => id !== action.payload.id
         );
       } else if (action.payload.type === "add" && action.payload.id) {
-        state.giftCards = [...state.giftCards, action.payload.id];
+        state.giftCards = Array.from(
+          new Set([...state.giftCards, action.payload.id])
+        );
       }
     },
     setShippingMethod(state, action: PayloadAction<number>) {
