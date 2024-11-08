@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { OrderResponse } from "@/app/types/OrderCreate";
 import { reset } from "@/redux/slice/priceAdjustmentsSlice";
-import Link from "next/link";
+import { clearCart } from "@/redux/slice/cartSlice";
 
 const PaymentSuccess = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -56,22 +56,31 @@ const PaymentSuccess = () => {
       requiredCredentials: true,
     }
   );
+
+  const { triggerFetch: triggerClearCart } = useFetch("/customer/cart", {
+    method: "PUT",
+    requiredCredentials: true,
+  });
+
   useEffect(() => {
     if (!orderCreated) {
       triggerFetch(formatData);
     } else {
       setConfirmationNumber(orderCreated.order.confirmation_number);
       dispatch(reset());
+      dispatch(clearCart());
+      triggerClearCart({ items: [], gift_cards: [] });
     }
   }, [orderCreated]);
 
   if (!orderCreated) {
     return (
       <div className="flex justify-center my-20 text-center">
-        <div >
-            <p>Création de votre commande en cours...</p>
-            <p className="flex justify-center my-5"><Loader className="animate-spin text-gray-500" size={96} /></p>
-        
+        <div>
+          <p>Création de votre commande en cours...</p>
+          <p className="flex justify-center my-5">
+            <Loader className="animate-spin text-gray-500" size={96} />
+          </p>
         </div>
       </div>
     );

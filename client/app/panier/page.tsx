@@ -25,7 +25,7 @@ const Cart = () => {
               productsInCart={productsInCart}
               removeProduct={removeProduct}
             />
-            {calculateTotalCashbackCartToEarn(productsInCart.items) > 0 && (
+            {calculateTotalCashbackCartToEarn(productsInCart.items) >= 0 && (
               <ProceedToPayment productsInCart={productsInCart} />
             )}
           </div>

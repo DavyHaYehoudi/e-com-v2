@@ -18,8 +18,6 @@ const CartRowGiftcard: React.FC<CartRowGiftcardProps> = ({
   productsInCart,
   removeProduct,
 }) => {
-  const [quantity, setQuantity] = useState(1);
-
   return (
     productsInCart &&
     productsInCart.giftCards &&
@@ -37,7 +35,12 @@ const CartRowGiftcard: React.FC<CartRowGiftcardProps> = ({
         <TableCell>Carte cadeau pour soi ou à offrir.</TableCell>
 
         {/* Cellule de la quantité et du prix */}
-        <TableCell>{sumPriceArticle(quantity, giftcard.amount)}</TableCell>
+        <TableCell>
+          <span className="whitespace-nowrap">
+            {" "}
+            {sumPriceArticle(giftcard.quantity, giftcard.amount)}
+          </span>
+        </TableCell>
 
         {/* Cellule vide pour le prix de la réduction */}
         <TableCell></TableCell>

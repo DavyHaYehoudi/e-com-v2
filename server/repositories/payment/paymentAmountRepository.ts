@@ -21,7 +21,7 @@ export async function getCartItemsRepository(
 
   const sql = `
       SELECT 
-        ci.product_id, ci.quantity, p.name, p.price, p.weight,p.cash_back, p.is_published, p.is_archived
+        ci.product_id, ci.quantity, ci.variant, p.name, p.price, p.weight, p.cash_back, p.is_published, p.is_archived
       FROM cart_item ci
       JOIN product p ON ci.product_id = p.id
       WHERE ci.cart_id = ? AND p.is_published = TRUE AND p.is_archived = FALSE;

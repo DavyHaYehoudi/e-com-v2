@@ -18,10 +18,10 @@ const GiftcardPage = () => {
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newAmount = parseInt(e.target.value);
-    if (newAmount < 20) {
+    if (newAmount <= 0) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        amount: "Le montant doit être au moins 20€.",
+        amount: "Le montant doit être supérieur à 0.",
       }));
     } else {
       setErrors((prevErrors) => ({ ...prevErrors, amount: null }));
@@ -59,9 +59,9 @@ const GiftcardPage = () => {
 
           <div className="flex-1 space-y-4 text-justify mx-2">
             <p>
-              Achetez une carte cadeau et elle sera ajoutée automatiquement à
-              votre compte. Un code secret lui sera attribué et vous seul en
-              aurez l&apos;accès.
+              Achetez une carte cadeau, du montant de votre choix, et elle sera
+              ajoutée automatiquement à votre compte. Un code secret lui sera
+              attribué et vous seul en aurez l&apos;accès.
             </p>
             <p>
               Si vous souhaitez l&apos;offrir, il vous suffira simplement de
@@ -83,15 +83,11 @@ const GiftcardPage = () => {
         </div>
         <div className="mt-20 mx-2 lg:mx-auto lg:w-3/4 shadow-xl rounded p-4 dark:shadow-xl dark:border-2 dark:border-white">
           <div className="mt-5 w-full flex justify-center items-center gap-2 flex-wrap">
-            <Label>
-              Montant de la carte cadeau
-              <br />
-              <span className="p-2 italic">- minimum 20€ -</span>
-            </Label>
+            <Label>Montant de la carte cadeau</Label>
             <Input
               type="number"
               className="w-1/4"
-              min={20}
+              min={1}
               value={amount}
               onChange={handleAmountChange}
             />

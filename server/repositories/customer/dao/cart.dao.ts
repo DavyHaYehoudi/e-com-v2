@@ -41,6 +41,7 @@ export interface CartGiftCardInput {
 export interface CartItemToAmountRow extends RowDataPacket {
   id: number;
   quantity: number;
+  variant:string | null;
   name: string;
   price: number;
   cash_back: number;

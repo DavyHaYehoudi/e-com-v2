@@ -50,6 +50,7 @@ export interface orderItem {
   discount_percentage: number | null; // Montant de la réduction
   price_before_discount: number; // Prix du produit avant la promotion
   article_number: number; // Nombre de produit concernés par la promotion
+  variant: string | null; // Variété du produit (peut être null)
 }
 // Interface pour la réponse PaymentAmount
 export interface PaymentAmountResponse {

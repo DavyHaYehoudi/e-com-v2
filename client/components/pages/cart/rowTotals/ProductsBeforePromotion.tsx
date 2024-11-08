@@ -17,13 +17,16 @@ const ProductsBeforePromotion: React.FC<ProductsBeforePromotionProps> = ({
         Total des produits
       </TableCell>
       <TableCell className="text-right border-b border-gray-500">
-        {productsInCart &&
-          formatPrice(
-            calculateTotalCartBeforeDiscount(
-              productsInCart.items,
-              productsInCart.giftCards
-            )
-          )}
+        <span className="whitespace-nowrap">
+          {" "}
+          {productsInCart &&
+            formatPrice(
+              calculateTotalCartBeforeDiscount(
+                productsInCart.items,
+                productsInCart.giftCards
+              )
+            )}
+        </span>
       </TableCell>
     </TableRow>
   );

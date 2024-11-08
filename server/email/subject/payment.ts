@@ -80,7 +80,7 @@ export const sendPaymentConfirmationEmail = async (
             (product: ProductSendEmail) => `
           <tr>
             <td style="border: 1px solid #ddd; padding: 8px;">${
-              product.name
+              product.name + " " + product.variant
             }</td>
             <td style="border: 1px solid #ddd; padding: 8px;">${
               product.price_before_discount
@@ -88,9 +88,9 @@ export const sendPaymentConfirmationEmail = async (
             <td style="border: 1px solid #ddd; padding: 8px;">${
               product.discount_percentage
                 ? product.discount_percentage + "%"
-                : "Aucune"
+                : "Aucun"
             }</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">1</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${product.article_number}</td>
           </tr>
         `
           )

@@ -2222,6 +2222,9 @@ paths:
                   clientSecret:
                     type: string
                     example: Pi_T5938759283574NJ_secret_209348572039485720
+                  amount:
+                    type: integer
+                    example: 104.32
         '401':
           description: Unauthorized - Customer is not authenticated
       security:
