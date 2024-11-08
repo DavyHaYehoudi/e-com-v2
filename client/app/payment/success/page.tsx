@@ -16,6 +16,8 @@ import { RootState } from "@/redux/store/store";
 import { OrderResponse } from "@/app/types/OrderCreate";
 import { reset } from "@/redux/slice/priceAdjustmentsSlice";
 import { clearCart } from "@/redux/slice/cartSlice";
+import { setCashback } from "@/redux/slice/cashbackSlice";
+import useCashback from "@/app/hooks/useCashback";
 
 const PaymentSuccess = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -62,6 +64,8 @@ const PaymentSuccess = () => {
     requiredCredentials: true,
   });
 
+  const {getCashbackOneCustomer}=useCashback()
+
   useEffect(() => {
     if (!orderCreated) {
       triggerFetch(formatData);
@@ -69,6 +73,7 @@ const PaymentSuccess = () => {
       setConfirmationNumber(orderCreated.order.confirmation_number);
       dispatch(reset());
       dispatch(clearCart());
+      getCashbackOneCustomer()
       triggerClearCart({ items: [], gift_cards: [] });
     }
   }, [orderCreated]);

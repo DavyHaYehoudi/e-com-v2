@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,8 +10,9 @@ import { cashbackToUseSchema } from "./cashbackToUseSchema";
 import { formatPrice } from "@/app/utils/pricesFormat";
 import { Label } from "@/components/ui/label";
 import useCashback from "@/app/hooks/useCashback";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCashBackToSpend } from "@/redux/slice/priceAdjustmentsSlice";
+import { RootState } from "@/redux/store/store";
 
 type FormValues = {
   cashbackAmount: number;
@@ -21,11 +23,8 @@ const CashbackToUse = ({
 }: {
   onCashbackSelect: (amount: number) => void;
 }) => {
-  const { availableCashback: cashbackCustomer, getCashbackOneCustomer } =
-    useCashback();
-  useEffect(() => {
-    getCashbackOneCustomer();
-  }, []);
+  const cashbackCustomer = useSelector((state: RootState) => state.cashback.cashback_total)
+
   const [isSubmitted, setIsSubmitted] = useState(false);
   const {
     control,
