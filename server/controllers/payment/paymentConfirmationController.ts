@@ -11,12 +11,13 @@ export const getPaymentConfirmationController = async (
 ) => {
   try {
     const customerId = (req.user as CustomJwtPayload).id;
-    console.log('req.body de getPaymentConfirmationController:', req.body) 
+    // console.log('req.body de getPaymentConfirmationController:', req.body) 
     const validatedData = createOrderSchema.parse(req.body);
     const paymentConfirmation = await createOrderService( 
       customerId,
       validatedData
     );
+    console.log('paymentConfirmation:', paymentConfirmation)
     res.status(201).json(paymentConfirmation);
   } catch (error) {
     console.error(error);

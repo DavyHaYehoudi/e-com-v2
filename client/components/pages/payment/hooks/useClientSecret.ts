@@ -37,15 +37,15 @@ const useClientSecret = () => {
     method: "POST",
     requiredCredentials: true,
   });
+
   useEffect(() => {
-    triggerFetch({ bodyData });
-  }, []);
-  useEffect(() => {
-    if (data) {
+    if (!data) {
+      triggerFetch({ bodyData });
+    } else {
       setClientSecret(data.clientSecret);
       setAmount(data.amount);
     }
-  }, [data]);
+  }, [data, triggerFetch]);
   return { clientSecret, amount };
 };
 export default useClientSecret;

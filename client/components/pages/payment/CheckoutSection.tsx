@@ -1,17 +1,18 @@
-import { Elements } from '@stripe/react-stripe-js';
-import CheckoutForm from './CheckoutForm';
-import getStripe from './utils/get-stripejs';
-import useClientSecret from './hooks/useClientSecret';
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutForm from "./CheckoutForm";
+import getStripe from "./utils/get-stripejs";
+import useClientSecret from "./hooks/useClientSecret";
 
 const CheckoutSection = () => {
-  const  {clientSecret,amount}  = useClientSecret();
+  const { clientSecret, amount } = useClientSecret();
   const appearance = {
-    theme: "stripe" as const, 
+    theme: "stripe" as const,
   };
   const options = {
     clientSecret, // Ajout de clientSecret dans les options
     appearance,
   };
+  
   const stripePromise = getStripe();
 
   return (

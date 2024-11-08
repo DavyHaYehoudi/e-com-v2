@@ -9,28 +9,73 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { CheckCircle, ArrowRightCircle, Home } from "lucide-react";
+import { CheckCircle, ArrowRightCircle, Home, Loader } from "lucide-react";
 import { useFetch } from "@/service/hooks/useFetch";
-// import { useSelector } from "react-redux";
-// import { RootState } from "@/redux/store/store";
-import { useSearchParams } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
+import { OrderResponse } from "@/app/types/OrderCreate";
+import { reset } from "@/redux/slice/priceAdjustmentsSlice";
+import Link from "next/link";
 
 const PaymentSuccess = () => {
   const [isOpen, setIsOpen] = useState(true);
-//   const orderPendingCreated = useSelector(
-//     (state: RootState) => state.payment.createPendingOrder
-//   );
-  const searchParams = useSearchParams();
-  const confirmationNumber = searchParams.get("confirmation_number");
-  const { triggerFetch } = useFetch("/payment/accepted", {
-    method: "PUT",
-    requiredCredentials: true,
-  });
-  useEffect(() => {
-    if (confirmationNumber) {
-      triggerFetch({ bodyData: confirmationNumber });
+  const [confirmationNumber, setConfirmationNumber] = useState("");
+  const dispatch = useDispatch();
+
+  const giftCardIds = useSelector(
+    (state: RootState) => state.priceAdjustments.giftCards
+  );
+  const codePromo = useSelector(
+    (state: RootState) => state.priceAdjustments.promoCode
+  );
+  const shippingMethodId = useSelector(
+    (state: RootState) => state.priceAdjustments.shippingMethod
+  );
+  const cashBackToSpend = useSelector(
+    (state: RootState) => state.priceAdjustments.cashBackToSpend
+  );
+  const order_address_shipping = useSelector(
+    (state: RootState) => state.addresses.shipping
+  );
+  const order_address_billing = useSelector(
+    (state: RootState) => state.addresses.billing
+  );
+  const formatData = {
+    giftCardIds,
+    shippingMethodId,
+    cashBackToSpend,
+    codePromo,
+    order_address_billing,
+    order_address_shipping,
+  };
+
+  const { data: orderCreated, triggerFetch } = useFetch<OrderResponse>(
+    "/payment/confirm",
+    {
+      method: "POST",
+      requiredCredentials: true,
     }
-  }, [triggerFetch, confirmationNumber]);
+  );
+  useEffect(() => {
+    if (!orderCreated) {
+      triggerFetch(formatData);
+    } else {
+      setConfirmationNumber(orderCreated.order.confirmation_number);
+      dispatch(reset());
+    }
+  }, [orderCreated]);
+
+  if (!orderCreated) {
+    return (
+      <div className="flex justify-center my-20 text-center">
+        <div >
+            <p>Création de votre commande en cours...</p>
+            <p className="flex justify-center my-5"><Loader className="animate-spin text-gray-500" size={96} /></p>
+        
+        </div>
+      </div>
+    );
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -47,8 +92,7 @@ const PaymentSuccess = () => {
         <div className="py-4 text-center">
           {confirmationNumber && (
             <p className="text-lg">
-              Votre numéro de commande :{" "}
-              <strong>{confirmationNumber}</strong>
+              Votre numéro de commande : <strong>{confirmationNumber}</strong>
             </p>
           )}
         </div>

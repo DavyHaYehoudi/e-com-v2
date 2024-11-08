@@ -14,12 +14,12 @@ export const getPaymentIntentController = async (
 ) => {
   try {
     const customerId = (req.user as CustomJwtPayload).id;
-    console.log('req.body):', req.body.bodyData) 
+    // console.log('req.body dans intent conttroller):', req.body.bodyData) 
     const preprocessedQuery = preprocessPaymentAmountQuery(req.body.bodyData);
     const validatedData = paymentAmountSchema.parse(preprocessedQuery);
     const { codePromo, giftCardIds, shippingMethodId, cashBackToSpend,emailCustomer } =
       validatedData;
-      console.log('validatedData:', validatedData)
+      // console.log('validatedData:', validatedData)
     const paymentIntent = await getPaymentIntentService(
       customerId,
       shippingMethodId,
