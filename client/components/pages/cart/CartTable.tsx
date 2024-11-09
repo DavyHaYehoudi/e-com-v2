@@ -13,7 +13,6 @@ import RowCashbackToUse from "./rowTotals/cashback/RowCashbackToUse";
 import { CartResponse } from "@/app/types/CartTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import { setShippingMethod } from "@/redux/slice/priceAdjustmentsSlice";
 import { useDelivery } from "./hooks/useDelivery";
 import { useDiscounts } from "./hooks/useDiscounts";
 import { useGiftCards } from "./hooks/useGiftCards";
@@ -30,13 +29,12 @@ const CartTable: React.FC<CartRowItemProps> = ({
   productsInCart,
   removeProduct,
 }) => {
-  const dispatch = useDispatch();
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );
 
-  const { deliveries, selectedDelivery, handleDeliveryChange, deliveryPrice } =
-    useDelivery(productsInCart);
+  const { deliveries, handleDeliveryChange, deliveryPrice, selectedDelivery } =
+    useDelivery();
   const {
     codePromoPercentage,
     selectedCashback,
@@ -50,9 +48,7 @@ const CartTable: React.FC<CartRowItemProps> = ({
   const onDiscount = (discount_percentage: number) => {
     applyDiscount(discount_percentage);
   };
-  if (selectedDelivery) {
-    dispatch(setShippingMethod(selectedDelivery.id));
-  }
+
   return (
     <Table>
       <TableBody>

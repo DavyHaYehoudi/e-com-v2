@@ -12,6 +12,7 @@ const Cart = () => {
   const cartCustomer = useSelector((state: RootState) => state.cart);
   const { cart, items, giftCards } = cartCustomer;
   const productsInCart = { cart, items, giftCards };
+  
   return (
     <main>
       <h1 className="uppercase text-center m-10">mon panier</h1>

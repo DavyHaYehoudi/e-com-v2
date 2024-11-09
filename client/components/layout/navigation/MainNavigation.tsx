@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Navbar from "./Navbar";
 import { Button } from "@/components/ui/button";
 import { BadgeEuro, LogOut, Menu, X } from "lucide-react";
@@ -10,7 +10,6 @@ import LoginModal from "@/components/modules/login/LoginModal";
 import { formatPrice } from "@/app/utils/pricesFormat";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import useCashback from "@/app/hooks/useCashback";
 
 export function MainNavigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,12 +20,9 @@ export function MainNavigation() {
     (state: RootState) => state.auth.user?.email
   );
   const { handleAuthentication, handleLogout } = useAuth();
-  // Fonction pour fermer le menu
-  const { availableCashback: cashbackCustomer, getCashbackOneCustomer } =
-    useCashback();
-  useEffect(() => {
-    getCashbackOneCustomer();
-  }, []);
+  const cashbackCustomer = useSelector(
+    (state: RootState) => state.cashback.cashback_total
+  );
   return (
     <header className="bg-dark">
       <nav className="container mx-auto flex justify-between p-4">
@@ -60,8 +56,10 @@ export function MainNavigation() {
               <div className="flex items-center gap-2 text-sm py-2">
                 <BadgeEuro className="w-6 h-6" />
                 <span>
-                  Cashback{" "}<span className="bg-blue-500 text-[var(--whiteSmoke)] p-1 rounded">{cashbackCustomer > 0 ? formatPrice(cashbackCustomer) : ""}</span>
-                  
+                  Cashback{" "}
+                  <span className="bg-blue-500 text-[var(--whiteSmoke)] p-1 rounded">
+                    {cashbackCustomer > 0 ? formatPrice(cashbackCustomer) : ""}
+                  </span>
                 </span>
               </div>
               <hr className="border-t-1 border-[#282c34] dark:border-[var(--whiteSmoke)]" />

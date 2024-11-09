@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,6 @@ import { CheckCircleIcon, BadgeEuro } from "lucide-react";
 import { cashbackToUseSchema } from "./cashbackToUseSchema";
 import { formatPrice } from "@/app/utils/pricesFormat";
 import { Label } from "@/components/ui/label";
-import useCashback from "@/app/hooks/useCashback";
 import { useDispatch, useSelector } from "react-redux";
 import { setCashBackToSpend } from "@/redux/slice/priceAdjustmentsSlice";
 import { RootState } from "@/redux/store/store";
@@ -77,7 +76,7 @@ const CashbackToUse = ({
                 {formatPrice(cashbackCustomer)}
               </span>{" "}
             </Label>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mt-1">
               <Input
                 type="number"
                 placeholder="Montant du cashback"

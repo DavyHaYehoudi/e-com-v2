@@ -62,7 +62,7 @@ const GiftcardToUse = ({
     <TableCell colSpan={5}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Label>Code carte cadeau</Label>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mt-1">
           <Input
             type="text"
             placeholder="Code carte cadeau"
