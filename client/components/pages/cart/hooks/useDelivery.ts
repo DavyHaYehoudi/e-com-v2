@@ -9,34 +9,33 @@ import { setShippingMethod } from "@/redux/slice/priceAdjustmentsSlice";
 
 export const useDelivery = () => {
   const [deliveries, setDeliveries] = useState<DeliveryType[]>([]);
-
   const dispatch = useDispatch();
-  const productsInCart = useSelector((state: RootState) => state.cart);
-  const isItemsInCart = useSelector((state: RootState) => state.cart.items);
+
+  const { items, giftCards } = useSelector((state: RootState) => state.cart);
+  const isOnlyGiftcardsInCart = items.length === 0 && giftCards.length > 0;
   const selectedDeliveryId = useSelector(
     (state: RootState) => state.priceAdjustments.shippingMethod
   );
-  const defaultDelivery = () => {
-    // S'il n'y a ni items dans le panier ni cartes cadeaux alors le panier est affiché vide.
-    // Si le panier s'affiche et que les items sont vides alors c'est qu'il ne contient que des cartes cadeaux.
-    const isOnlyGiftcardsInCart = isItemsInCart.length === 0;
-    return (
-      deliveries?.find((delivery) =>
-        isOnlyGiftcardsInCart ? delivery.is_free : delivery.is_default
-      ) || null
-    );
-  };
+
+  const defaultDelivery = () =>
+    deliveries?.find((delivery) =>
+      isOnlyGiftcardsInCart ? delivery.is_free : delivery.is_default
+    ) || null;
+
   useEffect(() => {
-    const defaultDeliveryInit = defaultDelivery();
-    if (defaultDeliveryInit) {
-      dispatch(setShippingMethod(defaultDeliveryInit.id));
+    if (deliveries.length > 0) {
+      const defaultDeliveryInit = defaultDelivery();
+      if (defaultDeliveryInit) {
+        dispatch(setShippingMethod(defaultDeliveryInit.id));
+      }
     }
-  }, [deliveries, isItemsInCart]);
+  }, [deliveries, isOnlyGiftcardsInCart, dispatch]);
+
   const { data, triggerFetch } = useFetch<DeliveryType[]>("/deliveries");
 
   useEffect(() => {
     triggerFetch();
-  }, []);
+  }, [triggerFetch]);
 
   useEffect(() => {
     if (data) {
@@ -50,15 +49,16 @@ export const useDelivery = () => {
       dispatch(setShippingMethod(selected.id));
     }
   };
+
   const selectedDelivery =
     deliveries.find((delivery) => delivery.id === selectedDeliveryId) || null;
 
-  const deliveryPrice =
-    productsInCart &&
-    calculateDeliveryPrice({
-      selectedDelivery,
-      totalWeight: calculateTotalWeightCart(productsInCart.items),
-    });
+  const deliveryPrice = selectedDelivery
+    ? calculateDeliveryPrice({
+        selectedDelivery,
+        totalWeight: calculateTotalWeightCart(items),
+      })
+    : 0;
 
   return { deliveries, selectedDelivery, handleDeliveryChange, deliveryPrice };
 };

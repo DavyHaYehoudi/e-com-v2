@@ -12,7 +12,7 @@ interface PriceAdjustmentsState {
 }
 
 const initialState: PriceAdjustmentsState = {
-  promoCode: "", 
+  promoCode: "",
   giftCards: [],
   shippingMethod: null,
   cashBackToSpend: 0,
@@ -32,7 +32,7 @@ const priceAdjustmentsSlice = createSlice({
       action: PayloadAction<{
         id?: number;
         code?: string;
-        type: "add" | "remove";
+        type: "add" | "remove" | "reset";
       }>
     ) {
       if (action.payload.type === "remove") {
@@ -43,6 +43,8 @@ const priceAdjustmentsSlice = createSlice({
         state.giftCards = Array.from(
           new Set([...state.giftCards, action.payload.id])
         );
+      } else if (action.payload.type === "reset") {
+        state.giftCards = [];
       }
     },
     setShippingMethod(state, action: PayloadAction<number>) {

@@ -26,7 +26,7 @@ const RowTotalCart: React.FC<RowTotalCartProps> = ({
       </TableCell>
       <TableCell className="text-right border-b border-gray-500 whitespace-nowrap">
         {productsInCart &&
-          deliveryPrice &&
+          deliveryPrice !== null &&
           formatPrice(
             calculateTotalCartAfterCashback(
               productsInCart.items,

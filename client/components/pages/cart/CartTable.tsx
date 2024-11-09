@@ -34,7 +34,8 @@ const CartTable: React.FC<CartRowItemProps> = ({
   );
 
   const { deliveries, handleDeliveryChange, deliveryPrice, selectedDelivery } =
-    useDelivery();
+  useDelivery();
+  console.log('deliveryPrice dans CartTable:', deliveryPrice)
   const {
     codePromoPercentage,
     selectedCashback,
