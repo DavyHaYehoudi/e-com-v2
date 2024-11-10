@@ -20,9 +20,9 @@ interface ProductReviewSheetProps {
   productId: number;
 }
 
-const ProductReviewSheet: React.FC<ProductReviewSheetProps> = () => {
+const ProductReviewSheet: React.FC<ProductReviewSheetProps> = ({productId}) => {
   const [reviews, setReviews] = useState<ReviewItemType[]>([]);
-  const { data, triggerFetch } = useFetch<ReviewItemType[]>("/reviews");
+  const { data, triggerFetch } = useFetch<ReviewItemType[]>(`/reviews/${productId}`);
 
   useEffect(() => {
     triggerFetch();

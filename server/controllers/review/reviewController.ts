@@ -19,6 +19,22 @@ export const getAllReviewsController = async (
     next(error);
   }
 };
+// Récupérer tous les commentaires d'un produit
+export const getReviewsOfOneProductController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const productId = parseInt(req.params.productId);
+    const reviews = await reviewService.getReviewsOfOneProductService(
+      productId
+    );
+    res.json(reviews);
+  } catch (error) {
+    next(error);
+  }
+};
 // Récupérer un commentaire
 export const getReviewController = async (
   req: Request,
@@ -78,7 +94,7 @@ export const approveReviewController = async (
   try {
     const reviewId = parseInt(req.params.reviewId);
     const toggle_validate = req.body.toggle_validate;
-    await reviewService.approveReviewService(reviewId,toggle_validate);
+    await reviewService.approveReviewService(reviewId, toggle_validate);
     res.status(204).json();
   } catch (error) {
     console.error(error);

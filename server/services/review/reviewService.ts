@@ -1,9 +1,16 @@
-import { CreateReviewDTO, UpdateReviewCustomerDTO } from "../../controllers/review/entities/dto/review.dto";
+import {
+  CreateReviewDTO,
+  UpdateReviewCustomerDTO,
+} from "../../controllers/review/entities/dto/review.dto";
 import * as reviewService from "../../repositories/review/reviewRepository.js";
 
 // Récupérer tous les commentaires
 export const getAllReviewsService = async () => {
   return await reviewService.getAllReviewsRepository();
+};
+// Récupérer tous les commentaires d'un produit
+export const getReviewsOfOneProductService = async (productId: number) => {
+  return await reviewService.getReviewsOfOneProductRepository(productId);
 };
 // Récupérer un commentaire
 export const getReviewService = async (reviewId: number) => {
@@ -33,8 +40,11 @@ export const updateReviewService = async (
   );
 };
 // ADMIN - Approuver un commentaire
-export const approveReviewService = async (reviewId: number,toggle_validate: boolean) => {
-  await reviewService.approveReviewRepository(reviewId,toggle_validate);
+export const approveReviewService = async (
+  reviewId: number,
+  toggle_validate: boolean
+) => {
+  await reviewService.approveReviewRepository(reviewId, toggle_validate);
 };
 // Supprimer un commentaire
 export const deleteReviewService = async (

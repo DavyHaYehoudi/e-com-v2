@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { getAllReviewsController } from "../../controllers/review/reviewController.js";
+import { getReviewsOfOneProductController } from "../../controllers/review/reviewController.js";
 
 const router = Router();
 
 // review
-router.get("/", getAllReviewsController);
+router.get("/:productId", getReviewsOfOneProductController);
 
 export default router;

@@ -60,6 +60,8 @@ paths:
                 required:
                   - email
                   - otp
+                  - wishlist
+                  - cart
                 type: object
                 properties:
                   email:
@@ -68,6 +70,43 @@ paths:
                   otp:
                     type: string
                     example: 710933
+                  wishlist:
+                    type: array
+                    items:
+                      type: integer
+                      example: 
+                        - 1
+                        - 23
+                        - 21
+                  cart:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        items:
+                          type: array
+                          items: 
+                            type: object
+                            properties:
+                              product_id:
+                                type: integer
+                                example: 4
+                              quantity: 
+                                type: integer
+                                example: 2
+                              variant:
+                                type: string
+                                example: rouge/XL
+                  gift_cards:
+                    type: object
+                    properties:
+                      amount:
+                        type: integer
+                        example: 16
+                      quantity:
+                        type: integer
+                        example: 2
+                      
         required: true
       responses:
         '201':
@@ -1741,21 +1780,30 @@ paths:
           description: Not found - The code promo doesn't exist.
       security:
         - api_key: []
-  /reviews:
+  /reviews/{productId}:
     get:
       tags:
         - review
-      summary: Finds all reviews.
-      description: Finds all reviews.
+      summary: Show all the product reviews.
+      description: Show all the product reviews.
+      parameters:
+        - name: productId
+          in: path
+          description: Id of the product.
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '200':
           description: successful operation
           content:
             application/json:
-              schema:
+              schema: 
                 type: array
                 items:
-                  $ref: '#/components/schemas/ReviewGET'    
+                  $ref: '#/components/schemas/ReviewGET'       
+  /reviews:
     post:
       tags:
         - review
@@ -1861,6 +1909,25 @@ paths:
           description: Unauthorized - Customer is not authenticated
         '404':
           description: Not found - The customer or the review doesn't exist.
+      security:
+        - api_key: []
+  /admin/reviews:
+    get:
+      tags:
+        - review
+      summary: Finds all reviews.
+      description: Finds all reviews.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReviewGET'    
+        '403':
+          description: Unauthorized - Admin is not authenticated
       security:
         - api_key: []
   /admin/reviews/{reviewId}:
@@ -3797,12 +3864,15 @@ components:
     ReviewGET:
       type: object
       properties:
+        id:
+          type: integer
+          example: 21
         order_id:
-          type: string
-          example: 102938475
+          type: integer
+          example: 5
         product_id: 
-          type: string
-          example: 0928374958
+          type: integer
+          example: 10
         review_text:
           type: string
           example: Super product !

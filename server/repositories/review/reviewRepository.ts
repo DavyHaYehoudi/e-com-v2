@@ -12,6 +12,11 @@ export const getAllReviewsRepository = async () => {
   const results = await query<ReviewRow[]>(sql);
   return results;
 };
+export const getReviewsOfOneProductRepository = async (productId: number) => {
+  const sql = `SELECT * FROM review WHERE product_id =? AND is_validate_by_admin = 1`;
+  const results = await query<ReviewRow[]>(sql, [productId]);
+  return results;
+};
 export const getReviewRepository = async (reviewId: number) => {
   const sql = `SELECT * FROM review 
    WHERE id = ?`;

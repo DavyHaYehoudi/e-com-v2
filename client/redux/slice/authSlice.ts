@@ -55,6 +55,8 @@ const authSlice = createSlice({
       state.isTokenExpired = true;
       state.isAuthenticated = false;
       state.isVisitor = true;
+      state.token = null;
+      state.user = null;
     },
   },
 });
