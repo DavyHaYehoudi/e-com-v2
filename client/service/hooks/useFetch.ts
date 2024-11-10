@@ -1,8 +1,10 @@
 "use client";
 import { useState, useCallback } from "react";
 import { httpHelper } from "../http";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
+import { isTokenExpired } from "@/app/utils/token";
+import { setTokenExpired } from "@/redux/slice/authSlice";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
@@ -23,12 +25,16 @@ export const useFetch = <T, B = unknown>(
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const token = useSelector((state: RootState) => state.auth.token);
+  const dispatch = useDispatch();
 
   const triggerFetch = useCallback(
     async (bodyData?: B) => {
       setLoading(true);
       setError(null);
-
+      if (token && isTokenExpired(token)) {
+        dispatch(setTokenExpired());
+        return;
+      }
       try {
         // Si bodyData est undefined, le rendre par défaut à un objet vide
         const payload = bodyData !== undefined ? bodyData : ({} as B);

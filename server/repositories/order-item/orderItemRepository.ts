@@ -20,8 +20,8 @@ export const createOrderItemRepository = async (
   const createdOrderItems = [];
   const sql = `
       INSERT INTO order_item (
-        customer_id, order_id, product_id, article_number, price_before_discount, discount_percentage
-      ) VALUES (?, ?, ?, ?, ?, ?)
+        customer_id, order_id, product_id, article_number, price_before_discount, discount_percentage, variant
+      ) VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
 
   for (const item of productPromotionDetails) {
@@ -30,6 +30,7 @@ export const createOrderItemRepository = async (
       discount_percentage,
       price_before_discount,
       article_number,
+      variant,
     } = item;
     // Récupérer le nom du produit depuis la table `product`
     const selectProductSql = `SELECT name FROM product WHERE id = ?`;
@@ -43,12 +44,14 @@ export const createOrderItemRepository = async (
       article_number,
       price_before_discount,
       discount_percentage,
+      variant,
     ]);
     createdOrderItems.push({
       name: product.name, // Récupérer le nom du produit
       article_number,
       discount_percentage,
       price_before_discount,
+      variant,
     });
   }
   return createdOrderItems;

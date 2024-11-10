@@ -11,7 +11,9 @@ interface ProductProps {
   type: "item" | "giftCard";
 }
 
-const initialState: CartResponse & { totalItemsCount: number } = {
+const initialState: CartResponse & {
+  totalItemsCount: number;
+} = {
   cart: undefined,
   items: [],
   giftCards: [],
@@ -40,11 +42,15 @@ const cartSlice = createSlice({
       cart: action.payload.cart,
       items: action.payload.items,
       giftCards: action.payload.giftCards,
-      totalItemsCount: calculateTotalItemsCount(action.payload.items, action.payload.giftCards),
+      totalItemsCount: calculateTotalItemsCount(
+        action.payload.items,
+        action.payload.giftCards
+      ),
     }),
 
     addProduct: (state, action: PayloadAction<ProductProps>) => {
-      const { product, selectedVariant, quantity, amount, type } = action.payload;
+      const { product, selectedVariant, quantity, amount, type } =
+        action.payload;
 
       if (type === "item" && product) {
         const existingItemIndex = state.items.findIndex(
@@ -93,7 +99,10 @@ const cartSlice = createSlice({
         return {
           ...state,
           items: updatedItems,
-          totalItemsCount: calculateTotalItemsCount(updatedItems, state.giftCards),
+          totalItemsCount: calculateTotalItemsCount(
+            updatedItems,
+            state.giftCards
+          ),
         };
       }
 
@@ -113,7 +122,10 @@ const cartSlice = createSlice({
         return {
           ...state,
           giftCards: updatedGiftCards,
-          totalItemsCount: calculateTotalItemsCount(state.items, updatedGiftCards),
+          totalItemsCount: calculateTotalItemsCount(
+            state.items,
+            updatedGiftCards
+          ),
         };
       }
 
@@ -147,7 +159,10 @@ const cartSlice = createSlice({
         ...state,
         items: updatedItems,
         giftCards: updatedGiftCards,
-        totalItemsCount: calculateTotalItemsCount(updatedItems, updatedGiftCards),
+        totalItemsCount: calculateTotalItemsCount(
+          updatedItems,
+          updatedGiftCards
+        ),
       };
     },
 

@@ -59,7 +59,7 @@ export const sendPaymentConfirmationEmail = async (
       </tbody>
     </table>
   `
-      : "<p>Aucune carte cadeau utilisée pour cette commande.</p>";
+      : "<p>Aucune carte cadeau achetée pour cette commande.</p>";
 
   // Création du tableau des produits
   const productsTable =
@@ -80,7 +80,7 @@ export const sendPaymentConfirmationEmail = async (
             (product: ProductSendEmail) => `
           <tr>
             <td style="border: 1px solid #ddd; padding: 8px;">${
-              product.name
+              product.name + " " + product?.variant
             }</td>
             <td style="border: 1px solid #ddd; padding: 8px;">${
               product.price_before_discount
@@ -88,9 +88,9 @@ export const sendPaymentConfirmationEmail = async (
             <td style="border: 1px solid #ddd; padding: 8px;">${
               product.discount_percentage
                 ? product.discount_percentage + "%"
-                : "Aucune"
+                : "Aucun"
             }</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">1</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${product.article_number}</td>
           </tr>
         `
           )
@@ -110,10 +110,10 @@ export const sendPaymentConfirmationEmail = async (
           customer.firstName || "cher client"
         } !</h2>
         <p style="font-size: 16px;">Votre commande a été confirmée avec succès.</p>
-        <p><strong>Numéro de confirmation :</strong> ${
+        <p><strong>Numéro de commande :</strong> ${
           order.confirmation_number
         }</p>
-        <p><strong>Total de la commande :</strong> ${order.total_price} €</p>
+        <p><strong>Total net de la commande :</strong> ${order.total_price} €</p>
         <p><strong>Coût de la livraison :</strong> ${order.shipping_price} €</p>
         <p><strong>Cashback gagné :</strong> ${order.cashback_earned} €</p>
         <p><strong>Cashback dépensé :</strong> ${order.cashback_spent} €</p>
@@ -132,10 +132,10 @@ export const sendPaymentConfirmationEmail = async (
             : "Aucune carte cadeau utilisée."
         }</p>
         
-        <h3 style="text-align: center;">Détails des Produits</h3>
+        <h3 style="text-align: center;">Détails des produits</h3>
         ${productsTable}
 
-        <h3 style="text-align: center;">Détails des Cartes Cadeaux</h3>
+        <h3 style="text-align: center;">Détails des cartes cadeaux achetées</h3>
         ${giftCardsTable}
 
         <p style="text-align: center;">Nous vous remercions de votre confiance et restons à votre disposition pour toute question.</p>

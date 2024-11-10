@@ -57,6 +57,7 @@ export async function getPaymentAmountService(
         discount_percentage: discount.discount_percentage,
         price_before_discount: item.price,
         article_number: item.quantity,
+        variant: item.variant,
       });
     }
 
@@ -76,6 +77,7 @@ export async function getPaymentAmountService(
           discount_percentage: categoryDiscount.discount_percentage,
           price_before_discount: item.price,
           article_number: item.quantity,
+          variant: item.variant,
         });
       }
     }
@@ -98,6 +100,7 @@ export async function getPaymentAmountService(
           discount_percentage: collectionDiscount.discount_percentage,
           price_before_discount: item.price,
           article_number: item.quantity,
+          variant: item.variant,
         });
       }
     }
@@ -107,6 +110,7 @@ export async function getPaymentAmountService(
         discount_percentage: null,
         price_before_discount: item.price,
         article_number: item.quantity,
+        variant: item.variant,
       });
     }
 

@@ -1,6 +1,8 @@
 CREATE TABLE IF NOT EXISTS customer_address (
     id INT AUTO_INCREMENT PRIMARY KEY,
     company VARCHAR(255),
+    first_name VARCHAR(100),
+    last_name VARCHAR(100), 
     email VARCHAR(255) NOT NULL,
     phone VARCHAR(20),
     street_number VARCHAR(10),

@@ -166,6 +166,7 @@ export const createOrderService = async (
     };
   } catch (error) {
     await rollbackTransaction();
+    console.error(error);
     throw error;
   }
 };

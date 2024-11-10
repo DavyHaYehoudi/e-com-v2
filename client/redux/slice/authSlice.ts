@@ -1,6 +1,6 @@
 // src/store/authSlice.ts
+import { isTokenExpired } from "@/app/utils/token";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { jwtDecode, JwtPayload } from "jwt-decode";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
@@ -24,17 +24,6 @@ const initialState: AuthState = {
   isAuthenticated: false,
   isVisitor: true,
   isTokenExpired: false,
-};
-
-// Fonction pour vérifier l'expiration du token
-const isTokenExpired = (token: string): boolean => {
-  try {
-    const decodedToken = jwtDecode<JwtPayload>(token);
-    const exp = decodedToken.exp ? decodedToken.exp * 1000 : 0;
-    return Date.now() > exp;
-  } catch {
-    return true; // Considère le token comme expiré si non décodable
-  }
 };
 
 const authSlice = createSlice({
@@ -62,10 +51,16 @@ const authSlice = createSlice({
         state.isVisitor = state.isTokenExpired;
       }
     },
+    setTokenExpired: (state) => {
+      state.isTokenExpired = true;
+      state.isAuthenticated = false;
+      state.isVisitor = true;
+    },
   },
 });
 
-export const { login, logout, checkTokenExpiration } = authSlice.actions;
+export const { login, logout, checkTokenExpiration, setTokenExpired } =
+  authSlice.actions;
 
 // Configuration pour persister les données dans le localStorage
 const persistConfig = {

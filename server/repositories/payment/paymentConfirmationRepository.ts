@@ -38,12 +38,14 @@ export const createOrderAddressRepository = async (
   type: string
 ) => {
   const sql = `
-        INSERT INTO order_address (type, company, email, phone, street_number, address1, address2, city, postal_code, country, order_id)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO order_address (type, company, first_name, last_name, email, phone, street_number, address1, address2, city, postal_code, country, order_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
   await query(sql, [
     type,
-    addressData.company,
+    addressData.company || "",
+    addressData.first_name,
+    addressData.last_name,
     addressData.email,
     addressData.phone,
     addressData.street_number,

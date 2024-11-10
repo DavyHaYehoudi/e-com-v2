@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+'use client'
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -8,7 +9,9 @@ import { CheckCircleIcon, BadgeEuro } from "lucide-react";
 import { cashbackToUseSchema } from "./cashbackToUseSchema";
 import { formatPrice } from "@/app/utils/pricesFormat";
 import { Label } from "@/components/ui/label";
-import useCashback from "@/app/hooks/useCashback";
+import { useDispatch, useSelector } from "react-redux";
+import { setCashBackToSpend } from "@/redux/slice/priceAdjustmentsSlice";
+import { RootState } from "@/redux/store/store";
 
 type FormValues = {
   cashbackAmount: number;
@@ -19,11 +22,8 @@ const CashbackToUse = ({
 }: {
   onCashbackSelect: (amount: number) => void;
 }) => {
-  const { availableCashback: cashbackCustomer, getCashbackOneCustomer } =
-    useCashback();
-  useEffect(() => {
-    getCashbackOneCustomer();
-  }, []);
+  const cashbackCustomer = useSelector((state: RootState) => state.cashback.cashback_total)
+
   const [isSubmitted, setIsSubmitted] = useState(false);
   const {
     control,
@@ -36,6 +36,7 @@ const CashbackToUse = ({
       cashbackAmount: 0,
     },
   });
+  const dispatch = useDispatch()
 
   const cashbackAmount = watch("cashbackAmount");
   const isButtonDisabled = cashbackAmount <= 0;
@@ -57,6 +58,7 @@ const CashbackToUse = ({
   const handleSubmit = () => {
     if (isValidAmount) {
       onCashbackSelect(cashbackAmount); // Appel de la fonction de rappel
+      dispatch(setCashBackToSpend(cashbackAmount))
       setIsSubmitted(true); // Met à jour isSubmitted lorsque le montant est valide
     }
   };
@@ -74,7 +76,7 @@ const CashbackToUse = ({
                 {formatPrice(cashbackCustomer)}
               </span>{" "}
             </Label>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mt-1">
               <Input
                 type="number"
                 placeholder="Montant du cashback"

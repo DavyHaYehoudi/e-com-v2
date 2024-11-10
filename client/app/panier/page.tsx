@@ -4,14 +4,25 @@ import React from "react";
 import ProceedToPayment from "@/components/pages/cart/ProceedToPayment";
 import { calculateTotalCashbackCartToEarn } from "@/components/pages/cart/utils/calculUtils";
 import { useCartManager } from "./hooks/useCartManager";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
+import {
+  applyPromoCode,
+  setCashBackToSpend,
+  setGiftCard,
+} from "@/redux/slice/priceAdjustmentsSlice";
 
 const Cart = () => {
   const { removeProduct } = useCartManager();
   const cartCustomer = useSelector((state: RootState) => state.cart);
   const { cart, items, giftCards } = cartCustomer;
   const productsInCart = { cart, items, giftCards };
+  const dispatch = useDispatch();
+  // Réinitiliasation du store en cas de retour sur la page
+  dispatch(applyPromoCode(""));
+  dispatch(setGiftCard({ type: "reset" }));
+  dispatch(setCashBackToSpend(0));
+
   return (
     <main>
       <h1 className="uppercase text-center m-10">mon panier</h1>
@@ -25,7 +36,7 @@ const Cart = () => {
               productsInCart={productsInCart}
               removeProduct={removeProduct}
             />
-            {calculateTotalCashbackCartToEarn(productsInCart.items) > 0 && (
+            {calculateTotalCashbackCartToEarn(productsInCart.items) >= 0 && (
               <ProceedToPayment productsInCart={productsInCart} />
             )}
           </div>

@@ -9,6 +9,8 @@ import { promoCodeSchema } from "./promoCodeSchema";
 import { Label } from "@/components/ui/label";
 import { CodePromoVerifyTypes } from "@/app/types/CodePromoVerifyTypes";
 import { useFetch } from "@/service/hooks/useFetch";
+import { useDispatch } from "react-redux";
+import { applyPromoCode } from "@/redux/slice/priceAdjustmentsSlice";
 
 const CartCodePromo = ({
   onDiscount,
@@ -19,6 +21,7 @@ const CartCodePromo = ({
 }) => {
   const [apiError, setApiError] = useState<string | null>(null);
   const [validPromo, setValidPromo] = useState<boolean | null>(null);
+  const dispatch = useDispatch()
 
   const {
     register,
@@ -39,6 +42,7 @@ const CartCodePromo = ({
     const codePromo = await triggerFetch({ code: data.code });
     if (codePromo) {
       onDiscount(codePromo?.discount_percentage);
+      dispatch(applyPromoCode(data.code))
       setApiError(null);
       setValidPromo(true); // Code valide  // On appelle la fonction onDiscount avec la valeur du code de réduction
     } else {
@@ -52,7 +56,7 @@ const CartCodePromo = ({
     <TableCell colSpan={5}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Label>Code de réduction</Label>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mt-1">
           <Input
             type="text"
             placeholder="Code de réduction"

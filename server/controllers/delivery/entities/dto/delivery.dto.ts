@@ -8,6 +8,7 @@ export const createDeliverySchema = z.object({
   icon_url: z.string().optional(),
   is_active: z.boolean().optional(),
   is_default: z.boolean().optional(),
+  is_free: z.boolean().optional(),
   rates: z.array(
     z.object({
       min_weight: z.number().min(0, {
@@ -32,6 +33,7 @@ export const updateDeliverySchema = z.object({
   icon_url: z.string().optional(),
   is_active: z.boolean().optional(),
   is_default: z.boolean().optional(),
+  is_free: z.boolean().optional(),
   rates: z
     .array(
       z.object({

@@ -18,11 +18,13 @@ export const updateCustomerAddressRepository = async (
 ) => {
   const sql = `
       UPDATE customer_address
-      SET company = ?, email = ?, phone = ?, street_number = ?, address1 = ?, address2 = ?, city = ?, postal_code = ?, country = ?
+      SET company = ?, first_name = ?, last_name = ?, email = ?, phone = ?, street_number = ?, address1 = ?, address2 = ?, city = ?, postal_code = ?, country = ?
       WHERE customer_id = ? AND type = ?
     `;
   await query(sql, [
     addressData.company,
+    addressData.first_name,
+    addressData.last_name,
     addressData.email,
     addressData.phone,
     addressData.street_number,
@@ -41,11 +43,13 @@ export const createCustomerAddressRepository = async (
   addressData: AddressInputDTO
 ) => {
   const sql = `
-      INSERT INTO customer_address (company, email, phone, street_number, address1, address2, city, postal_code, country, customer_id, type)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO customer_address (company, first_name, last_name, email, phone, street_number, address1, address2, city, postal_code, country, customer_id, type)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
   await query(sql, [
     addressData.company,
+    addressData.first_name,
+    addressData.last_name,
     addressData.email,
     addressData.phone,
     addressData.street_number,

@@ -48,4 +48,5 @@ export interface ProductSendEmail {
   article_number: number;
   discount_percentage?: number | null;
   price_before_discount: number;
+  variant: string | null;
 }

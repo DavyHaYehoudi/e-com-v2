@@ -11,6 +11,8 @@ import { GiftcardToUseType } from "@/app/types/GiftcardToUseTypes";
 import { Label } from "@/components/ui/label";
 import TrashIcon from "@/components/shared/TrashIcon";
 import { useFetch } from "@/service/hooks/useFetch";
+import { useDispatch } from "react-redux";
+import { setGiftCard } from "@/redux/slice/priceAdjustmentsSlice";
 
 const GiftcardToUse = ({
   giftCardsToUse,
@@ -20,7 +22,8 @@ const GiftcardToUse = ({
   onGiftcardToUse: (
     code: string,
     action: "add" | "remove",
-    balance?: number
+    balance?: number,
+    id?: number
   ) => void;
 }) => {
   const {
@@ -32,28 +35,34 @@ const GiftcardToUse = ({
     resolver: zodResolver(giftCardToUseSchema),
     mode: "onChange",
   });
-  const { triggerFetch } = useFetch<GiftcardToUseType>(
-    "/gift-cards/check-in",
-    {
-      method: "POST",
-    }
-  );
-
+  const dispatch = useDispatch();
+  const { triggerFetch } = useFetch<GiftcardToUseType>("/gift-cards/check-in", {
+    method: "POST",
+  });
   const onSubmit = async (data: { code: string }) => {
     const giftcardDetails = await triggerFetch({ code: data.code });
-    onGiftcardToUse(data.code, "add", giftcardDetails?.balance);
+    onGiftcardToUse(
+      data.code,
+      "add",
+      giftcardDetails?.balance,
+      giftcardDetails?.id
+    );
+    if (giftcardDetails) {
+      dispatch(setGiftCard({ id: giftcardDetails.id, type: "add" }));
+    }
     reset();
   };
 
-  const removeGiftCard = (code: string) => {
+  const removeGiftCard = (code: string, id?: number) => {
     onGiftcardToUse(code, "remove");
+    dispatch(setGiftCard({ id, type: "remove" }));
   };
 
   return (
     <TableCell colSpan={5}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Label>Code carte cadeau</Label>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mt-1">
           <Input
             type="text"
             placeholder="Code carte cadeau"
@@ -84,7 +93,9 @@ const GiftcardToUse = ({
                 <p className="text-red-500">"Carte cadeau non valide" </p>
               </>
             )}
-            <TrashIcon onClick={() => removeGiftCard(giftcard.code)} />
+            <TrashIcon
+              onClick={() => removeGiftCard(giftcard.code, giftcard.id)}
+            />
           </div>
         ))}
       </div>

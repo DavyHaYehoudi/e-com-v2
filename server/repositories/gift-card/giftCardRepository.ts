@@ -200,9 +200,9 @@ export const createGiftCardRepository = async (
   orderId: number,
   giftCards: CartGiftCardRow[]
 ) => {
+  const createdGiftCards = [];
   for (const giftCard of giftCards) {
     const { quantity, amount } = giftCard;
-    const createdGiftCards = [];
 
     for (let i = 0; i < quantity; i++) {
       const generatedCode = generateGiftCardCode(); // Générer un code unique pour chaque carte
@@ -234,8 +234,8 @@ export const createGiftCardRepository = async (
           .split("T")[0], // Date d'expiration dans un an
       });
     }
-    return createdGiftCards;
   }
+  return createdGiftCards;
 };
 // CUSTOMER - Mise à jour des cartes cadeaux au niveau de leur balance et de leur historique après une commande
 export const updateGiftCardsRepository = async (

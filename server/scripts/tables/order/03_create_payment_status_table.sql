@@ -6,7 +6,9 @@ CREATE TABLE IF NOT EXISTS `payment_status` (
 
 -- Ajouter les labels et les couleurs dans la table payment_status
 INSERT INTO `payment_status` (label, color) VALUES 
-('Payée', '#32CD32'),           -- Vert pour "Payée"
-('Refusée', '#DC143C'),         -- Rouge cramoisi pour "Refusée"
-('Remboursée', '#FF6347'),      -- Rouge tomate pour "Remboursée"
+('Payée', '#32CD32'),               -- Vert pour "Payée"
+('En attente', '#1E90FF'),          -- Bleu clair pour "En attente" (Staging)
+('Refusée', '#DC143C'),             -- Rouge cramoisi pour "Refusée"
+('Remboursée', '#FF6347'),          -- Rouge tomate pour "Remboursée"
 ('Remboursement partiel', '#FFA07A');  -- Saumon clair pour "Remboursement partiel"
+

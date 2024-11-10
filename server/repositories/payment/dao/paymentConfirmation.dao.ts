@@ -20,7 +20,7 @@ export interface OrderDAO extends ResultSetHeader{
 export interface OrderDAORow extends RowDataPacket{
     id: number;
     customer_id: number;
-    order_status_id: number;
+    order_status_id: number; 
     payment_status_id: number;
     confirmation_number: string;
     notes_admin: string;
@@ -39,6 +39,8 @@ export interface OrderAddressDAO extends ResultSetHeader{
     id: number;
     type: string; // "shipping" ou "billing"
     company?: string;
+    first_name: string;
+    last_name: string;
     email: string;
     phone: string;
     street_number: string;

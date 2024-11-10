@@ -11,6 +11,7 @@ import { RootState } from "@/redux/store/store";
 import useAuth from "@/app/hooks/useAuth";
 import useCashback from "@/app/hooks/useCashback";
 import { useEffect } from "react";
+import SessionExpired from "@/components/modules/login/SessionExpired";
 
 const NavIcons = () => {
   const wishlist = useSelector((state: RootState) => state.wishlist);
@@ -23,13 +24,17 @@ const NavIcons = () => {
   const customerEmail = useSelector(
     (state: RootState) => state.auth.user?.email
   );
+  const cashbackCustomer = useSelector(
+    (state: RootState) => state.cashback.cashback_total
+  );
   const { handleAuthentication, handleLogout } = useAuth();
-  const { availableCashback: cashbackCustomer, getCashbackOneCustomer } =
-    useCashback();
+  const { getCashbackOneCustomer } = useCashback();
   useEffect(() => {
     getCashbackOneCustomer();
   }, []);
-
+  const isTokenExpired = useSelector(
+    (state: RootState) => state.auth.isTokenExpired
+  );
   return (
     <div className="flex items-center gap-6 text-gray-500">
       {/* Connexion / Déconnexion (visible seulement à partir de md) */}
@@ -91,6 +96,8 @@ const NavIcons = () => {
           )}
         </div>
       )}
+      {/* Modale de session expirée */}
+      {isTokenExpired && <SessionExpired />}
     </div>
   );
 };

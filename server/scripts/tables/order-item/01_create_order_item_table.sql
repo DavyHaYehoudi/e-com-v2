@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS `order_item` (
     customer_id INT NOT NULL,                        -- Référence au customer ayant passé la commande
     order_id INT NOT NULL,                           -- Référence à la commande
     product_id INT NOT NULL,                         -- Référence au produit commandé
+    variant VARCHAR(255),                            -- Variant optionnel sélectionné par le client
     article_number INT NOT NULL,                     -- Nombre d'articles pour cette ligne de commande
     price_before_discount DECIMAL(10, 2) NOT NULL,   -- Prix total avant réduction
     discount_percentage DECIMAL(10, 2),              -- Pourcentage de réduction (peut être NULL)

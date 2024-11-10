@@ -10,5 +10,6 @@ export interface DeliveryType {
   icon_url: string;
   is_active: boolean;
   is_default: boolean;
+  is_free: boolean;
   rates: Rates[];
 }

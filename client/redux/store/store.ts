@@ -6,13 +6,23 @@ import { combineReducers } from "redux";
 import wishlistReducer from "../slice/wishlistSlice";
 import authReducer from "../slice/authSlice";
 import cartReducer from "../slice/cartSlice";
+import priceAdjustmentsReducer from "../slice/priceAdjustmentsSlice";
+import addressesReducer from "../slice/addressesSlice";
+import cashbackReducer from "../slice/cashbackSlice";
 import { PersistPartial } from "redux-persist/es/persistReducer";
 
 // Configuration de persistance
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "cart", "wishlist"],
+  whitelist: [
+    "auth",
+    "cart",
+    "wishlist",
+    "addresses",
+    "priceAdjustments",
+    "cashback",
+  ],
 };
 
 // Combinez vos reducers, s'il y en a plusieurs
@@ -20,6 +30,9 @@ const rootReducer = combineReducers({
   auth: authReducer,
   wishlist: wishlistReducer,
   cart: cartReducer,
+  priceAdjustments: priceAdjustmentsReducer,
+  cashback: cashbackReducer,
+  addresses: addressesReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

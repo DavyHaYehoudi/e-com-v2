@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { CashBackCartToUseType } from "../types/CashbackCartToUseType";
 import { useFetch } from "@/service/hooks/useFetch";
+import { useDispatch } from "react-redux";
+import { setCashback } from "@/redux/slice/cashbackSlice";
 
 const useCashback = () => {
-  const [cashbackOneCustomer, setCashbackOneCustomer] =
-    useState<CashBackCartToUseType | null>(null);
-  const [availableCashback, setAvailableCashback] = useState(0);
+  const dispatch = useDispatch();
 
   const { data, triggerFetch } = useFetch<CashBackCartToUseType>(
     "/customer/cash-back-history",
@@ -20,19 +20,16 @@ const useCashback = () => {
 
   useEffect(() => {
     if (data) {
-      setCashbackOneCustomer(data);
+      dispatch(
+        setCashback({ type: "cashback_earned", amount: data.total_earned })
+      );
+      dispatch(
+        setCashback({ type: "cashback_spent", amount: data.total_spent })
+      );
     }
   }, [data]);
 
-  useEffect(() => {
-    if (cashbackOneCustomer) {
-      setAvailableCashback(
-        cashbackOneCustomer.total_earned - cashbackOneCustomer.total_spent
-      );
-    }
-  }, [cashbackOneCustomer]);
-
-  return { cashbackOneCustomer, getCashbackOneCustomer, availableCashback };
+  return { getCashbackOneCustomer };
 };
 
 export default useCashback;
