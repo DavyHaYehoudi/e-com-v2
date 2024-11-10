@@ -21,8 +21,8 @@ const ProductPrice: React.FC<ProductPriceProps> = ({
   quantity,
 }) => {
   return (
-    <article className="mt-16">
-      <h2 className="text-xl font-semibold">Prix :</h2>
+    <article className="my-8">
+      <h2 className="text-xl font-semibold">💶 Prix :</h2>
       {product.discount_percentage ? (
         <>
           <div className="flex items-center gap-2 m-5">
