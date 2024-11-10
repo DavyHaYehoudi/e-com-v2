@@ -83,7 +83,6 @@ const fetchWrapper = async <T>(
   }
 };
 
-
 const handleError = (error: unknown) => {
   if (error instanceof Error) {
     console.error("An error occurred:", error.message);
