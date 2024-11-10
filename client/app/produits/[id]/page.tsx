@@ -16,6 +16,8 @@ import ProductVariants from "@/components/pages/product/ProductVariants";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { useCartManager } from "@/app/panier/hooks/useCartManager";
+import ProductReviewSheet from "@/components/pages/product/ProductReviewSheet";
+import ProductReview from "@/components/pages/product/ProductReview";
 
 interface MasterProductProps {
   params: {
@@ -108,6 +110,8 @@ const MasterProduct = ({ params }: MasterProductProps) => {
             <article className="bg-purple-50 p-4 rounded-md text-gray-700 text-base leading-relaxed mt-4">
               {product?.description}
             </article>
+            <ProductReview productId={product.id} />
+            <hr className="my-4" />
             <ProductFeatures product={product} />
             <hr className="my-4" />
             {product.variants.length > 0 && (
@@ -120,7 +124,7 @@ const MasterProduct = ({ params }: MasterProductProps) => {
                 <hr className="my-4" />
               </>
             )}
-            <h2 className="text-xl font-semibold mt-16">Quantité :</h2>
+            <h2 className="text-xl font-semibold mt-8">🔢 Quantité :</h2>
             <NumberInput
               onValueChange={handleQuantityChange}
               quantity={quantity}
