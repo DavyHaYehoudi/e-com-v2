@@ -22,11 +22,16 @@ const cashbackSlice = createSlice({
       // Met à jour le total
       state.cashback_total = state.cashback_earned - state.cashback_spent;
     },
+    resetCashback(state) {
+      state.cashback_earned = 0;
+      state.cashback_spent = 0;
+      state.cashback_total = 0;
+    },
   },
 });
 
 // Actions exportées
-export const { setCashback } = cashbackSlice.actions;
+export const { setCashback, resetCashback } = cashbackSlice.actions;
 
 // Réduire exporté pour le store
 export default cashbackSlice.reducer;

@@ -32,9 +32,13 @@ const addressesSlice = createSlice({
         state.billing = action.payload.billing;
       }
     },
+    resetAddresses(state) {
+      state.shipping = initialState.shipping;
+      state.billing = initialState.billing;
+    },
   },
 });
 
-export const { setAddresses } = addressesSlice.actions;
+export const { setAddresses, resetAddresses } = addressesSlice.actions;
 
 export default addressesSlice.reducer;

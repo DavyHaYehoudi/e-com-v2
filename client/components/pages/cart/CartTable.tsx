@@ -11,7 +11,7 @@ import RowCodePromo from "./rowTotals/codePromo/RowCodePromo";
 import RowTotalCart from "./rowTotals/RowTotalCart";
 import RowCashbackToUse from "./rowTotals/cashback/RowCashbackToUse";
 import { CartResponse } from "@/app/types/CartTypes";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { useDelivery } from "./hooks/useDelivery";
 import { useDiscounts } from "./hooks/useDiscounts";

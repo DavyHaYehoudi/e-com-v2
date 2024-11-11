@@ -64,18 +64,17 @@ const PaymentSuccess = () => {
   });
 
   const { getCashbackOneCustomer } = useCashback();
-
   useEffect(() => {
-    if (!orderCreated) {
-      triggerFetch(formatData);
-    } else {
-      setConfirmationNumber(orderCreated.order.confirmation_number);
+    triggerFetch(formatData).then((response) => {
+      if (response) {
+        setConfirmationNumber(response.order.confirmation_number);
+      }
       dispatch(reset());
       dispatch(clearCart());
       getCashbackOneCustomer();
       triggerClearCart({ items: [], gift_cards: [] });
-    }
-  }, [orderCreated]);
+    });
+  }, []);
 
   if (!orderCreated) {
     return (

@@ -46,7 +46,7 @@ export function MainNavigation() {
 
       {/* Menu déroulant pour petits écrans */}
       {isOpen && (
-        <div className="lg:hidden p-4 flex flex-col gap-2">
+        <div className="lg:hidden p-4 flex flex-col gap-2 border-b-8">
           <Navbar />
           <hr className="border-t-1 border-[#282c34] dark:border-[var(--whiteSmoke)]" />
 
@@ -57,7 +57,7 @@ export function MainNavigation() {
                 <BadgeEuro className="w-6 h-6" />
                 <span>
                   Cashback{" "}
-                  <span className="bg-blue-500 text-[var(--whiteSmoke)] p-1 rounded">
+                  <span className="bg-blue-500 text-[var(--whiteSmoke)] p-1 rounded ml-2">
                     {cashbackCustomer > 0 ? formatPrice(cashbackCustomer) : ""}
                   </span>
                 </span>
@@ -69,13 +69,13 @@ export function MainNavigation() {
           {isAuthenticated && (
             <>
               <Link href="/dashboard" className="flex items-center gap-2 py-2">
-                <Avatar className="cursor-pointer mb-2">
+                <Avatar className="cursor-pointer w-8 h-8">
                   <AvatarImage src="/images/avatar.png" alt="Avatar" />
                   <AvatarFallback>
                     {customerEmail ? customerEmail[0].toUpperCase() : "A"}
                   </AvatarFallback>
                 </Avatar>
-                <span>{customerEmail} </span>
+                <span className="ml-1 text-sm">{customerEmail} </span>
               </Link>
               <hr className="border-t-1 border-[#282c34] dark:border-[var(--whiteSmoke)]" />
             </>

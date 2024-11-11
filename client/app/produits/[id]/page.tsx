@@ -92,6 +92,10 @@ const MasterProduct = ({ params }: MasterProductProps) => {
       );
     }
   }, [productsInCart, product, id, selectedVariant]);
+  useEffect(() => {
+    // Force le défilement vers le haut à chaque rendu
+    window.scrollTo(0, 0);
+  }, []); 
 
   return (
     <LoaderWrapper error={error} loading={loading}>

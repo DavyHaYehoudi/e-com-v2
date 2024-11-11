@@ -15,7 +15,7 @@ const ShippingForm = ({
   sameAddress: boolean;
 }) => {
   const { register, handleSubmit, onSubmit, errors } = useShippingForm({
-    onNext,
+    onNext,sameAddress
   });
   return (
     <form

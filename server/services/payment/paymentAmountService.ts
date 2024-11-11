@@ -39,7 +39,7 @@ export async function getPaymentAmountService(
   );
   const cash_back_to_spend = cashBackToSpend ? cashBackToSpend : 0;
   // Montant du nouveau solde du cashback après son utilisation
-  let newBalanceCashBack = balanceCashBackCustomer - cash_back_to_spend;
+  let newBalanceCashBack = balanceCashBackCustomer - cash_back_to_spend; 
 
   // Calcul des totaux des articles du panier
   for (const item of cartItems) {

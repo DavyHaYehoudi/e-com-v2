@@ -14,7 +14,8 @@ interface ProceedToPaymentProps {
 const ProceedToPayment: React.FC<ProceedToPaymentProps> = ({
   productsInCart,
 }) => {
-  const orderAmount = useOrderAmount();
+  // const orderAmount = useOrderAmount();
+  const orderAmount = 10
   const isPaymentDisabled = orderAmount < 1;
 
   return (
@@ -44,7 +45,8 @@ const ProceedToPayment: React.FC<ProceedToPaymentProps> = ({
         // Link actif uniquement si orderAmount > 0
         <Link href="/payment/checkout" passHref>
           <Button className="bg-green-500 hover:bg-green-600 dark:text-[var(--whiteSmoke)]">
-            Procéder au payment {formatPrice(orderAmount)}
+            Procéder au payment
+             {/* {formatPrice(orderAmount)} */}
           </Button>
         </Link>
       )}

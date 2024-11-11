@@ -9,9 +9,10 @@ import { AddressFormValues, AddressSchema } from "../../schema/addressesSchema";
 
 interface UseShippingFormProps {
   onNext: () => void;
+  sameAddress: boolean;
 }
 
-const useShippingForm = ({ onNext }: UseShippingFormProps) => {
+const useShippingForm = ({ onNext, sameAddress }: UseShippingFormProps) => {
   const dispatch = useDispatch();
   const shippingAddress = useShippingAddress();
   const addressState = useSelector((state: RootState) => state.addresses);
@@ -60,6 +61,9 @@ const useShippingForm = ({ onNext }: UseShippingFormProps) => {
 
   const onSubmit = (AddressFormValues: AddressFormValues) => {
     dispatch(setAddresses({ shipping: AddressFormValues, billing: null }));
+    if (sameAddress) {
+      dispatch(setAddresses({ billing: AddressFormValues, shipping: null }));
+    }
     onNext();
   };
 

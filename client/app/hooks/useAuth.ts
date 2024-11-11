@@ -1,6 +1,11 @@
 import { useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { login, logout } from "@/redux/slice/authSlice";
+import { reset } from "@/redux/slice/priceAdjustmentsSlice";
+import { resetAddresses } from "@/redux/slice/addressesSlice";
+import { resetCashback } from "@/redux/slice/cashbackSlice";
+import { resetWishlist } from "@/redux/slice/wishlistSlice";
+import { clearCart } from "@/redux/slice/cartSlice";
 
 interface DecodedToken {
   id: number;
@@ -27,6 +32,11 @@ const useAuth = () => {
   };
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(reset());
+    dispatch(resetAddresses());
+    dispatch(resetCashback());
+    dispatch(resetWishlist());
+    dispatch(clearCart());
   };
   return { handleAuthentication, handleLogout };
 };

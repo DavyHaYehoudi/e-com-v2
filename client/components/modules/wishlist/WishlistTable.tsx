@@ -9,11 +9,12 @@ import {
 } from "@/components/ui/table";
 import React from "react";
 import WishlistRowItem from "./WishlistRowItem";
-import { useWishlistManager } from "./hooks/useWishlistManager"; 
+import { useWishlistManager } from "./hooks/useWishlistManager";
 
 const WishlistTable = () => {
   const { productsWishlist } = useWishlistManager();
-  return productsWishlist ? (
+  console.log("productsWishlist:", productsWishlist);
+  return productsWishlist && productsWishlist?.items.length > 0 ? (
     <Table className="min-w-full text-l">
       <TableCaption></TableCaption>
       <TableHeader>

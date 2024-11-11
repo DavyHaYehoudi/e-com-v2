@@ -21,7 +21,7 @@ const Navbar = () => {
     <nav className="text-gray-500 mb-4 lg:p-4">
       <NavigationMenu className="flex flex-col lg:flex-row lg:justify-center gap-8 list-none items-start lg:items-center">
         {/* Onglet Produits avec sous-menu */}
-        <NavigationMenuItem>
+        <NavigationMenuItem >
           <div className="flex items-center">
             <TagIcon className="tab-nav w-5 h-5" />
             <ProductMenu />
@@ -36,7 +36,7 @@ const Navbar = () => {
             }`}
           >
             <BookOpenIcon className="tab-nav w-5 h-5" />
-            <span className="tab-nav tracking-widest text-sm">Creatrice</span>
+            <span className="tab-nav tracking-widest text-xs lg:text-sm">Creatrice</span>
             <span className="absolute bottom-0 left-1/2 h-1 w-0 bg-golden transition-all duration-300 transform -translate-x-1/2 hover:w-full"></span>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -50,7 +50,7 @@ const Navbar = () => {
             }`}
           >
             <GlobeIcon className="tab-nav w-5 h-5" />
-            <span className="tab-nav tracking-widest text-sm">Tradition</span>
+            <span className="tab-nav tracking-widest text-xs lg:text-sm">Tradition</span>
             <span className="absolute bottom-0 left-1/2 h-1 w-0 bg-golden transition-all duration-300 transform -translate-x-1/2 hover:w-full"></span>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -64,7 +64,7 @@ const Navbar = () => {
             }`}
           >
             <MailIcon className="tab-nav w-5 h-5" />
-            <span className="tab-nav tracking-widest text-sm">Contact</span>
+            <span className="tab-nav tracking-widest text-xs lg:text-sm">Contact</span>
             <span className="absolute bottom-0 left-1/2 h-1 w-0 bg-golden transition-all duration-300 transform -translate-x-1/2 hover:w-full"></span>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -77,7 +77,7 @@ const Navbar = () => {
             }`}
           >
             <GiftIcon className="tab-nav w-5 h-5" />
-            <span className="tab-nav tracking-widest text-sm">
+            <span className="tab-nav tracking-widest text-xs lg:text-sm">
               Carte cadeau
             </span>
             <span className="absolute bottom-0 left-1/2 h-1 w-0 bg-golden transition-all duration-300 transform -translate-x-1/2 hover:w-full"></span>

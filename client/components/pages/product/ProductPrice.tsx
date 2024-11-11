@@ -20,6 +20,8 @@ const ProductPrice: React.FC<ProductPriceProps> = ({
   selectedVariant,
   quantity,
 }) => {
+  console.log("product :", product);
+
   return (
     <article className="my-8">
       <h2 className="text-xl font-semibold">💶 Prix :</h2>
@@ -41,17 +43,26 @@ const ProductPrice: React.FC<ProductPriceProps> = ({
           <hr className="my-4" />
         </>
       ) : (
-        // Si pas de réduction, afficher simplement le prix normal
-        <div className="flex items-center gap-2">
-          <span>{formatPrice(product.price)}</span>
+        ""
+      )}
+      <div className="flex items-center gap-5">
+
+      {product.price && !product.discount_percentage && (
+        <div>{formatPrice(product.price)} </div>
+      )}
+      {product.cash_back ? (
+        <div>
           {product.cash_back ? (
             <CashbackBadge cashbackAmount={product.cash_back} />
           ) : (
             ""
           )}
-          <hr className="my-4" />
         </div>
+      ) : (
+        ""
       )}
+      <hr className="my-4" />
+      </div>
       {/* Vérification si le produit est disponible à la vente */}
       {canContinueSelling(product) ? (
         <div className="my-5">

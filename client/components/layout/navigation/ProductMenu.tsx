@@ -19,7 +19,7 @@ const ProductMenu = () => {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="tracking-widest text-sm uppercase flex items-center m-0 bg-dark">
+          <NavigationMenuTrigger className="tab-nav p-2 tracking-widest text-xs lg:text-sm flex items-center m-0 dark:bg-transparent">
             Produits
           </NavigationMenuTrigger>
           <NavigationMenuContent>

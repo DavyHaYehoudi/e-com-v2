@@ -47,12 +47,13 @@ const usePaymentForm = () => {
 
     setIsLoading(true);
 
-    const { error } = await stripe.confirmPayment({
+    const { error,  } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/payment/success`,
       },
     });
+    //.then + navigate
 
     if (error) {
       if (error.type === "card_error" || error.type === "validation_error") {
