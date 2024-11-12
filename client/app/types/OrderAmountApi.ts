@@ -15,6 +15,7 @@ export interface CashBack {
   export interface OrderAmountApi {
     orderAmount: number;
     codePromoAmount: number;
+    totalAmountBeforeDiscount:number;
     codePromoPercentage: number;
     totalPromotionAmount: number;
     shippingPrice: number;

@@ -22,7 +22,6 @@ const Cart = () => {
   dispatch(applyPromoCode(""));
   dispatch(setGiftCard({ type: "reset" }));
   dispatch(setCashBackToSpend(0));
-
   return (
     <main>
       <h1 className="uppercase text-center m-10">mon panier</h1>

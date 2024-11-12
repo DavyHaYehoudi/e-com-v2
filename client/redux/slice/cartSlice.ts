@@ -10,14 +10,19 @@ interface ProductProps {
   amount?: number;
   type: "item" | "giftCard";
 }
+interface AmountBeforeDiscountType {
+  amount: number;
+}
 
 const initialState: CartResponse & {
   totalItemsCount: number;
+  amountBeforeDiscount: number;
 } = {
   cart: undefined,
   items: [],
   giftCards: [],
   totalItemsCount: 0,
+  amountBeforeDiscount: 0,
 };
 
 const calculateTotalItemsCount = (
@@ -165,19 +170,32 @@ const cartSlice = createSlice({
         ),
       };
     },
+    setAmountBeforeDiscount: (
+      state,
+      action: PayloadAction<AmountBeforeDiscountType>
+    ) => {
+      state.amountBeforeDiscount = action.payload.amount;
+      console.log("Updated amountBeforeDiscount:", state.amountBeforeDiscount);
+    },
 
     clearCart: (state) => {
       state.cart = undefined;
       state.items = [];
       state.giftCards = [];
       state.totalItemsCount = 0;
+      state.amountBeforeDiscount = 0;
     },
   },
 });
 
 // Actions exportées
-export const { setCart, addProduct, deleteProduct, clearCart } =
-  cartSlice.actions;
+export const {
+  setCart,
+  addProduct,
+  deleteProduct,
+  clearCart,
+  setAmountBeforeDiscount,
+} = cartSlice.actions;
 
 // Réduire exporté pour le store
 export default cartSlice.reducer;

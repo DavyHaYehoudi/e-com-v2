@@ -35,7 +35,7 @@ export const createOrderService = async (
     // 1. Récupérer les détails de la commande
     const paymentDetails = await getPaymentAmountService(
       customerId,
-      body.shippingMethodId,
+      body?.shippingMethodId,
       body.giftCardIds,
       body.codePromo,
       body.cashBackToSpend

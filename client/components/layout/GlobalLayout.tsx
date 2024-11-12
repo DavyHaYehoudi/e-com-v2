@@ -2,6 +2,7 @@
 import Footer from "@/components/layout/Footer";
 import { MainNavigation } from "./navigation/MainNavigation";
 import TopNavbar from "./navigation/TopNavbar";
+import FreeShippingBanner from "./FreeShippingBanner";
 
 export default function GlobalLayout({
   children,
@@ -10,6 +11,7 @@ export default function GlobalLayout({
 }) {
   return (
     <div>
+      <FreeShippingBanner />
       <TopNavbar />
       <MainNavigation />
       {children}

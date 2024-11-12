@@ -5,7 +5,7 @@ export interface ShippingMethodRow extends RowDataPacket {
   name: string;
   is_active: boolean;
   is_default: boolean;
-  is_free: boolean;
+  free_from: number;
   icon_url: string;
   created_at: Date;
   updated_at: Date;

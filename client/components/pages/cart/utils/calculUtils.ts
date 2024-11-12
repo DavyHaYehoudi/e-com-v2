@@ -63,11 +63,15 @@ export const calculateTotalWeightCart = (items: CartItemsType[]) => {
   }, 0);
 };
 export const calculateTotalAmountGiftCardToBuy = (
-  giftcards:  ProductCartGiftcards[] = []
+  giftcards: ProductCartGiftcards[] = []
 ) => {
-  return giftcards.reduce(
-    (sum, giftcard) => sum + giftcard.amount * giftcard.quantity,
-    0
+  return (
+    giftcards &&
+    giftcards.length > 0 &&
+    giftcards.reduce(
+      (sum, giftcard) => sum + giftcard.amount * giftcard.quantity,
+      0
+    )
   );
 };
 export const calculateTotalAmountGiftCardToUse = (
@@ -77,33 +81,27 @@ export const calculateTotalAmountGiftCardToUse = (
 };
 export const calculateTotalCartAfterDiscountAndGiftcardToUse = (
   items: CartItemsType[],
-  deliveryPrice: number ,
+  deliveryPrice: number,
   giftcardsToBuy: CartGiftCard[] = [],
   giftcardsToUse: GiftcardToUseType[] = []
 ) => {
   return (
-    calculateTotalCartBeforeDiscount(items) -
-    calculateTotalDiscountCart(items) +
+    Number(calculateTotalCartBeforeDiscount(items)) -
+    Number(calculateTotalDiscountCart(items)) +
     deliveryPrice +
-    calculateTotalAmountGiftCardToBuy(giftcardsToBuy) -
-    calculateTotalAmountGiftCardToUse(giftcardsToUse)
+    Number(calculateTotalAmountGiftCardToBuy(giftcardsToBuy)) -
+    Number(calculateTotalAmountGiftCardToUse(giftcardsToUse))
   );
 };
 export const calculateCodePromoDiscountOnCartTotal = (
   items: CartItemsType[],
-  deliveryPrice: number,
-  giftcardsToBuy: CartGiftCard[] = [],
-  giftcardsToUse: GiftcardToUseType[] = [],
+  giftcards: ProductCartGiftcards[],
   percentage: number
 ) => {
   return Math.max(
     0,
-    (calculateTotalCartAfterDiscountAndGiftcardToUse(
-      items,
-      deliveryPrice,
-      giftcardsToBuy,
-      giftcardsToUse
-    ) *
+    ((calculateTotalCartBeforeDiscount(items, giftcards) -
+      calculateTotalDiscountCart(items)) *
       percentage) /
       100
   );
@@ -124,14 +122,7 @@ export const calculateTotalCartAfterCashback = (
       giftcardsToBuy,
       giftcardsToUse
     ) -
-      calculateCodePromoDiscountOnCartTotal(
-        items,
-        deliveryPrice,
-        giftcardsToBuy,
-        giftcardsToUse,
-        percentage
-      ) -
+      calculateCodePromoDiscountOnCartTotal(items, giftcardsToBuy, percentage) -
       (selectedCashback ?? 0)
   );
 };
- 

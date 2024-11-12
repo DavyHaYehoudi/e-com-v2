@@ -35,7 +35,7 @@ export const getAllDeliveriesRepository = async () => {
       icon_url: method.icon_url,
       is_active: method.is_active,
       is_default: method.is_default,
-      is_free: method.is_free,
+      free_from: method.free_from,
       rates: tarifs
         .filter((tarif) => tarif.shipping_method_id === method.id)
         .map((tarif) => ({
@@ -52,20 +52,22 @@ export const getAllDeliveriesRepository = async () => {
 export const createDeliveryRepository = async (
   shippingData: CreateDeliveryDTO
 ) => {
-  const { name, icon_url, is_active, is_default, is_free, rates } = shippingData;
+  const { name, icon_url, is_active, is_default, free_from, rates } = shippingData;
 
   await beginTransaction();
 
   try {
     // Insertion dans la table shipping_method
     const insertMethodSql = `
-        INSERT INTO shipping_method (name, icon_url, is_active, is_default, is_free)
+        INSERT INTO shipping_method (name, icon_url, is_active, is_default, free_from)
         VALUES (?, ?, ?, ?, ?)
       `;
     const resultMethod = await query<ResultSetHeader>(insertMethodSql, [
       name,
       icon_url,
-      is_active ?? true,
+      is_active,
+      is_default,
+      free_from,
     ]);
     const shippingMethodId = resultMethod.insertId;
 
@@ -111,7 +113,7 @@ export const createDeliveryRepository = async (
       icon_url: shippingMethod[0].icon_url,
       is_active: shippingMethod[0].is_active,
       is_default: shippingMethod[0].is_default,
-      is_free: shippingMethod[0].is_free,
+      free_from: shippingMethod[0].free_from,
       rates: tarifs.map((tarif) => ({
         price: tarif.price,
         min_weight: tarif.min_weight,

@@ -34,8 +34,7 @@ const CartTable: React.FC<CartRowItemProps> = ({
   );
 
   const { deliveries, handleDeliveryChange, deliveryPrice, selectedDelivery } =
-  useDelivery();
-  console.log('deliveryPrice dans CartTable:', deliveryPrice)
+    useDelivery();
   const {
     codePromoPercentage,
     selectedCashback,
@@ -49,7 +48,8 @@ const CartTable: React.FC<CartRowItemProps> = ({
   const onDiscount = (discount_percentage: number) => {
     applyDiscount(discount_percentage);
   };
-
+  const isItemsInCart = useSelector((state: RootState) => state.cart.items);
+  const isOnlyGiftcardsInCart = isItemsInCart.length === 0;
   return (
     <Table>
       <TableBody>
@@ -65,30 +65,30 @@ const CartTable: React.FC<CartRowItemProps> = ({
       <TableFooter>
         <ProductsBeforePromotion productsInCart={productsInCart} />
         <RowPromotion productsInCart={productsInCart} />
-        <RowDelivery
-          handleDeliveryChange={handleDeliveryChange}
-          selectedDelivery={selectedDelivery}
-          weightTotal={weightTotal}
-          deliveryPrice={deliveryPrice}
-          deliveries={deliveries}
-        />
-        <RowGiftcardToUse
-          giftCardsToUse={giftCardsToUse}
-          onGiftcardToUse={handleGiftcardToUse}
-        />
         <RowCodePromo
           onDiscount={onDiscount}
           codePromoPercentage={codePromoPercentage}
           productsInCart={productsInCart}
-          deliveryPrice={deliveryPrice}
-          giftCardsToUse={giftCardsToUse}
         />
+        {!isOnlyGiftcardsInCart && (
+          <RowDelivery
+            handleDeliveryChange={handleDeliveryChange}
+            selectedDelivery={selectedDelivery}
+            weightTotal={weightTotal}
+            deliveryPrice={deliveryPrice}
+            deliveries={deliveries}
+          />
+        )}
         {isAuthenticated && (
           <RowCashbackToUse
             onCashbackSelect={handleCashbackSelect}
             selectedCashback={selectedCashback}
           />
         )}
+        <RowGiftcardToUse
+          giftCardsToUse={giftCardsToUse}
+          onGiftcardToUse={handleGiftcardToUse}
+        />
         <RowTotalCart
           productsInCart={productsInCart}
           deliveryPrice={deliveryPrice}

@@ -4,9 +4,9 @@ import { z } from "zod";
 export const paymentAmountSchema = z.object({
   codePromo: z.string().nullable().optional().default(null),
   giftCardIds: z.array(z.number().int()).optional().default([]), // Ajout d'un tableau vide par défaut
-  shippingMethodId: z.number().int(),
+  shippingMethodId: z.number().int().optional().nullable().default(null),
   cashBackToSpend: z.number().min(0).nullable().optional().default(null),
-  emailCustomer: z.string().email().nullable().optional().default(null)
+  emailCustomer: z.string().email().nullable().optional().default(null),
 });
 
 // Fonction de prétraitement des requêtes
@@ -14,7 +14,7 @@ export const preprocessPaymentAmountQuery = (query: any) => {
   const preprocessedQuery: any = {};
 
   preprocessedQuery.codePromo = query.codePromo || null;
-  preprocessedQuery.emailCustomer = query.emailCustomer || null; 
+  preprocessedQuery.emailCustomer = query.emailCustomer || null;
 
   if (query.giftCardIds) {
     // Si giftCardIds est déjà un tableau, on map les valeurs à Number
@@ -26,7 +26,9 @@ export const preprocessPaymentAmountQuery = (query: any) => {
     preprocessedQuery.giftCardIds = []; // Défaut à un tableau vide
   }
 
-  preprocessedQuery.shippingMethodId = Number(query.shippingMethodId);
+  preprocessedQuery.shippingMethodId = query.shippingMethodId
+    ? Number(query.shippingMethodId)
+    : null;
   preprocessedQuery.cashBackToSpend = query.cashBackToSpend
     ? Number(query.cashBackToSpend)
     : null;

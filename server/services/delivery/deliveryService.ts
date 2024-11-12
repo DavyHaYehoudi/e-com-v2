@@ -10,6 +10,7 @@ export const getAllDeliveriesRepository = async () => {
   // Formatage des données de chaque livraison
   return deliveries.map((delivery) => ({
     ...delivery,
+    free_from: formatAmount(delivery.free_from),
     rates: delivery.rates.map((rate) => ({
       ...rate,
       price: formatAmount(rate.price),

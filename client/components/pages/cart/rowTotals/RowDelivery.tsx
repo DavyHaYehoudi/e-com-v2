@@ -9,14 +9,14 @@ interface RowDeliveryProps {
   selectedDelivery: DeliveryType | null;
   weightTotal: number | null;
   deliveryPrice: number | null;
-  deliveries : Array<DeliveryType>
+  deliveries: Array<DeliveryType>;
 }
 const RowDelivery: React.FC<RowDeliveryProps> = ({
   handleDeliveryChange,
   selectedDelivery,
   weightTotal,
   deliveryPrice,
-  deliveries
+  deliveries,
 }) => {
   return (
     <TableRow>

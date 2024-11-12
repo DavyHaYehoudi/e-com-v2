@@ -1,10 +1,11 @@
 "use client";
 // hooks/useOrderAmount.ts
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { useFetch } from "@/service/hooks/useFetch";
 import { OrderAmountApi } from "@/app/types/OrderAmountApi";
+import { setAmountBeforeDiscount } from "@/redux/slice/cartSlice";
 
 export const useOrderAmount = () => {
   const [orderAmount, setOrderAmount] = useState(0);
@@ -22,7 +23,7 @@ export const useOrderAmount = () => {
   const cashBackToSpend = useSelector(
     (state: RootState) => state.priceAdjustments.cashBackToSpend
   );
-
+  const dispatch = useDispatch();
   // Construction de la query string
   const query = `?${giftCardIds
     .map((id) => `giftCardIds=${id}`)
@@ -51,6 +52,9 @@ export const useOrderAmount = () => {
   useEffect(() => {
     if (order) {
       setOrderAmount(order.orderAmount);
+      dispatch(
+        setAmountBeforeDiscount({ amount: order.totalAmountBeforeDiscount })
+      );
     }
   }, [order]);
 

@@ -4,7 +4,7 @@ import { formatAmount } from "../../utils/format_amount.js";
 
 export async function getPaymentIntentService(
   customerId: number,
-  shippingMethodId: number,
+  shippingMethodId: number | null,
   giftCardIds: number[],
   codePromo: string | null,
   cashBackToSpend: number | null,

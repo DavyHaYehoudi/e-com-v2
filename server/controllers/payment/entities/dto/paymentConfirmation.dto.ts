@@ -19,7 +19,7 @@ export const addressSchema = z.object({
 export const createOrderSchema = z.object({
   codePromo: z.string().optional().nullable().default(null),
   cashBackToSpend: z.number().min(0).nullable().optional().default(null),
-  shippingMethodId: z.number().int(),
+  shippingMethodId: z.number().int().nullable().optional().default(null),
   order_address_shipping: addressSchema,
   order_address_billing: addressSchema,
   giftCardIds: z.array(z.number().int()).optional().default([]),

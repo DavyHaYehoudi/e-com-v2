@@ -174,7 +174,7 @@ export async function getShippingRatesRepository(
     totalWeight,
   ]);
 
-  const shippingMethodIdSelected = rates[0].id;
+  const shippingMethodIdSelected = rates[0]?.id; 
   if (!shippingMethodIdSelected) {
     throw new NotFoundError(
       `Shipping method id ${shippingMethodIdSelected} not found`

@@ -23,6 +23,7 @@ export function MainNavigation() {
   const cashbackCustomer = useSelector(
     (state: RootState) => state.cashback.cashback_total
   );
+
   return (
     <header className="bg-dark">
       <nav className="container mx-auto flex justify-between p-4">

@@ -3958,6 +3958,9 @@ components:
         is_default: 
           type: boolean
           example: true
+        free_from:
+          type: integer
+          example: 25
         rates:
           type: array
           items:
@@ -3990,6 +3993,9 @@ components:
         is_default: 
           type: boolean
           example: true
+        free_from:
+          type: integer
+          example: 25
         rates:
           type: array
           items:
@@ -4025,10 +4031,13 @@ components:
           example: https/server-storage/url
         is_active: 
           type: boolean
-          example: true
+          example: false
         is_default: 
           type: boolean
           example: true
+        free_from:
+          type: integer
+          example: 25
         rates:
           type: array
           items:

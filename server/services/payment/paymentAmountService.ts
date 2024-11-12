@@ -16,7 +16,7 @@ import { formatAmount } from "../../utils/format_amount.js";
 
 export async function getPaymentAmountService(
   customerId: number,
-  shippingMethodId: number,
+  shippingMethodId: number | null,
   giftCardIds: number[],
   codePromo: string | null,
   cashBackToSpend: number | null
@@ -30,6 +30,7 @@ export async function getPaymentAmountService(
   let codePromoAmount = 0;
   let codePromoPercentage = 0;
   let totalPromotionAmount = 0;
+  let totalAmountBeforeDiscount = 0;
   let orderItems = [];
   let amountGiftCardUsed = 0;
   let cash_back_to_earn = 0;
@@ -39,7 +40,7 @@ export async function getPaymentAmountService(
   );
   const cash_back_to_spend = cashBackToSpend ? cashBackToSpend : 0;
   // Montant du nouveau solde du cashback après son utilisation
-  let newBalanceCashBack = balanceCashBackCustomer - cash_back_to_spend; 
+  let newBalanceCashBack = balanceCashBackCustomer - cash_back_to_spend;
 
   // Calcul des totaux des articles du panier
   for (const item of cartItems) {
@@ -48,6 +49,7 @@ export async function getPaymentAmountService(
       item.product_id,
       "product"
     );
+    totalAmountBeforeDiscount += item.price * item.quantity;
     if (discount) {
       totalPromotionAmount +=
         (item.price * item.quantity * discount.discount_percentage) / 100;
@@ -126,13 +128,14 @@ export async function getPaymentAmountService(
   // Ajout des montants des cartes cadeaux dans le panier
   for (const giftCard of giftCardsInCart) {
     totalAmountOrder += giftCard.amount * giftCard.quantity; // Ajouter le montant pour chaque carte cadeau dans le panier
+    totalAmountBeforeDiscount += giftCard.amount * giftCard.quantity;
   }
   // Ajout des frais de livraison
   const totalWeight = calculateTotalWeight(cartItems);
-  const shippingRate = await getShippingRatesRepository(
-    shippingMethodId,
-    totalWeight
-  );
+
+  const shippingRate = shippingMethodId
+    ? await getShippingRatesRepository(shippingMethodId, totalWeight)
+    : null;
   if (shippingRate) {
     shippingPrice += Number(shippingRate.price);
     totalAmountOrder += Number(shippingRate.price);
@@ -153,8 +156,11 @@ export async function getPaymentAmountService(
     const promo = await getPercentageByCodePromoRepository(codePromo);
     if (promo) {
       codePromoPercentage = promo.discount_percentage;
-      codePromoAmount = (totalAmountOrder * promo.discount_percentage) / 100;
-      totalAmountOrder *= 1 - promo.discount_percentage / 100;
+      codePromoAmount =
+        ((totalAmountBeforeDiscount - totalPromotionAmount) *
+          promo.discount_percentage) /
+        100;
+      totalAmountOrder -= codePromoAmount;
     }
   }
   // Utilisation du cashback du client
@@ -175,6 +181,7 @@ export async function getPaymentAmountService(
 
   const amounts = {
     orderAmount: formatAmount(totalAmountOrder),
+    totalAmountBeforeDiscount:formatAmount(totalAmountBeforeDiscount),
     codePromoAmount: formatAmount(codePromoAmount),
     codePromoPercentage: formatAmount(codePromoPercentage),
     totalWeight: formatAmount(totalWeight),
