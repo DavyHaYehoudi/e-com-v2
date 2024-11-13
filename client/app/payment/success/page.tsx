@@ -11,49 +11,21 @@ import {
 } from "@/components/ui/dialog";
 import { CheckCircle, ArrowRightCircle, Home, Loader } from "lucide-react";
 import { useFetch } from "@/service/hooks/useFetch";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/redux/store/store";
-import { OrderResponse } from "@/app/types/OrderCreate";
+import { useDispatch } from "react-redux";
 import { reset } from "@/redux/slice/priceAdjustmentsSlice";
 import { clearCart } from "@/redux/slice/cartSlice";
 import useCashback from "@/app/hooks/useCashback";
+import { useSearchParams } from "next/navigation";
 
 const PaymentSuccess = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const [confirmationNumber, setConfirmationNumber] = useState("");
+  const [orderPendingCreated,setOrderPendingCreated]=useState(false)
   const dispatch = useDispatch();
 
-  const giftCardIds = useSelector(
-    (state: RootState) => state.priceAdjustments.giftCards
-  );
-  const codePromo = useSelector(
-    (state: RootState) => state.priceAdjustments.promoCode
-  );
-  const shippingMethodId = useSelector(
-    (state: RootState) => state.priceAdjustments.shippingMethod
-  );
-  const cashBackToSpend = useSelector(
-    (state: RootState) => state.priceAdjustments.cashBackToSpend
-  );
-  const order_address_shipping = useSelector(
-    (state: RootState) => state.addresses.shipping
-  );
-  const order_address_billing = useSelector(
-    (state: RootState) => state.addresses.billing
-  );
-  const formatData = {
-    giftCardIds,
-    shippingMethodId,
-    cashBackToSpend,
-    codePromo,
-    order_address_billing,
-    order_address_shipping,
-  };
-
-  const { data: orderCreated, triggerFetch } = useFetch<OrderResponse>(
-    "/payment/confirm",
+  const { triggerFetch } = useFetch(
+    "/payment/status",
     {
-      method: "POST",
+      method: "PATCH",
       requiredCredentials: true,
     }
   );
@@ -64,19 +36,22 @@ const PaymentSuccess = () => {
   });
 
   const { getCashbackOneCustomer } = useCashback();
+  const searchParams = useSearchParams();
+  const confirmationNumber = searchParams.get("confirmationNumber");
   useEffect(() => {
-    triggerFetch(formatData).then((response) => {
-      if (response) {
-        setConfirmationNumber(response.order.confirmation_number);
-      }
-      dispatch(reset());
-      dispatch(clearCart());
-      getCashbackOneCustomer();
-      triggerClearCart({ items: [], gift_cards: [] });
-    });
-  }, []);
+    if (confirmationNumber) {
+      const bodyData = { confirmationNumber, status: "paid" };
+      triggerFetch(bodyData).then(() => {
+        setOrderPendingCreated(true)
+        dispatch(reset());
+        dispatch(clearCart());
+        getCashbackOneCustomer();
+        triggerClearCart({ items: [], gift_cards: [] });
+      
+    }).catch((error) => { console.log(error); });
+  }}, [confirmationNumber]);
 
-  if (!orderCreated) {
+  if (!orderPendingCreated) {
     return (
       <div className="flex justify-center my-20 text-center">
         <div>

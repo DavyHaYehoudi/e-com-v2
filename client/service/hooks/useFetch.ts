@@ -89,7 +89,7 @@ export const useFetch = <T, B = unknown>(
         setLoading(false);
       }
     },
-    [url, method, token, requiredCredentials, requestOptions]
+    [url, method, token, requiredCredentials, requestOptions, dispatch]
   );
 
   return { data, loading, error, triggerFetch };

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
+import useCreatePendingOrder from "./useCreatePendingOrder";
 
 const usePaymentForm = () => {
   const stripe = useStripe();
@@ -38,8 +39,11 @@ const usePaymentForm = () => {
     });
   }, [stripe]);
 
+  const { getConfirmationNumber } = useCreatePendingOrder();
+
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    const confirmationNumber = await getConfirmationNumber();
 
     if (!stripe || !elements) {
       return;
@@ -47,13 +51,12 @@ const usePaymentForm = () => {
 
     setIsLoading(true);
 
-    const { error,  } = await stripe.confirmPayment({
+    const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/payment/success`,
+        return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/payment/success?confirmationNumber=${confirmationNumber}`,
       },
     });
-    //.then + navigate
 
     if (error) {
       if (error.type === "card_error" || error.type === "validation_error") {

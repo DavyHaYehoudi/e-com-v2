@@ -199,7 +199,7 @@ export const createGiftCardRepository = async (
   customerId: number,
   orderId: number,
   giftCards: CartGiftCardRow[]
-) => {
+) => {  
   const createdGiftCards = [];
   for (const giftCard of giftCards) {
     const { quantity, amount } = giftCard;

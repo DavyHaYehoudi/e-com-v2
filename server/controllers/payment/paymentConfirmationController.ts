@@ -17,10 +17,10 @@ export const getPaymentConfirmationController = async (
       customerId,
       validatedData
     );
+    // console.log('paymentConfirmation:', paymentConfirmation)
     res.status(201).json(paymentConfirmation);
   } catch (error) {
     console.error(error);
     next(error);
-  }
-};
- 
+  } 
+}; 

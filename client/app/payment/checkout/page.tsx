@@ -7,6 +7,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import CheckoutSection from "@/components/pages/payment/CheckoutSection";
+import { useOrderAmount } from "@/components/pages/cart/hooks/useOrderAmount";
+import ZeroPaymentCheckout from "@/components/pages/payment/ZeroPaymentCheckout";
 
 // Les étapes
 enum Step {
@@ -19,6 +21,7 @@ enum Step {
 const CheckoutPage = () => {
   const [step, setStep] = useState(Step.AUTH);
   const [sameAddress, setSameAddress] = useState(true); // Pour gérer si les adresses sont identiques
+  const orderAmount = useOrderAmount();
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );
@@ -45,7 +48,10 @@ const CheckoutPage = () => {
         <BillingForm onNext={() => setStep(Step.PAYMENT)} />
       )}
 
-      {step === Step.PAYMENT && <CheckoutSection />}
+      {/* {step === Step.PAYMENT && <CheckoutSection />} */}
+      {step === Step.PAYMENT &&
+        // Vérification du montant de la commande pour afficher le composant approprié
+        (orderAmount === 0 ? <ZeroPaymentCheckout /> : <CheckoutSection />)}
     </div>
   );
 };
