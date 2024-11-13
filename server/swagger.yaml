@@ -2247,7 +2247,6 @@ paths:
           schema:
               type: number
               nullable: true
-          required: true
         - name: cashBackToSpend
           in: query
           description: Amount cashback to use.
@@ -4133,6 +4132,9 @@ components:
         codePromoAmount:
           type: integer
           example: 21
+        totalAmountBeforeDiscount:
+          type: integer
+          example: 175.34
         codePromoPercentage:
           type: integer
           example: 10

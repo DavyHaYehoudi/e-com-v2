@@ -175,7 +175,6 @@ const cartSlice = createSlice({
       action: PayloadAction<AmountBeforeDiscountType>
     ) => {
       state.amountBeforeDiscount = action.payload.amount;
-      console.log("Updated amountBeforeDiscount:", state.amountBeforeDiscount);
     },
 
     clearCart: (state) => {

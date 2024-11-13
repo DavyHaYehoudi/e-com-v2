@@ -16,6 +16,7 @@ export const useDelivery = () => {
     (state: RootState) => state.cart.amountBeforeDiscount
   );
   const isOnlyGiftcardsInCart = items.length === 0 && giftCards.length > 0;
+  console.log("isOnlyGiftcardsInCart:", isOnlyGiftcardsInCart);
   const selectedDeliveryId = useSelector(
     (state: RootState) => state.priceAdjustments.shippingMethod
   );
@@ -26,6 +27,7 @@ export const useDelivery = () => {
   const isAmountSufficientForFree = amountForFree
     ? totalOrderAmountBeforeDiscount >= amountForFree
     : false;
+  console.log("isAmountSufficientForFree:", isAmountSufficientForFree);
 
   const defaultDelivery = () => {
     if (isAmountSufficientForFree) {
@@ -41,6 +43,9 @@ export const useDelivery = () => {
       const defaultDeliveryInit = defaultDelivery();
       if (defaultDeliveryInit) {
         dispatch(setShippingMethod(defaultDeliveryInit.id));
+      } else {
+        // Si le panier ne contient que des cartes cadeaux
+        dispatch(setShippingMethod(null));
       }
     }
   }, [deliveries, isOnlyGiftcardsInCart, dispatch, isAmountSufficientForFree]);

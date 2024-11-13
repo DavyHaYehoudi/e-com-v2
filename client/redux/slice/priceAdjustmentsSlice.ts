@@ -47,7 +47,7 @@ const priceAdjustmentsSlice = createSlice({
         state.giftCards = [];
       }
     },
-    setShippingMethod(state, action: PayloadAction<number>) {
+    setShippingMethod(state, action: PayloadAction<number | null>) {
       state.shippingMethod = action.payload;
     },
     setCashBackToSpend(state, action: PayloadAction<number>) {

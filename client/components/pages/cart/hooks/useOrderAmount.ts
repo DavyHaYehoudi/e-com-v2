@@ -17,9 +17,9 @@ export const useOrderAmount = () => {
   const codePromo = useSelector(
     (state: RootState) => state.priceAdjustments.promoCode
   );
-  const shippingMethodId = useSelector(
-    (state: RootState) => state.priceAdjustments.shippingMethod
-  );
+  const shippingMethodId =
+    useSelector((state: RootState) => state.priceAdjustments.shippingMethod) ||
+    "";
   const cashBackToSpend = useSelector(
     (state: RootState) => state.priceAdjustments.cashBackToSpend
   );
@@ -38,15 +38,14 @@ export const useOrderAmount = () => {
   );
 
   useEffect(() => {
-    if (shippingMethodId) {
-      triggerFetch();
-    }
+    triggerFetch();
   }, [
     giftCardIds,
     codePromo,
     shippingMethodId,
     cashBackToSpend,
     cart.totalItemsCount,
+    triggerFetch,
   ]);
 
   useEffect(() => {
@@ -56,7 +55,7 @@ export const useOrderAmount = () => {
         setAmountBeforeDiscount({ amount: order.totalAmountBeforeDiscount })
       );
     }
-  }, [order]);
+  }, [order, dispatch]);
 
   return orderAmount;
 };

@@ -195,3 +195,4 @@ export async function getPercentageByCodePromoRepository(
   const [result] = await query<RowDataPacket[]>(sql, [code]);
   return result ? { discount_percentage: result.discount_percentage } : null;
 }
+ 
