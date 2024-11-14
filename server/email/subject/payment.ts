@@ -103,13 +103,13 @@ export const sendPaymentConfirmationEmail = async (
   // Options de l'email
   const mailOptions = {
     to: customer.email,
-    subject: "Confirmation de paiement",
+    subject: "Création de votre commande",
     html: `
       <div style="font-family: Arial, sans-serif; padding: 20px;">
         <h2 style="text-align: center; color: #4CAF50;">Merci pour votre achat, ${
           customer.firstName || "cher client"
         } !</h2>
-        <p style="font-size: 16px;">Votre commande a été confirmée avec succès.</p>
+        <p style="font-size: 16px;">Votre commande a été créee avec succès.</p>
         <p><strong>Numéro de commande :</strong> ${
           order.confirmation_number
         }</p>

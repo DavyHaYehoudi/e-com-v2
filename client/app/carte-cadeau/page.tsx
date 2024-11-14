@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import React, { useState } from "react";
+import { formatPrice } from "../utils/pricesFormat";
 
 const GiftcardPage = () => {
   const [amount, setAmount] = useState(20);
@@ -73,7 +74,11 @@ const GiftcardPage = () => {
             </p>
             <p>
               La carte cadeau permet de réaliser plusieurs achats si son montant
-              est supérieur au total.
+              est supérieur au total. Par exemple, le montant de la commande est
+              de {formatPrice(30)} et vous utilisez une carte cadeau de{" "}
+              {formatPrice(50)}, le total sera de {formatPrice(0)} mais il
+              restera {formatPrice(20)} sur cette carte cadeau que vous pourrez
+              utiliser de nouveau.
             </p>
             <p>
               Un historique est tenu à jour dans votre espace compte. Vous voyez

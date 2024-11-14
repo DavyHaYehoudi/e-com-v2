@@ -85,12 +85,13 @@ export const calculateTotalCartAfterDiscountAndGiftcardToUse = (
   giftcardsToBuy: CartGiftCard[] = [],
   giftcardsToUse: GiftcardToUseType[] = []
 ) => {
-  return (
+  return Math.max(
+    0,
     Number(calculateTotalCartBeforeDiscount(items)) -
-    Number(calculateTotalDiscountCart(items)) +
-    deliveryPrice +
-    Number(calculateTotalAmountGiftCardToBuy(giftcardsToBuy)) -
-    Number(calculateTotalAmountGiftCardToUse(giftcardsToUse))
+      Number(calculateTotalDiscountCart(items)) +
+      deliveryPrice +
+      Number(calculateTotalAmountGiftCardToBuy(giftcardsToBuy)) -
+      Number(calculateTotalAmountGiftCardToUse(giftcardsToUse))
   );
 };
 export const calculateCodePromoDiscountOnCartTotal = (

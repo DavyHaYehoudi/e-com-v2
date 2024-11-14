@@ -14,10 +14,12 @@ import { useRouter } from "next/navigation";
 import { BadgeEuro, PercentIcon, GiftIcon } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-
+import { useState } from "react";
+import { Loader } from "lucide-react";
 type CardProps = React.ComponentProps<typeof Card>;
 
 const ZeroPaymentCheckout = ({ className, ...props }: CardProps) => {
+  const [isLoading, setIsLoading] = useState(false);
   const amountCodePromo = useSelector(
     (state: RootState) => state.priceAdjustments.amountDiscountPromoCode
   );
@@ -49,12 +51,15 @@ const ZeroPaymentCheckout = ({ className, ...props }: CardProps) => {
 
   const handleConfirm = async () => {
     try {
+      setIsLoading(true);
       const confirmationNumber = await getConfirmationNumber();
       router.push(
         `${process.env.NEXT_PUBLIC_CLIENT_URL}/payment/success?confirmationNumber=${confirmationNumber}`
       );
     } catch (error) {
       console.log("erreur dans ZeroPaymentCheckout :", error);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -94,8 +99,13 @@ const ZeroPaymentCheckout = ({ className, ...props }: CardProps) => {
           <Button
             className="w-full bg-green-500 hover:bg-green-600 dark:text-[var(--whiteSmoke)] font-bold"
             onClick={handleConfirm}
+            disabled={isLoading}
           >
-            Confirmer
+            {isLoading ? (
+              <Loader className="animate-spin text-gray-500" size={24} />
+            ) : (
+              "Confirmer"
+            )}
           </Button>
         </CardFooter>
       </Card>
