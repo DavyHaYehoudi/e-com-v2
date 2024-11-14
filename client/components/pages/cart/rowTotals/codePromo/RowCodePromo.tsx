@@ -14,8 +14,7 @@ const RowCodePromo: React.FC<RowCodePromoProps> = ({
   onDiscount,
   codePromoPercentage,
   productsInCart,
-}) => {
-  
+}) => {  
   return (
     <TableRow>
       <CartCodePromo

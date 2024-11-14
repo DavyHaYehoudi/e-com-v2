@@ -156,7 +156,7 @@ export const createOrderService = async (
     };
 
     // Appeler la fonction d'envoi d'email
-    // await sendPaymentConfirmationEmail(emailDetails, orderDetails);
+    await sendPaymentConfirmationEmail(emailDetails, orderDetails);
     // Retourner l'ID de commande et le numéro de confirmation
     return {
       order,

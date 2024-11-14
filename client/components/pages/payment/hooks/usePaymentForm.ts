@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import useCreatePendingOrder from "./useCreatePendingOrder";
+import { useFetch } from "@/service/hooks/useFetch";
 
 const usePaymentForm = () => {
   const stripe = useStripe();
@@ -39,7 +40,13 @@ const usePaymentForm = () => {
     });
   }, [stripe]);
 
+  //  On récupère le numéro de la commande créée en staging
   const { getConfirmationNumber } = useCreatePendingOrder();
+  // En cas d'échec de payment, on modifie le statut de payment de la commande créée en staging
+  const { triggerFetch } = useFetch("/payment/status", {
+    method: "PATCH",
+    requiredCredentials: true,
+  });
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -61,6 +68,8 @@ const usePaymentForm = () => {
     if (error) {
       if (error.type === "card_error" || error.type === "validation_error") {
         setMessage(error.message || "");
+        const bodyData = { confirmationNumber, status: "failed" };
+        triggerFetch(bodyData);
       } else {
         setMessage("An unexpected error occurred.");
       }

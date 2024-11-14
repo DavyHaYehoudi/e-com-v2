@@ -22,7 +22,10 @@ const Products = () => {
           <h2 className="text-center mb-6">Decouvrez nos produits</h2>
           <div className="flex items-center justify-around gap-5 flex-wrap">
             {productsStar.map((product) => (
-              <ProductCard product={product} />
+              <ProductCard
+                product={product}
+                key={`${product.id}-${product?.variant}`}
+              />
             ))}
           </div>
         </section>

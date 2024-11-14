@@ -1,8 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GiftcardToUseType } from "@/app/types/GiftcardToUseTypes";
+import { useDispatch } from "react-redux";
+import { setAmountTotalGiftcardsToUse } from "@/redux/slice/priceAdjustmentsSlice";
 
 export const useGiftCards = () => {
   const [giftCardsToUse, setGiftCardsToUse] = useState<GiftcardToUseType[]>([]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const amount = giftCardsToUse.reduce(
+      (acc, giftCard) => acc + (giftCard.balance || 0),
+      0
+    );
+    dispatch(setAmountTotalGiftcardsToUse(amount));
+  }, [giftCardsToUse]);
 
   const handleGiftcardToUse = (
     code: string,

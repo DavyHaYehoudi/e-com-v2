@@ -16,7 +16,6 @@ import ProductVariants from "@/components/pages/product/ProductVariants";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { useCartManager } from "@/app/panier/hooks/useCartManager";
-import ProductReviewSheet from "@/components/pages/product/ProductReviewSheet";
 import ProductReview from "@/components/pages/product/ProductReview";
 
 interface MasterProductProps {

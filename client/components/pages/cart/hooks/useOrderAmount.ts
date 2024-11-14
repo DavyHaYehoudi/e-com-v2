@@ -1,6 +1,6 @@
 "use client";
 // hooks/useOrderAmount.ts
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { useFetch } from "@/service/hooks/useFetch";
@@ -10,7 +10,7 @@ import { setAmountBeforeDiscount } from "@/redux/slice/cartSlice";
 export const useOrderAmount = () => {
   const [orderAmount, setOrderAmount] = useState(0);
 
-  const cart = useSelector((state: RootState) => state.cart);
+  // const cart = useSelector((state: RootState) => state.cart);
   const giftCardIds = useSelector(
     (state: RootState) => state.priceAdjustments.giftCards
   );
@@ -32,30 +32,36 @@ export const useOrderAmount = () => {
     )}&codePromo=${codePromo}&shippingMethodId=${shippingMethodId}&cashBackToSpend=${cashBackToSpend}`;
 
   // Utilisation de useFetch pour obtenir le montant de la commande
-  const { data: order, triggerFetch } = useFetch<OrderAmountApi>(
-    `/payment/amount${query}`,
-    { requiredCredentials: true }
-  );
+  const { triggerFetch } = useFetch<OrderAmountApi>(`/payment/amount${query}`, {
+    requiredCredentials: true,
+  });
 
-  useEffect(() => {
-    triggerFetch();
-  }, [
-    giftCardIds,
-    codePromo,
-    shippingMethodId,
-    cashBackToSpend,
-    cart.totalItemsCount,
-    triggerFetch,
-  ]);
-
-  useEffect(() => {
-    if (order) {
-      setOrderAmount(order.orderAmount);
-      dispatch(
-        setAmountBeforeDiscount({ amount: order.totalAmountBeforeDiscount })
+  const getAmountBeforeDiscount = async () => {
+    try {
+      const order = await triggerFetch();
+      if (order) {
+        dispatch(
+          setAmountBeforeDiscount({ amount: order.totalAmountBeforeDiscount })
+        );
+      }
+    } catch (error) {
+      console.log(
+        "Erreur dans useOrderAmount pour getAmountBeforeDiscount :",
+        error
       );
     }
-  }, [order, dispatch]);
+  };
 
-  return orderAmount;
+  const getOrderAmount = useCallback(async () => {
+    try {
+      const order = await triggerFetch();
+      if (order) {
+        setOrderAmount(order.orderAmount);
+      }
+    } catch (error) {
+      console.log("Erreur dans useOrderAmount pour getOrderAmount :", error);
+    }
+  }, [triggerFetch]);
+
+  return { getOrderAmount, orderAmount, getAmountBeforeDiscount };
 };

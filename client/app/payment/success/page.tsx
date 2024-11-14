@@ -19,16 +19,13 @@ import { useSearchParams } from "next/navigation";
 
 const PaymentSuccess = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const [orderPendingCreated,setOrderPendingCreated]=useState(false)
+  const [orderPendingCreated, setOrderPendingCreated] = useState(false);
   const dispatch = useDispatch();
 
-  const { triggerFetch } = useFetch(
-    "/payment/status",
-    {
-      method: "PATCH",
-      requiredCredentials: true,
-    }
-  );
+  const { triggerFetch } = useFetch("/payment/status", {
+    method: "PATCH",
+    requiredCredentials: true,
+  });
 
   const { triggerFetch: triggerClearCart } = useFetch("/customer/cart", {
     method: "PUT",
@@ -41,15 +38,19 @@ const PaymentSuccess = () => {
   useEffect(() => {
     if (confirmationNumber) {
       const bodyData = { confirmationNumber, status: "paid" };
-      triggerFetch(bodyData).then(() => {
-        setOrderPendingCreated(true)
-        dispatch(reset());
-        dispatch(clearCart());
-        getCashbackOneCustomer();
-        triggerClearCart({ items: [], gift_cards: [] });
-      
-    }).catch((error) => { console.log(error); });
-  }}, [confirmationNumber]);
+      triggerFetch(bodyData)
+        .then(() => {
+          setOrderPendingCreated(true);
+          dispatch(reset());
+          dispatch(clearCart());
+          getCashbackOneCustomer();
+          triggerClearCart({ items: [], gift_cards: [] });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [confirmationNumber]);
 
   if (!orderPendingCreated) {
     return (

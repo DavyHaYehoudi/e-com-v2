@@ -8,12 +8,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import {
   applyPromoCode,
+  setAmountDiscountPromoCode,
+  setAmountTotalGiftcardsToUse,
   setCashBackToSpend,
   setGiftCard,
 } from "@/redux/slice/priceAdjustmentsSlice";
 
 const Cart = () => {
   const { removeProduct } = useCartManager();
+
   const cartCustomer = useSelector((state: RootState) => state.cart);
   const { cart, items, giftCards } = cartCustomer;
   const productsInCart = { cart, items, giftCards };
@@ -22,6 +25,8 @@ const Cart = () => {
   dispatch(applyPromoCode(""));
   dispatch(setGiftCard({ type: "reset" }));
   dispatch(setCashBackToSpend(0));
+  dispatch(setAmountDiscountPromoCode(0));
+  dispatch(setAmountTotalGiftcardsToUse(0));
   return (
     <main>
       <h1 className="uppercase text-center m-10">mon panier</h1>

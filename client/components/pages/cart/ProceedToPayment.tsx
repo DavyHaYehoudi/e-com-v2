@@ -1,6 +1,6 @@
 "use client";
 import { formatPrice } from "@/app/utils/pricesFormat";
-import React from "react";
+import React, { useEffect } from "react";
 import { calculateTotalCashbackCartToEarn } from "./utils/calculUtils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -16,7 +16,35 @@ interface ProceedToPaymentProps {
 const ProceedToPayment: React.FC<ProceedToPaymentProps> = ({
   productsInCart,
 }) => {
-  const orderAmount = useOrderAmount();
+  const giftCardIds = useSelector(
+    (state: RootState) => state.priceAdjustments.giftCards
+  );
+  const codePromo = useSelector(
+    (state: RootState) => state.priceAdjustments.promoCode
+  );
+  const shippingMethodId =
+    useSelector((state: RootState) => state.priceAdjustments.shippingMethod) ||
+    "";
+  const cashBackToSpend = useSelector(
+    (state: RootState) => state.priceAdjustments.cashBackToSpend
+  );
+  const { getOrderAmount, orderAmount, getAmountBeforeDiscount } =
+    useOrderAmount();
+    
+  useEffect(() => {
+    getOrderAmount();
+  }, [
+    giftCardIds,
+    codePromo,
+    shippingMethodId,
+    cashBackToSpend,
+    getOrderAmount,
+  ]);
+
+  useEffect(() => {
+    getAmountBeforeDiscount();
+  }, []);
+
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   return (
     <div className="wrapper flex flex-wrap items-center justify-center xl:justify-between my-5 gap-5">

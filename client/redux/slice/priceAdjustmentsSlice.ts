@@ -9,6 +9,8 @@ interface PriceAdjustmentsState {
   cashBackToSpend: number | null;
   totalDiscount: number;
   totalFees: number;
+  amountDiscountPromoCode: number;
+  amountTotalGiftcardsToUse: number;
 }
 
 const initialState: PriceAdjustmentsState = {
@@ -18,6 +20,8 @@ const initialState: PriceAdjustmentsState = {
   cashBackToSpend: 0,
   totalDiscount: 0,
   totalFees: 0,
+  amountDiscountPromoCode: 0,
+  amountTotalGiftcardsToUse: 0,
 };
 
 const priceAdjustmentsSlice = createSlice({
@@ -59,6 +63,12 @@ const priceAdjustmentsSlice = createSlice({
     setTotalFees(state, action: PayloadAction<number>) {
       state.totalFees = action.payload;
     },
+    setAmountTotalGiftcardsToUse(state, action: PayloadAction<number>) {
+      state.amountTotalGiftcardsToUse = action.payload;
+    },
+    setAmountDiscountPromoCode(state, action: PayloadAction<number>) {
+      state.amountDiscountPromoCode = action.payload;
+    },
     reset(state) {
       Object.assign(state, initialState);
     },
@@ -72,6 +82,8 @@ export const {
   setCashBackToSpend,
   setTotalDiscount,
   setTotalFees,
+  setAmountTotalGiftcardsToUse,
+  setAmountDiscountPromoCode,
   reset,
 } = priceAdjustmentsSlice.actions;
 

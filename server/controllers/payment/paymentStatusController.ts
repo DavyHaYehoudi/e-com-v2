@@ -15,7 +15,7 @@ export const paymentStatusController = async (
     const validatedData = paymentStatusSchema.parse(req.body);
     // console.log('validatedData paymentStatusController:', validatedData)
     await paymentStatusService(customerId, validatedData);
-    res.status(200).json({});
+    res.status(204).json({});
   } catch (error) {
     console.error(error);
     next(error);

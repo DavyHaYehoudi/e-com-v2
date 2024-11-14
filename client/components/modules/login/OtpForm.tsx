@@ -47,9 +47,18 @@ const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
     },
   });
 
+  // Vérification du code OTP
   const { triggerFetch } = useFetch<AuthResponse>("/auth/send-verify-otp", {
     method: "POST",
   });
+  // Renvoyer un code OTP
+  const { triggerFetch: reSendOtp } = useFetch("/auth/open-session", {
+    method: "POST",
+  });
+  const resendOTP = () => {
+    reSendOtp({ email });
+    toast("Un code OTP a été renvoyé");
+  };
   const wishlistCustomer = useSelector((state: RootState) => state.wishlist);
   const cartCustomer = useSelector((state: RootState) => state.cart);
 
@@ -109,15 +118,33 @@ const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
                   }
                 >
                   <InputOTPGroup>
-                    <InputOTPSlot index={0} className="dark:text-whitesmoke dark:border-[var(--whitesmoke)] border border-[var(--whitesmoke)]" />
-                    <InputOTPSlot index={1} className="dark:text-whitesmoke dark:border-[var(--whitesmoke)] border border-[var(--whitesmoke)]" />
-                    <InputOTPSlot index={2} className="dark:text-whitesmoke dark:border-[var(--whitesmoke)] border border-[var(--whitesmoke)]" />
+                    <InputOTPSlot
+                      index={0}
+                      className="dark:text-whitesmoke dark:border-[var(--whitesmoke)] border border-[var(--whitesmoke)]"
+                    />
+                    <InputOTPSlot
+                      index={1}
+                      className="dark:text-whitesmoke dark:border-[var(--whitesmoke)] border border-[var(--whitesmoke)]"
+                    />
+                    <InputOTPSlot
+                      index={2}
+                      className="dark:text-whitesmoke dark:border-[var(--whitesmoke)] border border-[var(--whitesmoke)]"
+                    />
                   </InputOTPGroup>
                   <InputOTPSeparator />
                   <InputOTPGroup>
-                    <InputOTPSlot index={3} className="dark:text-whitesmoke dark:border-[var(--whitesmoke)] border border-[var(--whitesmoke)]" />
-                    <InputOTPSlot index={4} className="dark:text-whitesmoke dark:border-[var(--whitesmoke)] border border-[var(--whitesmoke)]" />
-                    <InputOTPSlot index={5} className="dark:text-whitesmoke dark:border-[var(--whitesmoke)] border border-[var(--whitesmoke)]" />
+                    <InputOTPSlot
+                      index={3}
+                      className="dark:text-whitesmoke dark:border-[var(--whitesmoke)] border border-[var(--whitesmoke)]"
+                    />
+                    <InputOTPSlot
+                      index={4}
+                      className="dark:text-whitesmoke dark:border-[var(--whitesmoke)] border border-[var(--whitesmoke)]"
+                    />
+                    <InputOTPSlot
+                      index={5}
+                      className="dark:text-whitesmoke dark:border-[var(--whitesmoke)] border border-[var(--whitesmoke)]"
+                    />
                   </InputOTPGroup>
                 </InputOTP>
               </FormControl>
@@ -130,6 +157,12 @@ const OtpForm: React.FC<OtpFormProps> = ({ email, authenticate }) => {
         />
         <Button type="submit">Valider OTP</Button>
       </form>
+      <p
+        onClick={resendOTP}
+        className="text-slate-600 italic underline cursor-pointer text-end"
+      >
+        Renvoyer un code OTP
+      </p>
     </Form>
   );
 };

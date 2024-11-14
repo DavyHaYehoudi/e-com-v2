@@ -21,7 +21,10 @@ enum Step {
 const CheckoutPage = () => {
   const [step, setStep] = useState(Step.AUTH);
   const [sameAddress, setSameAddress] = useState(true); // Pour gérer si les adresses sont identiques
-  const orderAmount = useOrderAmount();
+  const { orderAmount, getOrderAmount } = useOrderAmount();
+  useEffect(() => {
+    getOrderAmount();
+  }, []);
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );

@@ -20,7 +20,6 @@ const ProductPrice: React.FC<ProductPriceProps> = ({
   selectedVariant,
   quantity,
 }) => {
-  console.log("product :", product);
 
   return (
     <article className="my-8">

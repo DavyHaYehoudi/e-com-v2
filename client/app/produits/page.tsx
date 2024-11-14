@@ -22,7 +22,10 @@ const AllProducts = () => {
         <section className="w-3/4 mx-auto my-20 flex flex-wrap items-center justify-center gap-4">
           {allProducts && allProducts.length > 0
             ? allProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard
+                  key={`${product.id}-${product?.variant}`}
+                  product={product}
+                />
               ))
             : !loading && <p>Aucun produit trouvé.</p>}
         </section>
