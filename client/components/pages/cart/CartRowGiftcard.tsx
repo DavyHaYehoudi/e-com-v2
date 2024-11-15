@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import TrashIcon from "@/components/shared/TrashIcon";
 import ProductImageGiftcard from "@/components/shared/productImage/ProductImageGiftcard";
-import { CartResponse } from "@/app/types/CartTypes";
+import { CartResponse } from "@/app/(public)/types/CartTypes";
 import { sumPriceArticle } from "@/app/utils/pricesFormat";
 
 interface CartRowGiftcardProps {

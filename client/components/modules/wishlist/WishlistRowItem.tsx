@@ -1,14 +1,14 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import React from "react";
-import { MasterProductsType } from "@/app/types/ProductTypes";
+import { MasterProductsType } from "@/app/(public)/types/ProductTypes";
 import ProductImageItem from "@/components/shared/productImage/ProductImageItem";
-import { isProductNew, isProductOnSale } from "@/app/utils/productUtils";
-import { formatPrice } from "@/app/utils/pricesFormat";
 import { Badge } from "@/components/ui/badge";
 import NewBadge from "@/components/shared/badge/NewBadge";
 import PromotionBadge from "@/components/shared/badge/PromotionBadge";
 import CashbackBadge from "@/components/shared/badge/CashbackBadge";
 import FavoriteButton from "@/components/shared/FavoriteButton";
+import { isProductNew, isProductOnSale } from "@/app/(public)/utils/productUtils";
+import { formatPrice } from "@/app/(public)/utils/pricesFormat";
 
 interface WislistRowItemProps {
   productsWishlistItems: MasterProductsType[];

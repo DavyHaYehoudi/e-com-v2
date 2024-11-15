@@ -1,9 +1,6 @@
-import { MasterProductsType } from "@/app/types/ProductTypes";
-import { formatPrice } from "@/app/utils/pricesFormat";
-import {
-  priceProductAfterDiscount,
-  canContinueSelling,
-} from "@/app/utils/productUtils";
+import { MasterProductsType } from "@/app/(public)/types/ProductTypes";
+import { formatPrice } from "@/app/(public)/utils/pricesFormat";
+import { canContinueSelling, priceProductAfterDiscount } from "@/app/(public)/utils/productUtils";
 import AddToCartButton from "@/components/shared/AddToCartButton";
 import CashbackBadge from "@/components/shared/badge/CashbackBadge";
 import PromotionBadge from "@/components/shared/badge/PromotionBadge";

@@ -1,4 +1,4 @@
-import { Product } from "@/app/types/ProductTypes";
+import { Product } from "@/app/(public)/types/ProductTypes";
 import React from "react";
 
 interface ProductCardProps {

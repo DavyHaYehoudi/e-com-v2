@@ -7,11 +7,11 @@ import { Input } from "@/components/ui/input";
 import { TableCell } from "@/components/ui/table";
 import { CheckCircleIcon, BadgeEuro } from "lucide-react";
 import { cashbackToUseSchema } from "./cashbackToUseSchema";
-import { formatPrice } from "@/app/utils/pricesFormat";
 import { Label } from "@/components/ui/label";
 import { useDispatch, useSelector } from "react-redux";
 import { setCashBackToSpend } from "@/redux/slice/priceAdjustmentsSlice";
 import { RootState } from "@/redux/store/store";
+import { formatPrice } from "@/app/(public)/utils/pricesFormat";
 
 type FormValues = {
   cashbackAmount: number;

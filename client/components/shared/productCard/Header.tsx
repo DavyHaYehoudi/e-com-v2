@@ -1,11 +1,11 @@
-import { isProductNew, isProductOnSale } from "@/app/utils/productUtils";
 import Image from "next/image";
 import React from "react";
 import PromotionBadge from "../badge/PromotionBadge";
 import NewBadge from "../badge/NewBadge";
 import CashbackBadge from "../badge/CashbackBadge";
-import { Product } from "@/app/types/ProductTypes";
+import { Product } from "@/app/(public)/types/ProductTypes";
 import Link from "next/link";
+import { isProductNew, isProductOnSale } from "@/app/(public)/utils/productUtils";
 
 interface HeaderProps {
   product: Product;

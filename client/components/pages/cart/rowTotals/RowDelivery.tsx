@@ -2,7 +2,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import React from "react";
 import CartDelivery from "../CartDelivery";
 import { formatPrice } from "@/app/utils/pricesFormat";
-import { DeliveryType } from "@/app/types/DeliveryTypes";
+import { DeliveryType } from "@/app/(public)/types/DeliveryTypes";
 
 interface RowDeliveryProps {
   handleDeliveryChange: (deliveryId: number) => void;

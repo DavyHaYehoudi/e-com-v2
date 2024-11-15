@@ -1,7 +1,7 @@
 import Header from "./Header";
 import Body from "./Body";
 import Footer from "./Footer";
-import { Product } from "@/app/types/ProductTypes";
+import { Product } from "@/app/(public)/types/ProductTypes";
 
 interface ProductCardProps {
   product: Product;

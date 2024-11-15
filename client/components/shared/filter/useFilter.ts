@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useFetch } from "@/service/hooks/useFetch";
-import { CategoryTypes } from "@/app/types/CategoryTypes";
-import { CollectionTypes } from "@/app/types/CollectionTypes";
-import { TagTypes } from "@/app/types/TagTypes";
+import { CategoryTypes } from "@/app/(public)/types/CategoryTypes";
+import { CollectionTypes } from "@/app/(public)/types/CollectionTypes";
+import { TagTypes } from "@/app/(public)/types/TagTypes";
 
 export const useFilter = (
   onFilter: (filters: {

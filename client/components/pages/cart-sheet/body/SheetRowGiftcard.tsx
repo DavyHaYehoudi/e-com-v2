@@ -2,7 +2,7 @@ import React from "react";
 import TrashIcon from "@/components/shared/TrashIcon";
 import { sumPriceArticle } from "@/app/utils/pricesFormat";
 import ProductImageGiftcard from "@/components/shared/productImage/ProductImageGiftcard";
-import { CartResponse } from "@/app/types/CartTypes";
+import { CartResponse } from "@/app/(public)/types/CartTypes";
 
 interface SheetRowGiftcardProps {
   productsInCart: CartResponse | null;

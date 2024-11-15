@@ -1,5 +1,5 @@
 import { useFetch } from "@/service/hooks/useFetch";
-import { MasterProductsType, Product } from "@/app/types/ProductTypes";
+import { MasterProductsType, Product } from "@/app/(public)/types/ProductTypes";
 import useWishlist from "./useWishlist";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleItem } from "@/redux/slice/wishlistSlice";

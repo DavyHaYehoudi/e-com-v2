@@ -1,13 +1,13 @@
 "use client";
-import { formatPrice } from "@/app/utils/pricesFormat";
 import React, { useEffect } from "react";
 import { calculateTotalCashbackCartToEarn } from "./utils/calculUtils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { CartResponse } from "@/app/types/CartTypes";
+import { CartResponse } from "@/app/(public)/types/CartTypes";
 import { useOrderAmount } from "./hooks/useOrderAmount";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
+import { formatPrice } from "@/app/(public)/utils/pricesFormat";
 
 interface ProceedToPaymentProps {
   productsInCart: CartResponse;

@@ -1,4 +1,4 @@
-import { MasterProductsType } from "@/app/types/ProductTypes";
+import { MasterProductsType } from "@/app/(public)/types/ProductTypes";
 import { formatWeight } from "@/app/utils/weightFormat";
 import React from "react";
 

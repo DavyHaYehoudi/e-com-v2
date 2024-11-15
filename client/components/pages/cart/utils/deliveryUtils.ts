@@ -1,4 +1,4 @@
-import { DeliveryType } from "@/app/types/DeliveryTypes";
+import { DeliveryType } from "@/app/(public)/types/DeliveryTypes";
 
 interface DeliveryPrice {
   selectedDelivery: DeliveryType | null;

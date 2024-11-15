@@ -1,6 +1,6 @@
 "use client";
 
-import { OrderResponse } from "@/app/types/OrderCreate";
+import { OrderResponse } from "@/app/(public)/types/OrderCreate";
 import { RootState } from "@/redux/store/store";
 import { useFetch } from "@/service/hooks/useFetch";
 import { useSelector } from "react-redux";

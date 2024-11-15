@@ -2,7 +2,7 @@
 
 import React from "react";
 import FavoriteButton from "../FavoriteButton";
-import { Product } from "@/app/types/ProductTypes";
+import { Product } from "@/app/(public)/types/ProductTypes";
 
 interface FooterProps {
   product: Product;

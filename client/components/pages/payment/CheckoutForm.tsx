@@ -2,8 +2,8 @@ import React from "react";
 import { PaymentElement } from "@stripe/react-stripe-js";
 import usePaymentForm from "./hooks/usePaymentForm";
 import { Loader } from "lucide-react";
-import { formatPrice } from "@/app/utils/pricesFormat";
 import { Button } from "@/components/ui/button";
+import { formatPrice } from "@/app/(public)/utils/pricesFormat";
 
 interface CheckoutProps {
   amount: number;

@@ -1,5 +1,5 @@
 "use client";
-import { ReviewItemType } from "@/app/types/ReviewTypes";
+import { ReviewItemType } from "@/app/(public)/types/ReviewTypes";
 import { ReviewItem } from "@/components/shared/review/ReviewItem";
 import {
   Sheet,

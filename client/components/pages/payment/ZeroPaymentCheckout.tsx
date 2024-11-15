@@ -8,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { formatPrice } from "@/app/utils/pricesFormat";
 import useCreatePendingOrder from "./hooks/useCreatePendingOrder";
 import { useRouter } from "next/navigation";
 import { BadgeEuro, PercentIcon, GiftIcon } from "lucide-react";
@@ -16,6 +15,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { useState } from "react";
 import { Loader } from "lucide-react";
+import { formatPrice } from "@/app/(public)/utils/pricesFormat";
 type CardProps = React.ComponentProps<typeof Card>;
 
 const ZeroPaymentCheckout = ({ className, ...props }: CardProps) => {

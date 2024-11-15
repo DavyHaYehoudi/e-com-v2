@@ -23,8 +23,8 @@ import { toast } from "sonner";
 import { useFetch } from "@/service/hooks/useFetch";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import { CartItemsType } from "@/app/types/CartTypes";
-import { ProductCartGiftcards } from "@/app/types/ProductTypes";
+import { CartItemsType } from "@/app/(public)/types/CartTypes";
+import { ProductCartGiftcards } from "@/app/(public)/types/ProductTypes";
 
 const otpSchema = z.object({
   otp: z.string().length(6, "Le code OTP doit comporter 6 chiffres"),

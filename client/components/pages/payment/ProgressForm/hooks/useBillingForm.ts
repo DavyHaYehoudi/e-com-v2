@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { setAddresses } from "@/redux/slice/addressesSlice";
 import { AddressFormValues, AddressSchema } from "../../schema/addressesSchema";
-import useBillingAddress from "@/app/hooks/addresses/useBillingAddress";
+import useBillingAddress from "@/app/(public)/hooks/addresses/useBillingAddress";
 
 interface UseBillingFormProps {
   onNext: () => void;

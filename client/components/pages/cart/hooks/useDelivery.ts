@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { DeliveryType } from "@/app/types/DeliveryTypes";
+import { DeliveryType } from "@/app/(public)/types/DeliveryTypes";
 import { useFetch } from "@/service/hooks/useFetch";
 import { calculateDeliveryPrice } from "../utils/deliveryUtils";
 import { calculateTotalWeightCart } from "../utils/calculUtils";

@@ -5,13 +5,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import LoginModal from "@/components/modules/login/LoginModal";
 import { Button } from "@/components/ui/button";
 import WishlistModal from "@/components/modules/wishlist/WishlistModal";
-import { formatPrice } from "@/app/utils/pricesFormat";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import useAuth from "@/app/hooks/useAuth";
-import useCashback from "@/app/hooks/useCashback";
 import { useEffect } from "react";
 import SessionExpired from "@/components/modules/login/SessionExpired";
+import { formatPrice } from "@/app/(public)/utils/pricesFormat";
+import useAuth from "@/app/(public)/hooks/useAuth";
+import useCashback from "@/app/(public)/hooks/useCashback";
 
 const NavIcons = () => {
   const wishlist = useSelector((state: RootState) => state.wishlist);
@@ -40,7 +40,7 @@ const NavIcons = () => {
       {/* Connexion / Déconnexion (visible seulement à partir de md) */}
       {isAuthenticated ? (
         <div className="hidden lg:flex items-center space-x-4">
-          <Link href="/dashboard">
+          <Link href="/customer/tableau-de-bord">
             <Avatar className="cursor-pointer mb-2">
               <AvatarImage src="/images/avatar.png" alt="Avatar" />
               <AvatarFallback>

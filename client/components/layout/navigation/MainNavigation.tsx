@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 import { BadgeEuro, LogOut, Menu, X } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import useAuth from "@/app/hooks/useAuth";
 import LoginModal from "@/components/modules/login/LoginModal";
-import { formatPrice } from "@/app/utils/pricesFormat";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import useAuth from "@/app/(public)/hooks/useAuth";
+import { formatPrice } from "@/app/(public)/utils/pricesFormat";
 
 export function MainNavigation() {
   const [isOpen, setIsOpen] = useState(false);

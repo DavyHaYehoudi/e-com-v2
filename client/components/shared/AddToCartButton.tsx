@@ -13,8 +13,8 @@ import Header from "../pages/cart-sheet/header/Header";
 import Footer from "../pages/cart-sheet/footer/Footer";
 import Body from "../pages/cart-sheet/body/Body";
 import { ScrollArea } from "../ui/scroll-area";
-import { MasterProductsType, Product } from "@/app/types/ProductTypes";
-import { useCartManager } from "@/app/panier/hooks/useCartManager";
+import { MasterProductsType, Product } from "@/app/(public)/types/ProductTypes";
+import { useCartManager } from "@/app/(public)/panier/hooks/useCartManager";
 
 interface AddToCartButtonProps {
   product?: Product | MasterProductsType;

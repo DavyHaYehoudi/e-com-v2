@@ -10,7 +10,7 @@ import RowGiftcardToUse from "./rowTotals/giftcardToUse/RowGiftcardToUse";
 import RowCodePromo from "./rowTotals/codePromo/RowCodePromo";
 import RowTotalCart from "./rowTotals/RowTotalCart";
 import RowCashbackToUse from "./rowTotals/cashback/RowCashbackToUse";
-import { CartResponse } from "@/app/types/CartTypes";
+import { CartResponse } from "@/app/(public)/types/CartTypes";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { useDelivery } from "./hooks/useDelivery";

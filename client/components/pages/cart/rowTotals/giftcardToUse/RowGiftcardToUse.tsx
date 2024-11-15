@@ -2,8 +2,8 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import React from "react";
 import GiftcardToUse from "./GiftcardToUse";
 import { calculateTotalAmountGiftCardToUse } from "../../utils/calculUtils";
-import { formatPrice } from "@/app/utils/pricesFormat";
-import { GiftcardToUseType } from "@/app/types/GiftcardToUseTypes";
+import { GiftcardToUseType } from "@/app/(public)/types/GiftcardToUseTypes";
+import { formatPrice } from "@/app/(public)/utils/pricesFormat";
 
 interface RowGiftcardToUseProps {
   giftCardsToUse: GiftcardToUseType[];

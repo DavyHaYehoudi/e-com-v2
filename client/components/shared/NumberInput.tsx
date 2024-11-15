@@ -1,5 +1,5 @@
-import { MasterProductsType } from "@/app/types/ProductTypes";
-import { sumPriceArticle } from "@/app/utils/pricesFormat";
+import { MasterProductsType } from "@/app/(public)/types/ProductTypes";
+import { sumPriceArticle } from "@/app/(public)/utils/pricesFormat";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 

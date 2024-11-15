@@ -1,5 +1,5 @@
 "use client";
-import { MasterProductsType } from "@/app/types/ProductTypes";
+import { MasterProductsType } from "@/app/(public)/types/ProductTypes";
 import React from "react";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";

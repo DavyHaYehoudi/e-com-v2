@@ -1,7 +1,7 @@
 // src/hooks/useWishlist.ts
 import { useState, useEffect } from "react";
 import { useFetch } from "@/service/hooks/useFetch";
-import { WishlistResponse } from "@/app/types/WishlistTypes";
+import { WishlistResponse } from "@/app/(public)/types/WishlistTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { setWishlist } from "@/redux/slice/wishlistSlice";
 import { RootState } from "@/redux/store/store";

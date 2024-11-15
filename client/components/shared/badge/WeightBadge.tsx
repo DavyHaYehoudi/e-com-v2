@@ -1,4 +1,4 @@
-import { formatWeight } from "@/app/utils/weightFormat";
+import { formatWeight } from "@/app/(public)/utils/weightFormat";
 import { Badge } from "@/components/ui/badge";
 import React from "react";
 

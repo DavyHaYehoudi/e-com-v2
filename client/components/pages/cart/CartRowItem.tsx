@@ -9,7 +9,7 @@ import CashbackBadge from "@/components/shared/badge/CashbackBadge";
 import CartRowPromotionPrice from "./CartRowPromotionPrice";
 import VariantBadge from "@/components/shared/badge/VariantBadge";
 import WeightBadge from "@/components/shared/badge/WeightBadge";
-import { CartResponse } from "@/app/types/CartTypes";
+import { CartResponse } from "@/app/(public)/types/CartTypes";
 import { sumPriceArticle } from "@/app/utils/pricesFormat";
 
 interface CartRowItemProps {

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CartItemsType, CartResponse } from "@/app/types/CartTypes";
-import { Product, ProductCartGiftcards } from "@/app/types/ProductTypes";
+import { CartItemsType, CartResponse } from "@/app/(public)/types/CartTypes";
+import { Product, ProductCartGiftcards } from "@/app/(public)/types/ProductTypes";
 
 // Types
 interface ProductProps {

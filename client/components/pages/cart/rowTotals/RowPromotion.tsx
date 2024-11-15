@@ -2,7 +2,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import React from "react";
 import { calculateTotalDiscountCart } from "../utils/calculUtils";
 import { formatPrice } from "@/app/utils/pricesFormat";
-import { CartResponse } from "@/app/types/CartTypes";
+import { CartResponse } from "@/app/(public)/types/CartTypes";
 
 interface RowPromotionProps {
   productsInCart: CartResponse | null;

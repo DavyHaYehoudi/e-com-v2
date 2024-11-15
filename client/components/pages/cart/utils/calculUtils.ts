@@ -1,6 +1,6 @@
-import { CartGiftCard, CartItemsType } from "@/app/types/CartTypes";
-import { GiftcardToUseType } from "@/app/types/GiftcardToUseTypes";
-import { ProductCartGiftcards } from "@/app/types/ProductTypes";
+import { CartGiftCard, CartItemsType } from "@/app/(public)/types/CartTypes";
+import { GiftcardToUseType } from "@/app/(public)/types/GiftcardToUseTypes";
+import { ProductCartGiftcards } from "@/app/(public)/types/ProductTypes";
 
 export const calculateTotalPriceByRow = (
   quantity: number,

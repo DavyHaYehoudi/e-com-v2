@@ -8,7 +8,7 @@ import TrashIcon from "@/components/shared/TrashIcon";
 import VariantBadge from "@/components/shared/badge/VariantBadge";
 import WeightBadge from "@/components/shared/badge/WeightBadge";
 import { sumPriceArticle } from "@/app/utils/pricesFormat";
-import { CartResponse } from "@/app/types/CartTypes";
+import { CartResponse } from "@/app/(public)/types/CartTypes";
 
 interface SheetRowItemProps {
   productsInCart: CartResponse | null;

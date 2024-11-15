@@ -1,7 +1,7 @@
 import { Truck } from "lucide-react";
 import React from "react";
 import { useDelivery } from "../pages/cart/hooks/useDelivery";
-import { formatPrice } from "@/app/utils/pricesFormat";
+import { formatPrice } from "@/app/(public)/utils/pricesFormat";
 
 const FreeShippingBanner = () => {
   const { amountForFree } = useDelivery();
