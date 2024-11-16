@@ -1,5 +1,5 @@
-import { Calendar, Home, Inbox, Search, Settings,UserRoundPen,UserRound,ShoppingCart,Truck,Gift,BadgeEuro,MessageCircleMore,LogOut } from "lucide-react"
-<MessageCircleMore />
+import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+
 import {
   Sidebar,
   SidebarContent,
@@ -14,7 +14,7 @@ import {
 // Menu items.
 const items = [
   {
-    title: "Accueil",
+    title: "Home",
     url: "#",
     icon: Home,
   },
@@ -45,7 +45,7 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>CUSTOMER</SidebarGroupLabel>
+          <SidebarGroupLabel>ADMIN</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (

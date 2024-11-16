@@ -35,12 +35,23 @@ const NavIcons = () => {
   const isTokenExpired = useSelector(
     (state: RootState) => state.auth.isTokenExpired
   );
+  const userRole = useSelector((state: RootState) => state.auth.user?.role);
+  // const userRole = "admin";
+
   return (
     <div className="flex items-center gap-6 text-gray-500">
       {/* Connexion / Déconnexion (visible seulement à partir de md) */}
       {isAuthenticated ? (
         <div className="hidden lg:flex items-center space-x-4">
-          <Link href="/customer/tableau-de-bord">
+          <Link
+            href={
+              userRole === "customer"
+                ? "/customer/tableau-de-bord"
+                : userRole === "admin"
+                ? "/admin/tableau-de-bord"
+                : "#"
+            }
+          >
             <Avatar className="cursor-pointer mb-2">
               <AvatarImage src="/images/avatar.png" alt="Avatar" />
               <AvatarFallback>

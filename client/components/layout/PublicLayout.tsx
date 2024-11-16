@@ -9,8 +9,6 @@ export default function PublicLayout({
 }: {
   children: React.ReactNode;
 }) {
-  console.log("PublicLayout rendu");
-
   return (
     <div>
       <FreeShippingBanner />

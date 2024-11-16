@@ -1,11 +1,7 @@
-import React from 'react';
+import React from "react";
 
-const DashboardCustomerPage = () => {
-    return (
-        <h1>
-            DashboardCustomerPage
-        </h1>
-    );
+const page = () => {
+  return <></>;
 };
 
-export default DashboardCustomerPage;
+export default page;
