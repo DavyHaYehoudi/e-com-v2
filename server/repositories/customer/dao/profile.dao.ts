@@ -8,7 +8,7 @@ export interface ProfileRow extends RowDataPacket {
   last_name: string | null;
   phone: string | null;
   avatar_url: string;
-  email_marketing_consent: boolean;
+  email_marketing_consent: number;
   orders_count: number;
   birthday: string | null;
   is_active: boolean;

@@ -1,8 +1,13 @@
 import { useFetch } from "@/service/hooks/useFetch";
 
 interface ProfileData {
-  first_name: string;
+  first_name: string | null;
+  last_name: string | null;
   email: string;
+  phone: string | null;
+  email_marketing_consent: boolean;
+  birthday: string | null;
+  orders_count: number | null;
 }
 
 interface AvatarData {
@@ -34,8 +39,15 @@ const useCustomerInfo = () => {
       requiredCredentials: true,
     }
   );
+  const { triggerFetch: updateProfile } = useFetch(
+    "/customer/profile",
+    {
+      method: "PATCH",
+      requiredCredentials: true,
+    }
+  );
 
-  return { profileFetch, avatarFetch, addressesFetch };
+  return { profileFetch, avatarFetch, addressesFetch ,updateProfile};
 };
 
 export default useCustomerInfo;

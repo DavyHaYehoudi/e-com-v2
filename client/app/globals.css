@@ -24,7 +24,6 @@ h1 {
   }
 }
 
-
 h2 {
   @apply text-3xl tracking-wider uppercase;
 }
@@ -244,6 +243,10 @@ footer {
 
 .animate-pulse {
   animation: pulse 2s ease 0s 1 normal forwards;
+}
+/* Calendrier custom pour sélectionner rapidement les années */
+.rdp-vhidden {
+  @apply hidden;
 }
 /* *********************************** dashboards *********************************** */
 @layer base {
