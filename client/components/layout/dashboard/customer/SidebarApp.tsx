@@ -1,176 +1,73 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react"
-
-
+import * as React from "react";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarHeader,
   SidebarRail,
-} from "@/components/ui/sidebar"
-import { TeamSwitcher } from "./TeamSwitcher"
-import { NavMain } from "./NavMain"
-import { NavProjects } from "./NavProjects"
-import { NavUser } from "./NavUser"
+} from "@/components/ui/sidebar";
+import { NavHandleAccount } from "./NavHandleAccount";
+import { NavActivity } from "./NavActivity";
+import { NavAdvantages } from "./NavAdvantages";
+import useCustomerInfo from "@/components/pages/dashboard/customer/hooks/useCustomerInfo";
+import NavUser from "./NavUser";
 
-// This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
+import { data } from "./data/tabs";
+import SessionExpired from "@/components/modules/login/SessionExpired";
+interface UserDataType {
+  name: string;
+  email: string;
+  avatar: string;
 }
-
 export function SidebarApp({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [userData, setUserData] = React.useState<UserDataType>({
+    name: "",
+    email: "",
+    avatar: "",
+  });
+
+  const { profileFetch, avatarFetch } = useCustomerInfo();
+
+  React.useEffect(() => {
+    const fetchCustomerData = async () => {
+      try {
+        // Récupérer les informations du profil
+        const profile = await profileFetch();
+        if (profile) {
+          setUserData((prev) => ({
+            ...prev,
+            name: profile.first_name,
+            email: profile.email,
+          }));
+        }
+
+        // Récupérer l'avatar
+        const avatar = await avatarFetch();
+        if (avatar) {
+          setUserData((prev) => ({
+            ...prev,
+            avatar: avatar.avatar_url,
+          }));
+        }
+      } catch (error) {
+        console.error("Erreur lors de la récupération des données :", error);
+      }
+    };
+
+    fetchCustomerData();
+  }, [profileFetch, avatarFetch]);
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
-      </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavHandleAccount items={data.account} />
+        <NavActivity items={data.activities} />
+        <NavAdvantages items={data.advantages} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser userData={userData} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }

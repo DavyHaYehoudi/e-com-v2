@@ -3,8 +3,8 @@ import React from "react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { DeliveryType } from "@/app/(public)/types/DeliveryTypes";
-import { formatWeight } from "@/app/utils/weightFormat";
 import { useDelivery } from "./hooks/useDelivery";
+import { formatWeight } from "@/app/(public)/utils/weightFormat";
 
 interface CartDeliveryProps {
   handleDeliveryChange: (deliveryId: number) => void;
