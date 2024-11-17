@@ -6,14 +6,14 @@ import {
   ShoppingCart,
   Truck,
   UserRound,
-  MapPinHouse
+  MapPinHouse,
 } from "lucide-react";
 
 export const data = {
   account: [
     {
       title: "Profil",
-      url: "/",
+      url: "#",
       icon: UserRound,
       isActive: true,
       items: [
@@ -52,15 +52,15 @@ export const data = {
       items: [
         {
           title: "En cours",
-          url: "#",
+          url: "/customer/tableau-de-bord/commandes/en-cours",
         },
         {
           title: "Expédiées",
-          url: "#",
+          url: "/customer/tableau-de-bord/commandes/expediees",
         },
         {
           title: "Retour",
-          url: "#",
+          url: "/customer/tableau-de-bord/commandes/retour",
         },
       ],
     },
@@ -71,7 +71,7 @@ export const data = {
       items: [
         {
           title: "Contacter la responsable",
-          url: "#",
+          url: "/customer/tableau-de-bord/messagerie",
         },
       ],
     },
@@ -85,11 +85,11 @@ export const data = {
       items: [
         {
           title: "Récompenses",
-          url: "#",
+          url: "/customer/tableau-de-bord/avantages/opportunites/recompenses",
         },
         {
           title: "Offres",
-          url: "#",
+          url: "/customer/tableau-de-bord/avantages/opportunites/offres",
         },
       ],
     },
@@ -101,7 +101,7 @@ export const data = {
       items: [
         {
           title: "Historique",
-          url: "#",
+          url: "/customer/tableau-de-bord/avantages/cartes-cadeaux",
         },
       ],
     },
@@ -112,7 +112,7 @@ export const data = {
       items: [
         {
           title: "Historique",
-          url: "#",
+          url: "/customer/tableau-de-bord/avantages/cashback",
         },
       ],
     },
