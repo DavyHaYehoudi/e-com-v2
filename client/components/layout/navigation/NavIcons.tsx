@@ -32,9 +32,7 @@ const NavIcons = () => {
   useEffect(() => {
     getCashbackOneCustomer();
   }, []);
-  const isTokenExpired = useSelector(
-    (state: RootState) => state.auth.isTokenExpired
-  );
+
   const userRole = useSelector((state: RootState) => state.auth.user?.role);
   // const userRole = "admin";
 
@@ -97,6 +95,8 @@ const NavIcons = () => {
       {/* Icône Cashback avec badge */}
       {isAuthenticated && (
         <div className="relative hidden lg:flex" title="Mon cashback">
+        <Link href="/customer/tableau-de-bord/avantages/cashback">
+
           <BadgeEuro className="w-6 h-6 mb-2" />
           {cashbackCustomer > 0 && (
             <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none bg-blue-500 text-white rounded-full">
@@ -105,10 +105,11 @@ const NavIcons = () => {
               </span>
             </span>
           )}
+        </Link>
         </div>
       )}
       {/* Modale de session expirée */}
-      {isTokenExpired && <SessionExpired />}
+      <SessionExpired />
     </div>
   );
 };

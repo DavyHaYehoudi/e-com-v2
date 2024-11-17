@@ -54,15 +54,19 @@ export function MainNavigation() {
           {/* Icône Cashback avec badge */}
           {isAuthenticated && (
             <>
-              <div className="flex items-center gap-2 text-sm py-2">
-                <BadgeEuro className="w-6 h-6" />
-                <span>
-                  Cashback{" "}
-                  <span className="bg-blue-500 text-[var(--whiteSmoke)] p-1 rounded ml-2">
-                    {cashbackCustomer > 0 ? formatPrice(cashbackCustomer) : ""}
+              <Link href="/customer/tableau-de-bord/avantages/cashback">
+                <div className="flex items-center gap-2 text-sm py-2">
+                  <BadgeEuro className="w-6 h-6" />
+                  <span>
+                    Cashback{" "}
+                    <span className="bg-blue-500 text-[var(--whiteSmoke)] p-1 rounded ml-2">
+                      {cashbackCustomer > 0
+                        ? formatPrice(cashbackCustomer)
+                        : ""}
+                    </span>
                   </span>
-                </span>
-              </div>
+                </div>
+              </Link>
               <hr className="border-t-1 border-[#282c34] dark:border-[var(--whiteSmoke)]" />
             </>
           )}

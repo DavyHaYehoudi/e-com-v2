@@ -15,9 +15,13 @@ import { UserRound } from "lucide-react";
 
 interface LoginModalProps {
   authenticate: (token: string) => void;
+  label?: string;
 }
 
-const LoginModal: React.FC<LoginModalProps> = ({ authenticate }) => {
+const LoginModal: React.FC<LoginModalProps> = ({
+  authenticate,
+  label = "",
+}) => {
   const [emailSent, setEmailSent] = useState<string | null>(null);
 
   return (
@@ -25,6 +29,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ authenticate }) => {
       <DialogTrigger asChild>
         <Button className="bg-[var(--golden-2)] hover:bg-[var(--golden-2-hover)] p-2 mb-2">
           <UserRound className="w-6 h-6" />
+          {label && <span className="ml-2">{label}</span>}
         </Button>
       </DialogTrigger>
       <DialogContent aria-describedby={undefined}>

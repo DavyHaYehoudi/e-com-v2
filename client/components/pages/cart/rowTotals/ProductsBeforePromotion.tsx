@@ -1,8 +1,8 @@
-import { formatPrice } from "@/app/utils/pricesFormat";
 import { TableCell, TableRow } from "@/components/ui/table";
 import React from "react";
 import { calculateTotalCartBeforeDiscount } from "../utils/calculUtils";
 import { CartResponse } from "@/app/(public)/types/CartTypes";
+import { formatPrice } from "@/app/(public)/utils/pricesFormat";
 
 interface ProductsBeforePromotionProps {
   productsInCart: CartResponse | null;

@@ -9,16 +9,35 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CashBackHistoryResponse } from "../../hooks/useCustomerInfo";
+import {
+  CashBackHistoryResponse,
+  ReasonKey,
+} from "../../hooks/useCustomerInfo";
 import { formatDate } from "@/app/(public)/utils/formatDate";
 import { Minus, Plus } from "lucide-react";
+import ClipboardButton from "@/components/shared/ClipboardButton";
 
 interface CashbackHistoryProps {
   history: CashBackHistoryResponse | null;
 }
+
+const reasonDictionary: Record<ReasonKey, string> = {
+  Order: "Commande",
+  Loyalty: "Fidélité",
+  Birthday: "Anniversaire",
+  Review: "Avis",
+  Referral: "Parrainage",
+  Other: "Autre",
+};
+
+const translateReason = (reason: ReasonKey): string => {
+  return reasonDictionary[reason];
+};
+
 const CashbackHistory: React.FC<CashbackHistoryProps> = ({ history }) => {
   return (
-    <Table >
+
+    <Table className="w-full">
       <TableCaption>Historique de votre cashback.</TableCaption>
       <TableHeader>
         <TableRow>
@@ -57,7 +76,18 @@ const CashbackHistory: React.FC<CashbackHistoryProps> = ({ history }) => {
           history.cashBacks.length > 0 &&
           history.cashBacks.map((item) => (
             <TableRow key={item.transaction_id}>
-              <TableCell className="font-medium">{item.reason}</TableCell>
+              <TableCell className="font-medium">
+                {translateReason(item.reason)}
+                {item.confirmation_number && (
+                  <>
+                    <br />
+                    <span className="flex items-center gap-2">
+                      {item.confirmation_number}
+                      <ClipboardButton text={item.confirmation_number} />
+                    </span>
+                  </>
+                )}
+              </TableCell>
               <TableCell
                 className={`w-1/4 truncate ${
                   item.cash_back_earned_for_this_transaction > 0
@@ -76,7 +106,7 @@ const CashbackHistory: React.FC<CashbackHistoryProps> = ({ history }) => {
               >
                 {item.cash_back_spent_for_this_transaction}
               </TableCell>
-              <TableCell className="w-1/4 whitespace-nowrap text-center ">
+              <TableCell className="w-1/4 text-center ">
                 {formatDate(item.createdAt)}
               </TableCell>
             </TableRow>

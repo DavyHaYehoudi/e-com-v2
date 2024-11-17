@@ -27,15 +27,17 @@ interface AddressData {
   city: string;
   country: string;
 }
+export type ReasonKey = "Order" | "Loyalty" | "Birthday" | "Review" | "Referral" | "Other";
 export interface CashBackTransaction {
   transaction_id: number;
   customer_id: number;
   order_id: number | null;
+  confirmation_number: string | null;
   review_id: number | null;
   cash_back_earned_for_this_transaction: number; // Montant sous forme de chaîne, peut être converti en nombre si nécessaire
   cash_back_spent_for_this_transaction: number;  // Même remarque que ci-dessus
   createdAt: string; // ISO 8601 date string
-  reason: string;
+  reason: ReasonKey;
 }
 
 export interface CashBackHistoryResponse {

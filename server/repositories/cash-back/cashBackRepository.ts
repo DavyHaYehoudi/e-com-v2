@@ -134,16 +134,29 @@ export async function getAllCashBackOneCustomerRepository(customerId: number) {
     throw new NotFoundError(`Customer with ID ${customerId} not found`);
   }
 
+  // const sqlTransactions = `
+  //     SELECT 
+  //       cbt.*, 
+  //       cbr.label as reason_label
+  //     FROM cash_back_transaction cbt
+  //     LEFT JOIN cash_back_reason cbr 
+  //       ON cbt.cash_back_reason_id = cbr.id
+  //     WHERE cbt.customer_id = ?
+  //     ORDER BY cbt.created_at DESC
+  //   `;
   const sqlTransactions = `
-      SELECT 
-        cbt.*, 
-        cbr.label as reason_label
-      FROM cash_back_transaction cbt
-      LEFT JOIN cash_back_reason cbr 
-        ON cbt.cash_back_reason_id = cbr.id
-      WHERE cbt.customer_id = ?
-      ORDER BY cbt.created_at DESC
-    `;
+  SELECT 
+    cbt.*, 
+    cbr.label AS reason_label, 
+    o.confirmation_number
+  FROM cash_back_transaction cbt
+  LEFT JOIN cash_back_reason cbr 
+    ON cbt.cash_back_reason_id = cbr.id
+  LEFT JOIN \`order\` o 
+    ON cbt.order_id = o.id
+  WHERE cbt.customer_id = ?
+  ORDER BY cbt.created_at DESC
+`;
 
   const sqlTotals = `
       SELECT 

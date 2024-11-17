@@ -4,7 +4,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import TrashIcon from "@/components/shared/TrashIcon";
 import ProductImageGiftcard from "@/components/shared/productImage/ProductImageGiftcard";
 import { CartResponse } from "@/app/(public)/types/CartTypes";
-import { sumPriceArticle } from "@/app/utils/pricesFormat";
+import { sumPriceArticle } from "@/app/(public)/utils/pricesFormat";
 
 interface CartRowGiftcardProps {
   productsInCart: CartResponse | null;

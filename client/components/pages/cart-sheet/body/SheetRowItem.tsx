@@ -1,4 +1,3 @@
-import { isProductNew } from "@/app/utils/productUtils";
 import NewBadge from "@/components/shared/badge/NewBadge";
 import ProductImageItem from "@/components/shared/productImage/ProductImageItem";
 import React from "react";
@@ -7,8 +6,9 @@ import CashbackBadge from "@/components/shared/badge/CashbackBadge";
 import TrashIcon from "@/components/shared/TrashIcon";
 import VariantBadge from "@/components/shared/badge/VariantBadge";
 import WeightBadge from "@/components/shared/badge/WeightBadge";
-import { sumPriceArticle } from "@/app/utils/pricesFormat";
 import { CartResponse } from "@/app/(public)/types/CartTypes";
+import { isProductNew } from "@/app/(public)/utils/productUtils";
+import { sumPriceArticle } from "@/app/(public)/utils/pricesFormat";
 
 interface SheetRowItemProps {
   productsInCart: CartResponse | null;

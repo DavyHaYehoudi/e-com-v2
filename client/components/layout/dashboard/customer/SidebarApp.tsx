@@ -10,52 +10,19 @@ import {
 import { NavHandleAccount } from "./NavHandleAccount";
 import { NavActivity } from "./NavActivity";
 import { NavAdvantages } from "./NavAdvantages";
-import useCustomerInfo from "@/components/pages/dashboard/customer/hooks/useCustomerInfo";
-import NavUser from "./NavUser";
-
 import { data } from "./data/tabs";
-interface UserDataType {
-  name: string | null;
-  email: string;
-  avatar: string;
-}
+import LoginModal from "@/components/modules/login/LoginModal";
+import useAuth from "@/app/(public)/hooks/useAuth";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
+import { LogOut } from "lucide-react";
+
 export function SidebarApp({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [userData, setUserData] = React.useState<UserDataType>({
-    name: "",
-    email: "",
-    avatar: "",
-  });
+  const { handleAuthentication, handleLogout } = useAuth();
+  const isConnected = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
 
-  const { profileFetch, avatarFetch } = useCustomerInfo();
-
-  React.useEffect(() => {
-    const fetchCustomerData = async () => {
-      try {
-        // Récupérer les informations du profil
-        const profile = await profileFetch();
-        if (profile) {
-          setUserData((prev) => ({
-            ...prev,
-            name: profile.first_name,
-            email: profile.email,
-          }));
-        }
-
-        // Récupérer l'avatar
-        const avatar = await avatarFetch();
-        if (avatar) {
-          setUserData((prev) => ({
-            ...prev,
-            avatar: avatar.avatar_url,
-          }));
-        }
-      } catch (error) {
-        console.error("Erreur lors de la récupération des données :", error);
-      }
-    };
-
-    fetchCustomerData();
-  }, [profileFetch, avatarFetch]);
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarContent>
@@ -64,7 +31,22 @@ export function SidebarApp({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavAdvantages items={data.advantages} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser userData={userData} />
+        {isConnected ? (
+          <div
+            onClick={handleLogout}
+            className="flex items-center gap-2 cursor-pointer mx-2 my-6"
+          >
+            <LogOut />
+            {/* Me déconnecter */}
+          </div>
+        ) : (
+          <div className="flex items-center gap-2 mx-2 my-6">
+            <LoginModal
+              authenticate={handleAuthentication}
+              label="Me connecter"
+            />
+          </div>
+        )}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

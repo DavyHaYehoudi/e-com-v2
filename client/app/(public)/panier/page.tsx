@@ -35,7 +35,7 @@ const Cart = () => {
         productsInCart.items &&
         (productsInCart.items.length > 0 ||
           productsInCart.giftCards.length > 0) ? (
-          <div className="w-full sm:w-full  lg:w-3/4 2xl:w-1/2">
+          <div className="w-full sm:w-full lg:w-3/4 2xl:w-1/2">
             <CartTable
               productsInCart={productsInCart}
               removeProduct={removeProduct}

@@ -14,8 +14,8 @@ import { useFetch } from "@/service/hooks/useFetch";
 import { useDispatch } from "react-redux";
 import { reset } from "@/redux/slice/priceAdjustmentsSlice";
 import { clearCart } from "@/redux/slice/cartSlice";
-import useCashback from "@/app/hooks/useCashback";
 import { useSearchParams } from "next/navigation";
+import useCashback from "../../hooks/useCashback";
 
 const PaymentSuccess = () => {
   const [isOpen, setIsOpen] = useState(true);

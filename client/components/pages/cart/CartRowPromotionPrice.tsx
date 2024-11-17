@@ -1,8 +1,8 @@
-import { formatPrice } from "@/app/utils/pricesFormat";
 import React from "react";
 import { calculateTotalDiscountByRow } from "./utils/calculUtils";
-import { isProductOnSale } from "@/app/utils/productUtils";
 import PromotionBadge from "@/components/shared/badge/PromotionBadge";
+import { isProductOnSale } from "@/app/(public)/utils/productUtils";
+import { formatPrice } from "@/app/(public)/utils/pricesFormat";
 
 interface CartRowPromotionPriceProps {
   quantity: number;

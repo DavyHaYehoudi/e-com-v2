@@ -72,6 +72,7 @@ export const getAllCashBackOneCustomerService = async (customerId: number) => {
     transaction_id: transaction.id,
     customer_id: transaction.customer_id,
     order_id: transaction.order_id,
+    confirmation_number: transaction.confirmation_number,
     review_id: transaction.review_id,
     cash_back_earned_for_this_transaction: formatAmount(
       transaction.cash_back_earned_for_this_transaction
