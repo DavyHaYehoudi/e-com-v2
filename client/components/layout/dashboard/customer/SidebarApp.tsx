@@ -14,9 +14,8 @@ import useCustomerInfo from "@/components/pages/dashboard/customer/hooks/useCust
 import NavUser from "./NavUser";
 
 import { data } from "./data/tabs";
-import SessionExpired from "@/components/modules/login/SessionExpired";
 interface UserDataType {
-  name: string;
+  name: string | null;
   email: string;
   avatar: string;
 }

@@ -17,7 +17,7 @@ import {
 import { SidebarApp } from "./SidebarApp";
 import SessionExpired from "@/components/modules/login/SessionExpired";
 import ThemeToggle from "@/components/shared/ThemeToggle";
-import Profile from "@/components/pages/dashboard/customer/Profile/Profile";
+import Profile from "@/components/pages/dashboard/customer/profile/Profile";
 
 const DashboardCustomerLayout = ({
   children,
@@ -48,19 +48,18 @@ const DashboardCustomerLayout = ({
             <ThemeToggle />
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
           {/* <div className="grid auto-rows-min gap-4 md:grid-cols-3">
             <div className="aspect-video rounded-xl bg-muted/50" />
             <div className="aspect-video rounded-xl bg-muted/50" />
             <div className="aspect-video rounded-xl bg-muted/50" />
           </div> */}
           {/* <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" /> */}
-          <Profile />
-        </div>
+          {children}
+        </main>
       </SidebarInset>
       {/* Modale de session expirée */}
       <SessionExpired />
-      <main>{children}</main>
     </SidebarProvider>
   );
 };

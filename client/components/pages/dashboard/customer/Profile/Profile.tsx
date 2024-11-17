@@ -82,7 +82,7 @@ const Profile = () => {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <UserRound className="w-6 h-6" />
-          Mon Profil
+          Mon profil
         </CardTitle>
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)}>

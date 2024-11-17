@@ -6,38 +6,39 @@ import {
   ShoppingCart,
   Truck,
   UserRound,
+  MapPinHouse
 } from "lucide-react";
 
 export const data = {
   account: [
     {
       title: "Profil",
-      url: "#",
+      url: "/",
       icon: UserRound,
       isActive: true,
       items: [
         {
           title: "Identité",
-          url: "#",
+          url: "/customer/tableau-de-bord/profil/identite",
         },
         {
           title: "Avatar",
-          url: "#",
+          url: "/customer/tableau-de-bord/profil/avatar",
         },
       ],
     },
     {
       title: "Adresses",
       url: "#",
-      icon: Truck,
+      icon: MapPinHouse,
       items: [
         {
           title: "Livraison",
-          url: "#",
+          url: "/customer/tableau-de-bord/adresses/livraison",
         },
         {
           title: "Facturation",
-          url: "#",
+          url: "/customer/tableau-de-bord/adresses/facturation",
         },
       ],
     },

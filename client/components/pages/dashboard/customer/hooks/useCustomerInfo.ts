@@ -15,9 +15,17 @@ interface AvatarData {
 }
 
 interface AddressData {
-  id: number;
-  street: string;
+  company: string;
+  first_name: string;
+  last_name: string;
+  phone: string;
+  email: string;
+  street_number: string;
+  address1: string;
+  address2: string;
+  postal_code: string;
   city: string;
+  country: string;
 }
 
 const useCustomerInfo = () => {
@@ -33,21 +41,46 @@ const useCustomerInfo = () => {
       requiredCredentials: true,
     }
   );
-  const { triggerFetch: addressesFetch } = useFetch<AddressData[]>(
-    "/customer/addresses",
+  const { triggerFetch: shippingAddressFetch } = useFetch<AddressData>(
+    "/customer/address?type=shipping",
     {
       requiredCredentials: true,
     }
   );
-  const { triggerFetch: updateProfile } = useFetch(
-    "/customer/profile",
+  const { triggerFetch: billingAddressFetch } = useFetch<AddressData>(
+    "/customer/address?type=billing",
     {
-      method: "PATCH",
       requiredCredentials: true,
     }
   );
+  const { triggerFetch: updateShippingAddress } = useFetch(
+    "/customer/address?type=shipping",
+    {
+      method: "PUT",
+      requiredCredentials: true,
+    }
+  );
+  const { triggerFetch: updateBillingAddress } = useFetch(
+    "/customer/address?type=billing",
+    {
+      method: "PUT",
+      requiredCredentials: true,
+    }
+  );
+  const { triggerFetch: updateProfile } = useFetch("/customer/profile", {
+    method: "PATCH",
+    requiredCredentials: true,
+  });
 
-  return { profileFetch, avatarFetch, addressesFetch ,updateProfile};
+  return {
+    profileFetch,
+    avatarFetch,
+    shippingAddressFetch,
+    billingAddressFetch,
+    updateProfile,
+    updateShippingAddress,
+    updateBillingAddress,
+  };
 };
 
 export default useCustomerInfo;
