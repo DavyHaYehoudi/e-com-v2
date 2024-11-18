@@ -84,10 +84,6 @@ export const data = {
       isActive: true,
       items: [
         {
-          title: "Récompenses",
-          url: "/customer/tableau-de-bord/avantages/opportunites/recompenses",
-        },
-        {
           title: "Offres",
           url: "/customer/tableau-de-bord/avantages/opportunites/offres",
         },
@@ -100,12 +96,12 @@ export const data = {
       isActive: true,
       items: [
         {
-          title: "Liste",
-          url: "/customer/tableau-de-bord/avantages/cartes-cadeaux/liste",
-        },
-        {
           title: "Emploi",
           url: "/customer/tableau-de-bord/avantages/cartes-cadeaux/emploi",
+        },
+        {
+          title: "Liste",
+          url: "/customer/tableau-de-bord/avantages/cartes-cadeaux/liste",
         },
       ],
     },
@@ -115,8 +111,12 @@ export const data = {
       icon: BadgeEuro,
       items: [
         {
+          title: "Emploi",
+          url: "/customer/tableau-de-bord/avantages/cashback/fonctionnement",
+        },
+        {
           title: "Historique",
-          url: "/customer/tableau-de-bord/avantages/cashback",
+          url: "/customer/tableau-de-bord/avantages/cashback/historique",
         },
       ],
     },
