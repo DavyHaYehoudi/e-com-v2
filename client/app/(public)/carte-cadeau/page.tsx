@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import React, { useState } from "react";
-import { formatPrice } from "../../utils/pricesFormat";
+import { formatPrice } from "../utils/pricesFormat";
 
 const GiftcardPage = () => {
   const [amount, setAmount] = useState(20);
@@ -73,16 +73,15 @@ const GiftcardPage = () => {
               l&apos;utiliser en fournissant le code secret.
             </p>
             <p>
-              La carte cadeau permet de réaliser plusieurs achats si son montant
-              est supérieur au total. Par exemple, le montant de la commande est
-              de {formatPrice(30)} et vous utilisez une carte cadeau de{" "}
-              {formatPrice(50)}, le total sera de {formatPrice(0)} mais il
-              restera {formatPrice(20)} sur cette carte cadeau que vous pourrez
-              utiliser de nouveau.
+              Imaginez que vous avez une carte cadeau d'une valeur de{" "}
+              {formatPrice(50)}. Si vous passez une commande d'un montant de{" "}
+              {formatPrice(30)}, votre solde restant sera de {formatPrice(20)}{" "}
+              et pourra être utilisé pour vos prochains achats.
             </p>
             <p>
               Un historique est tenu à jour dans votre espace compte. Vous voyez
-              les différentes utilisations et le solde restant.
+              les différentes utilisations et le solde restant. Cela vous permet
+              de garder un suivi clair et transparent de vos avantages.
             </p>
           </div>
         </div>

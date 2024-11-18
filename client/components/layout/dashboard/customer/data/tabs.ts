@@ -4,11 +4,11 @@ import {
   MessageCircleMore,
   Rocket,
   ShoppingCart,
-  Truck,
   UserRound,
   MapPinHouse,
+  Scale,
+  ShieldCheck
 } from "lucide-react";
-
 export const data = {
   account: [
     {
@@ -100,8 +100,12 @@ export const data = {
       isActive: true,
       items: [
         {
-          title: "Historique",
-          url: "/customer/tableau-de-bord/avantages/cartes-cadeaux",
+          title: "Liste",
+          url: "/customer/tableau-de-bord/avantages/cartes-cadeaux/liste",
+        },
+        {
+          title: "Emploi",
+          url: "/customer/tableau-de-bord/avantages/cartes-cadeaux/emploi",
         },
       ],
     },
@@ -116,5 +120,43 @@ export const data = {
         },
       ],
     },
+  ],
+  policy: [
+    {
+      title: "Vente",
+      url: "#",
+      icon: Scale,
+      isActive: true,
+      items: [
+        {
+          title: "Conditions générales",
+          url: "/customer/tableau-de-bord/politique/vente/conditions-generales",
+        },
+        {
+          title: "Mentions légales",
+          url: "/customer/tableau-de-bord/politique/vente/mentions-legales",
+        },
+        {
+          title: "Livraisons et retours",
+          url: "/customer/tableau-de-bord/politique/vente/livraisons-et-retours",
+        },
+      ],
+    },
+    {
+      title: "Sécurité",
+      url: "#",
+      icon: ShieldCheck,
+      isActive: true,
+      items: [
+        {
+          title: "Paiements",
+          url: "/customer/tableau-de-bord/politique/securite/paiements",
+        },
+        {
+          title: "Données personnelles",
+          url: "/customer/tableau-de-bord/politique/securite/donnees-personnelles",
+        },
+      ],
+    }
   ],
 };

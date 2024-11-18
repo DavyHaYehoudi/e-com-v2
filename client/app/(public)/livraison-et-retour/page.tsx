@@ -12,7 +12,7 @@ const ShippingAndReturns = () => {
           Le délai de fabrication varie en fonction de la période de l'année, des congés et peut ainsi être de quelques jours à 4 semaines à compter de l'encaissement du paiement.
         </p>
         <p>
-          N'hésitez pas à me contacter (<a href="mailto:bonjour@ateliernoralya.com">bonjour@ateliernoralya.com</a>) pour en savoir plus.<br />
+          N'hésitez pas à me contacter (<a href="mailto:contact@ateliernoralya.com">contact@ateliernoralya.com</a>) pour en savoir plus.<br />
           Les délais actuels sont indiqués en page d'accueil.
         </p>
         <p>

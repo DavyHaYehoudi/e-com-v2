@@ -30,7 +30,7 @@ const ProceedToPayment: React.FC<ProceedToPaymentProps> = ({
   );
   const { getOrderAmount, orderAmount, getAmountBeforeDiscount } =
     useOrderAmount();
-    
+
   useEffect(() => {
     getOrderAmount();
   }, [
@@ -56,7 +56,18 @@ const ProceedToPayment: React.FC<ProceedToPaymentProps> = ({
       </div>
       <Link href="/payment/checkout" passHref>
         <Button className="bg-green-500 hover:bg-green-600 dark:text-[var(--whiteSmoke)]">
-          Procéder au payment {isAuthenticated && formatPrice(orderAmount)}
+          {isAuthenticated ? (
+            <>
+            <span>
+              Procéder au payment {formatPrice(Math.max(orderAmount, 0))} 
+            </span>
+            {orderAmount<0 &&
+            <span className="ml-2">({formatPrice(orderAmount)}) </span>
+            }
+            </>
+          ) : (
+            <span>Procéder au payment</span>
+          )}
         </Button>
       </Link>
     </div>

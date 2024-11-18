@@ -25,7 +25,7 @@ const reasonDictionary: Record<ReasonKey, string> = {
   Order: "Commande",
   Loyalty: "Fidélité",
   Birthday: "Anniversaire",
-  Review: "Avis",
+  Review: "Retour d'avis",
   Referral: "Parrainage",
   Other: "Autre",
 };

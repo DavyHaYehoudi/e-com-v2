@@ -1,5 +1,5 @@
 import { isAfter } from "date-fns";
-import { MasterProductsType, Product } from "../(public)/types/ProductTypes";
+import { MasterProductsType, Product } from "../types/ProductTypes";
 
 /**
  * Détermine si un produit est en promotion.

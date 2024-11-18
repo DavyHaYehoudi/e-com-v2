@@ -27,7 +27,8 @@ const RowGiftcardToUse: React.FC<RowGiftcardToUseProps> = ({
       <TableCell className="text-right bg-white bg-dark whitespace-nowrap">
         {calculateTotalAmountGiftCardToUse(giftCardsToUse) > 0 ? (
           <span className="whitespace-nowrap text-green-500">
-            - {formatPrice(calculateTotalAmountGiftCardToUse(giftCardsToUse))}
+            jusqu'à -{" "}
+            {formatPrice(calculateTotalAmountGiftCardToUse(giftCardsToUse))}
           </span>
         ) : (
           0

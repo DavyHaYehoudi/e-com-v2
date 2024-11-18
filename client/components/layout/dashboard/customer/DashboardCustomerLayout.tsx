@@ -24,7 +24,9 @@ const DashboardCustomerLayout = ({
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
-            <BreadcrumbCustomer />
+            <div className="mt-10">
+              <BreadcrumbCustomer />
+            </div>
           </div>
           <div className="mr-2">
             <ThemeToggle />

@@ -140,18 +140,7 @@ export async function getPaymentAmountService(
     shippingPrice += Number(shippingRate.price);
     totalAmountOrder += Number(shippingRate.price);
   }
-  // Ajout des soldes des cartes cadeaux
-  if (giftCardIds && giftCardIds.length > 0) {
-    const giftCardBalance = await getGiftCardBalancesRepository(giftCardIds);
-    amountGiftCardUsed = giftCardBalance;
-    const delta = Number(totalAmountOrder - giftCardBalance);
-    if (delta < 0) {
-      amountGiftCardUsed += delta; // delta est négatif
-    }
-    totalAmountOrder -= giftCardBalance;
-    totalAmountOrder = Math.max(totalAmountOrder, 0); // Le total ne doit pas être négatif
-  }
-  // Traitement du code promo si fourni
+  // Traitement du code promo si fourni - Doit se trouver avant le calcul des cartes cadeaux ci-dessous
   if (codePromo) {
     const promo = await getPercentageByCodePromoRepository(codePromo);
     if (promo) {
@@ -162,6 +151,17 @@ export async function getPaymentAmountService(
         100;
       totalAmountOrder -= codePromoAmount;
     }
+  }
+  // Ajout des soldes des cartes cadeaux
+  if (giftCardIds && giftCardIds.length > 0) {
+    const giftCardBalance = await getGiftCardBalancesRepository(giftCardIds);
+    amountGiftCardUsed = giftCardBalance;
+    const delta = Number(totalAmountOrder - giftCardBalance);
+    if (delta < 0) {
+      amountGiftCardUsed += delta; // delta est négatif
+    }
+    totalAmountOrder -= giftCardBalance;
+    totalAmountOrder = Math.max(totalAmountOrder, 0); // Le total ne doit pas être négatif
   }
   // Utilisation du cashback du client
   if (cashBackToSpend) {

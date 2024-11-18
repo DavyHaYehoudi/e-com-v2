@@ -32,17 +32,25 @@ const ZeroPaymentCheckout = ({ className, ...props }: CardProps) => {
   const adjustments = [
     {
       title: "Code promo",
-      description: `- ${formatPrice(amountCodePromo)}`,
+      description: `${
+        amountCodePromo > 0 ? formatPrice(amountCodePromo) : "Sans"
+      }`,
       icon: <PercentIcon className="size-4" />,
     },
     {
       title: "Cartes cadeaux",
-      description: `- ${formatPrice(amountGiftcardsToUse)}`,
+      description: `${
+        amountGiftcardsToUse
+          ? `jusqu'à ` + formatPrice(amountGiftcardsToUse)
+          : "Sans"
+      }`,
       icon: <GiftIcon className="size-4" />,
     },
     {
       title: "Cashback",
-      description: `- ${formatPrice(amountCashbackToUse)}`,
+      description: `${
+        amountCashbackToUse ? formatPrice(amountCashbackToUse) : "Sans"
+      }`,
       icon: <BadgeEuro className="size-4" />,
     },
   ];

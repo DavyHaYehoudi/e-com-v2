@@ -165,8 +165,8 @@ export const createOrderService = async (
       firstName: firstNameData.first_name,
     };
   } catch (error) {
-    await rollbackTransaction(); 
+    await rollbackTransaction();
     console.error(error);
     throw error;
   }
-}; 
+};

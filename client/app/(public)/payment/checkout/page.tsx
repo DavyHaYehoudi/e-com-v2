@@ -54,7 +54,7 @@ const CheckoutPage = () => {
       {/* {step === Step.PAYMENT && <CheckoutSection />} */}
       {step === Step.PAYMENT &&
         // Vérification du montant de la commande pour afficher le composant approprié
-        (orderAmount === 0 ? <ZeroPaymentCheckout /> : <CheckoutSection />)}
+        (orderAmount <= 0 ? <ZeroPaymentCheckout /> : <CheckoutSection />)}
     </div>
   );
 };
