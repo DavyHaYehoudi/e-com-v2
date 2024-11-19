@@ -7,17 +7,14 @@ import {
   SidebarFooter,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { NavHandleAccount } from "./NavHandleAccount";
-import { NavActivity } from "./NavActivity";
-import { NavAdvantages } from "./NavAdvantages";
 import { data } from "./data/tabs";
 import LoginModal from "@/components/modules/login/LoginModal";
 import useAuth from "@/app/(public)/hooks/useAuth";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { LogOut, House } from "lucide-react";
-import { NavPolicy } from "./NavPolicy";
 import Link from "next/link";
+import { SidebarSection } from "./SidebarSection";
 
 export function SidebarApp({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { handleAuthentication, handleLogout } = useAuth();
@@ -28,10 +25,10 @@ export function SidebarApp({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarContent>
-        <NavHandleAccount items={data.account} />
-        <NavActivity items={data.activities} />
-        <NavAdvantages items={data.advantages} />
-        <NavPolicy items={data.policy} />
+        <SidebarSection items={data.account} title="Gestion du compte" />
+        <SidebarSection items={data.activities} title="Activités" />
+        <SidebarSection items={data.advantages} title="Avantages" />
+        <SidebarSection items={data.policy} title="Politique" />
       </SidebarContent>
       <SidebarFooter>
         <Link

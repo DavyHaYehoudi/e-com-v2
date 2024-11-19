@@ -8,7 +8,7 @@ import CashbackSummary from "@/components/pages/dashboard/customer/advantages/ca
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-const page = () => {
+const CashbackHistoryPage = () => {
   const [history, setHistory] = useState<CashBackHistoryResponse | null>(null);
   const { cashbackHistoryFetch } = useCustomerInfo();
   // Charger les données de l'historique du cashback
@@ -37,4 +37,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default CashbackHistoryPage;

@@ -1,7 +1,6 @@
 import {
   BadgeEuro,
   Gift,
-  MessageCircleMore,
   ShoppingCart,
   UserRound,
   MapPinHouse,
@@ -19,10 +18,12 @@ export const data = {
         {
           title: "Identité",
           url: "/customer/tableau-de-bord/profil/identite",
+          hidden: false
         },
         {
           title: "Avatar",
           url: "/customer/tableau-de-bord/profil/avatar",
+          hidden: false
         },
       ],
     },
@@ -34,10 +35,12 @@ export const data = {
         {
           title: "Livraison",
           url: "/customer/tableau-de-bord/adresses/livraison",
+          hidden: false
         },
         {
           title: "Facturation",
           url: "/customer/tableau-de-bord/adresses/facturation",
+          hidden: false
         },
       ],
     },
@@ -45,32 +48,19 @@ export const data = {
   activities: [
     {
       title: "Commandes",
-      url: "#",
+      url: "/customer/tableau-de-bord/commandes",
       icon: ShoppingCart,
       isActive: true,
       items: [
         {
-          title: "En cours",
-          url: "/customer/tableau-de-bord/commandes/en-cours",
+          title: "Liste",
+          url: "/customer/tableau-de-bord/commandes/liste",
+          hidden: false
         },
         {
-          title: "Expédiées",
-          url: "/customer/tableau-de-bord/commandes/expediees",
-        },
-        {
-          title: "Retour",
-          url: "/customer/tableau-de-bord/commandes/retour",
-        },
-      ],
-    },
-    {
-      title: "Messagerie",
-      url: "#",
-      icon: MessageCircleMore,
-      items: [
-        {
-          title: "Contacter la responsable",
-          url: "/customer/tableau-de-bord/messagerie",
+          title: "",
+          url: "/customer/tableau-de-bord/commandes/:id",
+          hidden: true
         },
       ],
     },
@@ -85,10 +75,12 @@ export const data = {
         {
           title: "Emploi",
           url: "/customer/tableau-de-bord/avantages/cartes-cadeaux/emploi",
+          hidden: false
         },
         {
           title: "Liste",
           url: "/customer/tableau-de-bord/avantages/cartes-cadeaux/liste",
+          hidden: false
         },
       ],
     },
@@ -100,10 +92,12 @@ export const data = {
         {
           title: "Emploi",
           url: "/customer/tableau-de-bord/avantages/cashback/fonctionnement",
+          hidden: false
         },
         {
           title: "Historique",
           url: "/customer/tableau-de-bord/avantages/cashback/historique",
+          hidden: false
         },
       ],
     },
@@ -118,14 +112,17 @@ export const data = {
         {
           title: "Conditions générales",
           url: "/customer/tableau-de-bord/politique/vente/conditions-generales",
+          hidden: false
         },
         {
           title: "Mentions légales",
           url: "/customer/tableau-de-bord/politique/vente/mentions-legales",
+          hidden: false
         },
         {
           title: "Livraisons et retours",
           url: "/customer/tableau-de-bord/politique/vente/livraisons-et-retours",
+          hidden: false
         },
       ],
     },
@@ -138,10 +135,12 @@ export const data = {
         {
           title: "Paiements",
           url: "/customer/tableau-de-bord/politique/securite/paiements",
+          hidden: false
         },
         {
           title: "Données personnelles",
           url: "/customer/tableau-de-bord/politique/securite/donnees-personnelles",
+          hidden: false
         },
       ],
     }

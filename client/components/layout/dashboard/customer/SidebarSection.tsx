@@ -18,9 +18,8 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 
-export function NavHandleAccount({
-  items,
-}: {
+interface SidebarSectionProps {
+  title: string; // Le titre du groupe
   items: {
     title: string;
     url: string;
@@ -29,12 +28,15 @@ export function NavHandleAccount({
     items?: {
       title: string;
       url: string;
+      hidden: boolean;
     }[];
   }[];
-}) {
+}
+
+export function SidebarSection({ title, items }: SidebarSectionProps) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Gestion du compte</SidebarGroupLabel>
+      <SidebarGroupLabel>{title}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible
@@ -53,15 +55,17 @@ export function NavHandleAccount({
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <SidebarMenuSub>
-                  {item.items?.map((subItem) => (
-                    <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
-                          <span>{subItem.title}</span>
-                        </a>
-                      </SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                  ))}
+                  {item.items
+                    ?.filter((subItem) => !subItem.hidden)
+                    .map((subItem) => (
+                      <SidebarMenuSubItem key={subItem.title}>
+                        <SidebarMenuSubButton asChild>
+                          <a href={subItem.url}>
+                            <span>{subItem.title}</span>
+                          </a>
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                    ))}
                 </SidebarMenuSub>
               </CollapsibleContent>
             </SidebarMenuItem>

@@ -53,10 +53,24 @@ export default BreadcrumbCustomer;
 // Fonction récursive pour trouver un chemin et ses parents
 const findBreadcrumbPath = (url: string, nodes: any[]): any[] | null => {
   for (const node of nodes) {
+    // Vérifie si l'URL correspond exactement
     if (node.url === url) {
       return [node];
     }
 
+    // Gestion des chemins dynamiques
+    if (node.url && node.url.includes("/:")) {
+      const staticPath = node.url.split("/:")[0];
+      if (url.startsWith(staticPath)) {
+        const dynamicNode = {
+          ...node,
+          title: `Commande № ${url.split("/").pop()}`,
+        };
+        return [node, dynamicNode];
+      }
+    }
+
+    // Recherche récursive dans les sous-items
     if (node.items) {
       const childPath = findBreadcrumbPath(url, node.items);
       if (childPath) {
