@@ -19,12 +19,12 @@ interface HistoryTableProps {
 const HistoryTable: React.FC<HistoryTableProps> = ({ giftcard }) => {
   return (
     <Table>
-      <TableCaption>Détails d'utilisation de la carte cadeau.</TableCaption>
+      <TableCaption>Détails d`&apos;`utilisation de la carte cadeau.</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead>Commande</TableHead>
           <TableHead>Utilisateur</TableHead>
-          <TableHead>Date d'usage</TableHead>
+          <TableHead>Date d`&apos;`usage</TableHead>
           <TableHead>Montant utilisé</TableHead>
         </TableRow>
       </TableHeader>

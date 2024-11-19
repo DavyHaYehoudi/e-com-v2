@@ -1,5 +1,6 @@
 import { PaymentStatusDTO } from "../../controllers/payment/entities/dto/paymentStatus.dto.js";
 import {
+  getPaymentsStatusRepository,
   paymentStatusFailedRepository,
   paymentStatusPaidRepository,
 } from "../../repositories/payment/paymentStatusRepository.js";
@@ -15,4 +16,9 @@ export const paymentStatusService = async (
     console.log("failed status");
     await paymentStatusFailedRepository(customerId, body);
   }
+};
+
+export const getPaymentsStatusService = async () => {
+  const status = await getPaymentsStatusRepository();
+  return status;
 };

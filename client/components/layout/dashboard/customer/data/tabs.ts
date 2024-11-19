@@ -48,7 +48,7 @@ export const data = {
   activities: [
     {
       title: "Commandes",
-      url: "/customer/tableau-de-bord/commandes",
+      url: "#",
       icon: ShoppingCart,
       isActive: true,
       items: [

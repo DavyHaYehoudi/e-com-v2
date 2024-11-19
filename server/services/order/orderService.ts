@@ -25,6 +25,7 @@ import {
   updateOrderRepository,
   updateOrderTrackingRepository,
 } from "../../repositories/order/orderRepository.js";
+import { formatAmount } from "../../utils/format_amount.js";
 
 // ADMIN - Récupérer toutes les commandes
 export const getAllOrdersService = async (filters: OrderFiltersDTO) => {
@@ -34,7 +35,18 @@ export const getAllOrdersService = async (filters: OrderFiltersDTO) => {
 // ADMIN CUSTOMER - Récupérer toutes les commandes d'un client
 export const getOrdersOneCustomerService = async (customerId: number) => {
   const orders = await getOrdersOneCustomerRepository(customerId);
-  return orders;
+  return orders.map((item) => {
+    return {
+      ...item,
+      total_price: formatAmount(item.total_price),
+      shipping_price: formatAmount(item.shipping_price),
+      code_promo_amount: formatAmount(item.code_promo_amount),
+      total_promo_products: formatAmount(item.total_promo_products),
+      total_weight: formatAmount(item.total_weight),
+      cashback_earned: formatAmount(item.cashback_earned),
+      cashback_spent: formatAmount(item.cashback_spent),
+    };
+  });
 };
 // ADMIN - Récupérer une commande en particulier
 export const getOneOrderFromAdminService = async (orderId: number) => {
