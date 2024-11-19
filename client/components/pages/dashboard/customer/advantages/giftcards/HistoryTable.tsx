@@ -8,10 +8,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { GiftCardsCustomer } from "../hooks/useGiftcardsCustomer";
 import ClipboardButton from "@/components/shared/ClipboardButton";
 import { formatDate } from "@/app/(public)/utils/formatDate";
 import { formatPrice } from "@/app/(public)/utils/pricesFormat";
+import { GiftCardsCustomer } from "../../hooks/useGiftcardsCustomer";
 
 interface HistoryTableProps {
   giftcard: GiftCardsCustomer;

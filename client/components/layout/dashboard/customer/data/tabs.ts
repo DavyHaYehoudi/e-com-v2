@@ -2,7 +2,6 @@ import {
   BadgeEuro,
   Gift,
   MessageCircleMore,
-  Rocket,
   ShoppingCart,
   UserRound,
   MapPinHouse,
@@ -77,18 +76,6 @@ export const data = {
     },
   ],
   advantages: [
-    {
-      title: "Opportunités",
-      url: "#",
-      icon: Rocket,
-      isActive: true,
-      items: [
-        {
-          title: "Offres",
-          url: "/customer/tableau-de-bord/avantages/opportunites/offres",
-        },
-      ],
-    },
     {
       title: "Cartes cadeaux",
       url: "#",

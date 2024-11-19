@@ -9,16 +9,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import useGiftcardsCustomer, {
-  GiftCardsCustomer,
-} from "../hooks/useGiftcardsCustomer";
+
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { isGiftCardValid } from "../utils/giftcardValidity";
 import { formatPrice } from "@/app/(public)/utils/pricesFormat";
 import ValidBadge from "@/components/shared/badge/ValidBadge";
 import NoValidBadge from "@/components/shared/badge/NoValidBadge";
 import Actions from "./Actions";
+import useGiftcardsCustomer, {
+  GiftCardsCustomer,
+} from "../../hooks/useGiftcardsCustomer";
+import { isGiftCardValid } from "../../utils/giftcardValidity";
 
 const GiftcardsTable = () => {
   const [giftcards, setGiftcards] = useState<GiftCardsCustomer[] | null>(null);

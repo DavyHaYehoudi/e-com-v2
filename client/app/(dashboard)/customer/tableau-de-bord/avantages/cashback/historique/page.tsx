@@ -2,9 +2,9 @@
 import useCustomerInfo, {
   CashBackHistoryResponse,
 } from "@/components/pages/dashboard/customer/hooks/useCustomerInfo";
-import CashbackBanner from "@/components/pages/dashboard/customer/opportunity/cashback/CashbackBanner";
-import CashbackHistory from "@/components/pages/dashboard/customer/opportunity/cashback/CashbackHistory";
-import CashbackSummary from "@/components/pages/dashboard/customer/opportunity/cashback/CashbackSummary";
+import CashbackBanner from "@/components/pages/dashboard/customer/advantages/cashback/CashbackBanner";
+import CashbackHistory from "@/components/pages/dashboard/customer/advantages/cashback/CashbackHistory";
+import CashbackSummary from "@/components/pages/dashboard/customer/advantages/cashback/CashbackSummary";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 

@@ -1,4 +1,4 @@
-import GiftcardsTable from "@/components/pages/dashboard/customer/giftcards/GiftcardsTable";
+import GiftcardsTable from "@/components/pages/dashboard/customer/advantages/giftcards/GiftcardsTable";
 import React from "react";
 
 const page = () => {

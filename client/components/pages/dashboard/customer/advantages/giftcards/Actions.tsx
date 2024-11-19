@@ -10,7 +10,7 @@ import {
 import { MoreHorizontal } from "lucide-react";
 import React from "react";
 import GiftcardHistory from "./GiftcardHistory";
-import { GiftCardsCustomer } from "../hooks/useGiftcardsCustomer";
+import { GiftCardsCustomer } from "../../hooks/useGiftcardsCustomer";
 
 interface ActionsProps {
   giftcard: GiftCardsCustomer;

@@ -9,8 +9,7 @@ interface ClipboardButtonProps {
 
 const ClipboardButton: React.FC<ClipboardButtonProps> = ({
   text,
-  className,
-  iconSize = 16, // Valeur par défaut pour l'icône
+  className = "w-6 h-6",
 }) => {
   const [copied, setCopied] = useState(false);
 
@@ -25,17 +24,14 @@ const ClipboardButton: React.FC<ClipboardButtonProps> = ({
     <div className={`relative inline-flex items-center gap-1 ${className}`}>
       <button
         onClick={handleCopy}
-        className="flex items-center text-gray-500 hover:text-gray-800 focus:outline-none"
+        className="flex items-center text-[var(--whiteSmoke)] hover:text-gray-800 focus:outline-none"
         title="Copier"
       >
-        <Copy
-          className="w-4 h-4"
-          style={{ width: iconSize, height: iconSize }}
-        />
+        <Copy className={className} />
       </button>
       {copied && (
         <span className="absolute -top-5 left-0 text-xs text-green-500">
-          Copié !
+          Copié
         </span>
       )}
     </div>
