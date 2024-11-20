@@ -51,7 +51,7 @@ const MasterOrderTable: React.FC<MasterOrderTableProps> = ({ data }) => {
             <TableCell>
               {" "}
               <Badge
-                style={{ backgroundColor: data.order.payment_status_color }}
+                style={{ color: data.order.payment_status_color }}
                 className="text-white text-center"
               >
                 {data.order.payment_status_label}

@@ -62,6 +62,11 @@ export const data = {
           url: "/customer/tableau-de-bord/commandes/:id",
           hidden: true
         },
+        {
+          title: "Suivi de colis",
+          url: "/customer/tableau-de-bord/commandes/suivi-de-colis",
+          hidden: false
+        },
       ],
     },
   ],

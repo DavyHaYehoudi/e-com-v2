@@ -4350,6 +4350,9 @@ components:
         order:
           type: object
           properties:
+            id:
+              type: integer
+              example: 4234
             customer_id:
               type: integer
               example: 023948

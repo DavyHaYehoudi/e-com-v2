@@ -109,7 +109,7 @@ export const sendPaymentConfirmationEmail = async (
         <h2 style="text-align: center; color: #4CAF50;">Merci pour votre achat, ${
           customer.firstName || "cher client"
         } !</h2>
-        <p style="font-size: 16px;">Votre commande a été créee avec succès.</p>
+        <p style="font-size: 16px;">Votre commande a été créée avec succès.</p>
         <p><strong>Numéro de commande :</strong> ${
           order.confirmation_number
         }</p>

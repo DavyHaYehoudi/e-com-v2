@@ -33,9 +33,12 @@ const MasterOrderPage = ({ params }: OneOrderProps) => {
   }, [id, oneOrderCustomerFetch]);
   return (
     <div>
-      une commande en particulier : {id}
-      <div className="sm:w-3/4 xl:mx-auto w-[300px]"><MasterOrderTable data={orderData} /></div>
-      
+      <h1 className="text-center mb-20">
+        Commande № {orderData?.order.confirmation_number}{" "}
+      </h1>
+      <div className="sm:w-3/4 xl:mx-auto w-[300px]">
+        <MasterOrderTable data={orderData} />
+      </div>
     </div>
   );
 };

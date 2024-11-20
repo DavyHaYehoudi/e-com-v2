@@ -19,8 +19,8 @@ const CommonDetails: React.FC<CommonDetailsProps> = ({ giftcard }) => {
           </span>
         )}
       </p>
-      <p>Identifiant de l'acheteur : {giftcard.first_holder_id}</p>
-      <p>Date d'achat : {formatDate(giftcard.createdAt)}</p>
+      <p>Identifiant de l&apos;acheteur : {giftcard.first_holder_id}</p>
+      <p>Date d&apos;achat : {formatDate(giftcard.createdAt)}</p>
     </div>
   );
 };

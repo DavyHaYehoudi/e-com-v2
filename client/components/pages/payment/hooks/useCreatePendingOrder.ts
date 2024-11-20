@@ -37,17 +37,17 @@ const useCreatePendingOrder = () => {
     method: "POST",
     requiredCredentials: true,
   });
-  const getConfirmationNumber = async () => {
+  const getOrderInformation = async () => {
     try {
       const data = await triggerFetch(formatData);
       if (data) {
-        return data.order.confirmation_number;
+        return data.order;
       }
     } catch (error) {
       console.log("error dans useCreatePendingOrder :", error);
     }
   };
-  return { getConfirmationNumber };
+  return { getOrderInformation };
 };
 
 export default useCreatePendingOrder;

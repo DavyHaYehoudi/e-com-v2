@@ -35,6 +35,7 @@ const PaymentSuccess = () => {
   const { getCashbackOneCustomer } = useCashback();
   const searchParams = useSearchParams();
   const confirmationNumber = searchParams.get("confirmationNumber");
+  const orderId = searchParams.get("orderId");
   useEffect(() => {
     if (confirmationNumber) {
       const bodyData = { confirmationNumber, status: "paid" };
@@ -90,7 +91,7 @@ const PaymentSuccess = () => {
             className="flex items-center gap-2"
             onClick={() => {
               // Rediriger vers les détails de la commande
-              window.location.href = "/account/orders";
+              window.location.href = `/customer/tableau-de-bord/commandes/${orderId}`;
             }}
           >
             <ArrowRightCircle className="text-blue-600" />

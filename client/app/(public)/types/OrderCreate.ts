@@ -8,6 +8,7 @@ export interface OrderResponse {
   
   // Typage pour l'objet `order`
   export interface Order {
+    id:number;
     customer_id: number;
     payment_status: string;
     order_status: string;

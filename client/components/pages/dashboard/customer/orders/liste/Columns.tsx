@@ -69,10 +69,7 @@ export const columns: ColumnDef<OrderCustomer>[] = [
       const color = row.original.payment_status_color; // Récupère la couleur
 
       return (
-        <Badge
-          style={{ backgroundColor: color }}
-          className="text-white text-center"
-        >
+        <Badge style={{ color: color }} className="text-white text-center">
           {label}
         </Badge>
       );
