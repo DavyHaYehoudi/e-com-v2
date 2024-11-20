@@ -19,6 +19,5 @@ export const paymentStatusService = async (
 };
 
 export const getPaymentsStatusService = async () => {
-  const status = await getPaymentsStatusRepository();
-  return status;
+  return await getPaymentsStatusRepository();
 };

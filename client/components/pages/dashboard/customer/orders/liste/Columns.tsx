@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import ClipboardButton from "@/components/shared/ClipboardButton";
+import { Badge } from "@/components/ui/badge";
 
 export const columns: ColumnDef<OrderCustomer>[] = [
   {
@@ -29,11 +30,15 @@ export const columns: ColumnDef<OrderCustomer>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("order_status_id")}</div>
-    ),
-    meta: {
-      displayName: "Etape",
+    cell: ({ row }) => {
+      const label = row.original.order_status_label; // Récupère le label
+      const color = row.original.order_status_color; // Récupère la couleur
+
+      return (
+        <Badge style={{ backgroundColor: color }} className="text-white">
+          {label}
+        </Badge>
+      );
     },
   },
   {
@@ -56,9 +61,16 @@ export const columns: ColumnDef<OrderCustomer>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("payment_status_id")}</div>
-    ),
+    cell: ({ row }) => {
+      const label = row.original.payment_status_label; // Récupère le label
+      const color = row.original.payment_status_color; // Récupère la couleur
+
+      return (
+        <Badge style={{ backgroundColor: color }} className="text-white">
+          {label}
+        </Badge>
+      );
+    },
   },
   {
     accessorKey: "total_price",
@@ -67,7 +79,9 @@ export const columns: ColumnDef<OrderCustomer>[] = [
       const amount = parseFloat(row.getValue("total_price"));
 
       return (
-        <div className="text-right font-medium whitespace-nowrap">{formatPrice(amount)}</div>
+        <div className="text-right font-medium whitespace-nowrap">
+          {formatPrice(amount)}
+        </div>
       );
     },
   },

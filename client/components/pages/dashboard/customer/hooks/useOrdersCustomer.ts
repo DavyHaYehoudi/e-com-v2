@@ -16,7 +16,9 @@ export interface OrderCustomer {
   total_promo_products: number;
   total_weight: number;
   order_status_label: string;
+  order_status_color: string;
   payment_status_label: string;
+  payment_status_color: string;
 }
 
 // Typing for the full response (array of orders)

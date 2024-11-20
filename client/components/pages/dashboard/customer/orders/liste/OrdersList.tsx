@@ -1,20 +1,17 @@
-"use client"
-
-import * as React from "react"
+"use client";
+import * as React from "react";
 import {
   ColumnFiltersState,
   SortingState,
-  VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -22,37 +19,19 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import useOrdersCustomer, { OrdersCustomerFetch } from "../../hooks/useOrdersCustomer"
-import { toast } from "sonner"
-import {columns} from "./Columns"
+} from "@/components/ui/table";
+import { columns } from "./Columns";
+import { OrdersCustomerFetch } from "../../hooks/useOrdersCustomer";
 
-const OrdersList =()=> {
-    const [data, setData] = React.useState<OrdersCustomerFetch >([]);
-    const{ordersCustomerFetch}=useOrdersCustomer()
-    React.useEffect(() => {
-      const fetchCashbackHistory = async () => {
-        try {
-          const data = await ordersCustomerFetch();
-          if (data) setData(data);
-        } catch (error) {
-          console.error(
-            "Erreur lors de la récupération de vos commandes :",
-            error
-          );
-          toast.error("Impossible de charger vos informations.");
-        }
-      };
-    
-      fetchCashbackHistory();
-    }, [ordersCustomerFetch]);
-  const [sorting, setSorting] = React.useState<SortingState>([])
+interface OrdersListProps {
+  data: OrdersCustomerFetch;
+}
+const OrdersList: React.FC<OrdersListProps> = ({ data }) => {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
-  )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+  );
+  const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
     data,
@@ -63,15 +42,13 @@ const OrdersList =()=> {
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
-      columnVisibility,
       rowSelection,
     },
-  })
+  });
 
   return (
     <div className="w-full">
@@ -90,7 +67,7 @@ const OrdersList =()=> {
                             header.getContext()
                           )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -118,7 +95,7 @@ const OrdersList =()=> {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  Aucune commande pour le moment.
                 </TableCell>
               </TableRow>
             )}
@@ -127,7 +104,7 @@ const OrdersList =()=> {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredRowModel().rows.length} lignes(s).
+          {table.getFilteredRowModel().rows.length} ligne(s).
         </div>
         <div className="space-x-2">
           <Button
@@ -149,6 +126,6 @@ const OrdersList =()=> {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 export default OrdersList;

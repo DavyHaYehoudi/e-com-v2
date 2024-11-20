@@ -24,6 +24,7 @@ import reviewReservedRoutes from "./routes/reserved/review.routes.js";
 import giftCardReservedRoutes from "./routes/reserved/giftCard.routes.js";
 import paymentReservedRoutes from "./routes/reserved/payment.routes.js";
 import orderReservedRoutes from "./routes/reserved/order.routes.js";
+import ordersStatusRoutes from "./routes/reserved/ordersStatus.routes.js";
 
 // Admin routes
 import profileRoutes from "./routes/admin/customer/profile.routes.js";
@@ -67,6 +68,7 @@ app.use("/api/reviews", reviewReservedRoutes);
 app.use("/api/gift-cards", giftCardReservedRoutes);
 app.use("/api/payment", paymentReservedRoutes);
 app.use("/api/orders", orderReservedRoutes);
+app.use("/api/orders-status", ordersStatusRoutes);
 
 // Admin routes
 app.use("/api/admin/customers", verifyToken, adminAccess, profileRoutes);
