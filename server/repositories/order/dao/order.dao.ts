@@ -4,7 +4,11 @@ export interface OrderRow extends RowDataPacket {
   id: number;
   customer_id: number;
   order_status_id: number;
+  order_status_label: string;
+  order_status_code: string;
   payment_status_id: number;
+  payment_status_label: string;
+  payment_status_color: string;
   confirmation_number: string;
   notes_admin: string;
   code_promo_amount: number;

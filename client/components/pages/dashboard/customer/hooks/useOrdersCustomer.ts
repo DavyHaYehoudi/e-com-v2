@@ -21,11 +21,46 @@ export interface OrderCustomer {
   payment_status_color: string;
 }
 
+export interface OneOrderCustomer {
+  order: OrderCustomer;
+  addresses: Addresses;
+}
+
+export interface Addresses {
+  billingAddress: Address;
+  shippingAddress: Address;
+}
+
+export interface Address {
+  id: number;
+  type: "billing" | "shipping"; // Typage strict pour les types d'adresse
+  company: string | null; // Permet `null` pour les valeurs vides
+  email: string;
+  phone: string;
+  street_number: string;
+  address1: string;
+  address2: string | null; // Permet `null` pour les lignes d'adresse optionnelles
+  city: string;
+  postal_code: string;
+  country: string;
+  created_at: string; // ISO 8601 date string
+  updated_at: string; // ISO 8601 date string
+  order_id: number;
+  first_name: string;
+  last_name: string;
+}
+
 // Typing for the full response (array of orders)
 export type OrdersCustomerFetch = OrderCustomer[];
-const useOrdersCustomer = () => {
+const useOrdersCustomer = (id?: string) => {
   const { triggerFetch: ordersCustomerFetch } = useFetch<OrdersCustomerFetch>(
     "/orders",
+    {
+      requiredCredentials: true,
+    }
+  );
+  const { triggerFetch: oneOrderCustomerFetch } = useFetch<OneOrderCustomer>(
+    `/orders/${id}`,
     {
       requiredCredentials: true,
     }
@@ -33,6 +68,7 @@ const useOrdersCustomer = () => {
 
   return {
     ordersCustomerFetch,
+    oneOrderCustomerFetch,
   };
 };
 

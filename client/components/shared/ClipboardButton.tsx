@@ -9,7 +9,7 @@ interface ClipboardButtonProps {
 
 const ClipboardButton: React.FC<ClipboardButtonProps> = ({
   text,
-  className = "w-6 h-6",
+  className = "w-6 h-6 text-blue-500",
 }) => {
   const [copied, setCopied] = useState(false);
 

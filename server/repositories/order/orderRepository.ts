@@ -99,7 +99,9 @@ export const getOneOrderFromAdminRepository = async (orderId: number) => {
     SELECT
       o.*,
       os.label AS order_status_label,
-      ps.label AS payment_status_label
+      os.color AS order_status_color,
+      ps.label AS payment_status_label,
+      ps.color AS payment_status_color
     FROM \`order\` o
     JOIN order_status os ON o.order_status_id = os.id
     JOIN payment_status ps ON o.payment_status_id = ps.id
@@ -122,7 +124,9 @@ export const getOneOrderFromCustomerRepository = async (
     SELECT
       o.*,
       os.label AS order_status_label,
-      ps.label AS payment_status_label
+      os.color AS order_status_color,
+      ps.label AS payment_status_label,
+      ps.color AS payment_status_color
     FROM \`order\` o
     JOIN order_status os ON o.order_status_id = os.id
     JOIN payment_status ps ON o.payment_status_id = ps.id

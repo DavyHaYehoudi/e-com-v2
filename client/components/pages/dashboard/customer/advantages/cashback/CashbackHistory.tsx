@@ -87,13 +87,13 @@ const CashbackHistory: React.FC<CashbackHistoryProps> = ({ history }) => {
                     className={`inline-block py-1 rounded-lg text-sm ${reward?.color}`}
                   >
                     <span>{reward?.title}</span>
-                    {item.confirmation_number && (
-                      <span className="flex items-center gap-2 mt-1">
-                        {item.confirmation_number}
-                        <ClipboardButton text={item.confirmation_number} />
-                      </span>
-                    )}
                   </Badge>
+                  {item.confirmation_number && (
+                    <span className="flex items-center gap-2 mt-1">
+                      {item.confirmation_number}
+                      <ClipboardButton text={item.confirmation_number} />
+                    </span>
+                  )}
                 </TableCell>
 
                 {/* Colonne "Capitalisé" */}

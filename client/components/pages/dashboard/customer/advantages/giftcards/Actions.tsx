@@ -11,6 +11,7 @@ import { MoreHorizontal } from "lucide-react";
 import React from "react";
 import GiftcardHistory from "./GiftcardHistory";
 import { GiftCardsCustomer } from "../../hooks/useGiftcardsCustomer";
+import ClipboardButton from "@/components/shared/ClipboardButton";
 
 interface ActionsProps {
   giftcard: GiftCardsCustomer;
@@ -26,12 +27,12 @@ const Actions: React.FC<ActionsProps> = ({ giftcard }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuItem
-          onClick={() => navigator.clipboard.writeText(giftcard.code)}
-        >
-          <span>Copier le code :</span>{" "}
-          <span className="hover:underline hover:cursor-pointer font-bold ml-1">
+        <DropdownMenuItem className="flex flex-col">
+          <span>Copier le code</span>
+          <span className="flex items-center gap-2">
+            {" "}
             {giftcard.code}
+            <ClipboardButton text={giftcard.code} />
           </span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />

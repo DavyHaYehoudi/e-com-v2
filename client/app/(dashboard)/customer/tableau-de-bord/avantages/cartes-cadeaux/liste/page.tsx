@@ -3,7 +3,7 @@ import React from "react";
 
 const page = () => {
   return (
-    <div className=" xl:w-3/4 xl:mx-auto 2xl:w-1/2 xs:w-full w-[300px]">
+    <div className="xs:w-full xl:w-3/4 xl:mx-auto w-[300px]">
       <GiftcardsTable />
     </div>
   );

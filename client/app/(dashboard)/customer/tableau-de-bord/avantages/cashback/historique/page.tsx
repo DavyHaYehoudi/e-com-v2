@@ -29,7 +29,7 @@ const CashbackHistoryPage = () => {
     fetchCashbackHistory();
   }, [cashbackHistoryFetch]);
   return (
-    <div className="w-full xl:w-3/4 xl:mx-auto 2xl:w-1/2">
+    <div className="xs:w-full xl:w-3/4 xl:mx-auto w-[300px]">
       <CashbackSummary history={history} />
       <CashbackBanner />
       <CashbackHistory history={history} />

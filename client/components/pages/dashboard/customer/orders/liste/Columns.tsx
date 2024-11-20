@@ -35,7 +35,10 @@ export const columns: ColumnDef<OrderCustomer>[] = [
       const color = row.original.order_status_color; // Récupère la couleur
 
       return (
-        <Badge style={{ backgroundColor: color }} className="text-white">
+        <Badge
+          style={{ backgroundColor: color }}
+          className="text-white text-center"
+        >
           {label}
         </Badge>
       );
@@ -66,7 +69,10 @@ export const columns: ColumnDef<OrderCustomer>[] = [
       const color = row.original.payment_status_color; // Récupère la couleur
 
       return (
-        <Badge style={{ backgroundColor: color }} className="text-white">
+        <Badge
+          style={{ backgroundColor: color }}
+          className="text-white text-center"
+        >
           {label}
         </Badge>
       );
@@ -131,7 +137,7 @@ export const columns: ColumnDef<OrderCustomer>[] = [
               <span className="flex items-center gap-2">
                 {" "}
                 {orderNumber}
-                <ClipboardButton text={orderNumber} className="text-blue-500" />
+                <ClipboardButton text={orderNumber} />
               </span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />

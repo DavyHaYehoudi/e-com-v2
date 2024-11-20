@@ -5,5 +5,5 @@ export default function RootLayoutPublic({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <PublicLayout children={children}></PublicLayout>;
+  return <PublicLayout>{children}</PublicLayout>;
 }
