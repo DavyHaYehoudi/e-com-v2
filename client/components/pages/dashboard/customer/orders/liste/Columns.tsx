@@ -15,6 +15,7 @@ import {
 import Link from "next/link";
 import ClipboardButton from "@/components/shared/ClipboardButton";
 import { Badge } from "@/components/ui/badge";
+import { formatWeight } from "@/app/(public)/utils/weightFormat";
 
 export const columns: ColumnDef<OrderCustomer>[] = [
   {
@@ -45,13 +46,6 @@ export const columns: ColumnDef<OrderCustomer>[] = [
     },
   },
   {
-    accessorKey: "confirmation_number",
-    header: "№ de commande",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("confirmation_number")}</div>
-    ),
-  },
-  {
     accessorKey: "payment_status_id",
     header: ({ column }) => {
       return (
@@ -72,6 +66,92 @@ export const columns: ColumnDef<OrderCustomer>[] = [
         <Badge style={{ color: color }} className="text-white text-center">
           {label}
         </Badge>
+      );
+    },
+  },
+  {
+    accessorKey: "confirmation_number",
+    header: "№ de commande",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("confirmation_number")}</div>
+    ),
+  },
+  {
+    accessorKey: "shipping_price",
+    header: () => <div className="text-right">Livraison</div>,
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("shipping_price"));
+
+      return (
+        <div className="text-right font-medium whitespace-nowrap">
+          {formatPrice(amount)}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "total_weight",
+    header: () => <div className="text-right">Poids</div>,
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("total_weight"));
+
+      return (
+        <div className="text-right font-medium whitespace-nowrap">
+          {formatWeight(amount)}
+        </div>
+      );
+    },
+  },
+
+  {
+    accessorKey: "cashback_earned",
+    header: () => <div className="text-right">Cashback capitalisé</div>,
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("cashback_earned"));
+
+      return (
+        <div className="text-right font-medium whitespace-nowrap">
+          {formatPrice(amount)}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "cashback_spent",
+    header: () => <div className="text-right">Cashback dépensé</div>,
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("cashback_spent"));
+
+      return (
+        <div className="text-right font-medium whitespace-nowrap">
+          {formatPrice(amount)}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "code_promo_amount",
+    header: () => <div className="text-right">Montant du code promo</div>,
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("code_promo_amount"));
+
+      return (
+        <div className="text-right font-medium whitespace-nowrap">
+          {formatPrice(amount)}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "total_promo_products",
+    header: () => <div className="text-right">Promotions des produits</div>,
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("total_promo_products"));
+
+      return (
+        <div className="text-right font-medium whitespace-nowrap">
+          {formatPrice(amount)}
+        </div>
       );
     },
   },
@@ -139,9 +219,21 @@ export const columns: ColumnDef<OrderCustomer>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href={`/customer/tableau-de-bord/commandes/${orderId}`}>
+              <Link href={`/customer/tableau-de-bord/commandes/${orderId}/adresses`}>
                 {" "}
-                Voir le détail de la commande
+                Voir les adresses
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`/customer/tableau-de-bord/commandes/${orderId}/numeros-de-suivi`}>
+                {" "}
+                Numéros de suivi
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`/customer/tableau-de-bord/commandes/${orderId}/contacter-responsable`}>
+                {" "}
+                Contacter un responsable
               </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>

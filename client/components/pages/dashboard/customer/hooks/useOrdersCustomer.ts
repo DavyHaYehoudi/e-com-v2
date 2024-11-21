@@ -25,12 +25,6 @@ export interface OneOrderCustomer {
   order: OrderCustomer;
   addresses: Addresses;
 }
-
-export interface Addresses {
-  billingAddress: Address;
-  shippingAddress: Address;
-}
-
 export interface Address {
   id: number;
   type: "billing" | "shipping"; // Typage strict pour les types d'adresse
@@ -49,7 +43,10 @@ export interface Address {
   first_name: string;
   last_name: string;
 }
-
+export interface Addresses {
+  billingAddress: Address;
+  shippingAddress: Address;
+}
 // Typing for the full response (array of orders)
 export type OrdersCustomerFetch = OrderCustomer[];
 const useOrdersCustomer = (id?: string) => {

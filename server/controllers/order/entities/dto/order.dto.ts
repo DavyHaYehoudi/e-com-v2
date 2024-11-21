@@ -31,7 +31,7 @@ export interface OrderInputDTO {
   notes_admin?: string;
 }
 
-// Schémaa pour valider les entrées du tracking
+// Schéma pour valider les entrées du tracking
 export const orderTrackingAdminSchema = z.object({
   customer_id: z.number().int(),
   tracking_number: z

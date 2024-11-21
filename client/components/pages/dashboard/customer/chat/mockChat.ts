@@ -90,5 +90,25 @@ export const mockMessages = [
       text: "Bonne journée à vous aussi ! 😊",
       createdAt: "2024-11-14T09:30:00.000Z",
     },
+    {
+      role: "customer",
+      text: "Ajout de la barre de redaction du message",
+      createdAt: "2024-11-18T09:28:30.000Z",
+    },
+    {
+      role: "admin",
+      text: "Oui, c'est vrai que ça manquait un peu looool",
+      createdAt: "2024-11-18T09:29:00.000Z",
+    },
+    {
+      role: "customer",
+      text: "Excellent idée !",
+      createdAt: "2024-11-20T09:29:30.000Z",
+    },
+    {
+      role: "admin",
+      text: "Bonne journée ! 😊",
+      createdAt: "2024-11-21T09:30:00.000Z",
+    },
   ];
   

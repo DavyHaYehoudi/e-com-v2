@@ -104,7 +104,7 @@ export const updateOrderController = async (
     next(error);
   }
 };
-// // ADMIN CUSTOMER - Récupérer les numéros de suivi de la commande
+// ADMIN CUSTOMER - Récupérer les numéros de suivi de la commande
 export const getOrderTrackingFromAdminController = async (
   req: Request,
   res: Response,
@@ -119,7 +119,7 @@ export const getOrderTrackingFromAdminController = async (
     next(error);
   }
 };
-// // CUSTOMER - Récupérer les numéros de suivi de la commande
+// CUSTOMER - Récupérer les numéros de suivi de la commande
 export const getOrderTrackingFromCustomerController = async (
   req: Request,
   res: Response,
