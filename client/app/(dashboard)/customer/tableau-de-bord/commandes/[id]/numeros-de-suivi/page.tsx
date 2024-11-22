@@ -6,7 +6,10 @@ import React, { useEffect, useState } from "react";
 import { notFound } from "next/navigation";
 import TrackingNumber from "@/components/shared/TrackingNumber";
 import TrackingFormCustomer from "@/components/shared/TrackingFormCustomer";
-import useOrdersCustomer, { OneOrderCustomer } from "@/components/pages/dashboard/customer/hooks/useOrdersCustomer";
+import useOrdersCustomer, {
+  OneOrderCustomer,
+} from "@/components/pages/dashboard/customer/hooks/useOrdersCustomer";
+import Link from "next/link";
 
 interface TrackingsPageProps {
   params: {
@@ -14,7 +17,7 @@ interface TrackingsPageProps {
   };
 }
 const TrackingsPage: React.FC<TrackingsPageProps> = ({ params }) => {
-    const [orderData, setOrderData] = useState<OneOrderCustomer | null>(null);
+  const [orderData, setOrderData] = useState<OneOrderCustomer | null>(null);
   const [trackings, setTrackings] = useState<TrackingsList>([]);
   const { id } = params;
   if (!id) {
@@ -60,6 +63,12 @@ const TrackingsPage: React.FC<TrackingsPageProps> = ({ params }) => {
       <h1 className="text-center mb-20">
         Commande № {orderData?.order.confirmation_number}{" "}
       </h1>
+      <Link
+        href="/customer/tableau-de-bord/commandes/liste"
+        className="underline text-blue-300"
+      >
+        Retour à la liste
+      </Link>
       <section className="sm:w-full lg:w-3/4 sm:mx-auto my-20">
         <div className="mt-10 flex flex-wrap justify-center gap-5 items-center">
           {trackingCustomer && (
@@ -75,8 +84,9 @@ const TrackingsPage: React.FC<TrackingsPageProps> = ({ params }) => {
             />
           )}
         </div>
-        <div className="w-full xl:w-1/2 my-10 mx-auto" ><TrackingFormCustomer orderId={id} /></div>
-          
+        <div className="w-full xl:w-1/2 my-10 mx-auto">
+          <TrackingFormCustomer orderId={id} />
+        </div>
       </section>
     </div>
   );

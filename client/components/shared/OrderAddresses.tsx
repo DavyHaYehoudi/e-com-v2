@@ -30,7 +30,7 @@ const OrderAddresses = ({ addresses }: Props) => {
   );
 
   return (
-    <div className="flex flex-wrap items-center gap-5 justify-center">
+    <div className="flex flex-wrap items-center gap-5 justify-center my-20">
       {renderAddress(billingAddress, "Adresse de Facturation")}
       {renderAddress(shippingAddress, "Adresse de Livraison")}
     </div>
