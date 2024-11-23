@@ -91,7 +91,7 @@ const PaymentSuccess = () => {
             className="flex items-center gap-2"
             onClick={() => {
               // Rediriger vers les détails de la commande
-              window.location.href = `/customer/tableau-de-bord/commandes/${orderId}`;
+              window.location.href = `/customer/tableau-de-bord/commandes/liste`;
             }}
           >
             <ArrowRightCircle className="text-blue-600" />

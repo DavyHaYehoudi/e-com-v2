@@ -1063,7 +1063,7 @@ paths:
           description: Unauthorized - Customer is not authenticated
       security:
         - api_key: []
-  /admin/order-items/{orderId}:
+  /order-items/{orderId}:
     get:
       tags:
         - order-item

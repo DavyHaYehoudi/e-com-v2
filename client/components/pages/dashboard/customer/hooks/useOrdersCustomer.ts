@@ -49,6 +49,28 @@ export interface Addresses {
 }
 // Typing for the full response (array of orders)
 export type OrdersCustomerFetch = OrderCustomer[];
+
+// Typage pour un élément individuel de la liste
+export interface OrderItem {
+  order_id: number;
+  product_id: number;
+  customer_id: number;
+  article_number: number;
+  price_before_discount: number;
+  discount_percentage: number | null;
+  exchange_number: number | null;
+  exchange_at: string | null;
+  refund_number: number | null;
+  refund_at: string | null;
+  refund_amount: number | null;
+  return_number: number | null;
+  return_at: string | null;
+  variant: string;
+}
+
+// Typage pour la liste complète
+export type OrderItemList = OrderItem[];
+
 const useOrdersCustomer = (id?: string) => {
   const { triggerFetch: ordersCustomerFetch } = useFetch<OrdersCustomerFetch>(
     "/orders",
@@ -62,10 +84,17 @@ const useOrdersCustomer = (id?: string) => {
       requiredCredentials: true,
     }
   );
+  const { triggerFetch: orderItemsCustomerFetch } = useFetch<OrderItemList>(
+    `/order-items/${id}`,
+    {
+      requiredCredentials: true,
+    }
+  );
 
   return {
     ordersCustomerFetch,
     oneOrderCustomerFetch,
+    orderItemsCustomerFetch,
   };
 };
 

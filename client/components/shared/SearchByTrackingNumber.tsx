@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Alert } from "@/components/ui/alert";
 import { BaggageClaim } from "lucide-react";
 
-export default function TrackingPage() {
+const SearchByTrackingNumber = () => {
   const [trackingNumber, setTrackingNumber] = useState("");
   const [error, setError] = useState("");
 
@@ -53,4 +53,5 @@ export default function TrackingPage() {
       ></script>
     </div>
   );
-}
+};
+export default SearchByTrackingNumber;

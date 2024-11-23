@@ -54,15 +54,15 @@ const ZeroPaymentCheckout = ({ className, ...props }: CardProps) => {
       icon: <BadgeEuro className="size-4" />,
     },
   ];
-  const { getConfirmationNumber } = useCreatePendingOrder();
+  const { getOrderInformation } = useCreatePendingOrder();
   const router = useRouter();
 
   const handleConfirm = async () => {
     try {
       setIsLoading(true);
-      const confirmationNumber = await getConfirmationNumber();
+      const orderInfo = await getOrderInformation();
       router.push(
-        `${process.env.NEXT_PUBLIC_CLIENT_URL}/payment/success?confirmationNumber=${confirmationNumber}`
+        `${process.env.NEXT_PUBLIC_CLIENT_URL}/payment/success?confirmationNumber=${orderInfo?.confirmation_number}&orderId=${orderInfo?.id}`
       );
     } catch (error) {
       console.log("erreur dans ZeroPaymentCheckout :", error);

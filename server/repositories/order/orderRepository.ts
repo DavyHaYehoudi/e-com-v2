@@ -88,6 +88,7 @@ export const getOrdersOneCustomerRepository = async (customerId: number) => {
   JOIN order_status os ON o.order_status_id = os.id
   JOIN payment_status ps ON o.payment_status_id = ps.id
   WHERE o.customer_id = ?
+  ORDER BY o.created_at DESC
 `;
 
   const results = await query<OrderRow[]>(sql, [customerId]);

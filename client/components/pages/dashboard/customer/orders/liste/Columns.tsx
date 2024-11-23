@@ -219,19 +219,33 @@ export const columns: ColumnDef<OrderCustomer>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href={`/customer/tableau-de-bord/commandes/${orderId}/adresses`}>
+              <Link
+                href={`/customer/tableau-de-bord/commandes/${orderId}/contenu`}
+              >
                 {" "}
-                Voir les adresses
+                Voir le contenu
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Link href={`/customer/tableau-de-bord/commandes/${orderId}/numeros-de-suivi`}>
+              <Link
+                href={`/customer/tableau-de-bord/commandes/${orderId}/livraison`}
+              >
+                {" "}
+                Suivre la livraison
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link
+                href={`/customer/tableau-de-bord/commandes/${orderId}/numeros-de-suivi`}
+              >
                 {" "}
                 Numéros de suivi
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Link href={`/customer/tableau-de-bord/commandes/${orderId}/contacter-responsable`}>
+              <Link
+                href={`/customer/tableau-de-bord/commandes/${orderId}/contacter-responsable`}
+              >
                 {" "}
                 Contacter un responsable
               </Link>
