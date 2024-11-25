@@ -41,7 +41,7 @@ const usePaymentForm = () => {
   }, [stripe]);
 
   //  On récupère le numéro de la commande créée en staging
-  const { getConfirmationNumber } = useCreatePendingOrder();
+  const { getOrderInformation } = useCreatePendingOrder();
   // En cas d'échec de payment, on modifie le statut de payment de la commande créée en staging
   const { triggerFetch } = useFetch("/payment/status", {
     method: "PATCH",
@@ -50,7 +50,9 @@ const usePaymentForm = () => {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    const confirmationNumber = await getConfirmationNumber();
+    const orderInfo = await getOrderInformation();
+    const confirmationNumber = orderInfo?.confirmation_number;
+    const orderId = orderInfo?.id;
 
     if (!stripe || !elements) {
       return;
@@ -61,7 +63,7 @@ const usePaymentForm = () => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/payment/success?confirmationNumber=${confirmationNumber}`,
+        return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/payment/success?confirmationNumber=${confirmationNumber}&orderId=${orderId}`,
       },
     });
 

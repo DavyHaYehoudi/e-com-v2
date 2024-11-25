@@ -7,8 +7,8 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import React, { useEffect } from "react";
-import { formatLabelForURL } from "@/app/utils/FormatLabelForUrl";
-import useCollection from "@/app/hooks/useCollection";
+import useCollection from "@/app/(public)/hooks/useCollection";
+import { formatLabelForURL } from "@/app/(public)/utils/FormatLabelForUrl";
 
 const ProductMenu = () => {
   const { collections, getCollections } = useCollection();

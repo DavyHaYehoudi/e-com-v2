@@ -1,5 +1,5 @@
 // src/store/authSlice.ts
-import { isTokenExpired } from "@/app/utils/token";
+import { isTokenExpired } from "@/app/(public)/utils/token";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";

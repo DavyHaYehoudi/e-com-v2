@@ -7,7 +7,7 @@ import { useState } from "react";
 import { CheckCircleIcon, XCircleIcon, PercentIcon } from "lucide-react";
 import { promoCodeSchema } from "./promoCodeSchema";
 import { Label } from "@/components/ui/label";
-import { CodePromoVerifyTypes } from "@/app/types/CodePromoVerifyTypes";
+import { CodePromoVerifyTypes } from "@/app/(public)/types/CodePromoVerifyTypes";
 import { useFetch } from "@/service/hooks/useFetch";
 import { useDispatch, useSelector } from "react-redux";
 import {

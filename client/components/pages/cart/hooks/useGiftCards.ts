@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { GiftcardToUseType } from "@/app/types/GiftcardToUseTypes";
+import { GiftcardToUseType } from "@/app/(public)/types/GiftcardToUseTypes";
 import { useDispatch } from "react-redux";
 import { setAmountTotalGiftcardsToUse } from "@/redux/slice/priceAdjustmentsSlice";
 

@@ -1,4 +1,4 @@
-import { MasterProductsType, Product } from "@/app/types/ProductTypes";
+import { MasterProductsType, Product } from "@/app/(public)/types/ProductTypes";
 import ProductCard from "@/components/shared/productCard/ProductCard";
 import { useFetch } from "@/service/hooks/useFetch";
 import React, { useEffect, useState } from "react";

@@ -13,7 +13,18 @@ export const getGiftCardByCodeService = async (code: string) => {
 };
 // Récupérer pour un customer toutes ses cartes cadeaux
 export const getCustomerGiftCardsService = async (customerId: number) => {
-  return await giftCardService.getCustomerGiftCardsRepository(customerId);
+  const giftcards = await giftCardService.getCustomerGiftCardsRepository(
+    customerId
+  );
+  return giftcards.map((giftcard) => ({
+    ...giftcard,
+    initial_value: formatAmount(giftcard.initial_value),
+    balance: formatAmount(giftcard.balance),
+    usage_history: giftcard.usage_history.map((item) => ({
+      ...item,
+      amount_used: formatAmount(item.amount_used),
+    })),
+  }));
 };
 // ADMIN - Récupérer toutes les cartes cadeaux
 export const getAllGiftCardsAdminService = async (customerId?: string) => {

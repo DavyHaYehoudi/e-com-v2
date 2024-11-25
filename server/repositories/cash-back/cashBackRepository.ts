@@ -137,13 +137,16 @@ export async function getAllCashBackOneCustomerRepository(customerId: number) {
   const sqlTransactions = `
       SELECT 
         cbt.*, 
-        cbr.label as reason_label
+        cbr.label AS reason_label, 
+        o.confirmation_number
       FROM cash_back_transaction cbt
       LEFT JOIN cash_back_reason cbr 
         ON cbt.cash_back_reason_id = cbr.id
+      LEFT JOIN \`order\` o 
+        ON cbt.order_id = o.id
       WHERE cbt.customer_id = ?
       ORDER BY cbt.created_at DESC
-    `;
+`;
 
   const sqlTotals = `
       SELECT 

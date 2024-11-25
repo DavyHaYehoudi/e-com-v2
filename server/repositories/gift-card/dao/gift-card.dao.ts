@@ -9,6 +9,7 @@ export interface GiftCardRow extends RowDataPacket {
   is_issued_by_admin: boolean;
   expiration_date: string;
   order_id: number | null; // Peut être NULL si la carte est émise par admin
+  confirmation_number: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -19,6 +20,7 @@ export interface GiftCardUsageRow extends RowDataPacket {
   used_by_customer_id: number; // Référence au client ayant utilisé la carte cadeau
   amount_used: number; // Montant dépensé avec la carte cadeau
   used_at: Date; // Date et heure d'utilisation de la carte
+  confirmation_number: string | null;
   created_at: Date; // Date et heure de création de l'enregistrement
   updated_at: Date; // Date et heure de dernière mise à jour de l'enregistrement
 }

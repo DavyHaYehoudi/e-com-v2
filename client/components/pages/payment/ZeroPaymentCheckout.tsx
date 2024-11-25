@@ -8,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { formatPrice } from "@/app/utils/pricesFormat";
 import useCreatePendingOrder from "./hooks/useCreatePendingOrder";
 import { useRouter } from "next/navigation";
 import { BadgeEuro, PercentIcon, GiftIcon } from "lucide-react";
@@ -16,6 +15,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { useState } from "react";
 import { Loader } from "lucide-react";
+import { formatPrice } from "@/app/(public)/utils/pricesFormat";
 type CardProps = React.ComponentProps<typeof Card>;
 
 const ZeroPaymentCheckout = ({ className, ...props }: CardProps) => {
@@ -32,29 +32,37 @@ const ZeroPaymentCheckout = ({ className, ...props }: CardProps) => {
   const adjustments = [
     {
       title: "Code promo",
-      description: `- ${formatPrice(amountCodePromo)}`,
+      description: `${
+        amountCodePromo > 0 ? formatPrice(amountCodePromo) : "Sans"
+      }`,
       icon: <PercentIcon className="size-4" />,
     },
     {
       title: "Cartes cadeaux",
-      description: `- ${formatPrice(amountGiftcardsToUse)}`,
+      description: `${
+        amountGiftcardsToUse
+          ? `jusqu'à ` + formatPrice(amountGiftcardsToUse)
+          : "Sans"
+      }`,
       icon: <GiftIcon className="size-4" />,
     },
     {
       title: "Cashback",
-      description: `- ${formatPrice(amountCashbackToUse)}`,
+      description: `${
+        amountCashbackToUse ? formatPrice(amountCashbackToUse) : "Sans"
+      }`,
       icon: <BadgeEuro className="size-4" />,
     },
   ];
-  const { getConfirmationNumber } = useCreatePendingOrder();
+  const { getOrderInformation } = useCreatePendingOrder();
   const router = useRouter();
 
   const handleConfirm = async () => {
     try {
       setIsLoading(true);
-      const confirmationNumber = await getConfirmationNumber();
+      const orderInfo = await getOrderInformation();
       router.push(
-        `${process.env.NEXT_PUBLIC_CLIENT_URL}/payment/success?confirmationNumber=${confirmationNumber}`
+        `${process.env.NEXT_PUBLIC_CLIENT_URL}/payment/success?confirmationNumber=${orderInfo?.confirmation_number}&orderId=${orderInfo?.id}`
       );
     } catch (error) {
       console.log("erreur dans ZeroPaymentCheckout :", error);

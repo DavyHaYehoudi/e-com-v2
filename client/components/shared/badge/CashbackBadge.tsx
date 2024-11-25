@@ -1,4 +1,4 @@
-import { formatPrice } from "@/app/utils/pricesFormat";
+import { formatPrice } from "@/app/(public)/utils/pricesFormat";
 import { Badge } from "@/components/ui/badge";
 import React from "react";
 

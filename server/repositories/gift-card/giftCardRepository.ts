@@ -32,14 +32,24 @@ export const getGiftCardByCodeRepository = async (code: string) => {
 export const getCustomerGiftCardsRepository = async (customerId: number) => {
   // Requête pour récupérer toutes les cartes cadeaux détenues ou utilisées par le client
   const sql1 = `
-      SELECT * 
-      FROM gift_card 
-      WHERE first_holder_id = ? 
-      OR id IN (
-        SELECT gift_card_id 
-        FROM gift_card_usage 
-        WHERE used_by_customer_id = ?
-      )`;
+      SELECT 
+        gc.*,
+        o.confirmation_number
+      FROM 
+        gift_card gc
+      LEFT JOIN 
+        \`order\` o ON gc.order_id = o.id
+      WHERE 
+        gc.first_holder_id = ? 
+        OR gc.id IN (
+          SELECT 
+            gift_card_id 
+          FROM 
+            gift_card_usage 
+          WHERE 
+            used_by_customer_id = ?
+        )
+`;
 
   // Exécution de la première requête pour récupérer les cartes cadeaux
   const giftCards = await query<GiftCardRow[]>(sql1, [customerId, customerId]);
@@ -52,11 +62,22 @@ export const getCustomerGiftCardsRepository = async (customerId: number) => {
   // Récupérer l'historique d'utilisation pour chaque carte cadeau trouvée
   const giftCardIds = giftCards.map((giftCard) => giftCard.id); // Extraire les IDs des cartes cadeaux
   const placeholders = giftCardIds.map(() => "?").join(", "); // Génère des ?, ?, ?, ...
+  // const sql2 = `
+  //         SELECT * 
+  //         FROM gift_card_usage 
+  //         WHERE gift_card_id IN (${placeholders})
+  //       `;
   const sql2 = `
-          SELECT * 
-          FROM gift_card_usage 
-          WHERE gift_card_id IN (${placeholders})
-        `;
+  SELECT 
+    gcu.*, 
+    o.confirmation_number
+  FROM 
+    gift_card_usage gcu
+  LEFT JOIN 
+    \`order\` o ON gcu.order_id = o.id
+  WHERE 
+    gcu.gift_card_id IN (${placeholders})
+`;
 
   const giftCardUsages = await query<GiftCardUsageRow[]>(sql2, giftCardIds);
 
@@ -74,11 +95,13 @@ export const getCustomerGiftCardsRepository = async (customerId: number) => {
       is_issued_by_admin: giftCard.is_issued_by_admin,
       expiration_date: giftCard.expiration_date,
       orderId: giftCard.order_id,
+      confirmation_number: giftCard.confirmation_number,
       usage_history: usageHistory.map((usage) => ({
         gift_card_id: usage.gift_card_id,
         used_by_customer_id: usage.used_by_customer_id,
         amount_used: usage.amount_used,
         used_at: usage.used_at,
+        confirmation_number:usage.confirmation_number
       })),
       createdAt: giftCard.created_at,
       updatedAt: giftCard.updated_at,
@@ -199,7 +222,7 @@ export const createGiftCardRepository = async (
   customerId: number,
   orderId: number,
   giftCards: CartGiftCardRow[]
-) => {  
+) => {
   const createdGiftCards = [];
   for (const giftCard of giftCards) {
     const { quantity, amount } = giftCard;

@@ -12,6 +12,7 @@ tags:
   - name: customer
   - name: order
   - name: order-item
+  - name: order-status
   - name: product
   - name: collection
   - name: category
@@ -286,7 +287,7 @@ paths:
           description: Not found - The customer doesn't exist.
       security:
         - api_key: []
-  /customer/addresses:
+  /customer/address:
     get:
       tags:
         - customer
@@ -1062,7 +1063,7 @@ paths:
           description: Unauthorized - Customer is not authenticated
       security:
         - api_key: []
-  /admin/order-items/{orderId}:
+  /order-items/{orderId}:
     get:
       tags:
         - order-item
@@ -1117,6 +1118,23 @@ paths:
           description: Unauthorized - Admin is not authenticated
         '404':
           description: Not found - The order or the order-item doesn't exist.
+      security:
+        - api_key: []
+  /orders-status:
+    get:
+      tags:
+        - order-status
+      summary: Retrieve all status orders.
+      description: Retrieve all status orders.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrdersStatusGET'
+        '401':
+          description: Unauthorized - Customer is not authenticated
       security:
         - api_key: []
   /products:
@@ -2320,6 +2338,22 @@ paths:
       security:
         - api_key: []
   /payment/status:
+    get:
+      tags:
+        - payment
+      summary: Retrieve all status payments.
+      description: Retrieve all status payments.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentStatusGET'
+        '401':
+          description: Unauthorized - Customer is not authenticated
+      security:
+        - api_key: []
     patch:
       tags:
         - payment
@@ -3074,6 +3108,20 @@ components:
         is_read: 
           type: boolean
           example: true
+    OrdersStatusGET:
+      type: array
+      items:
+        type: object
+        properties:
+          id: 
+            type: integer
+            example: 1
+          label:
+            type: string
+            example: expédiée
+          color:
+            type: string
+            example: "#FFFFF"
     OrderOneAdminGET:
       type: object
       properties:
@@ -3799,8 +3847,8 @@ components:
       type: object
       properties:
         first_holder_id:
-          type: string
-          example: 098754838475987
+          type: integer
+          example: 987
         code:
           type: string
           example: 09hdf987BSK987
@@ -3817,19 +3865,19 @@ components:
           type: string
           example: 08/08/2025
         buy_order_id:
-          type: string
-          example: 98702-495
+          type: integer
+          example: 98702
         usage_history:           
           type: array
           items:
             type: object
             properties:
               gift_card_id:
-                type: string
-                example: 0098qere0987
+                type: integer
+                example: 443
               used_by_customer_id:
-                type: string
-                example: 7jf49875j
+                type: integer
+                example: 7
               amount_used:
                 type: integer
                 example: 20
@@ -4302,6 +4350,9 @@ components:
         order:
           type: object
           properties:
+            id:
+              type: integer
+              example: 4234
             customer_id:
               type: integer
               example: 023948
@@ -4387,6 +4438,20 @@ components:
         status:
           type: string
           example: "paid"
+    PaymentStatusGET:
+      type: array
+      items:
+        type: object
+        properties:
+          id: 
+            type: integer
+            example: 1
+          label:
+            type: string
+            example: payée
+          color:
+            type: string
+            example: "#FFFFF"
     MarketingCompaignGET:
       type: object
       properties:

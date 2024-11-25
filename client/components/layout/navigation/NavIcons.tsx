@@ -5,13 +5,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import LoginModal from "@/components/modules/login/LoginModal";
 import { Button } from "@/components/ui/button";
 import WishlistModal from "@/components/modules/wishlist/WishlistModal";
-import { formatPrice } from "@/app/utils/pricesFormat";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import useAuth from "@/app/hooks/useAuth";
-import useCashback from "@/app/hooks/useCashback";
 import { useEffect } from "react";
 import SessionExpired from "@/components/modules/login/SessionExpired";
+import { formatPrice } from "@/app/(public)/utils/pricesFormat";
+import useAuth from "@/app/(public)/hooks/useAuth";
+import useCashback from "@/app/(public)/hooks/useCashback";
 
 const NavIcons = () => {
   const wishlist = useSelector((state: RootState) => state.wishlist);
@@ -32,15 +32,24 @@ const NavIcons = () => {
   useEffect(() => {
     getCashbackOneCustomer();
   }, []);
-  const isTokenExpired = useSelector(
-    (state: RootState) => state.auth.isTokenExpired
-  );
+
+  const userRole = useSelector((state: RootState) => state.auth.user?.role);
+  // const userRole = "admin";
+
   return (
     <div className="flex items-center gap-6 text-gray-500">
       {/* Connexion / Déconnexion (visible seulement à partir de md) */}
       {isAuthenticated ? (
         <div className="hidden lg:flex items-center space-x-4">
-          <Link href="/dashboard">
+          <Link
+            href={
+              userRole === "customer"
+                ? "/customer/tableau-de-bord"
+                : userRole === "admin"
+                ? "/admin/tableau-de-bord"
+                : "#"
+            }
+          >
             <Avatar className="cursor-pointer mb-2">
               <AvatarImage src="/images/avatar.png" alt="Avatar" />
               <AvatarFallback>
@@ -86,6 +95,8 @@ const NavIcons = () => {
       {/* Icône Cashback avec badge */}
       {isAuthenticated && (
         <div className="relative hidden lg:flex" title="Mon cashback">
+        <Link href="/customer/tableau-de-bord/avantages/cashback">
+
           <BadgeEuro className="w-6 h-6 mb-2" />
           {cashbackCustomer > 0 && (
             <span className="absolute bottom-6 left-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none bg-blue-500 text-white rounded-full">
@@ -94,10 +105,11 @@ const NavIcons = () => {
               </span>
             </span>
           )}
+        </Link>
         </div>
       )}
       {/* Modale de session expirée */}
-      {isTokenExpired && <SessionExpired />}
+      <SessionExpired />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { formatPromotionDate } from "@/app/utils/productUtils";
+import { formatPromotionDate } from "@/app/(public)/utils/productUtils";
 import { Badge } from "@/components/ui/badge";
 import React from "react";
 

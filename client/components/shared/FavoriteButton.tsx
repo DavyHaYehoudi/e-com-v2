@@ -1,6 +1,6 @@
 import React from "react";
 import { Heart } from "lucide-react";
-import { MasterProductsType, Product } from "@/app/types/ProductTypes";
+import { MasterProductsType, Product } from "@/app/(public)/types/ProductTypes";
 import { useWishlistManager } from "../modules/wishlist/hooks/useWishlistManager";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";

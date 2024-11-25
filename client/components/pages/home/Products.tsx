@@ -1,5 +1,5 @@
 "use client";
-import { Product } from "@/app/types/ProductTypes";
+import { Product } from "@/app/(public)/types/ProductTypes";
 import LoaderWrapper from "@/components/shared/LoaderWrapper";
 import ProductCard from "@/components/shared/productCard/ProductCard";
 import { useFetch } from "@/service/hooks/useFetch";

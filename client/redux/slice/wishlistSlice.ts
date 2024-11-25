@@ -1,7 +1,7 @@
 // src/store/wishlistSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { WishlistResponse } from "@/app/types/WishlistTypes";
-import { MasterProductsType } from "@/app/types/ProductTypes";
+import { WishlistResponse } from "@/app/(public)/types/WishlistTypes";
+import { MasterProductsType } from "@/app/(public)/types/ProductTypes";
 
 // État initial typé selon WishlistResponse
 const initialState: WishlistResponse = {

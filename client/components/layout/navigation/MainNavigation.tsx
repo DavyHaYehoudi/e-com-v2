@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 import { BadgeEuro, LogOut, Menu, X } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import useAuth from "@/app/hooks/useAuth";
 import LoginModal from "@/components/modules/login/LoginModal";
-import { formatPrice } from "@/app/utils/pricesFormat";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import useAuth from "@/app/(public)/hooks/useAuth";
+import { formatPrice } from "@/app/(public)/utils/pricesFormat";
 
 export function MainNavigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +23,7 @@ export function MainNavigation() {
   const cashbackCustomer = useSelector(
     (state: RootState) => state.cashback.cashback_total
   );
-
+  const userRole = useSelector((state: RootState) => state.auth.user?.role);
   return (
     <header className="bg-dark">
       <nav className="container mx-auto flex justify-between p-4">
@@ -54,22 +54,35 @@ export function MainNavigation() {
           {/* Icône Cashback avec badge */}
           {isAuthenticated && (
             <>
-              <div className="flex items-center gap-2 text-sm py-2">
-                <BadgeEuro className="w-6 h-6" />
-                <span>
-                  Cashback{" "}
-                  <span className="bg-blue-500 text-[var(--whiteSmoke)] p-1 rounded ml-2">
-                    {cashbackCustomer > 0 ? formatPrice(cashbackCustomer) : ""}
+              <Link href="/customer/tableau-de-bord/avantages/cashback">
+                <div className="flex items-center gap-2 text-sm py-2">
+                  <BadgeEuro className="w-6 h-6" />
+                  <span>
+                    Cashback{" "}
+                    <span className="bg-blue-500 text-[var(--whiteSmoke)] p-1 rounded ml-2">
+                      {cashbackCustomer > 0
+                        ? formatPrice(cashbackCustomer)
+                        : ""}
+                    </span>
                   </span>
-                </span>
-              </div>
+                </div>
+              </Link>
               <hr className="border-t-1 border-[#282c34] dark:border-[var(--whiteSmoke)]" />
             </>
           )}
           {/* Avatar du compte */}
           {isAuthenticated && (
             <>
-              <Link href="/dashboard" className="flex items-center gap-2 py-2">
+              <Link
+                href={
+                  userRole === "customer"
+                    ? "/customer/tableau-de-bord"
+                    : userRole === "admin"
+                    ? "/admin/tableau-de-bord"
+                    : "#"
+                }
+                className="flex items-center gap-2 py-2"
+              >
                 <Avatar className="cursor-pointer w-8 h-8">
                   <AvatarImage src="/images/avatar.png" alt="Avatar" />
                   <AvatarFallback>

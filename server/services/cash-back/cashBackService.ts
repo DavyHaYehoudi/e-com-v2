@@ -1,5 +1,9 @@
 import { UpdateCashBackDto } from "../../controllers/cash-back/entities/dto/cashBack.dto.js";
-import { sendBirthdayToCustomer, sendCashbackCorrectionToCustomer, sendCashbackEarnedToCustomer } from "../../email/subject/marketing.js";
+import {
+  sendBirthdayToCustomer,
+  sendCashbackCorrectionToCustomer,
+  sendCashbackEarnedToCustomer,
+} from "../../email/subject/marketing.js";
 
 import {
   createCashBackCustomerFromAdminRepository,
@@ -68,11 +72,14 @@ export const getAllCashBackOneCustomerService = async (customerId: number) => {
     transaction_id: transaction.id,
     customer_id: transaction.customer_id,
     order_id: transaction.order_id,
+    confirmation_number: transaction.confirmation_number,
     review_id: transaction.review_id,
-    cash_back_earned_for_this_transaction:
-      transaction.cash_back_earned_for_this_transaction,
-    cash_back_spent_for_this_transaction:
-      transaction.cash_back_spent_for_this_transaction,
+    cash_back_earned_for_this_transaction: formatAmount(
+      transaction.cash_back_earned_for_this_transaction
+    ),
+    cash_back_spent_for_this_transaction: formatAmount(
+      Math.max(0, transaction.cash_back_spent_for_this_transaction)
+    ),
     createdAt: transaction.created_at,
     reason: transaction.reason_label,
   }));

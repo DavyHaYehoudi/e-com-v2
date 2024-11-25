@@ -1,9 +1,9 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import React from "react";
 import CartCodePromo from "./CartCodePromo";
-import { formatPrice } from "@/app/utils/pricesFormat";
 import { calculateCodePromoDiscountOnCartTotal } from "../../utils/calculUtils";
-import { CartResponse } from "@/app/types/CartTypes";
+import { CartResponse } from "@/app/(public)/types/CartTypes";
+import { formatPrice } from "@/app/(public)/utils/pricesFormat";
 
 interface RowCodePromoProps {
   onDiscount: (discount_percentage: number) => void;

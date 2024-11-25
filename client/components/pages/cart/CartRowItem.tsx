@@ -3,14 +3,14 @@ import React, { useState, useEffect } from "react";
 import ProductImageItem from "@/components/shared/productImage/ProductImageItem";
 import { TableCell, TableRow } from "@/components/ui/table";
 import TrashIcon from "@/components/shared/TrashIcon";
-import { isProductNew } from "@/app/utils/productUtils";
 import NewBadge from "@/components/shared/badge/NewBadge";
 import CashbackBadge from "@/components/shared/badge/CashbackBadge";
 import CartRowPromotionPrice from "./CartRowPromotionPrice";
 import VariantBadge from "@/components/shared/badge/VariantBadge";
 import WeightBadge from "@/components/shared/badge/WeightBadge";
-import { CartResponse } from "@/app/types/CartTypes";
-import { sumPriceArticle } from "@/app/utils/pricesFormat";
+import { CartResponse } from "@/app/(public)/types/CartTypes";
+import { isProductNew } from "@/app/(public)/utils/productUtils";
+import { sumPriceArticle } from "@/app/(public)/utils/pricesFormat";
 
 interface CartRowItemProps {
   productsInCart: CartResponse | null;

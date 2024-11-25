@@ -46,5 +46,4 @@ router.delete(
   verifyToken,
   deleteOrderMessageFromCustomerController
 );
-
 export default router;

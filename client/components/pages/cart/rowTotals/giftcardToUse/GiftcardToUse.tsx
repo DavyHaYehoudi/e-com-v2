@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle, XCircle } from "lucide-react";
 import { giftCardToUseSchema } from "./giftcardToUseSchema";
 import { GiftIcon } from "lucide-react";
-import { GiftcardToUseType } from "@/app/types/GiftcardToUseTypes";
+import { GiftcardToUseType } from "@/app/(public)/types/GiftcardToUseTypes";
 import { Label } from "@/components/ui/label";
 import TrashIcon from "@/components/shared/TrashIcon";
 import { useFetch } from "@/service/hooks/useFetch";

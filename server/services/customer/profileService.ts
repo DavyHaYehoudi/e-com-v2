@@ -7,7 +7,11 @@ import * as profileRepository from "../../repositories/customer/profileRepositor
 
 // Récupérer le profil du customer
 export const getCustomerProfileService = async (customerId: number) => {
-  return await profileRepository.getCustomerByIdRepository(customerId);
+  const profile = await profileRepository.getCustomerByIdRepository(customerId);
+  return {
+    ...profile,
+    email_marketing_consent: profile.email_marketing_consent === 1,
+  };
 };
 // Mettre à jour ou créer le profil du customer
 export const updateCustomerProfileService = async (

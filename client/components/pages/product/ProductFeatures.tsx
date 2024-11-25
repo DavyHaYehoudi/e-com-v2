@@ -1,5 +1,5 @@
-import { MasterProductsType } from "@/app/types/ProductTypes";
-import { formatWeight } from "@/app/utils/weightFormat";
+import { MasterProductsType } from "@/app/(public)/types/ProductTypes";
+import { formatWeight } from "@/app/(public)/utils/weightFormat";
 import React from "react";
 
 interface ProductFeaturesProps {

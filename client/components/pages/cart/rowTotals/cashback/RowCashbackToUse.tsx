@@ -1,7 +1,7 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import React from "react";
 import CashbackToUse from "./CashbackToUse";
-import { formatPrice } from "@/app/utils/pricesFormat";
+import { formatPrice } from "@/app/(public)/utils/pricesFormat";
 
 interface RowCashbackToUseProps {
   onCashbackSelect: (amount: number) => void;

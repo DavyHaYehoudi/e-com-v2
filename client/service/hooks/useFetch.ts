@@ -3,8 +3,8 @@ import { useState, useCallback } from "react";
 import { httpHelper } from "../http";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import { isTokenExpired } from "@/app/utils/token";
 import { setTokenExpired } from "@/redux/slice/authSlice";
+import { isTokenExpired } from "@/app/(public)/utils/token";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 

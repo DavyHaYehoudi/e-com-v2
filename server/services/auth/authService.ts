@@ -22,7 +22,7 @@ export const storeAuthCodeService = async (email: string, authCode: string) => {
 // Vérifier le code d'authentification
 export const verifyAuthCodeService = async (
   email: string,
-  otp: string,
+  otp: string, 
   wishlist: Wishlist,
   cart: Cart
 ) => {

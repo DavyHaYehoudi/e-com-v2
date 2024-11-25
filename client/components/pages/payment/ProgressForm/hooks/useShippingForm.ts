@@ -4,8 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { setAddresses } from "@/redux/slice/addressesSlice";
-import useShippingAddress from "@/app/hooks/addresses/useShippingAddress";
 import { AddressFormValues, AddressSchema } from "../../schema/addressesSchema";
+import useShippingAddress from "@/app/(public)/hooks/addresses/useShippingAddress";
 
 interface UseShippingFormProps {
   onNext: () => void;

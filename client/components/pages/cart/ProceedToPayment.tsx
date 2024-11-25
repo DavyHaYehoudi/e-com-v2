@@ -1,13 +1,13 @@
 "use client";
-import { formatPrice } from "@/app/utils/pricesFormat";
 import React, { useEffect } from "react";
 import { calculateTotalCashbackCartToEarn } from "./utils/calculUtils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { CartResponse } from "@/app/types/CartTypes";
+import { CartResponse } from "@/app/(public)/types/CartTypes";
 import { useOrderAmount } from "./hooks/useOrderAmount";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
+import { formatPrice } from "@/app/(public)/utils/pricesFormat";
 
 interface ProceedToPaymentProps {
   productsInCart: CartResponse;
@@ -30,7 +30,7 @@ const ProceedToPayment: React.FC<ProceedToPaymentProps> = ({
   );
   const { getOrderAmount, orderAmount, getAmountBeforeDiscount } =
     useOrderAmount();
-    
+
   useEffect(() => {
     getOrderAmount();
   }, [
@@ -56,7 +56,18 @@ const ProceedToPayment: React.FC<ProceedToPaymentProps> = ({
       </div>
       <Link href="/payment/checkout" passHref>
         <Button className="bg-green-500 hover:bg-green-600 dark:text-[var(--whiteSmoke)]">
-          Procéder au payment {isAuthenticated && formatPrice(orderAmount)}
+          {isAuthenticated ? (
+            <>
+            <span>
+              Procéder au payment {formatPrice(Math.max(orderAmount, 0))} 
+            </span>
+            {orderAmount<0 &&
+            <span className="ml-2">({formatPrice(orderAmount)}) </span>
+            }
+            </>
+          ) : (
+            <span>Procéder au payment</span>
+          )}
         </Button>
       </Link>
     </div>

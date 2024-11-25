@@ -157,7 +157,6 @@ export const createOrderService = async (
 
     // Appeler la fonction d'envoi d'email
     await sendPaymentConfirmationEmail(emailDetails, orderDetails);
-    // Retourner l'ID de commande et le numéro de confirmation
     return {
       order,
       giftCards: createdGiftCards,
@@ -165,8 +164,8 @@ export const createOrderService = async (
       firstName: firstNameData.first_name,
     };
   } catch (error) {
-    await rollbackTransaction(); 
+    await rollbackTransaction();
     console.error(error);
     throw error;
   }
-}; 
+};

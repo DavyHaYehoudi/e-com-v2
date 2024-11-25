@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { useFetch } from "@/service/hooks/useFetch";
-import { OrderAmountApi } from "@/app/types/OrderAmountApi";
+import { OrderAmountApi } from "@/app/(public)/types/OrderAmountApi";
 import { setAmountBeforeDiscount } from "@/redux/slice/cartSlice";
 
 export const useOrderAmount = () => {

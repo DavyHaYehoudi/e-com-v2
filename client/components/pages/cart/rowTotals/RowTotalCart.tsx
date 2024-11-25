@@ -1,9 +1,9 @@
-import { formatPrice } from "@/app/utils/pricesFormat";
 import { TableCell, TableRow } from "@/components/ui/table";
 import React from "react";
 import { calculateTotalCartAfterCashback } from "../utils/calculUtils";
-import { GiftcardToUseType } from "@/app/types/GiftcardToUseTypes";
-import { CartResponse } from "@/app/types/CartTypes";
+import { GiftcardToUseType } from "@/app/(public)/types/GiftcardToUseTypes";
+import { CartResponse } from "@/app/(public)/types/CartTypes";
+import { formatPrice } from "@/app/(public)/utils/pricesFormat";
 
 interface RowTotalCartProps {
   productsInCart: CartResponse | null;
