@@ -14,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Link from "next/link";
 
 interface ContentOrderPageProps {
   params: {
@@ -45,6 +46,15 @@ const ContentOrderPage: React.FC<ContentOrderPageProps> = ({ params }) => {
   }, [id, orderItemsCustomerFetch]);
   return (
     <div className="xs:w-full xl:w-3/4 xl:mx-auto w-[300px]">
+      <div className="mb-20">
+        <h1 className="text-center mb-10">Contenu de la commande</h1>
+        <Link
+          href="/customer/tableau-de-bord/commandes/liste"
+          className="underline text-blue-300"
+        >
+          Retour à la liste
+        </Link>
+      </div>
       <Table>
         <TableCaption>Produits achetés.</TableCaption>
         <TableHeader>
