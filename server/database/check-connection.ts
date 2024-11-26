@@ -1,3 +1,4 @@
+// check-connection.ts
 import pool from "./database.js";
 
 export const checkConnection = async () => {
