@@ -16,9 +16,9 @@ import {
 } from "@/components/ui/card";
 import useCustomerInfo from "../hooks/useCustomerInfo";
 import { toast } from "sonner";
-import { DatePicker } from "./DatePicker";
-import { ProfileFormData, profileSchema } from "./profileSchema";
 import { Switch } from "@/components/ui/switch";
+import { ProfileFormData, profileSchema } from "./profileSchema";
+import { DatePicker } from "./DatePicker";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
