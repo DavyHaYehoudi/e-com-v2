@@ -13,7 +13,7 @@ import {
   CardTitle,
   CardContent,
   CardFooter,
-} from "@/components/ui/card";
+} from "@/components/ui/card"; 
 import useCustomerInfo from "../hooks/useCustomerInfo";
 import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
